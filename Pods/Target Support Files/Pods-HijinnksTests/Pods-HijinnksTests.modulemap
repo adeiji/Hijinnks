@@ -1,6 +1,0 @@
-framework module Pods_HijinnksTests {
-  umbrella header "Pods-HijinnksTests-umbrella.h"
-
-  export *
-  module * { export * }
-}
