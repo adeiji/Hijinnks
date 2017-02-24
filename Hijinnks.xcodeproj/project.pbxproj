@@ -7,14 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B63A158EE331160A2D5F44A /* Pods_HijinnksTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B4AC3B77B952481ED84516 /* Pods_HijinnksTests.framework */; };
+		37D6DE0CCF6573F83AD3F48C /* Pods_Hijinnks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF0B04171FE78BF8BBD77BC /* Pods_Hijinnks.framework */; };
+		EC83019D8FB67150A20C2F6D /* Pods_HijinnksUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64B3511E2211A2CB9250C255 /* Pods_HijinnksUITests.framework */; };
+		F44CAD6F1E5F690700C91A1F /* ViewInvitationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD6E1E5F690700C91A1F /* ViewInvitationsViewController.swift */; };
+		F44CAD731E5F695F00C91A1F /* CreateInvitationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD721E5F695F00C91A1F /* CreateInvitationViewController.swift */; };
+		F44CAD771E5F928000C91A1F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD761E5F928000C91A1F /* Colors.swift */; };
+		F44CAD7A1E5F95F300C91A1F /* interests.plist in Resources */ = {isa = PBXBuildFile; fileRef = F44CAD791E5F95F300C91A1F /* interests.plist */; };
+		F44CAD7C1E5F968700C91A1F /* ViewInterestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD7B1E5F968700C91A1F /* ViewInterestsViewController.swift */; };
+		F44CAD7E1E5F974800C91A1F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD7D1E5F974800C91A1F /* Constants.swift */; };
+		F4A0D1B51E5A427800C6CDFE /* HijinnksStyleKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A0D1B41E5A427800C6CDFE /* HijinnksStyleKit.swift */; };
+		F4A0D1B71E5A447E00C6CDFE /* CustomHijinnksImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A0D1B61E5A447E00C6CDFE /* CustomHijinnksImageView.swift */; };
+		F4A0D1BB1E5A454500C6CDFE /* textLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = F4A0D1BA1E5A454500C6CDFE /* textLogo.png */; };
 		F4E0D8581E5A09E500FFEEB8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0D8571E5A09E500FFEEB8 /* AppDelegate.swift */; };
 		F4E0D85A1E5A09E500FFEEB8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0D8591E5A09E500FFEEB8 /* ViewController.swift */; };
-		F4E0D85D1E5A09E500FFEEB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4E0D85B1E5A09E500FFEEB8 /* Main.storyboard */; };
 		F4E0D8601E5A09E500FFEEB8 /* Hijinnks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F4E0D85E1E5A09E500FFEEB8 /* Hijinnks.xcdatamodeld */; };
 		F4E0D8621E5A09E500FFEEB8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4E0D8611E5A09E500FFEEB8 /* Assets.xcassets */; };
 		F4E0D8651E5A09E500FFEEB8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4E0D8631E5A09E500FFEEB8 /* LaunchScreen.storyboard */; };
 		F4E0D8701E5A09E500FFEEB8 /* HijinnksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0D86F1E5A09E500FFEEB8 /* HijinnksTests.swift */; };
 		F4E0D87B1E5A09E500FFEEB8 /* HijinnksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0D87A1E5A09E500FFEEB8 /* HijinnksUITests.swift */; };
+		F4E0D8931E5A130000FFEEB8 /* CustomHijinnksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0D8921E5A130000FFEEB8 /* CustomHijinnksView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,10 +47,27 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		07B4AC3B77B952481ED84516 /* Pods_HijinnksTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HijinnksTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		11413B1715F52A4CB641F6BD /* Pods-HijinnksTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HijinnksTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HijinnksTests/Pods-HijinnksTests.debug.xcconfig"; sourceTree = "<group>"; };
+		64B3511E2211A2CB9250C255 /* Pods_HijinnksUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HijinnksUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		66552FC1C1502885B95F5B8F /* Pods-Hijinnks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hijinnks.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hijinnks/Pods-Hijinnks.debug.xcconfig"; sourceTree = "<group>"; };
+		751DF97F1C754F36A5F9AA4A /* Pods-HijinnksUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HijinnksUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HijinnksUITests/Pods-HijinnksUITests.release.xcconfig"; sourceTree = "<group>"; };
+		A1DF02B0671698CEC3DDCF4A /* Pods-HijinnksUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HijinnksUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HijinnksUITests/Pods-HijinnksUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		B9B5D5BD66364082AC0A4010 /* Pods-Hijinnks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hijinnks.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hijinnks/Pods-Hijinnks.release.xcconfig"; sourceTree = "<group>"; };
+		C67346B4FE9AAF8A0534DE2E /* Pods-HijinnksTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HijinnksTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HijinnksTests/Pods-HijinnksTests.release.xcconfig"; sourceTree = "<group>"; };
+		DCF0B04171FE78BF8BBD77BC /* Pods_Hijinnks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hijinnks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F44CAD6E1E5F690700C91A1F /* ViewInvitationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewInvitationsViewController.swift; path = "View Invitations Flow/View Controllers/ViewInvitationsViewController.swift"; sourceTree = "<group>"; };
+		F44CAD721E5F695F00C91A1F /* CreateInvitationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateInvitationViewController.swift; path = "Create Invitations Flow/View Controllers/CreateInvitationViewController.swift"; sourceTree = "<group>"; };
+		F44CAD761E5F928000C91A1F /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = UI/Constants/Colors.swift; sourceTree = "<group>"; };
+		F44CAD791E5F95F300C91A1F /* interests.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = interests.plist; path = "Supporting Files/interests.plist"; sourceTree = "<group>"; };
+		F44CAD7B1E5F968700C91A1F /* ViewInterestsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewInterestsViewController.swift; path = "View Invitations Flow/View Controllers/ViewInterestsViewController.swift"; sourceTree = "<group>"; };
+		F44CAD7D1E5F974800C91A1F /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Constants/Constants.swift; sourceTree = "<group>"; };
+		F4A0D1B41E5A427800C6CDFE /* HijinnksStyleKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HijinnksStyleKit.swift; path = stylekit/HijinnksStyleKit.swift; sourceTree = "<group>"; };
+		F4A0D1B61E5A447E00C6CDFE /* CustomHijinnksImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomHijinnksImageView.swift; path = UI/CustomHijinnksImageView.swift; sourceTree = "<group>"; };
+		F4A0D1BA1E5A454500C6CDFE /* textLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = textLogo.png; path = stylekit/textLogo.png; sourceTree = "<group>"; };
 		F4E0D8541E5A09E500FFEEB8 /* Hijinnks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hijinnks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E0D8571E5A09E500FFEEB8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F4E0D8591E5A09E500FFEEB8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		F4E0D85C1E5A09E500FFEEB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F4E0D85F1E5A09E500FFEEB8 /* Hijinnks.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Hijinnks.xcdatamodel; sourceTree = "<group>"; };
 		F4E0D8611E5A09E500FFEEB8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F4E0D8641E5A09E500FFEEB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +78,8 @@
 		F4E0D8761E5A09E500FFEEB8 /* HijinnksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HijinnksUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E0D87A1E5A09E500FFEEB8 /* HijinnksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HijinnksUITests.swift; sourceTree = "<group>"; };
 		F4E0D87C1E5A09E500FFEEB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F4E0D8921E5A130000FFEEB8 /* CustomHijinnksView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomHijinnksView.swift; path = UI/CustomHijinnksView.swift; sourceTree = "<group>"; };
+		F4E0D8941E5A161800FFEEB8 /* Hijinnks-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hijinnks-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37D6DE0CCF6573F83AD3F48C /* Pods_Hijinnks.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B63A158EE331160A2D5F44A /* Pods_HijinnksTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,12 +103,111 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC83019D8FB67150A20C2F6D /* Pods_HijinnksUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3E4B094951108031C8283AC7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				66552FC1C1502885B95F5B8F /* Pods-Hijinnks.debug.xcconfig */,
+				B9B5D5BD66364082AC0A4010 /* Pods-Hijinnks.release.xcconfig */,
+				11413B1715F52A4CB641F6BD /* Pods-HijinnksTests.debug.xcconfig */,
+				C67346B4FE9AAF8A0534DE2E /* Pods-HijinnksTests.release.xcconfig */,
+				A1DF02B0671698CEC3DDCF4A /* Pods-HijinnksUITests.debug.xcconfig */,
+				751DF97F1C754F36A5F9AA4A /* Pods-HijinnksUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		B0B524282CD82DFB0F0D7FC4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DCF0B04171FE78BF8BBD77BC /* Pods_Hijinnks.framework */,
+				07B4AC3B77B952481ED84516 /* Pods_HijinnksTests.framework */,
+				64B3511E2211A2CB9250C255 /* Pods_HijinnksUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F44CAD6B1E5F68B600C91A1F /* Invitations Flow */ = {
+			isa = PBXGroup;
+			children = (
+				F44CAD701E5F693400C91A1F /* Create Invitations */,
+				F44CAD6D1E5F68D100C91A1F /* View Invitation Table View Controller */,
+				F44CAD7B1E5F968700C91A1F /* ViewInterestsViewController.swift */,
+			);
+			name = "Invitations Flow";
+			sourceTree = "<group>";
+		};
+		F44CAD6D1E5F68D100C91A1F /* View Invitation Table View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				F44CAD6E1E5F690700C91A1F /* ViewInvitationsViewController.swift */,
+			);
+			name = "View Invitation Table View Controller";
+			sourceTree = "<group>";
+		};
+		F44CAD701E5F693400C91A1F /* Create Invitations */ = {
+			isa = PBXGroup;
+			children = (
+				F44CAD711E5F693A00C91A1F /* View Controllers */,
+			);
+			name = "Create Invitations";
+			sourceTree = "<group>";
+		};
+		F44CAD711E5F693A00C91A1F /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F44CAD721E5F695F00C91A1F /* CreateInvitationViewController.swift */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		F44CAD741E5F924B00C91A1F /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				F44CAD7D1E5F974800C91A1F /* Constants.swift */,
+			);
+			name = Constants;
+			sourceTree = "<group>";
+		};
+		F44CAD751E5F926B00C91A1F /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				F44CAD761E5F928000C91A1F /* Colors.swift */,
+			);
+			name = Constants;
+			sourceTree = "<group>";
+		};
+		F44CAD781E5F95D700C91A1F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F44CAD791E5F95F300C91A1F /* interests.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F4A0D1B81E5A453300C6CDFE /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				F44CAD751E5F926B00C91A1F /* Constants */,
+				F4A0D1B91E5A453A00C6CDFE /* Images */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		F4A0D1B91E5A453A00C6CDFE /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				F4A0D1BA1E5A454500C6CDFE /* textLogo.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		F4E0D84B1E5A09E400FFEEB8 = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +215,8 @@
 				F4E0D86E1E5A09E500FFEEB8 /* HijinnksTests */,
 				F4E0D8791E5A09E500FFEEB8 /* HijinnksUITests */,
 				F4E0D8551E5A09E500FFEEB8 /* Products */,
+				3E4B094951108031C8283AC7 /* Pods */,
+				B0B524282CD82DFB0F0D7FC4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,9 +233,13 @@
 		F4E0D8561E5A09E500FFEEB8 /* Hijinnks */ = {
 			isa = PBXGroup;
 			children = (
+				F44CAD781E5F95D700C91A1F /* Supporting Files */,
+				F44CAD741E5F924B00C91A1F /* Constants */,
+				F44CAD6B1E5F68B600C91A1F /* Invitations Flow */,
+				F4A0D1B81E5A453300C6CDFE /* UI */,
+				F4E0D8881E5A118400FFEEB8 /* UI Style Classes */,
 				F4E0D8571E5A09E500FFEEB8 /* AppDelegate.swift */,
 				F4E0D8591E5A09E500FFEEB8 /* ViewController.swift */,
-				F4E0D85B1E5A09E500FFEEB8 /* Main.storyboard */,
 				F4E0D8611E5A09E500FFEEB8 /* Assets.xcassets */,
 				F4E0D8631E5A09E500FFEEB8 /* LaunchScreen.storyboard */,
 				F4E0D8661E5A09E500FFEEB8 /* Info.plist */,
@@ -128,6 +266,25 @@
 			path = HijinnksUITests;
 			sourceTree = "<group>";
 		};
+		F4E0D8881E5A118400FFEEB8 /* UI Style Classes */ = {
+			isa = PBXGroup;
+			children = (
+				F4E0D8891E5A11D300FFEEB8 /* Style Kit */,
+			);
+			name = "UI Style Classes";
+			sourceTree = "<group>";
+		};
+		F4E0D8891E5A11D300FFEEB8 /* Style Kit */ = {
+			isa = PBXGroup;
+			children = (
+				F4A0D1B41E5A427800C6CDFE /* HijinnksStyleKit.swift */,
+				F4E0D8921E5A130000FFEEB8 /* CustomHijinnksView.swift */,
+				F4E0D8941E5A161800FFEEB8 /* Hijinnks-Bridging-Header.h */,
+				F4A0D1B61E5A447E00C6CDFE /* CustomHijinnksImageView.swift */,
+			);
+			name = "Style Kit";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -135,9 +292,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4E0D87F1E5A09E500FFEEB8 /* Build configuration list for PBXNativeTarget "Hijinnks" */;
 			buildPhases = (
+				CFCB87ED51BCFD1BFD984FE8 /* [CP] Check Pods Manifest.lock */,
 				F4E0D8501E5A09E400FFEEB8 /* Sources */,
 				F4E0D8511E5A09E400FFEEB8 /* Frameworks */,
 				F4E0D8521E5A09E400FFEEB8 /* Resources */,
+				E0457E3CF48B3C4A607242B6 /* [CP] Embed Pods Frameworks */,
+				6FD50B5CFF44951AEF9332AE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -152,9 +312,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4E0D8821E5A09E500FFEEB8 /* Build configuration list for PBXNativeTarget "HijinnksTests" */;
 			buildPhases = (
+				A608DBA0CD665EFE88A03540 /* [CP] Check Pods Manifest.lock */,
 				F4E0D8671E5A09E500FFEEB8 /* Sources */,
 				F4E0D8681E5A09E500FFEEB8 /* Frameworks */,
 				F4E0D8691E5A09E500FFEEB8 /* Resources */,
+				F9534653851894921274FC89 /* [CP] Embed Pods Frameworks */,
+				EF0B4C6E711B0266B7F947F5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -170,9 +333,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4E0D8851E5A09E500FFEEB8 /* Build configuration list for PBXNativeTarget "HijinnksUITests" */;
 			buildPhases = (
+				DEA1B2B8D9EAB6D14F02CB80 /* [CP] Check Pods Manifest.lock */,
 				F4E0D8721E5A09E500FFEEB8 /* Sources */,
 				F4E0D8731E5A09E500FFEEB8 /* Frameworks */,
 				F4E0D8741E5A09E500FFEEB8 /* Resources */,
+				1F61E8EE450963F0A57787D2 /* [CP] Embed Pods Frameworks */,
+				E86742E69844F7DA64E0A877 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -197,6 +363,7 @@
 					F4E0D8531E5A09E400FFEEB8 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = HJPTQ3N75W;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 					F4E0D86A1E5A09E500FFEEB8 = {
@@ -239,8 +406,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4E0D8651E5A09E500FFEEB8 /* LaunchScreen.storyboard in Resources */,
+				F4A0D1BB1E5A454500C6CDFE /* textLogo.png in Resources */,
+				F44CAD7A1E5F95F300C91A1F /* interests.plist in Resources */,
 				F4E0D8621E5A09E500FFEEB8 /* Assets.xcassets in Resources */,
-				F4E0D85D1E5A09E500FFEEB8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,14 +428,160 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1F61E8EE450963F0A57787D2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HijinnksUITests/Pods-HijinnksUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6FD50B5CFF44951AEF9332AE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Hijinnks/Pods-Hijinnks-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A608DBA0CD665EFE88A03540 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		CFCB87ED51BCFD1BFD984FE8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		DEA1B2B8D9EAB6D14F02CB80 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E0457E3CF48B3C4A607242B6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Hijinnks/Pods-Hijinnks-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E86742E69844F7DA64E0A877 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HijinnksUITests/Pods-HijinnksUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EF0B4C6E711B0266B7F947F5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HijinnksTests/Pods-HijinnksTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F9534653851894921274FC89 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HijinnksTests/Pods-HijinnksTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		F4E0D8501E5A09E400FFEEB8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4E0D8931E5A130000FFEEB8 /* CustomHijinnksView.swift in Sources */,
+				F44CAD7E1E5F974800C91A1F /* Constants.swift in Sources */,
+				F44CAD771E5F928000C91A1F /* Colors.swift in Sources */,
+				F44CAD6F1E5F690700C91A1F /* ViewInvitationsViewController.swift in Sources */,
+				F44CAD7C1E5F968700C91A1F /* ViewInterestsViewController.swift in Sources */,
 				F4E0D8601E5A09E500FFEEB8 /* Hijinnks.xcdatamodeld in Sources */,
 				F4E0D85A1E5A09E500FFEEB8 /* ViewController.swift in Sources */,
 				F4E0D8581E5A09E500FFEEB8 /* AppDelegate.swift in Sources */,
+				F4A0D1B51E5A427800C6CDFE /* HijinnksStyleKit.swift in Sources */,
+				F4A0D1B71E5A447E00C6CDFE /* CustomHijinnksImageView.swift in Sources */,
+				F44CAD731E5F695F00C91A1F /* CreateInvitationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,14 +617,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		F4E0D85B1E5A09E500FFEEB8 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F4E0D85C1E5A09E500FFEEB8 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		F4E0D8631E5A09E500FFEEB8 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -415,32 +721,42 @@
 		};
 		F4E0D8801E5A09E500FFEEB8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 66552FC1C1502885B95F5B8F /* Pods-Hijinnks.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
 				INFOPLIST_FILE = Hijinnks/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.Hijinnks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Hijinnks/Hijinnks-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		F4E0D8811E5A09E500FFEEB8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B9B5D5BD66364082AC0A4010 /* Pods-Hijinnks.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
 				INFOPLIST_FILE = Hijinnks/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.Hijinnks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Hijinnks/Hijinnks-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 		F4E0D8831E5A09E500FFEEB8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 11413B1715F52A4CB641F6BD /* Pods-HijinnksTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -456,6 +772,7 @@
 		};
 		F4E0D8841E5A09E500FFEEB8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C67346B4FE9AAF8A0534DE2E /* Pods-HijinnksTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -471,6 +788,7 @@
 		};
 		F4E0D8861E5A09E500FFEEB8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A1DF02B0671698CEC3DDCF4A /* Pods-HijinnksUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
@@ -485,6 +803,7 @@
 		};
 		F4E0D8871E5A09E500FFEEB8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 751DF97F1C754F36A5F9AA4A /* Pods-HijinnksUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
@@ -516,6 +835,7 @@
 				F4E0D8811E5A09E500FFEEB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F4E0D8821E5A09E500FFEEB8 /* Build configuration list for PBXNativeTarget "HijinnksTests" */ = {
 			isa = XCConfigurationList;
@@ -524,6 +844,7 @@
 				F4E0D8841E5A09E500FFEEB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F4E0D8851E5A09E500FFEEB8 /* Build configuration list for PBXNativeTarget "HijinnksUITests" */ = {
 			isa = XCConfigurationList;
@@ -532,6 +853,7 @@
 				F4E0D8871E5A09E500FFEEB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

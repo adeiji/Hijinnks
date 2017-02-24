@@ -17,6 +17,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Set up the Application Window and then display our initial screen for viewing invitations
+        // DEBUG - For testing purposes we're using CreateInvitationViewController First
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        self.window?.makeKeyAndVisible()
+        let createInvitationViewController = CreateInvitationViewController()
+        let navigationController = UINavigationController(rootViewController: createInvitationViewController)
+        self.window!.rootViewController = navigationController
+        
         return true
     }
 
