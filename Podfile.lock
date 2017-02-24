@@ -1,12 +1,29 @@
 PODS:
+  - Bolts/Tasks (1.8.4)
+  - GoogleMaps (2.1.1):
+    - GoogleMaps/Maps (= 2.1.1)
+  - GoogleMaps/Base (2.1.1)
+  - GoogleMaps/Maps (2.1.1):
+    - GoogleMaps/Base
+  - GooglePlaces (2.1.1):
+    - GoogleMaps/Base (= 2.1.1)
+  - Parse (1.14.2):
+    - Bolts/Tasks (~> 1.8)
   - SnapKit (3.1.2)
 
 DEPENDENCIES:
+  - GoogleMaps
+  - GooglePlaces
+  - Parse
   - SnapKit (~> 3.0)
 
 SPEC CHECKSUMS:
+  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  GoogleMaps: a5b5bbe47734e2443bde781a6aa64e69fdb6d785
+  GooglePlaces: 35636d86e5020cba3856eb988c09a5491de0a65a
+  Parse: 4335d65f40cb3d43190d723144bbe1afb9c38230
   SnapKit: 12b24f569cb7c143acc9c22b9d91b23e7b1c84a2
 
-PODFILE CHECKSUM: 9d8e2f75c51a32301b378dd11ac97c67e0153cd5
+PODFILE CHECKSUM: 817cdc0e4ac8b18403801fcb0aeacceb57435ee4
 
 COCOAPODS: 1.1.1

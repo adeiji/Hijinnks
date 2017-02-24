@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreData
+import GooglePlaces
+import Parse
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +20,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        setupNavigationController()
+        initializeParse()
+        GMSPlacesClient.provideAPIKey("AIzaSyBumgyof-1r1HAiXd6pY6ZUjoj1mQb5Ie4")
+        
+        return true
+    }
+    
+    func initializeParse() {
+        let parseConfiguration = ParseClientConfiguration { (ParseMutableClientConfiguration) in
+            ParseMutableClientConfiguration.applicationId = "com.hijinnks.dephyned"
+            ParseMutableClientConfiguration.server = "http://hijinnks.herokuapp.com/parse"
+        }
+        
+        Parse.initialize(with: parseConfiguration)
+    }
+    
+    func setupNavigationController () {
         // Set up the Application Window and then display our initial screen for viewing invitations
         // DEBUG - For testing purposes we're using CreateInvitationViewController First
         self.window = UIWindow(frame: UIScreen.main.bounds)
@@ -25,8 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let createInvitationViewController = CreateInvitationViewController()
         let navigationController = UINavigationController(rootViewController: createInvitationViewController)
         self.window!.rootViewController = navigationController
-        
-        return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

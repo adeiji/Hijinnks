@@ -10,12 +10,20 @@
 		1B63A158EE331160A2D5F44A /* Pods_HijinnksTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B4AC3B77B952481ED84516 /* Pods_HijinnksTests.framework */; };
 		37D6DE0CCF6573F83AD3F48C /* Pods_Hijinnks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF0B04171FE78BF8BBD77BC /* Pods_Hijinnks.framework */; };
 		EC83019D8FB67150A20C2F6D /* Pods_HijinnksUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64B3511E2211A2CB9250C255 /* Pods_HijinnksUITests.framework */; };
+		F40A11EB1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40A11EA1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift */; };
+		F40A11ED1E60B1DB00DAD619 /* SelectFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40A11EC1E60B1DB00DAD619 /* SelectFriendsViewController.swift */; };
+		F42ECC901E60DA62007B5B55 /* ParseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42ECC8F1E60DA62007B5B55 /* ParseManager.swift */; };
+		F42ECC931E60DAA3007B5B55 /* InvitationParseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42ECC921E60DAA3007B5B55 /* InvitationParseObject.swift */; };
+		F42ECC951E60DBD6007B5B55 /* Invitation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42ECC941E60DBD6007B5B55 /* Invitation.swift */; };
 		F44CAD6F1E5F690700C91A1F /* ViewInvitationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD6E1E5F690700C91A1F /* ViewInvitationsViewController.swift */; };
 		F44CAD731E5F695F00C91A1F /* CreateInvitationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD721E5F695F00C91A1F /* CreateInvitationViewController.swift */; };
 		F44CAD771E5F928000C91A1F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD761E5F928000C91A1F /* Colors.swift */; };
 		F44CAD7A1E5F95F300C91A1F /* interests.plist in Resources */ = {isa = PBXBuildFile; fileRef = F44CAD791E5F95F300C91A1F /* interests.plist */; };
 		F44CAD7C1E5F968700C91A1F /* ViewInterestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD7B1E5F968700C91A1F /* ViewInterestsViewController.swift */; };
 		F44CAD7E1E5F974800C91A1F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD7D1E5F974800C91A1F /* Constants.swift */; };
+		F44CAD801E6015A300C91A1F /* LocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD7F1E6015A300C91A1F /* LocationsViewController.swift */; };
+		F44CAD831E6015C900C91A1F /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD821E6015C900C91A1F /* LocationManager.swift */; };
+		F492FF601E60937900A5154C /* CreateInvitationViewController+Autocompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492FF5F1E60937900A5154C /* CreateInvitationViewController+Autocompletion.swift */; };
 		F4A0D1B51E5A427800C6CDFE /* HijinnksStyleKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A0D1B41E5A427800C6CDFE /* HijinnksStyleKit.swift */; };
 		F4A0D1B71E5A447E00C6CDFE /* CustomHijinnksImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A0D1B61E5A447E00C6CDFE /* CustomHijinnksImageView.swift */; };
 		F4A0D1BB1E5A454500C6CDFE /* textLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = F4A0D1BA1E5A454500C6CDFE /* textLogo.png */; };
@@ -56,12 +64,20 @@
 		B9B5D5BD66364082AC0A4010 /* Pods-Hijinnks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hijinnks.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hijinnks/Pods-Hijinnks.release.xcconfig"; sourceTree = "<group>"; };
 		C67346B4FE9AAF8A0534DE2E /* Pods-HijinnksTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HijinnksTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HijinnksTests/Pods-HijinnksTests.release.xcconfig"; sourceTree = "<group>"; };
 		DCF0B04171FE78BF8BBD77BC /* Pods_Hijinnks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hijinnks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F40A11EA1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateInvitationViewController+ScrollOnKeyboardShow.swift"; path = "Create Invitations Flow/View Controllers/CreateInvitationViewController+ScrollOnKeyboardShow.swift"; sourceTree = "<group>"; };
+		F40A11EC1E60B1DB00DAD619 /* SelectFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectFriendsViewController.swift; path = "Create Invitations Flow/View Controllers/SelectFriendsViewController.swift"; sourceTree = "<group>"; };
+		F42ECC8F1E60DA62007B5B55 /* ParseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseManager.swift; path = Managers/ParseManager.swift; sourceTree = "<group>"; };
+		F42ECC921E60DAA3007B5B55 /* InvitationParseObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvitationParseObject.swift; path = Parse/InvitationParseObject.swift; sourceTree = "<group>"; };
+		F42ECC941E60DBD6007B5B55 /* Invitation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Invitation.swift; path = "View Invitations Flow/Invitation.swift"; sourceTree = "<group>"; };
 		F44CAD6E1E5F690700C91A1F /* ViewInvitationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewInvitationsViewController.swift; path = "View Invitations Flow/View Controllers/ViewInvitationsViewController.swift"; sourceTree = "<group>"; };
 		F44CAD721E5F695F00C91A1F /* CreateInvitationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateInvitationViewController.swift; path = "Create Invitations Flow/View Controllers/CreateInvitationViewController.swift"; sourceTree = "<group>"; };
 		F44CAD761E5F928000C91A1F /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = UI/Constants/Colors.swift; sourceTree = "<group>"; };
 		F44CAD791E5F95F300C91A1F /* interests.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = interests.plist; path = "Supporting Files/interests.plist"; sourceTree = "<group>"; };
 		F44CAD7B1E5F968700C91A1F /* ViewInterestsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewInterestsViewController.swift; path = "View Invitations Flow/View Controllers/ViewInterestsViewController.swift"; sourceTree = "<group>"; };
 		F44CAD7D1E5F974800C91A1F /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Constants/Constants.swift; sourceTree = "<group>"; };
+		F44CAD7F1E6015A300C91A1F /* LocationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationsViewController.swift; path = "Create Invitations Flow/View Controllers/LocationsViewController.swift"; sourceTree = "<group>"; };
+		F44CAD821E6015C900C91A1F /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationManager.swift; path = Managers/LocationManager.swift; sourceTree = "<group>"; };
+		F492FF5F1E60937900A5154C /* CreateInvitationViewController+Autocompletion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateInvitationViewController+Autocompletion.swift"; path = "Create Invitations Flow/View Controllers/CreateInvitationViewController+Autocompletion.swift"; sourceTree = "<group>"; };
 		F4A0D1B41E5A427800C6CDFE /* HijinnksStyleKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HijinnksStyleKit.swift; path = stylekit/HijinnksStyleKit.swift; sourceTree = "<group>"; };
 		F4A0D1B61E5A447E00C6CDFE /* CustomHijinnksImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomHijinnksImageView.swift; path = UI/CustomHijinnksImageView.swift; sourceTree = "<group>"; };
 		F4A0D1BA1E5A454500C6CDFE /* textLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = textLogo.png; path = stylekit/textLogo.png; sourceTree = "<group>"; };
@@ -133,12 +149,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F42ECC911E60DA88007B5B55 /* Parse */ = {
+			isa = PBXGroup;
+			children = (
+				F42ECC8F1E60DA62007B5B55 /* ParseManager.swift */,
+				F42ECC921E60DAA3007B5B55 /* InvitationParseObject.swift */,
+			);
+			name = Parse;
+			sourceTree = "<group>";
+		};
 		F44CAD6B1E5F68B600C91A1F /* Invitations Flow */ = {
 			isa = PBXGroup;
 			children = (
 				F44CAD701E5F693400C91A1F /* Create Invitations */,
 				F44CAD6D1E5F68D100C91A1F /* View Invitation Table View Controller */,
 				F44CAD7B1E5F968700C91A1F /* ViewInterestsViewController.swift */,
+				F42ECC941E60DBD6007B5B55 /* Invitation.swift */,
 			);
 			name = "Invitations Flow";
 			sourceTree = "<group>";
@@ -163,6 +189,10 @@
 			isa = PBXGroup;
 			children = (
 				F44CAD721E5F695F00C91A1F /* CreateInvitationViewController.swift */,
+				F44CAD7F1E6015A300C91A1F /* LocationsViewController.swift */,
+				F492FF5F1E60937900A5154C /* CreateInvitationViewController+Autocompletion.swift */,
+				F40A11EA1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift */,
+				F40A11EC1E60B1DB00DAD619 /* SelectFriendsViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -189,6 +219,14 @@
 				F44CAD791E5F95F300C91A1F /* interests.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F44CAD811E6015AC00C91A1F /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				F44CAD821E6015C900C91A1F /* LocationManager.swift */,
+			);
+			name = Managers;
 			sourceTree = "<group>";
 		};
 		F4A0D1B81E5A453300C6CDFE /* UI */ = {
@@ -233,6 +271,8 @@
 		F4E0D8561E5A09E500FFEEB8 /* Hijinnks */ = {
 			isa = PBXGroup;
 			children = (
+				F42ECC911E60DA88007B5B55 /* Parse */,
+				F44CAD811E6015AC00C91A1F /* Managers */,
 				F44CAD781E5F95D700C91A1F /* Supporting Files */,
 				F44CAD741E5F924B00C91A1F /* Constants */,
 				F44CAD6B1E5F68B600C91A1F /* Invitations Flow */,
@@ -572,9 +612,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4E0D8931E5A130000FFEEB8 /* CustomHijinnksView.swift in Sources */,
+				F40A11EB1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift in Sources */,
+				F40A11ED1E60B1DB00DAD619 /* SelectFriendsViewController.swift in Sources */,
 				F44CAD7E1E5F974800C91A1F /* Constants.swift in Sources */,
 				F44CAD771E5F928000C91A1F /* Colors.swift in Sources */,
 				F44CAD6F1E5F690700C91A1F /* ViewInvitationsViewController.swift in Sources */,
+				F492FF601E60937900A5154C /* CreateInvitationViewController+Autocompletion.swift in Sources */,
+				F42ECC901E60DA62007B5B55 /* ParseManager.swift in Sources */,
+				F42ECC931E60DAA3007B5B55 /* InvitationParseObject.swift in Sources */,
 				F44CAD7C1E5F968700C91A1F /* ViewInterestsViewController.swift in Sources */,
 				F4E0D8601E5A09E500FFEEB8 /* Hijinnks.xcdatamodeld in Sources */,
 				F4E0D85A1E5A09E500FFEEB8 /* ViewController.swift in Sources */,
@@ -582,6 +627,9 @@
 				F4A0D1B51E5A427800C6CDFE /* HijinnksStyleKit.swift in Sources */,
 				F4A0D1B71E5A447E00C6CDFE /* CustomHijinnksImageView.swift in Sources */,
 				F44CAD731E5F695F00C91A1F /* CreateInvitationViewController.swift in Sources */,
+				F44CAD801E6015A300C91A1F /* LocationsViewController.swift in Sources */,
+				F44CAD831E6015C900C91A1F /* LocationManager.swift in Sources */,
+				F42ECC951E60DBD6007B5B55 /* Invitation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -723,6 +771,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 66552FC1C1502885B95F5B8F /* Pods-Hijinnks.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
@@ -741,6 +790,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B9B5D5BD66364082AC0A4010 /* Pods-Hijinnks.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = HJPTQ3N75W;

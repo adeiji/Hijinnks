@@ -1,4 +1,4 @@
-# Uncomment the next line to define a global platform for your project
+#Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
 target 'Hijinnks' do
@@ -7,6 +7,9 @@ target 'Hijinnks' do
 
   # Pods for Hijinnks
   pod 'SnapKit', '~> 3.0'
+  pod 'GooglePlaces'
+  pod 'GoogleMaps'
+  pod 'Parse'
 
   target 'HijinnksTests' do
     inherit! :search_paths

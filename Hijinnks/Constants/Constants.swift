@@ -13,4 +13,23 @@ let kInterestsPlistFile = "interests"
 enum fileType : String {
     case plist = "plist"
 }
-    
+
+enum InviteesPresets : String {
+    case Everyone = "Everyone"
+    case Anyone = "Anyone"
+}
+
+enum ParseCustomObjectsClassNames : String {
+    case Invitation = "Invitation"
+}
+
+enum ParseObjectColumns : String {
+    case EventName = "eventName"
+    case Location = "location"
+    case Details = "details"
+    case Message = "message"
+    case StartingTime = "startingTime"
+    case Duration = "duration"
+    case Invitees = "invitees"
+    case Interests = "interests"
+}

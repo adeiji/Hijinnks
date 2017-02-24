@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SnapKit
+import GooglePlaces
 
 class CreateInvitationViewController : UIViewController, PassDataBetweenViewControllersProtocol {
     weak var wrapperView:UIView! // This is so that we can have one view in which the Scroll View will have as it's indicator for scrolling
@@ -33,9 +34,16 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     var startingTime:Date!
     var duration:String!
     
+    var place:GMSPlace!
+    var durations:Array<String>!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        self.navigationItem.title = "Hijinnks"
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification: )), name: NSNotification.Name.UIKeyboardWillShow , object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification: )), name: NSNotification.Name.UIKeyboardWillHide , object: nil)
     }
     
     func setSelectedInterests(mySelectedInterest: NSArray) {
@@ -59,6 +67,10 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         selectedFriends = mySelectedFriends
     }
     
+    func setSelectedFriendsToEveryone() {
+        selectedFriends.adding(InviteesPresets.Everyone.rawValue)
+    }
+    
     // Save the invitation to the server
     func sendInvite () {
         name = nameTextField.text
@@ -77,26 +89,99 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         
         wrapperView = createWrapperView(myScrollView: scrollView)
         
-        nameTextField = createTextField(superview: wrapperView, relativeViewAbove: nil, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: 10, placeholderText: "Enter the event name", showViewController: nil, colorViewColor: Colors.green.value)
+        nameTextField = createTextField(superview: wrapperView, relativeViewAbove: nil, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: 5, placeholderText: "Enter the event name", showViewController: nil, colorViewColor: Colors.green.value)
         
-        locationTextField = createTextField(superview: wrapperView, relativeViewAbove: nameTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: 10, placeholderText: "Enter the location", showViewController: nil, colorViewColor: Colors.blue.value)
+        let autocompleteViewController = GMSAutocompleteViewController()
+        autocompleteViewController.delegate = self
+        locationTextField = createTextField(superview: wrapperView,
+                                            relativeViewAbove: nameTextField,
+                                            leftConstraintOffset: 0,
+                                            rightConstraintOffset: 0,
+                                            verticalSpacingToRelativeViewAbove: 5,
+                                            placeholderText: "Enter the location",
+                                            showViewController: autocompleteViewController,
+                                            colorViewColor: Colors.blue.value)
         
-        detailsTextField = createTextField(superview: wrapperView, relativeViewAbove: locationTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: 10, placeholderText: "Enter the Details", showViewController: nil, colorViewColor: Colors.grey.value)
+        detailsTextField = createTextField(superview: wrapperView,
+                                           relativeViewAbove: locationTextField,
+                                           leftConstraintOffset: 0,
+                                           rightConstraintOffset: 0,
+                                           verticalSpacingToRelativeViewAbove: 5,
+                                           placeholderText: "Enter the Details",
+                                           showViewController: nil,
+                                           colorViewColor: Colors.grey.value)
         
-        inviteMessageTextField = createTextField(superview: wrapperView, relativeViewAbove: detailsTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: 10, placeholderText: "Enter a message", showViewController: nil, colorViewColor: Colors.green.value)
+        inviteMessageTextField = createTextField(superview: wrapperView,
+                                                 relativeViewAbove: detailsTextField,
+                                                 leftConstraintOffset: 0,
+                                                 rightConstraintOffset: 0,
+                                                 verticalSpacingToRelativeViewAbove: 5,
+                                                 placeholderText: "Enter a message",
+                                                 showViewController: nil,
+                                                 colorViewColor: Colors.green.value)
         
-        startingTimeTextField = createTextField(superview: wrapperView, relativeViewAbove: inviteMessageTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: 10, placeholderText: "Enter a starting date and time", showViewController: nil, colorViewColor: Colors.blue.value)
+        startingTimeTextField = createTextField(superview: wrapperView,
+                                                relativeViewAbove: inviteMessageTextField,
+                                                leftConstraintOffset: 0,
+                                                rightConstraintOffset: 0,
+                                                verticalSpacingToRelativeViewAbove: 5,
+                                                placeholderText: "Enter a starting date and time",
+                                                showViewController: nil,
+                                                colorViewColor: Colors.blue.value)
         
-        durationTextField = createTextField(superview: wrapperView, relativeViewAbove: startingTimeTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: 10, placeholderText: "Enter a duration", showViewController: nil, colorViewColor: Colors.grey.value)
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .dateAndTime
+        let date = NSDate.init() // gets me the current date and time
+        datePicker.minimumDate = date as Date // make sure the minimum time they can choose is the current time
+        datePicker.minuteInterval = 10
+        startingTimeTextField.inputView = datePicker
+        datePicker.addTarget(self, action: #selector(startTimePickerDateChanged(sender:)), for: .valueChanged)
         
-        let tempVC = UIViewController()
+        durationTextField = createTextField(superview: wrapperView,
+                                            relativeViewAbove: startingTimeTextField,
+                                            leftConstraintOffset: 0,
+                                            rightConstraintOffset: 0,
+                                            verticalSpacingToRelativeViewAbove: 5,
+                                            placeholderText: "Enter a duration",
+                                            showViewController: nil,
+                                            colorViewColor: Colors.grey.value)
+        
         let viewInterestsViewController = ViewInterestsViewController()
+        let selectFriendsViewController = SelectFriendsViewController()
+        selectFriendsViewController.delegate = self
         
-        inviteesTextField = createTextField(superview: wrapperView, relativeViewAbove: durationTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: 10, placeholderText: "Whom would you like to invite?", showViewController: tempVC, colorViewColor: Colors.green.value)
+        inviteesTextField = createTextField(superview: wrapperView,
+                                            relativeViewAbove: durationTextField,
+                                            leftConstraintOffset: 0,
+                                            rightConstraintOffset: 0,
+                                            verticalSpacingToRelativeViewAbove: 5,
+                                            placeholderText: "Whom would you like to invite?",
+                                            showViewController: nil,
+                                            colorViewColor: Colors.green.value)
         
-        inviteInterests = createTextField(superview: wrapperView, relativeViewAbove: inviteesTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: 10, placeholderText: "What kind of invite is this?", showViewController: viewInterestsViewController, colorViewColor: Colors.blue.value)
+        inviteInterests = createTextField(superview: wrapperView,
+                                          relativeViewAbove: inviteesTextField,
+                                          leftConstraintOffset: 0,
+                                          rightConstraintOffset: 0,
+                                          verticalSpacingToRelativeViewAbove: 5,
+                                          placeholderText: "What kind of invite is this?",
+                                          showViewController: viewInterestsViewController,
+                                          colorViewColor: Colors.blue.value)
         
+        
+        setupDurationTextFieldInputView()
     }
+    
+    
+    // Whenever the user changes the date and the time the startingTimeTextField is updated with the selected information
+    func startTimePickerDateChanged (sender: UIDatePicker) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .short
+        let startDateAndTime = dateFormatter.string(from: sender.date)
+        startingTimeTextField.text = startDateAndTime
+    }
+    
     // This is the view that contains all the other subviews.  It acts as a wrapper so that the scroll view works correctly
     func createWrapperView (myScrollView: UIScrollView) -> UIView {
         let myWrapperView = UIView()
@@ -128,18 +213,20 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         textField.textAlignment = .center
         textField.borderStyle = .none
         textField.placeholder = placeholderText
+        textField.textColor = colorViewColor
+        textField.font = UIFont.boldSystemFont(ofSize: 14)
         
         textField.snp.makeConstraints { (make) in
             make.left.equalTo(wrapperView)
             make.right.equalTo(wrapperView)
             
-            if !(relativeViewAbove != nil) { // If there is no other view above this one than this is the topmost view
+            if !(relativeViewAbove != nil) { // If there is no other view above this one than this is the view at the very top of the screen
                 make.top.equalTo(wrapperView)
             }
             else {
                 make.top.equalTo(relativeViewAbove.snp.bottom).offset(verticalSpacingToRelativeViewAbove)
             }
-            make.height.equalTo(50)
+            make.height.equalTo(75)
         }
         
         addTextFieldColorView(textField: textField, color: colorViewColor, text: placeholderText, showViewController: showViewController)
@@ -173,11 +260,13 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         
         // Push the view controller that is attached to the Color View Object onto the Nav stack.
         if colorView.showViewController != nil {
-            if colorView.showViewController is ViewInterestsViewController
-            {
+            if colorView.showViewController is ViewInterestsViewController {
                 (colorView.showViewController as! ViewInterestsViewController).delegate = self
+                self.navigationController?.pushViewController(colorView.showViewController, animated: true)
             }
-            self.navigationController?.pushViewController(colorView.showViewController, animated: true)
+            else if colorView.showViewController is GMSAutocompleteViewController { // If this is the view controller for selecting a location for the invite
+                present(colorView.showViewController, animated: true, completion: nil)  // Display the Google Places Auto Completion Controller
+            }
         }
         
         for subview in colorView.subviews {
@@ -195,6 +284,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         }
         
         colorView.textField.becomeFirstResponder()
+    
     }
     
     func addLabelToColorView (text: String, colorView: UIView) {
@@ -209,6 +299,39 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             make.centerY.equalTo(colorView)
         }
     }
+}
+
+extension CreateInvitationViewController : UIPickerViewDataSource, UIPickerViewDelegate {
+
+    func setupDurationTextFieldInputView () {
+        var durationOptions:Array<String> = Array<String>()
+        for counter in 1...20 {
+            durationOptions.append(String((counter * 10)) + " mins")
+        }
+        
+        let durationPicker = UIPickerView()
+        durationPicker.dataSource = self
+        durationPicker.delegate = self
+        durationTextField.inputView = durationPicker
+        durations = durationOptions
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return durations[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return durations.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        durationTextField.text = durations[row]
+    }
+    
 }
 
 class ColorView : UIControl {

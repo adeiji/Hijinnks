@@ -12,6 +12,9 @@ import UIKit
 @objc protocol PassDataBetweenViewControllersProtocol {
     @objc optional func setSelectedInterests(mySelectedInterest: NSArray)
     @objc optional func setSelectedFriends(mySelectedFriends: NSArray)
+    @objc optional func setSelectedFriendsToEveryone ()
+    @objc optional func setSelectedFriendsToAnyone ()
+    
 }
 
 class ViewInterestsViewController : UITableViewController   {
