@@ -73,11 +73,8 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     
     // Save the invitation to the server
     func sendInvite () {
-        name = nameTextField.text
-        location = locationTextField.text
-        details = detailsTextField.text
-        inviteMessage = inviteMessageTextField.text
-        duration = durationTextField.text
+        let newInvitation = Invitation(eventName: nameTextField.text, location: locationTextField.text, details: detailsTextField.text, message: inviteMessageTextField.text, startingTime: startingTimeTextField.text, duration: durationTextField.text, invitees: selectedFriends, interests: selectedInterests)
+        
     }
     
     func setupUI() {
