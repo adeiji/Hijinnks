@@ -13,6 +13,7 @@ extension CreateInvitationViewController : GMSAutocompleteViewControllerDelegate
     // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         locationTextField.text = place.formattedAddress
+        self.place = place
         dismiss(animated: true, completion: nil)
     }
     

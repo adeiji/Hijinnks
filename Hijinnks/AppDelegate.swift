@@ -41,9 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // DEBUG - For testing purposes we're using CreateInvitationViewController First
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.makeKeyAndVisible()
-        let createInvitationViewController = CreateInvitationViewController()
-        let navigationController = UINavigationController(rootViewController: createInvitationViewController)
-        self.window!.rootViewController = navigationController
+        let mainTabBarController = MainTabBarController()
+        self.window!.rootViewController = mainTabBarController
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

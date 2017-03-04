@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 import Parse
 
-class Invitation  {
+class Invitation : NSObject {
 
     var eventName:String
     var location:CLLocation
@@ -18,10 +18,11 @@ class Invitation  {
     var message:String!
     var startingTime:Date
     var duration:String!
-    var invitees:Array<Any>!
-    var interests:Array<Any>!
+    var invitees:Array<PFUser>!
+    var interests:Array<String>!
+    var fromUser:PFUser
     
-    init(eventName: String, location: CLLocation, details: String!, message: String!, startingTime: Date, duration: String!, invitees: Array<Any>!, interests: Array<Any>!) {
+    init(eventName: String, location: CLLocation, details: String!, message: String!, startingTime: Date, duration: String!, invitees: Array<PFUser>!, interests: Array<String>!, fromUser: PFUser) {
         
         self.eventName = eventName
         self.location = location
@@ -31,12 +32,30 @@ class Invitation  {
         self.duration = duration
         self.invitees = invitees
         self.interests = interests
+        self.fromUser = fromUser
         
     }
     
     func getParseObject () -> PFObject {
         let invitationParseObject = InvitationParseObject()
+        invitationParseObject.eventName = self.eventName
+        invitationParseObject.location = PFGeoPoint(location: self.location)
+        invitationParseObject.details = self.details
+        invitationParseObject.message = self.message
+        invitationParseObject.startingTime = self.startingTime
+        invitationParseObject.duration = self.duration
         
+        if self.invitees == nil {
+            invitationParseObject.invitees = [PFUser]()
+        }
+        else {
+            invitationParseObject.invitees = self.invitees
+        }
+        
+        invitationParseObject.interests = self.interests
+        invitationParseObject.fromUser = self.fromUser
+        
+        return invitationParseObject
     }
     
     

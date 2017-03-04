@@ -10,7 +10,15 @@ import Foundation
 import Parse
 
 class ParseManager {
-    
-    
+    // Save the Parse Object in the background
+    class func save (parseObject: PFObject) {
+        parseObject.saveInBackground { (success, error) in
+            if success {
+                NSLog("Parse Object With ID - " + parseObject.objectId! + "Saved Successfully")
+            } else {
+                NSLog(error.debugDescription)
+            }
+        }
+    }
     
 }

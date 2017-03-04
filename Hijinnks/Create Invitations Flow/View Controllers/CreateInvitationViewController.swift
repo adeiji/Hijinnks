@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import SnapKit
 import GooglePlaces
+import Parse
 
 class CreateInvitationViewController : UIViewController, PassDataBetweenViewControllersProtocol {
     weak var wrapperView:UIView! // This is so that we can have one view in which the Scroll View will have as it's indicator for scrolling
@@ -22,7 +23,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     weak var durationTextField:UITextField!
     
     weak var inviteesTextField:UITextField!
-    weak var inviteInterests:UITextField! // Change this in production
+    weak var inviteInterestsTextField:UITextField! // Change this in production
     weak var scrollView:UIScrollView!
     
     var selectedInterests:NSArray!
@@ -36,9 +37,13 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     
     var place:GMSPlace!
     var durations:Array<String>!
+    var delegate:PassDataBetweenViewControllersProtocol!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 0)
+        self.tabBarItem = tabBarItem
+        
         setupUI()
         self.navigationItem.title = "Hijinnks"
         
@@ -60,7 +65,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             }
         }
         
-        inviteInterests.text = interestsString
+        inviteInterestsTextField.text = interestsString
     }
     
     func setSelectedFriends(mySelectedFriends: NSArray) {
@@ -73,12 +78,25 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     
     // Save the invitation to the server
     func sendInvite () {
-        let newInvitation = Invitation(eventName: nameTextField.text, location: locationTextField.text, details: detailsTextField.text, message: inviteMessageTextField.text, startingTime: startingTimeTextField.text, duration: durationTextField.text, invitees: selectedFriends, interests: selectedInterests)
         
+        let invitationLocation = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
+        
+        let mockUser = PFUser()
+        mockUser.username = "Adebayo Ijidakinro"
+        
+        // Check to make sure all the data entered is valide
+        // Create an invitation object with all the specified data entered by the user
+        let newInvitation = Invitation(eventName: nameTextField.text!, location:  invitationLocation, details: detailsTextField.text, message: inviteMessageTextField.text, startingTime: self.startingTime, duration: durationTextField.text, invitees: nil, interests: selectedInterests as! Array<String>!, fromUser: mockUser)
+        let newInvitationParseObject = newInvitation.getParseObject()
+//        ParseManager.save(parseObject: newInvitationParseObject)
+        delegate.addInvitation!(invitation: newInvitation)
+        self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?.last
     }
     
+    
+    
     func setupUI() {
-        let donebutton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(sendInvite))
+        let donebutton = UIBarButtonItem(title: "Send", style: .done, target: self, action: #selector(sendInvite))
         self.navigationItem.rightBarButtonItem = donebutton
         
         scrollView = createScrollView()
@@ -88,15 +106,14 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         
         nameTextField = createTextField(superview: wrapperView, relativeViewAbove: nil, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: 5, placeholderText: "Enter the event name", showViewController: nil, colorViewColor: Colors.green.value)
         
-        let autocompleteViewController = GMSAutocompleteViewController()
-        autocompleteViewController.delegate = self
+        
         locationTextField = createTextField(superview: wrapperView,
                                             relativeViewAbove: nameTextField,
                                             leftConstraintOffset: 0,
                                             rightConstraintOffset: 0,
                                             verticalSpacingToRelativeViewAbove: 5,
                                             placeholderText: "Enter the location",
-                                            showViewController: autocompleteViewController,
+                                            showViewController: nil,
                                             colorViewColor: Colors.blue.value)
         
         detailsTextField = createTextField(superview: wrapperView,
@@ -156,7 +173,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
                                             showViewController: nil,
                                             colorViewColor: Colors.green.value)
         
-        inviteInterests = createTextField(superview: wrapperView,
+        inviteInterestsTextField = createTextField(superview: wrapperView,
                                           relativeViewAbove: inviteesTextField,
                                           leftConstraintOffset: 0,
                                           rightConstraintOffset: 0,
@@ -176,6 +193,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short
         let startDateAndTime = dateFormatter.string(from: sender.date)
+        self.startingTime = sender.date
         startingTimeTextField.text = startDateAndTime
     }
     
@@ -211,8 +229,11 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         textField.borderStyle = .none
         textField.placeholder = placeholderText
         textField.textColor = colorViewColor
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.gray.cgColor
         textField.font = UIFont.boldSystemFont(ofSize: 14)
-        
+        textField.delegate = self
+    
         textField.snp.makeConstraints { (make) in
             make.left.equalTo(wrapperView)
             make.right.equalTo(wrapperView)
@@ -226,75 +247,27 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             make.height.equalTo(75)
         }
         
-        addTextFieldColorView(textField: textField, color: colorViewColor, text: placeholderText, showViewController: showViewController)
         return textField
     }
     
-    func addTextFieldColorView (textField: UITextField, color: UIColor, text: String, showViewController: UIViewController!) {
-        
-        let colorView = ColorView();
-        colorView.backgroundColor = color
-        wrapperView.addSubview(colorView)
-        
-        colorView.snp.makeConstraints { (make) in
-            make.left.equalTo(wrapperView)
-            make.top.equalTo(textField)
-            make.right.equalTo(wrapperView)
-            make.bottom.equalTo(textField)
+    // When the text field is selected than change the color of the border
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == locationTextField {
+            let autocompleteViewController = GMSAutocompleteViewController()
+            autocompleteViewController.delegate = self
+            self.navigationController?.present(autocompleteViewController, animated: true, completion: nil)
         }
-        colorView.textField = textField
-        
-        if showViewController != nil {
-            colorView.showViewController = showViewController
+        else if textField == inviteInterestsTextField {
+            let viewInterestsViewController = ViewInterestsViewController()
+            viewInterestsViewController.delegate = self
+            textField.resignFirstResponder()
+            self.navigationController?.pushViewController(viewInterestsViewController, animated: true)
         }
-        
-        colorView.addTarget(self, action: #selector(animateColorViewOpen(colorView:)), for: .touchUpInside)
-        addLabelToColorView(text: text, colorView: colorView)
+        textField.layer.borderColor = textField.textColor?.cgColor
     }
-    
-    // When the user clicks on one of the Text Fields than we show an animation that displays the color on the TextField moving to the left, opening a way for the user to now enter in their text
-    func animateColorViewOpen(colorView: ColorView) {
-        
-        // Push the view controller that is attached to the Color View Object onto the Nav stack.
-        if colorView.showViewController != nil {
-            if colorView.showViewController is ViewInterestsViewController {
-                (colorView.showViewController as! ViewInterestsViewController).delegate = self
-                self.navigationController?.pushViewController(colorView.showViewController, animated: true)
-            }
-            else if colorView.showViewController is GMSAutocompleteViewController { // If this is the view controller for selecting a location for the invite
-                present(colorView.showViewController, animated: true, completion: nil)  // Display the Google Places Auto Completion Controller
-            }
-        }
-        
-        for subview in colorView.subviews {
-            if subview is UILabel {
-                subview.isHidden = true
-            }
-        }
-        
-        colorView.snp.updateConstraints({ (make) in
-            make.right.equalTo(wrapperView).offset(-(self.view.frame.size.width - 10))
-        })
-        
-        UIView.animate(withDuration: 0.75) {
-            colorView.layoutIfNeeded()
-        }
-        
-        colorView.textField.becomeFirstResponder()
-    
-    }
-    
-    func addLabelToColorView (text: String, colorView: UIView) {
-        let label = UILabel()
-        label.text = text
-        
-        colorView.addSubview(label)
-        label.textColor = .white
-        
-        label.snp.makeConstraints { (make) in
-            make.centerX.equalTo(colorView)
-            make.centerY.equalTo(colorView)
-        }
+    // When the text field loses focuses change the color of the border back to grey
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.layer.borderColor = UIColor.gray.cgColor
     }
 }
 

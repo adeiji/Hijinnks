@@ -24,9 +24,9 @@ class InvitationParseObject : PFObject, PFSubclassing {
         }
     }
  
-    var location : CLLocation! {
+    var location : PFGeoPoint! {
         get {
-            return self[ParseObjectColumns.Location.rawValue] as! CLLocation
+            return self[ParseObjectColumns.Location.rawValue] as! PFGeoPoint
         }
         set {
             self[ParseObjectColumns.Location.rawValue] = newValue
@@ -69,18 +69,26 @@ class InvitationParseObject : PFObject, PFSubclassing {
         }
     }
     
-    var invitees : Array<Any> {
+    var invitees : Array<PFUser> {
         get {
-            return self[ParseObjectColumns.Invitees.rawValue] as! Array<Any>
+            return self[ParseObjectColumns.Invitees.rawValue] as! Array<PFUser>
         }
         set {
             self[ParseObjectColumns.Invitees.rawValue] = newValue
         }
     }
     
-    var interests : String! {
+    var interests : Array<String>! {
         get {
-            return self[ParseObjectColumns.Interests.rawValue] as! String
+            return self[ParseObjectColumns.Interests.rawValue] as! Array<String>
+        }
+        set {
+            self[ParseObjectColumns.Interests.rawValue] = newValue
+        }
+    }
+    var fromUser : PFUser {
+        get {
+            return self[ParseObjectColumns.Interests.rawValue] as! PFUser
         }
         set {
             self[ParseObjectColumns.Interests.rawValue] = newValue

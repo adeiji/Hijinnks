@@ -14,6 +14,7 @@ import UIKit
     @objc optional func setSelectedFriends(mySelectedFriends: NSArray)
     @objc optional func setSelectedFriendsToEveryone ()
     @objc optional func setSelectedFriendsToAnyone ()
+    @objc optional func addInvitation (invitation: Invitation)
     
 }
 
@@ -51,7 +52,7 @@ class ViewInterestsViewController : UITableViewController   {
         }
         
         delegate.setSelectedInterests!(mySelectedInterest: selectedInterests as NSArray)
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
 }
 

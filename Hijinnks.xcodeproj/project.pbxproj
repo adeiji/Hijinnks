@@ -23,6 +23,8 @@
 		F44CAD7E1E5F974800C91A1F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD7D1E5F974800C91A1F /* Constants.swift */; };
 		F44CAD801E6015A300C91A1F /* LocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD7F1E6015A300C91A1F /* LocationsViewController.swift */; };
 		F44CAD831E6015C900C91A1F /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD821E6015C900C91A1F /* LocationManager.swift */; };
+		F452F5141E6A3C5900616BB3 /* ViewInvitationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452F5131E6A3C5900616BB3 /* ViewInvitationsCell.swift */; };
+		F452F5171E6A43AA00616BB3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452F5161E6A43AA00616BB3 /* MainTabBarController.swift */; };
 		F492FF601E60937900A5154C /* CreateInvitationViewController+Autocompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492FF5F1E60937900A5154C /* CreateInvitationViewController+Autocompletion.swift */; };
 		F4A0D1B51E5A427800C6CDFE /* HijinnksStyleKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A0D1B41E5A427800C6CDFE /* HijinnksStyleKit.swift */; };
 		F4A0D1B71E5A447E00C6CDFE /* CustomHijinnksImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A0D1B61E5A447E00C6CDFE /* CustomHijinnksImageView.swift */; };
@@ -77,6 +79,8 @@
 		F44CAD7D1E5F974800C91A1F /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Constants/Constants.swift; sourceTree = "<group>"; };
 		F44CAD7F1E6015A300C91A1F /* LocationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationsViewController.swift; path = "Create Invitations Flow/View Controllers/LocationsViewController.swift"; sourceTree = "<group>"; };
 		F44CAD821E6015C900C91A1F /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationManager.swift; path = Managers/LocationManager.swift; sourceTree = "<group>"; };
+		F452F5131E6A3C5900616BB3 /* ViewInvitationsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewInvitationsCell.swift; path = "View Invitations Flow/Cell/ViewInvitationsCell.swift"; sourceTree = "<group>"; };
+		F452F5161E6A43AA00616BB3 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainTabBarController.swift; path = "Main Tab Bar Controller/MainTabBarController.swift"; sourceTree = "<group>"; };
 		F492FF5F1E60937900A5154C /* CreateInvitationViewController+Autocompletion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateInvitationViewController+Autocompletion.swift"; path = "Create Invitations Flow/View Controllers/CreateInvitationViewController+Autocompletion.swift"; sourceTree = "<group>"; };
 		F4A0D1B41E5A427800C6CDFE /* HijinnksStyleKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HijinnksStyleKit.swift; path = stylekit/HijinnksStyleKit.swift; sourceTree = "<group>"; };
 		F4A0D1B61E5A447E00C6CDFE /* CustomHijinnksImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomHijinnksImageView.swift; path = UI/CustomHijinnksImageView.swift; sourceTree = "<group>"; };
@@ -173,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				F44CAD6E1E5F690700C91A1F /* ViewInvitationsViewController.swift */,
+				F452F5131E6A3C5900616BB3 /* ViewInvitationsCell.swift */,
 			);
 			name = "View Invitation Table View Controller";
 			sourceTree = "<group>";
@@ -229,6 +234,14 @@
 			name = Managers;
 			sourceTree = "<group>";
 		};
+		F452F5151E6A438700616BB3 /* Main Tab Bar Controller */ = {
+			isa = PBXGroup;
+			children = (
+				F452F5161E6A43AA00616BB3 /* MainTabBarController.swift */,
+			);
+			name = "Main Tab Bar Controller";
+			sourceTree = "<group>";
+		};
 		F4A0D1B81E5A453300C6CDFE /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -271,6 +284,7 @@
 		F4E0D8561E5A09E500FFEEB8 /* Hijinnks */ = {
 			isa = PBXGroup;
 			children = (
+				F452F5151E6A438700616BB3 /* Main Tab Bar Controller */,
 				F42ECC911E60DA88007B5B55 /* Parse */,
 				F44CAD811E6015AC00C91A1F /* Managers */,
 				F44CAD781E5F95D700C91A1F /* Supporting Files */,
@@ -626,7 +640,9 @@
 				F4E0D8581E5A09E500FFEEB8 /* AppDelegate.swift in Sources */,
 				F4A0D1B51E5A427800C6CDFE /* HijinnksStyleKit.swift in Sources */,
 				F4A0D1B71E5A447E00C6CDFE /* CustomHijinnksImageView.swift in Sources */,
+				F452F5141E6A3C5900616BB3 /* ViewInvitationsCell.swift in Sources */,
 				F44CAD731E5F695F00C91A1F /* CreateInvitationViewController.swift in Sources */,
+				F452F5171E6A43AA00616BB3 /* MainTabBarController.swift in Sources */,
 				F44CAD801E6015A300C91A1F /* LocationsViewController.swift in Sources */,
 				F44CAD831E6015C900C91A1F /* LocationManager.swift in Sources */,
 				F42ECC951E60DBD6007B5B55 /* Invitation.swift in Sources */,
