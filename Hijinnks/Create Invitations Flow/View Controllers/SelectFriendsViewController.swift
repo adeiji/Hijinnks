@@ -54,7 +54,7 @@ extension SelectFriendsViewController {
         if indexPath.section == kSectionPresets {
             if presetOptions[indexPath.row] as String == InviteesPresets.Everyone.rawValue {
                 delegate.setSelectedFriendsToEveryone!()
-                self.navigationController?.popViewController(animated: true)
+                _  = self.navigationController?.popViewController(animated: true)
             }
         }
     }

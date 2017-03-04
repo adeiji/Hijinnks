@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Parse
 
 // This is basically the home screen.  When the user opens the app they will be able to view all invitations from this page
 class ViewInvitationsViewController : UITableViewController, PassDataBetweenViewControllersProtocol {
@@ -16,10 +17,16 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
     
     override func viewDidLoad() {
         invitations = [Invitation]()
+        let mockUser = PFUser()
+        mockUser.username = "Adebayo Ijidakinro"
+        let invitation = Invitation(eventName: "Party at the Park", location: CLLocation(), details: "We're gonna grill some dogs and have a blast", message: "We're gonna grill some dogs and have a good time", startingTime: Date(), duration: "3 hrs", invitees: nil, interests: nil, fromUser: mockUser, dateInvited: Date())
+        invitations.append(invitation)
         // Set up the UI
         let tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
         self.tabBarItem = tabBarItem
-        
+        self.navigationItem.title = "Hijinnks"
+        self.navigationController?.navigationBar.tintColor = .white
+
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -35,8 +42,11 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
         return UITableViewAutomaticDimension
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 300
+    func calculateHeightForCell (invitation: Invitation) -> CGFloat {
+        let viewInvitationCell = ViewInvitationsCell(invitation: invitation)
+        viewInvitationCell.contentView.layoutIfNeeded()
+        let size = viewInvitationCell.contentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+        return size.height + 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

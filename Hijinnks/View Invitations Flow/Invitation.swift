@@ -21,8 +21,9 @@ class Invitation : NSObject {
     var invitees:Array<PFUser>!
     var interests:Array<String>!
     var fromUser:PFUser
+    var dateInvited:Date
     
-    init(eventName: String, location: CLLocation, details: String!, message: String!, startingTime: Date, duration: String!, invitees: Array<PFUser>!, interests: Array<String>!, fromUser: PFUser) {
+    init(eventName: String, location: CLLocation, details: String!, message: String!, startingTime: Date, duration: String!, invitees: Array<PFUser>!, interests: Array<String>!, fromUser: PFUser, dateInvited: Date) {
         
         self.eventName = eventName
         self.location = location
@@ -33,6 +34,7 @@ class Invitation : NSObject {
         self.invitees = invitees
         self.interests = interests
         self.fromUser = fromUser
+        self.dateInvited = dateInvited
         
     }
     
@@ -43,6 +45,7 @@ class Invitation : NSObject {
         invitationParseObject.details = self.details
         invitationParseObject.message = self.message
         invitationParseObject.startingTime = self.startingTime
+        invitationParseObject.dateInvited = self.dateInvited
         invitationParseObject.duration = self.duration
         
         if self.invitees == nil {

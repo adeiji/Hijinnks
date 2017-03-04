@@ -10,6 +10,10 @@
 		1B63A158EE331160A2D5F44A /* Pods_HijinnksTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B4AC3B77B952481ED84516 /* Pods_HijinnksTests.framework */; };
 		37D6DE0CCF6573F83AD3F48C /* Pods_Hijinnks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF0B04171FE78BF8BBD77BC /* Pods_Hijinnks.framework */; };
 		EC83019D8FB67150A20C2F6D /* Pods_HijinnksUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64B3511E2211A2CB9250C255 /* Pods_HijinnksUITests.framework */; };
+		F40110BE1E6B407E004124DA /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40110BD1E6B407E004124DA /* UIColorExtensions.swift */; };
+		F40110C31E6B4460004124DA /* DescriptionAndCreditsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40110C21E6B4460004124DA /* DescriptionAndCreditsViewController.swift */; };
+		F40110C61E6B4834004124DA /* HijinnksButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40110C51E6B4834004124DA /* HijinnksButton.swift */; };
+		F40110C81E6B596A004124DA /* banner.png in Resources */ = {isa = PBXBuildFile; fileRef = F40110C71E6B596A004124DA /* banner.png */; };
 		F40A11EB1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40A11EA1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift */; };
 		F40A11ED1E60B1DB00DAD619 /* SelectFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40A11EC1E60B1DB00DAD619 /* SelectFriendsViewController.swift */; };
 		F42ECC901E60DA62007B5B55 /* ParseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42ECC8F1E60DA62007B5B55 /* ParseManager.swift */; };
@@ -66,6 +70,10 @@
 		B9B5D5BD66364082AC0A4010 /* Pods-Hijinnks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hijinnks.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hijinnks/Pods-Hijinnks.release.xcconfig"; sourceTree = "<group>"; };
 		C67346B4FE9AAF8A0534DE2E /* Pods-HijinnksTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HijinnksTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HijinnksTests/Pods-HijinnksTests.release.xcconfig"; sourceTree = "<group>"; };
 		DCF0B04171FE78BF8BBD77BC /* Pods_Hijinnks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hijinnks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F40110BD1E6B407E004124DA /* UIColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIColorExtensions.swift; path = "UIKit Extensions/UIColorExtensions.swift"; sourceTree = "<group>"; };
+		F40110C21E6B4460004124DA /* DescriptionAndCreditsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DescriptionAndCreditsViewController.swift; path = "Settings and Profile/DescriptionAndCreditsViewController.swift"; sourceTree = "<group>"; };
+		F40110C51E6B4834004124DA /* HijinnksButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HijinnksButton.swift; path = UI/HijinnksButton.swift; sourceTree = "<group>"; };
+		F40110C71E6B596A004124DA /* banner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = banner.png; path = ../../UI/banner.png; sourceTree = "<group>"; };
 		F40A11EA1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateInvitationViewController+ScrollOnKeyboardShow.swift"; path = "Create Invitations Flow/View Controllers/CreateInvitationViewController+ScrollOnKeyboardShow.swift"; sourceTree = "<group>"; };
 		F40A11EC1E60B1DB00DAD619 /* SelectFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectFriendsViewController.swift; path = "Create Invitations Flow/View Controllers/SelectFriendsViewController.swift"; sourceTree = "<group>"; };
 		F42ECC8F1E60DA62007B5B55 /* ParseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseManager.swift; path = Managers/ParseManager.swift; sourceTree = "<group>"; };
@@ -151,6 +159,22 @@
 				64B3511E2211A2CB9250C255 /* Pods_HijinnksUITests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F40110BC1E6B4057004124DA /* UIKit Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F40110BD1E6B407E004124DA /* UIColorExtensions.swift */,
+			);
+			name = "UIKit Extensions";
+			sourceTree = "<group>";
+		};
+		F40110BF1E6B4400004124DA /* Settings and Profile */ = {
+			isa = PBXGroup;
+			children = (
+				F40110C21E6B4460004124DA /* DescriptionAndCreditsViewController.swift */,
+			);
+			name = "Settings and Profile";
 			sourceTree = "<group>";
 		};
 		F42ECC911E60DA88007B5B55 /* Parse */ = {
@@ -254,6 +278,7 @@
 		F4A0D1B91E5A453A00C6CDFE /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F40110C71E6B596A004124DA /* banner.png */,
 				F4A0D1BA1E5A454500C6CDFE /* textLogo.png */,
 			);
 			name = Images;
@@ -284,6 +309,8 @@
 		F4E0D8561E5A09E500FFEEB8 /* Hijinnks */ = {
 			isa = PBXGroup;
 			children = (
+				F40110BF1E6B4400004124DA /* Settings and Profile */,
+				F40110BC1E6B4057004124DA /* UIKit Extensions */,
 				F452F5151E6A438700616BB3 /* Main Tab Bar Controller */,
 				F42ECC911E60DA88007B5B55 /* Parse */,
 				F44CAD811E6015AC00C91A1F /* Managers */,
@@ -324,6 +351,7 @@
 			isa = PBXGroup;
 			children = (
 				F4E0D8891E5A11D300FFEEB8 /* Style Kit */,
+				F40110C51E6B4834004124DA /* HijinnksButton.swift */,
 			);
 			name = "UI Style Classes";
 			sourceTree = "<group>";
@@ -463,6 +491,7 @@
 				F4A0D1BB1E5A454500C6CDFE /* textLogo.png in Resources */,
 				F44CAD7A1E5F95F300C91A1F /* interests.plist in Resources */,
 				F4E0D8621E5A09E500FFEEB8 /* Assets.xcassets in Resources */,
+				F40110C81E6B596A004124DA /* banner.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -626,8 +655,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4E0D8931E5A130000FFEEB8 /* CustomHijinnksView.swift in Sources */,
+				F40110C61E6B4834004124DA /* HijinnksButton.swift in Sources */,
 				F40A11EB1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift in Sources */,
 				F40A11ED1E60B1DB00DAD619 /* SelectFriendsViewController.swift in Sources */,
+				F40110C31E6B4460004124DA /* DescriptionAndCreditsViewController.swift in Sources */,
 				F44CAD7E1E5F974800C91A1F /* Constants.swift in Sources */,
 				F44CAD771E5F928000C91A1F /* Colors.swift in Sources */,
 				F44CAD6F1E5F690700C91A1F /* ViewInvitationsViewController.swift in Sources */,
@@ -642,6 +673,7 @@
 				F4A0D1B71E5A447E00C6CDFE /* CustomHijinnksImageView.swift in Sources */,
 				F452F5141E6A3C5900616BB3 /* ViewInvitationsCell.swift in Sources */,
 				F44CAD731E5F695F00C91A1F /* CreateInvitationViewController.swift in Sources */,
+				F40110BE1E6B407E004124DA /* UIColorExtensions.swift in Sources */,
 				F452F5171E6A43AA00616BB3 /* MainTabBarController.swift in Sources */,
 				F44CAD801E6015A300C91A1F /* LocationsViewController.swift in Sources */,
 				F44CAD831E6015C900C91A1F /* LocationManager.swift in Sources */,

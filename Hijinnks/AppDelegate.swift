@@ -43,6 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.makeKeyAndVisible()
         let mainTabBarController = MainTabBarController()
         self.window!.rootViewController = mainTabBarController
+        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "banner.png")!.resizableImage(withCapInsets: UIEdgeInsets.zero, resizingMode: .stretch), for: .default)
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
+    
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

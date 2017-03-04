@@ -86,8 +86,8 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         
         // Check to make sure all the data entered is valide
         // Create an invitation object with all the specified data entered by the user
-        let newInvitation = Invitation(eventName: nameTextField.text!, location:  invitationLocation, details: detailsTextField.text, message: inviteMessageTextField.text, startingTime: self.startingTime, duration: durationTextField.text, invitees: nil, interests: selectedInterests as! Array<String>!, fromUser: mockUser)
-        let newInvitationParseObject = newInvitation.getParseObject()
+        let newInvitation = Invitation(eventName: nameTextField.text!, location:  invitationLocation, details: detailsTextField.text, message: inviteMessageTextField.text, startingTime: self.startingTime, duration: durationTextField.text, invitees: nil, interests: selectedInterests as! Array<String>!, fromUser: mockUser, dateInvited: Date())
+        _ = newInvitation.getParseObject()
 //        ParseManager.save(parseObject: newInvitationParseObject)
         delegate.addInvitation!(invitation: newInvitation)
         self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?.last

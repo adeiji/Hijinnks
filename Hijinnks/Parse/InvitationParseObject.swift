@@ -59,7 +59,14 @@ class InvitationParseObject : PFObject, PFSubclassing {
             self[ParseObjectColumns.StartingTime.rawValue] = newValue
         }
     }
-    
+    var dateInvited : Date! {
+        get {
+            return self[ParseObjectColumns.StartingTime.rawValue] as! Date
+        }
+        set {
+            self[ParseObjectColumns.StartingTime.rawValue] = newValue
+        }
+    }
     var duration : String! {
         get {
             return self[ParseObjectColumns.Duration.rawValue] as! String
