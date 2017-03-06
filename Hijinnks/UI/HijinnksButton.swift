@@ -11,9 +11,9 @@ import UIKit
 
 class HijinnksButton : UIButton {
     
-    var customButtonType:HijinnksButtonTypes
+    var customButtonType:HijinnksViewTypes
     
-    init(customButtonType: HijinnksButtonTypes) {
+    init(customButtonType: HijinnksViewTypes) {
         self.customButtonType = customButtonType
         super.init(frame: .zero)
     }
@@ -26,11 +26,14 @@ class HijinnksButton : UIButton {
         if customButtonType == .MapButton {
             HijinnksStyleKit.drawMapButton(frame: rect)
         }
-        else if customButtonType == .LikeButtonEmpty {
+        else if customButtonType == .LikeEmptyButton {
             HijinnksStyleKit.drawLikeButton(frame: rect)
         }
-        else if customButtonType == .LikeButtonFilled {
-            HijinnksStyleKit.drawLikeButtonFilled(frame: rect, resizing: .stretch)
+        else if customButtonType == .LikeFilledButton {
+            HijinnksStyleKit.drawLikeButtonFilled(frame: rect)
+        }
+        else if customButtonType == .HomeButton {
+            HijinnksStyleKit.drawHomeButton(frame: rect, resizing: .stretch)
         }
     }
     

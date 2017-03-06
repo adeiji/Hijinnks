@@ -11,6 +11,12 @@ import UIKit
 
 let kInterestsPlistFile = "interests"
 
+enum StringConstants : String {
+    case Hijinnks = "Hijinnks"
+    case ViewInvitations = "View Invitations"
+    case CreateInvitation = "Create Invitation"
+}
+
 enum fileType : String {
     case plist = "plist"
 }
@@ -41,6 +47,7 @@ enum Colors {
     case red
     case grey
     case invitationTextGrayColor
+    case invitationHeaderViewColor
 }
 
 extension Colors {
@@ -48,22 +55,33 @@ extension Colors {
         get {
             switch self {
             case .green:
-                return UIColor(red: 26/255, green: 188/255, blue: 156/255, alpha: 1.0)
+                return UIColor(red: 26/255, green: 188/255, blue: 156/255, alpha: 0.75)
             case .blue:
-                return UIColor(red: 52/255, green: 152/255, blue: 219/255, alpha: 1.0)
+                return UIColor(red: 52/255, green: 152/255, blue: 219/255, alpha: 0.75)
             case .red:
-                return UIColor(red: 231/255, green: 76/255, blue: 60/255, alpha: 1.0)
+                return UIColor(red: 231/255, green: 76/255, blue: 60/255, alpha: 0.75)
             case .grey:
-                return UIColor(red: 127/255, green: 140/255, blue: 141/255, alpha: 1.0)
+                return UIColor(red: 127/255, green: 140/255, blue: 141/255, alpha: 0.75)
             case .invitationTextGrayColor:
-                return UIColor(red: 68/255, green: 68/255, blue: 68/255, alpha: 1.0)
+                return UIColor(red: 68/255, green: 68/255, blue: 68/255, alpha: 0.75)
+            case .invitationHeaderViewColor:
+                return UIColor(red: 48/255, green: 62/255, blue: 146/255, alpha: 0.75)
             }
         }
     }
 }
 
-enum HijinnksButtonTypes {
+enum HijinnksViewTypes {
     case MapButton
-    case LikeButtonEmpty
-    case LikeButtonFilled
+    case LikeEmptyButton
+    case LikeFilledButton
+    case HomeButton
+    case ProfileButton
+    case SearchButton
+    case LogoView
+}
+
+enum Images : String {
+    case HouseButton = "houseButton.png"
+    case CreateInvitationButton = "plus.png"
 }

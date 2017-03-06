@@ -20,11 +20,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        setupNavigationController()
+        if isLoggedIn() {
+            setupNavigationController()
+        } else {
+            showLoginView()
+        }
+        
         initializeParse()
         GMSPlacesClient.provideAPIKey("AIzaSyBumgyof-1r1HAiXd6pY6ZUjoj1mQb5Ie4")
-        
+        configureGlobalAppearances()
         return true
+    }
+    
+    func configureGlobalAppearances () {
+        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "banner.png")!.resizableImage(withCapInsets: UIEdgeInsets.zero, resizingMode: .stretch), for: .default)
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]        
     }
     
     func initializeParse() {
@@ -36,6 +46,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Parse.initialize(with: parseConfiguration)
     }
     
+    func isLoggedIn () -> Bool {
+        if PFUser.current() == nil {
+            return false
+        }
+        
+        return true
+    }
+    
+    func showLoginView () {
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        self.window?.makeKeyAndVisible()
+        let loginViewController = DELoginViewController()
+        let navigationController = UINavigationController(rootViewController: loginViewController)
+        self.window?.rootViewController = navigationController
+    }
+    
     func setupNavigationController () {
         // Set up the Application Window and then display our initial screen for viewing invitations
         // DEBUG - For testing purposes we're using CreateInvitationViewController First
@@ -43,8 +69,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.makeKeyAndVisible()
         let mainTabBarController = MainTabBarController()
         self.window!.rootViewController = mainTabBarController
-        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "banner.png")!.resizableImage(withCapInsets: UIEdgeInsets.zero, resizingMode: .stretch), for: .default)
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
     
     }
 

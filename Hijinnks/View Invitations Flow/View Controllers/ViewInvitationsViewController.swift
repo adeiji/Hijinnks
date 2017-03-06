@@ -21,12 +21,6 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
         mockUser.username = "Adebayo Ijidakinro"
         let invitation = Invitation(eventName: "Party at the Park", location: CLLocation(), details: "We're gonna grill some dogs and have a blast", message: "We're gonna grill some dogs and have a good time", startingTime: Date(), duration: "3 hrs", invitees: nil, interests: nil, fromUser: mockUser, dateInvited: Date())
         invitations.append(invitation)
-        // Set up the UI
-        let tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
-        self.tabBarItem = tabBarItem
-        self.navigationItem.title = "Hijinnks"
-        self.navigationController?.navigationBar.tintColor = .white
-
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

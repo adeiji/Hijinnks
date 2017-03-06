@@ -40,35 +40,34 @@ class ViewInvitationsCell : UITableViewCell {
         self.autoresizingMask = .flexibleHeight
         // Set the very large sized content view so that the contentView will shrink.  There seems to be an iOS bug with it growing in size
         self.contentView.bounds = CGRect(x: 0, y: 0, width: 9999, height: 9999)
-        
+        let font = UIFont(name: "Gill Sans", size: 18)
         headerView = setHeaderView()
         profileImageView = setProfileImageView()
-        invitedDateLabel = setInvitedDateLabel()
-        fromLabel = setFromLabel()
-        fromUserLabel = setFromUserLabel()
-        timeLabel = setTimeLabel()
-        startTimeLabel = setStartTimeLabel()
-        toLabel = setToLabel()
-        toUserLabel = setToUserLabel()
-        messageLabel = setMessageLabel()
-        messageDataLabel = setMessageDataLabel()
+        invitedDateLabel = setInvitedDateLabel(font: font!)
+        fromLabel = setFromLabel(font: font!)
+        fromUserLabel = setFromUserLabel(font: font!)
+        timeLabel = setTimeLabel(font: font!)
+        startTimeLabel = setStartTimeLabel(font: font!)
+        toLabel = setToLabel(font: font!)
+        toUserLabel = setToUserLabel(font: font!)
+        messageLabel = setMessageLabel(font: font!)
+        messageDataLabel = setMessageDataLabel(font: font!)
         footerView = setFooterView()
         mapButton = setMapButton()
         likeButton = setLikeButton()
-        rsvpLabel = setRSVPLabel()
+        rsvpLabel = setRSVPLabel(font: font!)
     }
     
     // View at the top of the cell which contains the data invited and the profile picture
     func setHeaderView () -> UIView {
         let view = UIView()
-        view.layer.borderWidth = 2
-        view.layer.borderColor = UIColor.gray.cgColor
+        view.backgroundColor = Colors.invitationHeaderViewColor.value
         self.contentView.addSubview(view)
         view.snp.makeConstraints { (make) in
             make.left.equalTo(self.contentView)
             make.top.equalTo(self.contentView)
             make.right.equalTo(self.contentView)
-            make.height.equalTo(65)
+            make.height.equalTo(60)
         }
         
         return view
@@ -90,8 +89,10 @@ class ViewInvitationsCell : UITableViewCell {
     }
     
     // Display the data the user was invited
-    func setInvitedDateLabel () -> UILabel {
+    func setInvitedDateLabel (font: UIFont) -> UILabel {
         let label = UILabel()
+        label.font = font
+        label.textColor = .white
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short
@@ -105,9 +106,10 @@ class ViewInvitationsCell : UITableViewCell {
         return label
     }
     
-    func setFromLabel () -> UILabel {
+    func setFromLabel (font: UIFont) -> UILabel {
         let label = UILabel()
         label.text = "From: "
+        label.font = font
         label.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightBold)
         self.contentView.addSubview(label)
         label.snp.makeConstraints { (make) in
@@ -120,8 +122,9 @@ class ViewInvitationsCell : UITableViewCell {
     }
     
     // Display From: [PFUser]
-    func setFromUserLabel () -> UILabel {
+    func setFromUserLabel (font: UIFont) -> UILabel {
         let label = UILabel()
+        label.font = font
         label.text = invitation.fromUser.username!
         label.textColor = Colors.invitationTextGrayColor.value
         self.contentView.addSubview(label)
@@ -133,8 +136,9 @@ class ViewInvitationsCell : UITableViewCell {
         return label
     }
     // Displays the start time of the event
-    func setTimeLabel () -> UILabel {
+    func setTimeLabel (font: UIFont) -> UILabel {
         let label = UILabel()
+        label.font = font
         self.contentView.addSubview(label)
         label.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightBold)
         label.text = "Time: "
@@ -146,8 +150,9 @@ class ViewInvitationsCell : UITableViewCell {
         return label
     }
     
-    func setStartTimeLabel () -> UILabel {
+    func setStartTimeLabel (font: UIFont) -> UILabel {
         let label = UILabel()
+        label.font = font
         self.contentView.addSubview(label)
         label.text = StyledDate.getDateAsString(date: self.invitation.startingTime)
         label.textColor = Colors.invitationTextGrayColor.value
@@ -160,7 +165,7 @@ class ViewInvitationsCell : UITableViewCell {
     }
     
     // Display just the label that says To:
-    func setToLabel () -> UILabel {
+    func setToLabel (font: UIFont) -> UILabel {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightBold)
         self.contentView.addSubview(label)
@@ -174,8 +179,9 @@ class ViewInvitationsCell : UITableViewCell {
         return label
     }
     
-    func setToUserLabel () -> UILabel {
+    func setToUserLabel (font: UIFont) -> UILabel {
         let label = UILabel()
+        label.font = font
         self.contentView.addSubview(label)
         label.textColor = Colors.invitationTextGrayColor.value
         label.text = "Adebayo Ijidakinro"  // Current User Name
@@ -187,11 +193,12 @@ class ViewInvitationsCell : UITableViewCell {
         return label
     }
     
-    func setMessageLabel () -> UILabel {
+    func setMessageLabel (font: UIFont) -> UILabel {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightBold)
         self.contentView.addSubview(label)
         label.text = "Message:"
+        
         label.snp.makeConstraints { (make) in
             make.left.equalTo(toLabel)
             make.top.equalTo(toLabel.snp.bottom).offset(5)
@@ -200,8 +207,9 @@ class ViewInvitationsCell : UITableViewCell {
         return label
     }
     
-    func setMessageDataLabel () -> UILabel {
+    func setMessageDataLabel (font: UIFont) -> UILabel {
         let label = UILabel()
+        label.font = font
         self.contentView.addSubview(label)
         label.text = invitation.message
         label.textColor = Colors.invitationTextGrayColor.value
@@ -250,7 +258,7 @@ class ViewInvitationsCell : UITableViewCell {
     
     // This is the like button which is shaped as a heart that they can click on to like the invitation
     func setLikeButton () -> HijinnksButton {
-        let button = HijinnksButton(customButtonType: .LikeButtonEmpty)
+        let button = HijinnksButton(customButtonType: .LikeEmptyButton)
         button.addTarget(self, action: #selector(likeButtonPressed(likeButton:)), for: .touchUpInside)
         self.footerView.addSubview(button)
         button.snp.makeConstraints { (make) in
@@ -258,12 +266,14 @@ class ViewInvitationsCell : UITableViewCell {
             make.top.equalTo(mapButton)
             make.bottom.equalTo(mapButton)
             make.width.equalTo(button.snp.height)
-        }        
+        }
+        
         return button
     }
     
-    func setRSVPLabel () -> UILabel {
+    func setRSVPLabel (font: UIFont) -> UILabel {
         let label = UILabel()
+        label.font = font
         label.text = "112 RSVP'd"
         self.footerView.addSubview(label)
         label.snp.makeConstraints { (make) in
@@ -275,12 +285,12 @@ class ViewInvitationsCell : UITableViewCell {
     }
     
     func likeButtonPressed (likeButton: HijinnksButton) {
-        if likeButton.customButtonType == .LikeButtonEmpty {
-            likeButton.customButtonType = .LikeButtonFilled
+        if likeButton.customButtonType == .LikeEmptyButton {
+            likeButton.customButtonType = .LikeFilledButton
             likeButton.setNeedsDisplay()
         }
-        else if likeButton.customButtonType == .LikeButtonFilled {
-            likeButton.customButtonType = .LikeButtonEmpty
+        else if likeButton.customButtonType == .LikeFilledButton {
+            likeButton.customButtonType = .LikeEmptyButton
             likeButton.setNeedsDisplay()
         }
     }

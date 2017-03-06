@@ -41,12 +41,8 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 0)
-        self.tabBarItem = tabBarItem
         
         setupUI()
-        self.navigationItem.title = "Hijinnks"
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification: )), name: NSNotification.Name.UIKeyboardWillShow , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification: )), name: NSNotification.Name.UIKeyboardWillHide , object: nil)
     }
@@ -59,7 +55,6 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             if (interest as! String) != (selectedInterests.lastObject as! String) {
                 interestsString += (interest as! String) + ", "
             }
-            
             else {
                 interestsString += (interest as! String)
             }
@@ -94,7 +89,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     }
     
     
-    
+    // Place all of the UI elements on screen
     func setupUI() {
         let donebutton = UIBarButtonItem(title: "Send", style: .done, target: self, action: #selector(sendInvite))
         self.navigationItem.rightBarButtonItem = donebutton
@@ -112,7 +107,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
                                             leftConstraintOffset: 0,
                                             rightConstraintOffset: 0,
                                             verticalSpacingToRelativeViewAbove: 5,
-                                            placeholderText: "Enter the location",
+                                            placeholderText: "Leave Empty to Use Current Location",
                                             showViewController: nil,
                                             colorViewColor: Colors.blue.value)
         
@@ -212,6 +207,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         return myWrapperView
     }
     
+    // Scroll view which will basically act as our main view
     func createScrollView () -> UIScrollView {
         let myScrollView = UIScrollView()
         self.view.addSubview(myScrollView)
@@ -224,13 +220,13 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     
     func createTextField (superview: UIView, relativeViewAbove: UIView!, leftConstraintOffset: Int, rightConstraintOffset: Int, verticalSpacingToRelativeViewAbove: Int, placeholderText: String, showViewController: UIViewController!, colorViewColor: UIColor) -> UITextField {
         let textField = UITextField()
+        // The superview is the wrapper which contains all our elements within the scroll view
         superview.addSubview(textField)
         textField.textAlignment = .center
         textField.borderStyle = .none
-        textField.placeholder = placeholderText
+        textField.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [ NSForegroundColorAttributeName : UIColor.white ])
+        
         textField.textColor = colorViewColor
-        textField.layer.borderWidth = 1
-        textField.layer.borderColor = UIColor.gray.cgColor
         textField.font = UIFont.boldSystemFont(ofSize: 14)
         textField.delegate = self
     
@@ -244,7 +240,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             else {
                 make.top.equalTo(relativeViewAbove.snp.bottom).offset(verticalSpacingToRelativeViewAbove)
             }
-            make.height.equalTo(75)
+            make.height.equalTo(60)
         }
         
         return textField
@@ -263,16 +259,14 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             textField.resignFirstResponder()
             self.navigationController?.pushViewController(viewInterestsViewController, animated: true)
         }
-        textField.layer.borderColor = textField.textColor?.cgColor
     }
     // When the text field loses focuses change the color of the border back to grey
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.layer.borderColor = UIColor.gray.cgColor
     }
 }
-
+// Handle the creation, source, and delegation for the duration text field
 extension CreateInvitationViewController : UIPickerViewDataSource, UIPickerViewDelegate {
-
     func setupDurationTextFieldInputView () {
         var durationOptions:Array<String> = Array<String>()
         for counter in 1...20 {

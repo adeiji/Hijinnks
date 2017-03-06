@@ -9,18 +9,22 @@
 import Foundation
 import UIKit
 
-public class CustomHijinnksView : UIView {
+class CustomHijinnksView : UIView {
     
-    let hijinnksTextLogo = 1
-    let orViewTag = 2
+    var customViewType:HijinnksViewTypes
+    
+    init(customViewType: HijinnksViewTypes) {
+        self.customViewType = customViewType
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override public func draw(_ rect: CGRect) {
-    
-        if self.tag == hijinnksTextLogo {
-            HijinnksStyleKit.drawTextLogo()
-        }
-        else if self.tag == orViewTag {
-            HijinnksStyleKit.drawOrView(frame: rect)
+        if customViewType == .LogoView {
+            HijinnksStyleKit.drawLogo(frame: rect)
         }
     }
 }

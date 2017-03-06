@@ -14,6 +14,15 @@
 		F40110C31E6B4460004124DA /* DescriptionAndCreditsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40110C21E6B4460004124DA /* DescriptionAndCreditsViewController.swift */; };
 		F40110C61E6B4834004124DA /* HijinnksButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40110C51E6B4834004124DA /* HijinnksButton.swift */; };
 		F40110C81E6B596A004124DA /* banner.png in Resources */ = {isa = PBXBuildFile; fileRef = F40110C71E6B596A004124DA /* banner.png */; };
+		F40110CA1E6B8205004124DA /* houseButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F40110C91E6B8205004124DA /* houseButton.png */; };
+		F40110CC1E6B8B71004124DA /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = F40110CB1E6B8B71004124DA /* plus.png */; };
+		F40110CE1E6B907C004124DA /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = F40110CD1E6B907C004124DA /* search.png */; };
+		F40110D81E6DCB6F004124DA /* DEAddProfileImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40110D21E6DCB6F004124DA /* DEAddProfileImageViewController.swift */; };
+		F40110D91E6DCB6F004124DA /* DECreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40110D31E6DCB6F004124DA /* DECreateAccountView.swift */; };
+		F40110DA1E6DCB6F004124DA /* DELoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40110D41E6DCB6F004124DA /* DELoginView.swift */; };
+		F40110DB1E6DCB6F004124DA /* DELoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40110D51E6DCB6F004124DA /* DELoginViewController.swift */; };
+		F40110DC1E6DCB6F004124DA /* DESettingsAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40110D61E6DCB6F004124DA /* DESettingsAccount.swift */; };
+		F40110DD1E6DCB6F004124DA /* DEUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40110D71E6DCB6F004124DA /* DEUserManager.swift */; };
 		F40A11EB1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40A11EA1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift */; };
 		F40A11ED1E60B1DB00DAD619 /* SelectFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40A11EC1E60B1DB00DAD619 /* SelectFriendsViewController.swift */; };
 		F42ECC901E60DA62007B5B55 /* ParseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42ECC8F1E60DA62007B5B55 /* ParseManager.swift */; };
@@ -74,6 +83,15 @@
 		F40110C21E6B4460004124DA /* DescriptionAndCreditsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DescriptionAndCreditsViewController.swift; path = "Settings and Profile/DescriptionAndCreditsViewController.swift"; sourceTree = "<group>"; };
 		F40110C51E6B4834004124DA /* HijinnksButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HijinnksButton.swift; path = UI/HijinnksButton.swift; sourceTree = "<group>"; };
 		F40110C71E6B596A004124DA /* banner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = banner.png; path = ../../UI/banner.png; sourceTree = "<group>"; };
+		F40110C91E6B8205004124DA /* houseButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = houseButton.png; path = ../../UI/houseButton.png; sourceTree = "<group>"; };
+		F40110CB1E6B8B71004124DA /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = plus.png; path = ../../UI/plus.png; sourceTree = "<group>"; };
+		F40110CD1E6B907C004124DA /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = search.png; path = ../../UI/search.png; sourceTree = "<group>"; };
+		F40110D21E6DCB6F004124DA /* DEAddProfileImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DEAddProfileImageViewController.swift; path = ../../../Archive_swift3/DEAddProfileImageViewController.swift; sourceTree = "<group>"; };
+		F40110D31E6DCB6F004124DA /* DECreateAccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DECreateAccountView.swift; path = ../../../Archive_swift3/DECreateAccountView.swift; sourceTree = "<group>"; };
+		F40110D41E6DCB6F004124DA /* DELoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DELoginView.swift; path = ../../../Archive_swift3/DELoginView.swift; sourceTree = "<group>"; };
+		F40110D51E6DCB6F004124DA /* DELoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DELoginViewController.swift; path = ../../../Archive_swift3/DELoginViewController.swift; sourceTree = "<group>"; };
+		F40110D61E6DCB6F004124DA /* DESettingsAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DESettingsAccount.swift; path = ../../../Archive_swift3/DESettingsAccount.swift; sourceTree = "<group>"; };
+		F40110D71E6DCB6F004124DA /* DEUserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DEUserManager.swift; path = ../../../Archive_swift3/DEUserManager.swift; sourceTree = "<group>"; };
 		F40A11EA1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateInvitationViewController+ScrollOnKeyboardShow.swift"; path = "Create Invitations Flow/View Controllers/CreateInvitationViewController+ScrollOnKeyboardShow.swift"; sourceTree = "<group>"; };
 		F40A11EC1E60B1DB00DAD619 /* SelectFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectFriendsViewController.swift; path = "Create Invitations Flow/View Controllers/SelectFriendsViewController.swift"; sourceTree = "<group>"; };
 		F42ECC8F1E60DA62007B5B55 /* ParseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseManager.swift; path = Managers/ParseManager.swift; sourceTree = "<group>"; };
@@ -177,6 +195,19 @@
 			name = "Settings and Profile";
 			sourceTree = "<group>";
 		};
+		F40110CF1E6DC730004124DA /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				F40110D21E6DCB6F004124DA /* DEAddProfileImageViewController.swift */,
+				F40110D31E6DCB6F004124DA /* DECreateAccountView.swift */,
+				F40110D41E6DCB6F004124DA /* DELoginView.swift */,
+				F40110D51E6DCB6F004124DA /* DELoginViewController.swift */,
+				F40110D61E6DCB6F004124DA /* DESettingsAccount.swift */,
+				F40110D71E6DCB6F004124DA /* DEUserManager.swift */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
 		F42ECC911E60DA88007B5B55 /* Parse */ = {
 			isa = PBXGroup;
 			children = (
@@ -278,6 +309,9 @@
 		F4A0D1B91E5A453A00C6CDFE /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F40110CD1E6B907C004124DA /* search.png */,
+				F40110CB1E6B8B71004124DA /* plus.png */,
+				F40110C91E6B8205004124DA /* houseButton.png */,
 				F40110C71E6B596A004124DA /* banner.png */,
 				F4A0D1BA1E5A454500C6CDFE /* textLogo.png */,
 			);
@@ -309,6 +343,7 @@
 		F4E0D8561E5A09E500FFEEB8 /* Hijinnks */ = {
 			isa = PBXGroup;
 			children = (
+				F40110CF1E6DC730004124DA /* Login */,
 				F40110BF1E6B4400004124DA /* Settings and Profile */,
 				F40110BC1E6B4057004124DA /* UIKit Extensions */,
 				F452F5151E6A438700616BB3 /* Main Tab Bar Controller */,
@@ -490,7 +525,10 @@
 				F4E0D8651E5A09E500FFEEB8 /* LaunchScreen.storyboard in Resources */,
 				F4A0D1BB1E5A454500C6CDFE /* textLogo.png in Resources */,
 				F44CAD7A1E5F95F300C91A1F /* interests.plist in Resources */,
+				F40110CE1E6B907C004124DA /* search.png in Resources */,
 				F4E0D8621E5A09E500FFEEB8 /* Assets.xcassets in Resources */,
+				F40110CA1E6B8205004124DA /* houseButton.png in Resources */,
+				F40110CC1E6B8B71004124DA /* plus.png in Resources */,
 				F40110C81E6B596A004124DA /* banner.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -669,13 +707,19 @@
 				F4E0D8601E5A09E500FFEEB8 /* Hijinnks.xcdatamodeld in Sources */,
 				F4E0D85A1E5A09E500FFEEB8 /* ViewController.swift in Sources */,
 				F4E0D8581E5A09E500FFEEB8 /* AppDelegate.swift in Sources */,
+				F40110D81E6DCB6F004124DA /* DEAddProfileImageViewController.swift in Sources */,
+				F40110DA1E6DCB6F004124DA /* DELoginView.swift in Sources */,
 				F4A0D1B51E5A427800C6CDFE /* HijinnksStyleKit.swift in Sources */,
 				F4A0D1B71E5A447E00C6CDFE /* CustomHijinnksImageView.swift in Sources */,
+				F40110DB1E6DCB6F004124DA /* DELoginViewController.swift in Sources */,
 				F452F5141E6A3C5900616BB3 /* ViewInvitationsCell.swift in Sources */,
+				F40110D91E6DCB6F004124DA /* DECreateAccountView.swift in Sources */,
 				F44CAD731E5F695F00C91A1F /* CreateInvitationViewController.swift in Sources */,
 				F40110BE1E6B407E004124DA /* UIColorExtensions.swift in Sources */,
 				F452F5171E6A43AA00616BB3 /* MainTabBarController.swift in Sources */,
+				F40110DD1E6DCB6F004124DA /* DEUserManager.swift in Sources */,
 				F44CAD801E6015A300C91A1F /* LocationsViewController.swift in Sources */,
+				F40110DC1E6DCB6F004124DA /* DESettingsAccount.swift in Sources */,
 				F44CAD831E6015C900C91A1F /* LocationManager.swift in Sources */,
 				F42ECC951E60DBD6007B5B55 /* Invitation.swift in Sources */,
 			);

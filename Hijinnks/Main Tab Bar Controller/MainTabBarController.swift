@@ -13,17 +13,41 @@ class MainTabBarController : UITabBarController {
     
     override func viewDidLoad() {
         let viewInvitationsViewController = ViewInvitationsViewController()
-        let createInvitationViewController = CreateInvitationViewController()
+        viewInvitationsViewController.navigationItem.title = StringConstants.Hijinnks.rawValue
+        let createInvitationViewController = getCreateInvitationViewController(viewInvitationsViewController: viewInvitationsViewController)
         
+        var viewControllers:[UIViewController] = [UIViewController]()
+        viewControllers.append(createInvitationViewController)
+        viewControllers.append(getViewInvitationsViewController(viewInvitationsViewController: viewInvitationsViewController))
+        self.viewControllers = viewControllers
+        self.tabBar.tintColor = .gray
+        self.selectedViewController = self.viewControllers?.last
+    }
+    
+    func getViewInvitationsViewController (viewInvitationsViewController : ViewInvitationsViewController) -> UINavigationController {
+        let viewInvitationsNavigationController = UINavigationController(rootViewController: viewInvitationsViewController)
+        // Set up the UI
+        let tabBarItem = UITabBarItem()
+        tabBarItem.image = UIImage(named: Images.HouseButton.rawValue)?.withRenderingMode(.alwaysOriginal)
+        tabBarItem.title = StringConstants.ViewInvitations.rawValue
+        self.tabBarItem = tabBarItem
+        viewInvitationsViewController.tabBarItem = tabBarItem
+        
+        return viewInvitationsNavigationController
+        
+    }
+
+    func getCreateInvitationViewController (viewInvitationsViewController : ViewInvitationsViewController) -> UINavigationController {
+        let createInvitationViewController = CreateInvitationViewController()
+        createInvitationViewController.navigationItem.title = StringConstants.Hijinnks.rawValue
+        let createInvitationViewControllerTabBarItem = UITabBarItem()
+        createInvitationViewControllerTabBarItem.image = UIImage(named: Images.CreateInvitationButton.rawValue)?.withRenderingMode(.alwaysOriginal)
+        createInvitationViewControllerTabBarItem.title = StringConstants.CreateInvitation.rawValue
+        createInvitationViewController.tabBarItem = createInvitationViewControllerTabBarItem
         // Set the delegate to the create invitation view controller to the view invitations view controller so that when new invitations are added they will automatically be added on the view invitations view controller
         createInvitationViewController.delegate = viewInvitationsViewController
-        let viewInvitationsNavigationController = UINavigationController(rootViewController: viewInvitationsViewController)
         let createInvitationNavigationController = UINavigationController(rootViewController: createInvitationViewController)
-        var viewControllers:[UIViewController] = [UIViewController]()        
-        viewControllers.append(createInvitationNavigationController)
-        viewControllers.append(viewInvitationsNavigationController)
-        self.viewControllers = viewControllers
-        self.selectedViewController = self.viewControllers?.last
+        return createInvitationNavigationController
     }
     
 }
