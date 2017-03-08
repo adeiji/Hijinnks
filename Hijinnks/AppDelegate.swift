@@ -33,8 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func configureGlobalAppearances () {
-        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "banner.png")!.resizableImage(withCapInsets: UIEdgeInsets.zero, resizingMode: .stretch), for: .default)
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]        
+        
+        
     }
     
     func initializeParse() {
@@ -58,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.makeKeyAndVisible()
         let loginViewController = DELoginViewController()
+        loginViewController.navigationItem.title = "Hijiinks"
         let navigationController = UINavigationController(rootViewController: loginViewController)
         self.window?.rootViewController = navigationController
     }

@@ -36,5 +36,4 @@ class HijinnksButton : UIButton {
             HijinnksStyleKit.drawHomeButton(frame: rect, resizing: .stretch)
         }
     }
-    
 }

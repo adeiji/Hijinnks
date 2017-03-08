@@ -13,36 +13,62 @@ class DELoginView: UIView {
     weak var logoView:CustomHijinnksView!
     weak var txtUsernameOrEmail: UITextField!
     weak var txtPassword: UITextField!
+    weak var signInButton: UIButton!
+    weak var signUpButton: UIButton!
     var nextScreen: UIViewController!
     weak var errorLabel: UILabel!
 
 
-    @IBAction func connect(withFacebook sender: Any) {
+    func connect(withFacebook sender: Any) {
+        
     }
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    
+    required init() {
+        super.init(frame: .zero)
+        self.backgroundColor = .white
         setupUI()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func setupUI () {
         logoView = setLogoView()
         txtUsernameOrEmail = setupTextField(placeholder: "Username or Email", textFieldAbove : nil)
         txtPassword = setupTextField(placeholder: "Password", textFieldAbove: txtUsernameOrEmail)
+        signInButton = setupSignInButton(title: "SIGN IN", viewObjectAbove: txtPassword)
+        signInButton = setupSignInButton(title: "SIGN UP", viewObjectAbove: signInButton)
+    }
+    
+    // Display a sign in button below the password text field
+    func setupSignInButton (title: String, viewObjectAbove: UIView!) -> UIButton {
+        let button = UIButton()
+        button.setTitle(title, for: .normal)
+        button.layer.borderColor = UIColor.gray.cgColor
+        button.layer.borderWidth = 1
+        button.setTitleColor(.gray, for: .normal)
+        self.addSubview(button)
+        button.snp.makeConstraints { (make) in
+            make.top.equalTo(viewObjectAbove.snp.bottom).offset(20)
+            make.width.equalTo(225)
+            make.centerX.equalTo(self)
+            make.height.equalTo(40)
+        }
+        
+        return button
     }
     
     func setLogoView () -> CustomHijinnksView {
         let view = CustomHijinnksView(customViewType: .LogoView)
+        view.backgroundColor = .white
         self.addSubview(view)
+        
         view.snp.makeConstraints { (make) in
-            make.top.equalTo(self).offset(50)
+            make.top.equalTo(self).offset(90)
+            make.height.equalTo(40)
+            make.width.equalTo(160)
             make.centerX.equalTo(self)
-            make.height.equalTo(150)
-            make.width.equalTo(view.snp.height)
         }
         
         return view
@@ -51,7 +77,7 @@ class DELoginView: UIView {
     func setupTextField (placeholder: String, textFieldAbove : UITextField!) -> UITextField {
         let textField = UITextField()
         textField.placeholder = placeholder
-        textField.layer.borderWidth = 2
+        textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.gray.cgColor
         
         self.addSubview(textField)
@@ -61,11 +87,11 @@ class DELoginView: UIView {
                 make.top.equalTo(logoView.snp.bottom).offset(50)
             }
             else {
-                make.top.equalTo(textFieldAbove.snp.bottom).offset(25)
+                make.top.equalTo(textFieldAbove.snp.bottom).offset(20)
             }
             make.left.equalTo(self).offset(45)
-            make.right.equalTo(self).offset(45)
-            make.height.equalTo(35)
+            make.right.equalTo(self).offset(-45)
+            make.height.equalTo(45)
         }
         
         return textField

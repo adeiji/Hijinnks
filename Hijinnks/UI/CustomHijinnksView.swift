@@ -24,7 +24,7 @@ class CustomHijinnksView : UIView {
     
     override public func draw(_ rect: CGRect) {
         if customViewType == .LogoView {
-            HijinnksStyleKit.drawLogo(frame: rect)
+            HijinnksStyleKit.drawLogoWithText(frame: rect)
         }
     }
 }
