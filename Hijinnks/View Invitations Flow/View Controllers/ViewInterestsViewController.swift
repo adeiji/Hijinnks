@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Parse
 
 @objc protocol PassDataBetweenViewControllersProtocol {
     @objc optional func setSelectedInterests(mySelectedInterest: NSArray)
@@ -15,7 +16,8 @@ import UIKit
     @objc optional func setSelectedFriendsToEveryone ()
     @objc optional func setSelectedFriendsToAnyone ()
     @objc optional func addInvitation (invitation: Invitation)
-    
+    @objc optional func loggedIn ()
+    @objc optional func loadInvitations (invitations: [InvitationParseObject])
 }
 
 class ViewInterestsViewController : UITableViewController   {

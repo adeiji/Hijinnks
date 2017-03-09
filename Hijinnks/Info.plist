@@ -2,6 +2,27 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Using your location will allow you to get all invitations from your current area</string>
+	<key>NSLocationUsageDescription</key>
+	<string>We use your location in order to retrieve invitations that are near you and allow you to post using your location.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We use your location in order to retrieve invitations that are near you and allow you to post using your location.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>http://hijinnks.herokuapp.com</key>
+			<dict>
+				<key>NSIncludeSubdomains</key>
+				<string></string>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<string></string>
+				<key>NSTemporaryExceptionMinimumTLSVersion</key>
+				<string></string>
+			</dict>
+		</dict>
+	</dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -29,8 +50,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 </dict>
 </plist>

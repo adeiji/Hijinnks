@@ -39,6 +39,9 @@ enum ParseObjectColumns : String {
     case Duration = "duration"
     case Invitees = "invitees"
     case Interests = "interests"
+    case Friends = "friends"
+    case FromUser = "fromUser"
+    case Address = "address"
 }
 
 enum Colors {

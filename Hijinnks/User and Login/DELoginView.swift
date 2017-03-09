@@ -17,8 +17,7 @@ class DELoginView: UIView {
     weak var signUpButton: UIButton!
     var nextScreen: UIViewController!
     weak var errorLabel: UILabel!
-
-
+    
     func connect(withFacebook sender: Any) {
         
     }
@@ -37,8 +36,10 @@ class DELoginView: UIView {
         logoView = setLogoView()
         txtUsernameOrEmail = setupTextField(placeholder: "Username or Email", textFieldAbove : nil)
         txtPassword = setupTextField(placeholder: "Password", textFieldAbove: txtUsernameOrEmail)
-        signInButton = setupSignInButton(title: "SIGN IN", viewObjectAbove: txtPassword)
-        signInButton = setupSignInButton(title: "SIGN UP", viewObjectAbove: signInButton)
+        txtPassword.isSecureTextEntry = true
+        errorLabel = setupErrorLabel()
+        signInButton = setupSignInButton(title: "SIGN IN", viewObjectAbove: errorLabel)
+        signUpButton = setupSignInButton(title: "SIGN UP", viewObjectAbove: signInButton)
     }
     
     // Display a sign in button below the password text field
@@ -48,6 +49,7 @@ class DELoginView: UIView {
         button.layer.borderColor = UIColor.gray.cgColor
         button.layer.borderWidth = 1
         button.setTitleColor(.gray, for: .normal)
+        
         self.addSubview(button)
         button.snp.makeConstraints { (make) in
             make.top.equalTo(viewObjectAbove.snp.bottom).offset(20)
@@ -96,6 +98,19 @@ class DELoginView: UIView {
         
         return textField
     }
+    
+    func setupErrorLabel () -> UILabel {
+        let label = UILabel()
+        self.addSubview(label)
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.snp.makeConstraints { (make) in
+            make.centerX.equalTo(txtPassword)
+            make.top.equalTo(txtPassword.snp.bottom).offset(20)
+            make.width.equalTo(txtPassword)
+        }
+        
+        return label
+    }
 
     func removeFirstResponder() {
         // When the user taps the image, resign the first responder
@@ -103,8 +118,19 @@ class DELoginView: UIView {
         self.txtUsernameOrEmail.resignFirstResponder()
     }
 
-
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.removeFirstResponder()   
+    }
+}
+
+// Button Methods
+extension DELoginView {
+    
+    func signUpButtonPressed () {
+        DEUserManager.sharedManager.createUser(withUserName: txtUsernameOrEmail.text!, password: txtPassword.text!, email: txtUsernameOrEmail.text!, errorLabel: errorLabel)
+    }
+    
+    func signInButtonPressed () {
+        
     }
 }

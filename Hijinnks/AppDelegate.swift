@@ -15,23 +15,31 @@ import Parse
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var locationManager:LocationManager!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        initializeParse()
+        GMSPlacesClient.provideAPIKey("AIzaSyBumgyof-1r1HAiXd6pY6ZUjoj1mQb5Ie4")
+        configureGlobalAppearances()
+        startLocationServices()
+        
+        // Check if the user is logged in.  If he isn't than show the LoginViewController, otherwise show the ViewInvitationsViewController
         if isLoggedIn() {
             setupNavigationController()
         } else {
             showLoginView()
         }
-        
-        initializeParse()
-        GMSPlacesClient.provideAPIKey("AIzaSyBumgyof-1r1HAiXd6pY6ZUjoj1mQb5Ie4")
-        configureGlobalAppearances()
         return true
     }
     
+    func startLocationServices () {
+        locationManager = LocationManager()
+        locationManager.startStandardUpdates()
+    }
+    
+    // Setup the views for the entire application.  For ex: UINavigationBar color, UITextField text
     func configureGlobalAppearances () {
         
         
@@ -40,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func initializeParse() {
         let parseConfiguration = ParseClientConfiguration { (ParseMutableClientConfiguration) in
             ParseMutableClientConfiguration.applicationId = "com.hijinnks.dephyned"
-            ParseMutableClientConfiguration.server = "http://hijinnks.herokuapp.com/parse"
+            ParseMutableClientConfiguration.server = "https://hijinnks.herokuapp.com/parse"
         }
         
         Parse.initialize(with: parseConfiguration)

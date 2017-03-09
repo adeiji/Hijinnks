@@ -21,4 +21,16 @@ class ParseManager {
         }
     }
     
+    // Get all the invitations that are near a specific location
+    class func getAllInvitationsNearLocation () -> [InvitationParseObject]! {
+        let query = InvitationParseObject.query()
+        do {
+            let invitations = try query?.findObjects()
+            return invitations as! [InvitationParseObject]
+        }
+        catch {
+            print(error.localizedDescription)
+        }
+        return nil
+    }
 }

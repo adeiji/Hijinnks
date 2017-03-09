@@ -61,13 +61,14 @@ class ViewInvitationsCell : UITableViewCell {
     // View at the top of the cell which contains the data invited and the profile picture
     func setHeaderView () -> UIView {
         let view = UIView()
-        view.backgroundColor = Colors.invitationHeaderViewColor.value
         self.contentView.addSubview(view)
+        view.layer.borderWidth = 1
+        view.layer.borderColor = Colors.invitationTextGrayColor.value.cgColor
         view.snp.makeConstraints { (make) in
             make.left.equalTo(self.contentView)
             make.top.equalTo(self.contentView)
             make.right.equalTo(self.contentView)
-            make.height.equalTo(60)
+            make.height.equalTo(50)
         }
         
         return view
@@ -92,7 +93,7 @@ class ViewInvitationsCell : UITableViewCell {
     func setInvitedDateLabel (font: UIFont) -> UILabel {
         let label = UILabel()
         label.font = font
-        label.textColor = .white
+        label.textColor = Colors.invitationTextGrayColor.value
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short
@@ -230,8 +231,8 @@ class ViewInvitationsCell : UITableViewCell {
     // View at the bottom that contains the map, like and rsvp buttons
     func setFooterView () -> UIView {
         let view = UIView()
-        view.layer.borderWidth = 2
-        view.layer.borderColor = UIColor.gray.cgColor
+        view.layer.borderWidth = 1
+        view.layer.borderColor = Colors.invitationTextGrayColor.value.cgColor
         self.contentView.addSubview(view)
         view.snp.makeConstraints { (make) in
             make.left.equalTo(self.contentView)

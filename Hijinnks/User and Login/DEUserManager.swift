@@ -17,6 +17,7 @@ class DEUserManager: NSObject {
     let PARSE_CLASS_USER_CANONICAL_USERNAME = "canonical_username"
     let USER_RANK_STANDARD = "standard"
     let PARSE_CLASS_USER_PROFILE_PICTURE = "profile_picture"
+    var delegate:PassDataBetweenViewControllersProtocol!
     
     func createUser(withUserName userName: String, password: String, email: String, errorLabel label: UILabel) {
         self.user = PFUser()
@@ -33,14 +34,14 @@ class DEUserManager: NSObject {
             }
             else {
                 label.isHidden = false
-                label.text = error.debugDescription
+                label.text = error?.localizedDescription
             }
             
         })
         
     }
 
-    func login(username: String, password: String, viewController: UIViewController, errorLabel label: UILabel) -> Error? {
+    func login(username: String, password: String, viewController: UIViewController, errorLabel: UILabel) -> Error? {
         let lowercaseUsername = username.lowercased()
         var blockUsername: String = username
             // Get the user corresponding to an email and then use that username to login
@@ -55,16 +56,18 @@ class DEUserManager: NSObject {
                     // Clear user image defaults
                     self.clearUserImageDefaults()
                     _ = self.isLoggedIn()
-                    // Get all the users friends
-                    for friend in self.user.object(forKey: "friends") as! [PFObject] {
-                        friend.fetchIfNeededInBackground()
+                    
+                    // Get all the users friends if they have any
+                    if self.user.object(forKey:ParseObjectColumns.Friends.rawValue) != nil {
+                        for friend in self.user.object(forKey: ParseObjectColumns.Friends.rawValue) as! [PFObject] {
+                            friend.fetchIfNeededInBackground()
+                        }
                     }
                 }
                 else {
-                    _ = self.usernameExist(blockUsername.lowercased(), errorLabel: label)
+                    _ = self.usernameExist(blockUsername.lowercased(), errorLabel: errorLabel)
                 }
             })
-            
         })
         return nil
     }

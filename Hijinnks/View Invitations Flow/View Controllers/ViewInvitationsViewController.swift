@@ -13,23 +13,38 @@ import Parse
 // This is basically the home screen.  When the user opens the app they will be able to view all invitations from this page
 class ViewInvitationsViewController : UITableViewController, PassDataBetweenViewControllersProtocol {
     
-    var invitations:[Invitation]!
+    let parseQueue = DispatchQueue(label: "com.parse.handler")
+    var invitations:[Invitation] = [Invitation]()
     
     override func viewDidLoad() {
-        invitations = [Invitation]()
-        let mockUser = PFUser()
-        mockUser.username = "Adebayo Ijidakinro"
-        let invitation = Invitation(eventName: "Party at the Park", location: CLLocation(), details: "We're gonna grill some dogs and have a blast", message: "We're gonna grill some dogs and have a good time", startingTime: Date(), duration: "3 hrs", invitees: nil, interests: nil, fromUser: mockUser, dateInvited: Date())
-        invitations.append(invitation)
+        // Add the activity spinner
+        // Hide the TableView so that there is nothing on the pages as the information is downloaded from the server
+        self.tableView.isHidden = true
+        parseQueue.async {
+            let invitationParseObjects = ParseManager.getAllInvitationsNearLocation()
+            for invitationParseObject in invitationParseObjects! {
+                do {
+                    try invitationParseObject.fromUser.fetchIfNeeded()
+                }
+                catch {
+                    print(error.localizedDescription)
+                    // Display to user that there was an error getting the data
+                }
+                let invitation = invitationParseObject.getInvitation()
+                self.invitations.append(invitation)
+            }
+            DispatchQueue.main.async(execute: { 
+                self.tableView.reloadData()
+                self.tableView.isHidden = false
+            });
+        }
+        
+        // Remove the activity spinner
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // This can happen if there are no invitations for the user or any in the area
-        if (invitations != nil) {
-            return invitations.count
-        }
-        
-        return 0
+        return invitations.count
     }
 
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -40,7 +55,7 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
         let viewInvitationCell = ViewInvitationsCell(invitation: invitation)
         viewInvitationCell.contentView.layoutIfNeeded()
         let size = viewInvitationCell.contentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
-        return size.height + 1
+        return size.height
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -53,5 +68,4 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
         invitations.append(invitation)
         self.tableView.reloadData()
     }
-    
 }

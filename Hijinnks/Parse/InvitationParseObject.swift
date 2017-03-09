@@ -33,12 +33,12 @@ class InvitationParseObject : PFObject, PFSubclassing {
         }
     }
     
-    var details : String {
+    var address : String {
         get {
-            return self[ParseObjectColumns.Details.rawValue] as! String
+            return self[ParseObjectColumns.Address.rawValue] as! String
         }
         set {
-            self[ParseObjectColumns.Details.rawValue] = newValue
+            self[ParseObjectColumns.Address.rawValue] = newValue
         }
     }
     
@@ -95,11 +95,17 @@ class InvitationParseObject : PFObject, PFSubclassing {
     }
     var fromUser : PFUser {
         get {
-            return self[ParseObjectColumns.Interests.rawValue] as! PFUser
+            return self[ParseObjectColumns.FromUser.rawValue] as! PFUser
         }
         set {
-            self[ParseObjectColumns.Interests.rawValue] = newValue
+            self[ParseObjectColumns.FromUser.rawValue] = newValue
         }
     }
-    
+    // Gets a NSObject instance of this PFObject
+    func getInvitation () -> Invitation {        
+        let location = CLLocation(latitude: self.location.latitude, longitude: self.location.longitude)
+        let invitation = Invitation(eventName: self.eventName, location: location, address:nil, message: self.message, startingTime: self.startingTime, duration: self.duration, invitees: self.invitees, interests: self.interests, fromUser: self.fromUser, dateInvited: self.dateInvited)
+        
+        return invitation
+    }
 }
