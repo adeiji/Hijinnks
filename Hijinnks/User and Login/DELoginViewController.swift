@@ -41,8 +41,9 @@ class DELoginViewController: UIViewController {
         }
         else {  // Prompting for them to login right at start up
             self.loginView = DELoginView()
-            self.view.addSubview(loginView)
+            self.view.addSubview(self.loginView)
             self.loginView.signInButton.addTarget(self, action: #selector(signInButtonPressed), for: .touchUpInside)
+            self.loginView.signUpButton.addTarget(self, action: #selector(signUpButtonPressed), for: .touchUpInside)
             loginView.snp.makeConstraints({ (make) in
                 make.edges.equalTo(self.view)
             })
@@ -51,6 +52,11 @@ class DELoginViewController: UIViewController {
 //        self.setUpCreateAccountView()
         
 //        PFUser.logOutInBackground()
+    }
+    
+    func signUpButtonPressed () {
+        let createAccountViewController = CreateAccountViewController()
+        self.navigationController?.pushViewController(createAccountViewController, animated: true)
     }
     
     func signInButtonPressed () {
@@ -83,10 +89,6 @@ class DELoginViewController: UIViewController {
     let VIEW_RESTAURANTS_VIEW_CONTROLLER: String = "ViewRestaurantsViewController"
     let VIEW_RESTAURANTS_STORYBOARD: String = "ViewRestaurants"
 
-    func setupUI () {
-        
-    }
-
     func setUpCreateAccountView() {
         if (self.view is DECreateAccountView) {
             let view: DECreateAccountView? = (self.view as? DECreateAccountView)
@@ -101,21 +103,8 @@ class DELoginViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    // MARK: - Button Press Methods
-    // MARK: - Button Methods
-    func signUp(_ sender: Any) {
-        let view: DECreateAccountView? = (self.view as? DECreateAccountView)
-        view?.setUpValidators()
-        // Check to see if the data entered was correc first
-        _ = DEUserManager.sharedManager.createUser(withUserName: (view?.txtUsername?.text)!, password: (view?.txtPassword?.text)!, email: (view?.txtEmail?.text)!, errorLabel: (view?.lblUsernameError)!)
-    }
 
     @IBAction func login(withFacebook sender: Any) {
         _ = DEUserManager.sharedManager.loginWithFacebook()
-    }
-    
-    func signUpButtonPressed () {
-        
     }
 }

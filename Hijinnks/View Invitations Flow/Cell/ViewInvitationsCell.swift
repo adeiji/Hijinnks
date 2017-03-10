@@ -26,6 +26,8 @@ class ViewInvitationsCell : UITableViewCell {
     weak var mapButton:HijinnksButton!
     weak var likeButton:HijinnksButton!
     weak var rsvpLabel:UILabel!
+    weak var addressDataLabel:UILabel!
+    weak var addressLabel:UILabel!
     var invitation:Invitation
     
     required init(invitation: Invitation) {
@@ -40,22 +42,52 @@ class ViewInvitationsCell : UITableViewCell {
         self.autoresizingMask = .flexibleHeight
         // Set the very large sized content view so that the contentView will shrink.  There seems to be an iOS bug with it growing in size
         self.contentView.bounds = CGRect(x: 0, y: 0, width: 9999, height: 9999)
-        let font = UIFont(name: "Gill Sans", size: 18)
+        let font = UIFont.systemFont(ofSize: 16)
         headerView = setHeaderView()
         profileImageView = setProfileImageView()
-        invitedDateLabel = setInvitedDateLabel(font: font!)
-        fromLabel = setFromLabel(font: font!)
-        fromUserLabel = setFromUserLabel(font: font!)
-        timeLabel = setTimeLabel(font: font!)
-        startTimeLabel = setStartTimeLabel(font: font!)
-        toLabel = setToLabel(font: font!)
-        toUserLabel = setToUserLabel(font: font!)
-        messageLabel = setMessageLabel(font: font!)
-        messageDataLabel = setMessageDataLabel(font: font!)
+        invitedDateLabel = setInvitedDateLabel(font: font)
+        fromLabel = setFromLabel(font: font)
+        fromUserLabel = setFromUserLabel(font: font)
+        
+        addressLabel = setAddressLabel()
+        addressDataLabel = setLocationLabel()
+
+        timeLabel = setTimeLabel(font: font)
+        startTimeLabel = setStartTimeLabel(font: font)
+        toLabel = setToLabel(font: font)
+        toUserLabel = setToUserLabel(font: font)
+        messageLabel = setMessageLabel(font: font)
+        messageDataLabel = setMessageDataLabel(font: font)
         footerView = setFooterView()
         mapButton = setMapButton()
         likeButton = setLikeButton()
-        rsvpLabel = setRSVPLabel(font: font!)
+        rsvpLabel = setRSVPLabel(font: font)
+    }
+    
+    func setAddressLabel () -> UILabel {
+        
+        let label = UILabel()
+        label.text = "Location:"
+        self.contentView.addSubview(label)
+        label.snp.makeConstraints { (make) in
+            make.left.equalTo(self.contentView).offset(20)
+            make.top.equalTo(fromLabel.snp.bottom).offset(10)
+        }
+        
+        return label
+        
+    }
+    func setLocationLabel () -> UILabel {
+        let label = UILabel()
+        label.text = invitation.address
+        label.numberOfLines = 0
+        self.contentView.addSubview(label)
+        label.snp.makeConstraints { (make) in
+            make.left.equalTo(fromUserLabel)
+            make.right.equalTo(self.contentView).offset(-25)
+            make.top.equalTo(addressLabel)
+        }
+        return label
     }
     
     // View at the top of the cell which contains the data invited and the profile picture
@@ -65,9 +97,9 @@ class ViewInvitationsCell : UITableViewCell {
         view.layer.borderWidth = 1
         view.layer.borderColor = Colors.invitationTextGrayColor.value.cgColor
         view.snp.makeConstraints { (make) in
-            make.left.equalTo(self.contentView)
+            make.left.equalTo(self.contentView).offset(-1)
             make.top.equalTo(self.contentView)
-            make.right.equalTo(self.contentView)
+            make.right.equalTo(self.contentView).offset(1)
             make.height.equalTo(50)
         }
         
@@ -111,7 +143,6 @@ class ViewInvitationsCell : UITableViewCell {
         let label = UILabel()
         label.text = "From: "
         label.font = font
-        label.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightBold)
         self.contentView.addSubview(label)
         label.snp.makeConstraints { (make) in
             make.left.equalTo(self.contentView).offset(20)
@@ -130,7 +161,7 @@ class ViewInvitationsCell : UITableViewCell {
         label.textColor = Colors.invitationTextGrayColor.value
         self.contentView.addSubview(label)
         label.snp.makeConstraints { (make) in
-            make.left.equalTo(fromLabel.snp.right).offset(10)
+            make.left.equalTo(fromLabel.snp.right).offset(35)
             make.centerY.equalTo(fromLabel)
         }
         
@@ -141,11 +172,10 @@ class ViewInvitationsCell : UITableViewCell {
         let label = UILabel()
         label.font = font
         self.contentView.addSubview(label)
-        label.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightBold)
         label.text = "Time: "
         label.snp.makeConstraints { (make) in
             make.left.equalTo(fromLabel)
-            make.top.equalTo(fromLabel.snp.bottom).offset(5)
+            make.top.equalTo(addressDataLabel.snp.bottom).offset(10)
         }
         
         return label
@@ -158,7 +188,7 @@ class ViewInvitationsCell : UITableViewCell {
         label.text = StyledDate.getDateAsString(date: self.invitation.startingTime)
         label.textColor = Colors.invitationTextGrayColor.value
         label.snp.makeConstraints { (make) in
-            make.left.equalTo(fromUserLabel)
+            make.left.equalTo(addressDataLabel)
             make.centerY.equalTo(timeLabel)
         }
         
@@ -168,12 +198,11 @@ class ViewInvitationsCell : UITableViewCell {
     // Display just the label that says To:
     func setToLabel (font: UIFont) -> UILabel {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightBold)
         self.contentView.addSubview(label)
         label.text = "To:"
         label.snp.makeConstraints { (make) in
             make.left.equalTo(self.contentView).offset(35)
-            make.top.equalTo(startTimeLabel.snp.bottom).offset(20)
+            make.top.equalTo(timeLabel.snp.bottom).offset(20)
             make.width.equalTo(30)
         }
         
@@ -196,13 +225,12 @@ class ViewInvitationsCell : UITableViewCell {
     
     func setMessageLabel (font: UIFont) -> UILabel {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightBold)
         self.contentView.addSubview(label)
         label.text = "Message:"
         
         label.snp.makeConstraints { (make) in
             make.left.equalTo(toLabel)
-            make.top.equalTo(toLabel.snp.bottom).offset(5)
+            make.top.equalTo(toLabel.snp.bottom).offset(10)
         }
         
         return label
@@ -217,7 +245,7 @@ class ViewInvitationsCell : UITableViewCell {
         label.numberOfLines = 0
         label.snp.makeConstraints { (make) in
             make.left.equalTo(toUserLabel)
-            make.top.equalTo(messageLabel)
+            make.top.equalTo(toUserLabel.snp.bottom).offset(10)
             make.right.equalTo(self.contentView).offset(-20)
         }
         
@@ -231,14 +259,12 @@ class ViewInvitationsCell : UITableViewCell {
     // View at the bottom that contains the map, like and rsvp buttons
     func setFooterView () -> UIView {
         let view = UIView()
-        view.layer.borderWidth = 1
-        view.layer.borderColor = Colors.invitationTextGrayColor.value.cgColor
         self.contentView.addSubview(view)
         view.snp.makeConstraints { (make) in
-            make.left.equalTo(self.contentView)
+            make.left.equalTo(self.contentView).offset(-1)
             make.bottom.equalTo(self.contentView)
-            make.right.equalTo(self.contentView)
-            make.top.equalTo(messageDataLabel.snp.bottom).offset(45)
+            make.right.equalTo(self.contentView).offset(1)
+            make.top.equalTo(messageDataLabel.snp.bottom).offset(35)
             make.height.equalTo(headerView)
         }
         return view

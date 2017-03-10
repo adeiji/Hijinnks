@@ -42,6 +42,8 @@
 		F4A0D1B51E5A427800C6CDFE /* HijinnksStyleKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A0D1B41E5A427800C6CDFE /* HijinnksStyleKit.swift */; };
 		F4A0D1B71E5A447E00C6CDFE /* CustomHijinnksImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A0D1B61E5A447E00C6CDFE /* CustomHijinnksImageView.swift */; };
 		F4A0D1BB1E5A454500C6CDFE /* textLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = F4A0D1BA1E5A454500C6CDFE /* textLogo.png */; };
+		F4CCE48B1E71EBD40090BCD3 /* CreateInvitationsViewController+UIElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CCE48A1E71EBD40090BCD3 /* CreateInvitationsViewController+UIElements.swift */; };
+		F4CCE48D1E7201630090BCD3 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CCE48C1E7201630090BCD3 /* CreateAccountViewController.swift */; };
 		F4E0D8581E5A09E500FFEEB8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0D8571E5A09E500FFEEB8 /* AppDelegate.swift */; };
 		F4E0D85A1E5A09E500FFEEB8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0D8591E5A09E500FFEEB8 /* ViewController.swift */; };
 		F4E0D8601E5A09E500FFEEB8 /* Hijinnks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F4E0D85E1E5A09E500FFEEB8 /* Hijinnks.xcdatamodeld */; };
@@ -111,6 +113,8 @@
 		F4A0D1B41E5A427800C6CDFE /* HijinnksStyleKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HijinnksStyleKit.swift; path = stylekit/HijinnksStyleKit.swift; sourceTree = "<group>"; };
 		F4A0D1B61E5A447E00C6CDFE /* CustomHijinnksImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomHijinnksImageView.swift; path = UI/CustomHijinnksImageView.swift; sourceTree = "<group>"; };
 		F4A0D1BA1E5A454500C6CDFE /* textLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = textLogo.png; path = stylekit/textLogo.png; sourceTree = "<group>"; };
+		F4CCE48A1E71EBD40090BCD3 /* CreateInvitationsViewController+UIElements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateInvitationsViewController+UIElements.swift"; path = "Create Invitations Flow/View Controllers/CreateInvitationsViewController+UIElements.swift"; sourceTree = "<group>"; };
+		F4CCE48C1E7201630090BCD3 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateAccountViewController.swift; path = "User and Login/CreateAccountViewController.swift"; sourceTree = "<group>"; };
 		F4E0D8541E5A09E500FFEEB8 /* Hijinnks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hijinnks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E0D8571E5A09E500FFEEB8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F4E0D8591E5A09E500FFEEB8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -204,6 +208,7 @@
 				F40110E11E6DFD25004124DA /* DELoginViewController.swift */,
 				F40110E21E6DFD25004124DA /* DESettingsAccount.swift */,
 				F40110E31E6DFD25004124DA /* DEUserManager.swift */,
+				F4CCE48C1E7201630090BCD3 /* CreateAccountViewController.swift */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -253,6 +258,7 @@
 				F492FF5F1E60937900A5154C /* CreateInvitationViewController+Autocompletion.swift */,
 				F40A11EA1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift */,
 				F40A11EC1E60B1DB00DAD619 /* SelectFriendsViewController.swift */,
+				F4CCE48A1E71EBD40090BCD3 /* CreateInvitationsViewController+UIElements.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -705,12 +711,14 @@
 				F492FF601E60937900A5154C /* CreateInvitationViewController+Autocompletion.swift in Sources */,
 				F42ECC901E60DA62007B5B55 /* ParseManager.swift in Sources */,
 				F42ECC931E60DAA3007B5B55 /* InvitationParseObject.swift in Sources */,
+				F4CCE48B1E71EBD40090BCD3 /* CreateInvitationsViewController+UIElements.swift in Sources */,
 				F44CAD7C1E5F968700C91A1F /* ViewInterestsViewController.swift in Sources */,
 				F4E0D8601E5A09E500FFEEB8 /* Hijinnks.xcdatamodeld in Sources */,
 				F4E0D85A1E5A09E500FFEEB8 /* ViewController.swift in Sources */,
 				F4E0D8581E5A09E500FFEEB8 /* AppDelegate.swift in Sources */,
 				F40110E71E6DFD25004124DA /* DELoginViewController.swift in Sources */,
 				F40110E81E6DFD25004124DA /* DESettingsAccount.swift in Sources */,
+				F4CCE48D1E7201630090BCD3 /* CreateAccountViewController.swift in Sources */,
 				F4A0D1B51E5A427800C6CDFE /* HijinnksStyleKit.swift in Sources */,
 				F4A0D1B71E5A447E00C6CDFE /* CustomHijinnksImageView.swift in Sources */,
 				F452F5141E6A3C5900616BB3 /* ViewInvitationsCell.swift in Sources */,

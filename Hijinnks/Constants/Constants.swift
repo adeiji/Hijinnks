@@ -44,6 +44,12 @@ enum ParseObjectColumns : String {
     case Address = "address"
 }
 
+enum UIConstants : Int {
+    case VerticalDistanceToLogo = 30
+    case HorizontalSpacingToSuperview = 45
+    case SignUpAndSignInButtonWidth = 225
+}
+
 enum Colors {
     case green
     case blue

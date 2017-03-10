@@ -53,7 +53,7 @@ class DELoginView: UIView {
         self.addSubview(button)
         button.snp.makeConstraints { (make) in
             make.top.equalTo(viewObjectAbove.snp.bottom).offset(20)
-            make.width.equalTo(225)
+            make.width.equalTo(UIConstants.SignUpAndSignInButtonWidth.rawValue)
             make.centerX.equalTo(self)
             make.height.equalTo(40)
         }
@@ -86,13 +86,13 @@ class DELoginView: UIView {
         textField.snp.makeConstraints { (make) in
             make.centerX.equalTo(self)
             if textFieldAbove == nil {
-                make.top.equalTo(logoView.snp.bottom).offset(50)
+                make.top.equalTo(logoView.snp.bottom).offset(UIConstants.VerticalDistanceToLogo.rawValue)
             }
             else {
                 make.top.equalTo(textFieldAbove.snp.bottom).offset(20)
             }
-            make.left.equalTo(self).offset(45)
-            make.right.equalTo(self).offset(-45)
+            make.left.equalTo(self).offset(UIConstants.HorizontalSpacingToSuperview.rawValue)
+            make.right.equalTo(self).offset(-UIConstants.HorizontalSpacingToSuperview.rawValue)
             make.height.equalTo(45)
         }
         

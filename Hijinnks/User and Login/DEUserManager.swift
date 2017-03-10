@@ -31,14 +31,16 @@ class DEUserManager: NSObject {
                 self.userObject[self.PARSE_CLASS_USER_RANK] = self.USER_RANK_STANDARD
                 self.userObject[self.PARSE_CLASS_USER_CANONICAL_USERNAME] = userName
                 self.userObject.saveEventually()
+                
+                let tabBarController = MainTabBarController()
+                let appDelegate = UIApplication.shared.delegate
+                appDelegate?.window!?.rootViewController = tabBarController
             }
             else {
                 label.isHidden = false
                 label.text = error?.localizedDescription
             }
-            
-        })
-        
+        })        
     }
 
     func login(username: String, password: String, viewController: UIViewController, errorLabel: UILabel) -> Error? {
