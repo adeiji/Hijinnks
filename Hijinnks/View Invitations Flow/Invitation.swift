@@ -22,8 +22,9 @@ class Invitation : NSObject {
     var interests:Array<String>!
     var fromUser:PFUser
     var dateInvited:Date
+    var rsvpCount:Int!
     
-    init(eventName: String, location: CLLocation, address: String!, message: String!, startingTime: Date, duration: String!, invitees: Array<PFUser>!, interests: Array<String>!, fromUser: PFUser, dateInvited: Date) {
+    init(eventName: String, location: CLLocation, address: String!, message: String!, startingTime: Date, duration: String!, invitees: Array<PFUser>!, interests: Array<String>!, fromUser: PFUser, dateInvited: Date, rsvpCount: Int!) {
         
         self.eventName = eventName
         self.location = location
@@ -35,6 +36,11 @@ class Invitation : NSObject {
         self.interests = interests
         self.fromUser = fromUser
         self.dateInvited = dateInvited
+        if rsvpCount != nil {
+            self.rsvpCount = rsvpCount
+        } else {
+            self.rsvpCount = 0
+        }
         
     }
     
@@ -57,6 +63,7 @@ class Invitation : NSObject {
         
         invitationParseObject.interests = self.interests
         invitationParseObject.fromUser = self.fromUser
+        invitationParseObject.rsvpCount = self.rsvpCount
         
         return invitationParseObject
     }

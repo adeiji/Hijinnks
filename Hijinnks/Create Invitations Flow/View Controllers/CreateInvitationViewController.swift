@@ -102,7 +102,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         // Check to make sure all the data entered is valid
         
         // Create an invitation object with all the specified data entered by the user
-        let newInvitation = Invitation(eventName: nameTextField.text!, location:  currentLocation, address: self.address, message: self.inviteMessageTextField.text, startingTime: self.startingTime, duration: self.durationTextField.text, invitees: nil, interests: self.selectedInterests as! Array<String>!, fromUser: PFUser.current()!, dateInvited: Date())
+        let newInvitation = Invitation(eventName: nameTextField.text!, location:  currentLocation, address: self.address, message: self.inviteMessageTextField.text, startingTime: self.startingTime, duration: self.durationTextField.text, invitees: nil, interests: self.selectedInterests as! Array<String>!, fromUser: PFUser.current()!, dateInvited: Date(), rsvpCount: 0)
         let newInvitationParseObject = newInvitation.getParseObject()
         
         // Save the new invitation to the server

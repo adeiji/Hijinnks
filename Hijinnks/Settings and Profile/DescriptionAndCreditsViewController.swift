@@ -17,6 +17,7 @@ class DescriptionAndCreditsViewController : UIViewController {
         credits = [String]()
         credits.append("Icon made by Madebyoliver from www.flaticon.com")
         credits.append("Icon made by Google from www.flaticon.com")
+        credits.append("Icon made by Madebyoliver from www.flaticon.com")
     }
     
 }

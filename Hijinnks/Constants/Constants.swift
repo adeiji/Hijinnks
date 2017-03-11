@@ -42,12 +42,20 @@ enum ParseObjectColumns : String {
     case Friends = "friends"
     case FromUser = "fromUser"
     case Address = "address"
+    case RSVPCount = "rsvpCount"
+    case UserSentInvitations = "sentInvitations"
+    case UserBio = "bio"
 }
 
 enum UIConstants : Int {
     case VerticalDistanceToLogo = 30
     case HorizontalSpacingToSuperview = 45
     case SignUpAndSignInButtonWidth = 225
+    case ProfileViewHorizontalSpacing = 15
+    case ProfileViewVerticalSpacing = 5
+    case ProfileViewNumberOfLabelColumns = 4
+    case ProfileViewButtonHeights = 50
+    case ProfileViewUserDetailCountsHeight = 100
 }
 
 enum Colors {
@@ -93,4 +101,5 @@ enum HijinnksViewTypes {
 enum Images : String {
     case HouseButton = "houseButton.png"
     case CreateInvitationButton = "plus.png"
+    case ProfileImageButton = "user.png"
 }

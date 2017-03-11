@@ -65,23 +65,25 @@ class ViewInvitationsCell : UITableViewCell {
     }
     
     func setAddressLabel () -> UILabel {
-        
         let label = UILabel()
         label.text = "Location:"
         self.contentView.addSubview(label)
         label.snp.makeConstraints { (make) in
             make.left.equalTo(self.contentView).offset(20)
-            make.top.equalTo(fromLabel.snp.bottom).offset(10)
+            make.top.equalTo(fromLabel.snp.bottom).offset(5)
         }
         
         return label
-        
     }
+    
     func setLocationLabel () -> UILabel {
+        
         let label = UILabel()
         label.text = invitation.address
+        label.textColor = Colors.invitationTextGrayColor.value
         label.numberOfLines = 0
         self.contentView.addSubview(label)
+        
         label.snp.makeConstraints { (make) in
             make.left.equalTo(fromUserLabel)
             make.right.equalTo(self.contentView).offset(-25)
@@ -301,7 +303,7 @@ class ViewInvitationsCell : UITableViewCell {
     func setRSVPLabel (font: UIFont) -> UILabel {
         let label = UILabel()
         label.font = font
-        label.text = "112 RSVP'd"
+        label.text = "\(invitation.rsvpCount)\nRSVP'd"  // Display the number of people who have RSVP'd
         self.footerView.addSubview(label)
         label.snp.makeConstraints { (make) in
             make.right.equalTo(self.footerView).offset(-35)

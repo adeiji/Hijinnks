@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Parse
 
 class MainTabBarController : UITabBarController {
     
@@ -15,10 +16,12 @@ class MainTabBarController : UITabBarController {
         let viewInvitationsViewController = ViewInvitationsViewController()
         viewInvitationsViewController.navigationItem.title = StringConstants.Hijinnks.rawValue
         let createInvitationViewController = getCreateInvitationViewController(viewInvitationsViewController: viewInvitationsViewController)
+        let profileViewController = getProfileViewController()
         
         var viewControllers:[UIViewController] = [UIViewController]()
         viewControllers.append(createInvitationViewController)
         viewControllers.append(getViewInvitationsViewController(viewInvitationsViewController: viewInvitationsViewController))
+        viewControllers.append(profileViewController)
         self.viewControllers = viewControllers
         self.tabBar.tintColor = .gray
         self.selectedViewController = self.viewControllers?.last
@@ -34,7 +37,19 @@ class MainTabBarController : UITabBarController {
         viewInvitationsViewController.tabBarItem = tabBarItem
         
         return viewInvitationsNavigationController
+    }
+    
+    func getProfileViewController () -> UINavigationController {
+        let profileViewController = ProfileViewController()
+        profileViewController.navigationItem.title = StringConstants.Hijinnks.rawValue
+        let profileViewControllerTabBarItem = UITabBarItem()
+        profileViewControllerTabBarItem.image = UIImage(named: Images.ProfileImageButton.rawValue)?.withRenderingMode(.alwaysOriginal)
+        profileViewControllerTabBarItem.title = StringConstants.CreateInvitation.rawValue
+        profileViewController.tabBarItem = profileViewControllerTabBarItem        
+        profileViewController.user = PFUser.current()
         
+        let profileNavigationController = UINavigationController(rootViewController: profileViewController)
+        return profileNavigationController
     }
 
     func getCreateInvitationViewController (viewInvitationsViewController : ViewInvitationsViewController) -> UINavigationController {
