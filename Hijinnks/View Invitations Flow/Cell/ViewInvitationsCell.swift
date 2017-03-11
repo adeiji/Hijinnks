@@ -28,6 +28,8 @@ class ViewInvitationsCell : UITableViewCell {
     weak var rsvpLabel:UILabel!
     weak var addressDataLabel:UILabel!
     weak var addressLabel:UILabel!
+    weak var interestsLabel:UILabel!
+    weak var interestsDataLabel:UILabel!
     var invitation:Invitation
     
     required init(invitation: Invitation) {
@@ -46,50 +48,81 @@ class ViewInvitationsCell : UITableViewCell {
         headerView = setHeaderView()
         profileImageView = setProfileImageView()
         invitedDateLabel = setInvitedDateLabel(font: font)
-        fromLabel = setFromLabel(font: font)
-        fromUserLabel = setFromUserLabel(font: font)
         
-        addressLabel = setAddressLabel()
-        addressDataLabel = setLocationLabel()
-
-        timeLabel = setTimeLabel(font: font)
-        startTimeLabel = setStartTimeLabel(font: font)
-        toLabel = setToLabel(font: font)
-        toUserLabel = setToUserLabel(font: font)
-        messageLabel = setMessageLabel(font: font)
-        messageDataLabel = setMessageDataLabel(font: font)
+        self.fromLabel = setDescriptionLabel(descriptionViewAbove: nil, invitationDetailViewAbove: nil,  text: "From:")
+        self.fromUserLabel = setInvitationDetailLabel(viewToLeft: self.fromLabel, text: invitation.fromUser.username!)
+        self.addressLabel = setDescriptionLabel(descriptionViewAbove: self.fromLabel, invitationDetailViewAbove: self.fromUserLabel, text: "Location:")
+        self.addressDataLabel = setInvitationDetailLabel(viewToLeft: self.addressLabel, text: invitation.address)
+        self.timeLabel = setDescriptionLabel(descriptionViewAbove: self.addressLabel, invitationDetailViewAbove: self.addressDataLabel, text: "Time:")
+        let startingTime = StyledDate.getDateAsString(date: self.invitation.startingTime)
+        self.startTimeLabel = setInvitationDetailLabel(viewToLeft: self.timeLabel, text: startingTime)
+        self.toLabel = setDescriptionLabel(descriptionViewAbove: self.timeLabel, invitationDetailViewAbove: self.startTimeLabel, text: "To:")
+        self.toUserLabel = setInvitationDetailLabel(viewToLeft: self.toLabel, text: "Ade")
+        self.messageLabel = setDescriptionLabel(descriptionViewAbove: self.toLabel, invitationDetailViewAbove: self.toUserLabel, text: "Message:")
+        self.messageDataLabel = setInvitationDetailLabel(viewToLeft: self.messageLabel, text: invitation.message)
+        self.interestsLabel = setDescriptionLabel(descriptionViewAbove: self.messageLabel, invitationDetailViewAbove: self.messageDataLabel, text: "Interests:")
+        self.interestsDataLabel = setInvitationDetailLabel(viewToLeft: self.interestsLabel, text: getInterestsAsString())
+        
         footerView = setFooterView()
         mapButton = setMapButton()
         likeButton = setLikeButton()
         rsvpLabel = setRSVPLabel(font: font)
     }
     
-    func setAddressLabel () -> UILabel {
-        let label = UILabel()
-        label.text = "Location:"
-        self.contentView.addSubview(label)
-        label.snp.makeConstraints { (make) in
-            make.left.equalTo(self.contentView).offset(20)
-            make.top.equalTo(fromLabel.snp.bottom).offset(5)
+    // Takes the array of interests and turns it into a string with the interests seperated by commas
+    func getInterestsAsString () -> String {
+        var interestString:String = String()
+        for interest in invitation.interests {
+            if interest != invitation.interests.last {
+                interestString = interestString + "\(interest), "
+            }
+            else {
+                interestString = interestString + "\(interest)"
+            }
         }
-        
-        return label
+        return interestString
     }
     
-    func setLocationLabel () -> UILabel {
-        
-        let label = UILabel()
-        label.text = invitation.address
-        label.textColor = Colors.invitationTextGrayColor.value
-        label.numberOfLines = 0
-        self.contentView.addSubview(label)
-        
-        label.snp.makeConstraints { (make) in
-            make.left.equalTo(fromUserLabel)
-            make.right.equalTo(self.contentView).offset(-25)
-            make.top.equalTo(addressLabel)
+    
+    func setDescriptionLabel (descriptionViewAbove: UIView!, invitationDetailViewAbove: UIView!, text: String) -> UILabel {
+        let myDescriptionLabel = UILabel()
+        myDescriptionLabel.text = text
+        myDescriptionLabel.font = UIFont.systemFont(ofSize: 18)
+        myDescriptionLabel.textAlignment = .right
+        myDescriptionLabel.textColor = Colors.invitationTextGrayColor.value
+        self.contentView.addSubview(myDescriptionLabel)
+        myDescriptionLabel.snp.makeConstraints { (make) in
+            if descriptionViewAbove == nil {
+                make.right.equalTo(self.snp.left).offset(95)
+            }
+            else {
+                make.right.equalTo(self.contentView.snp.left).offset(90)
+            }
+            if invitationDetailViewAbove == nil {
+                make.top.equalTo(self.headerView.snp.bottom).offset(35)
+            }
+            else {
+                make.top.equalTo(invitationDetailViewAbove.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
+            }
         }
-        return label
+        
+        return myDescriptionLabel
+    }
+    
+    func setInvitationDetailLabel (viewToLeft: UIView, text: String) -> UILabel {
+        let myInvitationDetailLabel = UILabel()
+        myInvitationDetailLabel.text = text
+        myInvitationDetailLabel.font = UIFont.systemFont(ofSize: 18)
+        myInvitationDetailLabel.textColor = Colors.invitationTextGrayColor.value
+        myInvitationDetailLabel.numberOfLines = 0
+        self.contentView.addSubview(myInvitationDetailLabel)
+        myInvitationDetailLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(viewToLeft.snp.right).offset(UIConstants.ProfileViewHorizontalSpacing.rawValue)
+            make.top.equalTo(viewToLeft)
+            make.right.equalTo(self.contentView).offset(-UIConstants.ProfileViewHorizontalSpacing.rawValue)
+        }
+        
+        return myInvitationDetailLabel
     }
     
     // View at the top of the cell which contains the data invited and the profile picture
@@ -114,9 +147,9 @@ class ViewInvitationsCell : UITableViewCell {
         imageView.layer.cornerRadius = imageView.frame.size.height / 2
         headerView.addSubview(imageView)
         imageView.snp.makeConstraints { (make) in
-            make.left.equalTo(headerView).offset(3)
-            make.top.equalTo(headerView).offset(3)
-            make.bottom.equalTo(headerView).offset(3)
+            make.left.equalTo(self.headerView).offset(3)
+            make.top.equalTo(self.headerView).offset(3)
+            make.bottom.equalTo(self.headerView).offset(3)
             make.height.equalTo(imageView.snp.width)
         }
         
@@ -128,6 +161,7 @@ class ViewInvitationsCell : UITableViewCell {
         let label = UILabel()
         label.font = font
         label.textColor = Colors.invitationTextGrayColor.value
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short
@@ -135,120 +169,7 @@ class ViewInvitationsCell : UITableViewCell {
         label.text =  startDateAndTime
         headerView.addSubview(label)
         label.snp.makeConstraints { (make) in
-            make.center.equalTo(headerView)
-        }
-        
-        return label
-    }
-    
-    func setFromLabel (font: UIFont) -> UILabel {
-        let label = UILabel()
-        label.text = "From: "
-        label.font = font
-        self.contentView.addSubview(label)
-        label.snp.makeConstraints { (make) in
-            make.left.equalTo(self.contentView).offset(20)
-            make.top.equalTo(headerView.snp.bottom).offset(35)
-            make.height.equalTo(30)
-        }
-        
-        return label
-    }
-    
-    // Display From: [PFUser]
-    func setFromUserLabel (font: UIFont) -> UILabel {
-        let label = UILabel()
-        label.font = font
-        label.text = invitation.fromUser.username!
-        label.textColor = Colors.invitationTextGrayColor.value
-        self.contentView.addSubview(label)
-        label.snp.makeConstraints { (make) in
-            make.left.equalTo(fromLabel.snp.right).offset(35)
-            make.centerY.equalTo(fromLabel)
-        }
-        
-        return label
-    }
-    // Displays the start time of the event
-    func setTimeLabel (font: UIFont) -> UILabel {
-        let label = UILabel()
-        label.font = font
-        self.contentView.addSubview(label)
-        label.text = "Time: "
-        label.snp.makeConstraints { (make) in
-            make.left.equalTo(fromLabel)
-            make.top.equalTo(addressDataLabel.snp.bottom).offset(10)
-        }
-        
-        return label
-    }
-    
-    func setStartTimeLabel (font: UIFont) -> UILabel {
-        let label = UILabel()
-        label.font = font
-        self.contentView.addSubview(label)
-        label.text = StyledDate.getDateAsString(date: self.invitation.startingTime)
-        label.textColor = Colors.invitationTextGrayColor.value
-        label.snp.makeConstraints { (make) in
-            make.left.equalTo(addressDataLabel)
-            make.centerY.equalTo(timeLabel)
-        }
-        
-        return label
-    }
-    
-    // Display just the label that says To:
-    func setToLabel (font: UIFont) -> UILabel {
-        let label = UILabel()
-        self.contentView.addSubview(label)
-        label.text = "To:"
-        label.snp.makeConstraints { (make) in
-            make.left.equalTo(self.contentView).offset(35)
-            make.top.equalTo(timeLabel.snp.bottom).offset(20)
-            make.width.equalTo(30)
-        }
-        
-        return label
-    }
-    
-    func setToUserLabel (font: UIFont) -> UILabel {
-        let label = UILabel()
-        label.font = font
-        self.contentView.addSubview(label)
-        label.textColor = Colors.invitationTextGrayColor.value
-        label.text = "Adebayo Ijidakinro"  // Current User Name
-        label.snp.makeConstraints { (make) in
-            make.left.equalTo(toLabel.snp.right).offset(65)
-            make.centerY.equalTo(toLabel)
-        }
-        
-        return label
-    }
-    
-    func setMessageLabel (font: UIFont) -> UILabel {
-        let label = UILabel()
-        self.contentView.addSubview(label)
-        label.text = "Message:"
-        
-        label.snp.makeConstraints { (make) in
-            make.left.equalTo(toLabel)
-            make.top.equalTo(toLabel.snp.bottom).offset(10)
-        }
-        
-        return label
-    }
-    
-    func setMessageDataLabel (font: UIFont) -> UILabel {
-        let label = UILabel()
-        label.font = font
-        self.contentView.addSubview(label)
-        label.text = invitation.message
-        label.textColor = Colors.invitationTextGrayColor.value
-        label.numberOfLines = 0
-        label.snp.makeConstraints { (make) in
-            make.left.equalTo(toUserLabel)
-            make.top.equalTo(toUserLabel.snp.bottom).offset(10)
-            make.right.equalTo(self.contentView).offset(-20)
+            make.center.equalTo(self.headerView)
         }
         
         return label
@@ -266,8 +187,8 @@ class ViewInvitationsCell : UITableViewCell {
             make.left.equalTo(self.contentView).offset(-1)
             make.bottom.equalTo(self.contentView)
             make.right.equalTo(self.contentView).offset(1)
-            make.top.equalTo(messageDataLabel.snp.bottom).offset(35)
-            make.height.equalTo(headerView)
+            make.top.equalTo(self.interestsDataLabel.snp.bottom).offset(35)
+            make.height.equalTo(self.headerView)
         }
         return view
     }
@@ -278,8 +199,8 @@ class ViewInvitationsCell : UITableViewCell {
         self.footerView.addSubview(button)
         button.snp.makeConstraints { (make) in
             make.left.equalTo(35)
-            make.top.equalTo(footerView).offset(15)
-            make.bottom.equalTo(footerView).offset(-15)
+            make.top.equalTo(self.footerView).offset(15)
+            make.bottom.equalTo(self.footerView).offset(-15)
             make.width.equalTo(button.snp.height)
         }
         return button
@@ -292,8 +213,8 @@ class ViewInvitationsCell : UITableViewCell {
         self.footerView.addSubview(button)
         button.snp.makeConstraints { (make) in
             make.center.equalTo(self.footerView)
-            make.top.equalTo(mapButton)
-            make.bottom.equalTo(mapButton)
+            make.top.equalTo(self.mapButton)
+            make.bottom.equalTo(self.mapButton)
             make.width.equalTo(button.snp.height)
         }
         
@@ -307,7 +228,7 @@ class ViewInvitationsCell : UITableViewCell {
         self.footerView.addSubview(label)
         label.snp.makeConstraints { (make) in
             make.right.equalTo(self.footerView).offset(-35)
-            make.centerY.equalTo(mapButton)
+            make.centerY.equalTo(self.mapButton)
         }
         
         return label

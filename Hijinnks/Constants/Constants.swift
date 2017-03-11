@@ -15,6 +15,7 @@ enum StringConstants : String {
     case Hijinnks = "Hijinnks"
     case ViewInvitations = "View Invitations"
     case CreateInvitation = "Create Invitation"
+    case Profile = "Profile"
 }
 
 enum fileType : String {
@@ -99,7 +100,7 @@ enum HijinnksViewTypes {
 }
 
 enum Images : String {
-    case HouseButton = "houseButton.png"
+    case HouseButton = "house.png"
     case CreateInvitationButton = "plus.png"
     case ProfileImageButton = "user.png"
 }

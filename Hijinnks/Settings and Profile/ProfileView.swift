@@ -43,7 +43,7 @@ class ProfileView : UIView {
         }
         setUsernameLabel()
     }
-    
+
     func setUsernameLabel () {
         let myUsernameLabel = UILabel()
         myUsernameLabel.text = user.username
@@ -51,7 +51,7 @@ class ProfileView : UIView {
         self.addSubview(myUsernameLabel)
         myUsernameLabel.snp.makeConstraints { (make) in
             make.left.equalTo(self).offset(UIConstants.ProfileViewHorizontalSpacing.rawValue)
-            make.top.equalTo(115)
+            make.top.equalTo(80)
         }
         
         self.usernameLabel = myUsernameLabel

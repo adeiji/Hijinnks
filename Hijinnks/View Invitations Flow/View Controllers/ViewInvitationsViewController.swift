@@ -48,6 +48,10 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return calculateHeightForCell(invitation: invitations[indexPath.row])
     }
     

@@ -25,6 +25,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         self.getAllInvitationsFromUser()
     }
     
+    // Get all the invitations that have been sent by the user of this profile view
     func getAllInvitationsFromUser () {
         let query = InvitationParseObject.query()
         query?.whereKey(ParseObjectColumns.FromUser.rawValue, equalTo: user)
@@ -39,6 +40,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         })
     }
     
+    // Display the invitations that this user has done in the table view for this view controller
     func displayInvitationsForUser (invitationParseObjects : [InvitationParseObject]!) {
         for invitationParseObject in invitationParseObjects! {
             let myInvitation = invitationParseObject.getInvitation()
@@ -58,6 +60,10 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return calculateHeightForCell(invitation: invitations[indexPath.row])
     }
     

@@ -44,7 +44,7 @@ class MainTabBarController : UITabBarController {
         profileViewController.navigationItem.title = StringConstants.Hijinnks.rawValue
         let profileViewControllerTabBarItem = UITabBarItem()
         profileViewControllerTabBarItem.image = UIImage(named: Images.ProfileImageButton.rawValue)?.withRenderingMode(.alwaysOriginal)
-        profileViewControllerTabBarItem.title = StringConstants.CreateInvitation.rawValue
+        profileViewControllerTabBarItem.title = StringConstants.Profile.rawValue
         profileViewController.tabBarItem = profileViewControllerTabBarItem        
         profileViewController.user = PFUser.current()
         
