@@ -23,6 +23,7 @@ class ProfileView : UIView {
     weak var inviteesLabel:UILabel!
     weak var rsvpLabel:UILabel!
     weak var viewInvitationsTableView:UITableView!
+    weak var profileImageView:UIImageView!
     var tableViewDataSourceAndDelegate:UIViewController!
     weak var user:PFUser!
     
@@ -41,17 +42,34 @@ class ProfileView : UIView {
         self.snp.makeConstraints { (make) in
             make.edges.equalTo(self.superview!)
         }
-        setUsernameLabel()
+        setProfileImageView()
+    }
+    
+    
+    func setProfileImageView () {
+        let profileImageView = UIImageView()
+        profileImageView.image = nil
+        profileImageView.backgroundColor = Colors.invitationTextGrayColor.value
+        profileImageView.layer.cornerRadius = 50
+        self.addSubview(profileImageView)
+        profileImageView.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self)
+            make.top.equalTo(self).offset(75)
+            make.width.equalTo(100)
+            make.height.equalTo(100)
+        }
+        self.profileImageView = profileImageView
+        setUsernameLabel(myProfileImageView: self.profileImageView)
     }
 
-    func setUsernameLabel () {
+    func setUsernameLabel (myProfileImageView: UIImageView) {
         let myUsernameLabel = UILabel()
         myUsernameLabel.text = user.username
-        myUsernameLabel.font = UIFont.systemFont(ofSize: 25)
+        myUsernameLabel.font = UIFont.systemFont(ofSize: 18)
         self.addSubview(myUsernameLabel)
         myUsernameLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(self).offset(UIConstants.ProfileViewHorizontalSpacing.rawValue)
-            make.top.equalTo(80)
+            make.centerX.equalTo(self)
+            make.top.equalTo(myProfileImageView.snp.bottom).offset(25)
         }
         
         self.usernameLabel = myUsernameLabel
@@ -67,7 +85,7 @@ class ProfileView : UIView {
         editProfileButton.layer.borderWidth = 1
         self.addSubview(editProfileButton)
         editProfileButton.snp.makeConstraints { (make) in
-            make.left.equalTo(myUsernameLabel)
+            make.right.equalTo(self.snp.centerX).offset(-10)
             make.top.equalTo(myUsernameLabel.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
             make.width.equalTo(100)
             make.height.equalTo(UIConstants.ProfileViewButtonHeights.rawValue)
@@ -86,7 +104,7 @@ class ProfileView : UIView {
         optionsButton.layer.borderWidth = 1
         self.addSubview(optionsButton)
         optionsButton.snp.makeConstraints { (make) in
-            make.left.equalTo(myEditProfileButton.snp.right).offset(UIConstants.ProfileViewHorizontalSpacing.rawValue)
+            make.left.equalTo(self.snp.centerX).offset(10)
             make.centerY.equalTo(myEditProfileButton)
             make.width.equalTo(100)
             make.height.equalTo(myEditProfileButton)
@@ -104,7 +122,7 @@ class ProfileView : UIView {
         bioTextView.textColor = .black
         self.addSubview(bioTextView)
         bioTextView.snp.makeConstraints { (make) in
-            make.left.equalTo(myEditProfileButton)
+            make.left.equalTo(self).offset(UIConstants.ProfileViewHorizontalSpacing.rawValue)
             make.top.equalTo(myEditProfileButton.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
             make.right.equalTo(self).offset(-UIConstants.ProfileViewHorizontalSpacing.rawValue)
             make.height.equalTo(120)

@@ -8,8 +8,9 @@
 
 import Foundation
 import UIKit
+import Parse
 
-class CreateAccountViewController : UIViewController {
+class CreateAccountViewController : UIViewController, PassDataBetweenViewControllersProtocol {
     
     var createAccountView:DECreateAccountView!
     
@@ -26,8 +27,19 @@ class CreateAccountViewController : UIViewController {
         let password = createAccountView.txtPassword.text
         let email = createAccountView.txtEmail.text
         
-        // Create user and then display the view invitations view controller upon success
-        DEUserManager.sharedManager.createUser(withUserName: username!, password: password!, email: email!, errorLabel: createAccountView.lblUsernameError)
+        let viewInterestsViewController = ViewInterestsViewController()
+        viewInterestsViewController.delegate = self
+        viewInterestsViewController.showExplanationView()
+        // Create user and then display the view interests view controller upon success
+        DEUserManager.sharedManager.createUser(withUserName: username!, password: password!, email: email!, errorLabel: createAccountView.lblUsernameError, showViewControllerOnComplete: viewInterestsViewController)
+    }
+    
+    func setSelectedInterests(mySelectedInterest: NSArray) {
+        PFUser.current()?.setObject(mySelectedInterest as! [String], forKey: ParseObjectColumns.Interests.rawValue)
+        // Once the user has selecte the interests that he wants than we show the main tab controller
+        let tabBarController = MainTabBarController()
+        let appDelegate = UIApplication.shared.delegate
+        appDelegate?.window!?.rootViewController = tabBarController
     }
     
 }

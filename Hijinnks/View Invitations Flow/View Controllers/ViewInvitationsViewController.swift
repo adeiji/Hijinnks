@@ -42,6 +42,8 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
         // Remove the activity spinner
     }
     
+    
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // This can happen if there are no invitations for the user or any in the area
         return invitations.count

@@ -31,6 +31,14 @@ enum ParseCustomObjectsClassNames : String {
     case Invitation = "Invitation"
 }
 
+enum ProfileOptions : String {
+    case ChangeInterests = "Change Interests"
+    case InviteFacebookFriends = "Invite Facebook Friends"
+    case ChangePassword = "Change Password"
+    case ReportProblem = "Report a Problem"
+    case Logout = "Log Out"
+}
+
 enum ParseObjectColumns : String {
     case EventName = "eventName"
     case Location = "location"
@@ -55,7 +63,7 @@ enum UIConstants : Int {
     case ProfileViewHorizontalSpacing = 15
     case ProfileViewVerticalSpacing = 5
     case ProfileViewNumberOfLabelColumns = 4
-    case ProfileViewButtonHeights = 50
+    case ProfileViewButtonHeights = 35
     case ProfileViewUserDetailCountsHeight = 100
 }
 

@@ -10,7 +10,9 @@ target 'Hijinnks' do
   pod 'GooglePlaces'
   pod 'GoogleMaps'
   pod 'Parse'
-
+  pod 'FBSDKCoreKit'
+  pod 'FBSDKLoginKit'
+  pod 'FBSDKShareKit'
   target 'HijinnksTests' do
     inherit! :search_paths
     # Pods for testing

@@ -23,6 +23,12 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         self.view.addSubview(self.profileView)
         self.profileView.setupUI()  // Setup the UI after we've added to the subview to make sure that the profile view can be set up with autolayout to it's superview
         self.getAllInvitationsFromUser()
+        self.profileView.optionsButton.addTarget(self, action: #selector(displayProfileOptions), for: .touchUpInside)
+    }
+    
+    func displayProfileOptions () {
+        let optionsViewController = OptionsViewController()
+        self.navigationController?.pushViewController(optionsViewController, animated: true)
     }
     
     // Get all the invitations that have been sent by the user of this profile view

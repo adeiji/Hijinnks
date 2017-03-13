@@ -44,6 +44,7 @@ class ViewInvitationsCell : UITableViewCell {
         self.autoresizingMask = .flexibleHeight
         // Set the very large sized content view so that the contentView will shrink.  There seems to be an iOS bug with it growing in size
         self.contentView.bounds = CGRect(x: 0, y: 0, width: 9999, height: 9999)
+        self.selectionStyle = .none
         let font = UIFont.systemFont(ofSize: 16)
         headerView = setHeaderView()
         profileImageView = setProfileImageView()

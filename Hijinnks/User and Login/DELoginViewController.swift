@@ -61,9 +61,6 @@ class DELoginViewController: UIViewController {
     
     func signInButtonPressed () {
         _ = DEUserManager.sharedManager.login(username: self.loginView.txtUsernameOrEmail.text!, password: self.loginView.txtPassword.text!, viewController: self, errorLabel: self.loginView.errorLabel)
-        let tabBarController = MainTabBarController()
-        let appDelegate = UIApplication.shared.delegate
-        appDelegate?.window!?.rootViewController = tabBarController
     }
     
     func createAnAccount(_ sender: Any) {

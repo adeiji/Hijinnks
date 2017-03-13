@@ -19,7 +19,7 @@ class DEUserManager: NSObject {
     let PARSE_CLASS_USER_PROFILE_PICTURE = "profile_picture"
     var delegate:PassDataBetweenViewControllersProtocol!
     
-    func createUser(withUserName userName: String, password: String, email: String, errorLabel label: UILabel) {
+    func createUser(withUserName userName: String, password: String, email: String, errorLabel label: UILabel, showViewControllerOnComplete: UIViewController) {
         self.user = PFUser()
         self.user.username = userName.lowercased()
         self.user.password = password
@@ -32,9 +32,9 @@ class DEUserManager: NSObject {
                 self.userObject[self.PARSE_CLASS_USER_CANONICAL_USERNAME] = userName
                 self.userObject.saveEventually()
                 
-                let tabBarController = MainTabBarController()
                 let appDelegate = UIApplication.shared.delegate
-                appDelegate?.window!?.rootViewController = tabBarController
+                let navigationController = appDelegate?.window!?.rootViewController as! UINavigationController
+                navigationController.pushViewController(showViewControllerOnComplete, animated: true)
             }
             else {
                 label.isHidden = false

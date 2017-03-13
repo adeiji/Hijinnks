@@ -122,15 +122,3 @@ class DELoginView: UIView {
         self.removeFirstResponder()   
     }
 }
-
-// Button Methods
-extension DELoginView {
-    
-    func signUpButtonPressed () {
-        DEUserManager.sharedManager.createUser(withUserName: txtUsernameOrEmail.text!, password: txtPassword.text!, email: txtUsernameOrEmail.text!, errorLabel: errorLabel)
-    }
-    
-    func signInButtonPressed () {
-        
-    }
-}

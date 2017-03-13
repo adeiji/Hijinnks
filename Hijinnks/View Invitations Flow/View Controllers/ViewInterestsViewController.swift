@@ -20,10 +20,11 @@ import Parse
     @objc optional func loadInvitations (invitations: [InvitationParseObject])
 }
 
-class ViewInterestsViewController : UITableViewController   {
+class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITableViewDataSource   {
     
     var tableData:NSArray!
     var delegate:PassDataBetweenViewControllersProtocol!
+    var tableView = UITableView()
     
     func getInterests () -> NSArray {
         
@@ -39,7 +40,14 @@ class ViewInterestsViewController : UITableViewController   {
         self.tableView.allowsMultipleSelection = true
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(getAllSelectedInterests))
         self.navigationItem.rightBarButtonItem = doneButton
-        
+    }
+    
+    func showExplanationView () {
+        let explanationView = ExplanationView()
+        self.view.addSubview(explanationView)
+        explanationView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self.view)
+        }
     }
     
     // Gets all the interests that are selected in the TableView and stores them in an array
@@ -60,19 +68,19 @@ class ViewInterestsViewController : UITableViewController   {
 
 extension ViewInterestsViewController {
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableData.count
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Interests"
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         cell.textLabel?.text = (tableData[indexPath.row] as! String)
         
