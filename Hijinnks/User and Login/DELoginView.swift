@@ -7,6 +7,8 @@
 //  Copyright (c) 2014 adeiji. All rights reserved.
 //
 import UIKit
+import FBSDKLoginKit
+
 class DELoginView: UIView {
 // MARK: - View Outlets
     // This view displays at the top of the login screen and simply displays the logo for the application
@@ -15,6 +17,7 @@ class DELoginView: UIView {
     weak var txtPassword: UITextField!
     weak var signInButton: UIButton!
     weak var signUpButton: UIButton!
+    weak var facebookLoginButton: UIButton!
     var nextScreen: UIViewController!
     weak var errorLabel: UILabel!
     
@@ -40,6 +43,19 @@ class DELoginView: UIView {
         errorLabel = setupErrorLabel()
         signInButton = setupSignInButton(title: "SIGN IN", viewObjectAbove: errorLabel)
         signUpButton = setupSignInButton(title: "SIGN UP", viewObjectAbove: signInButton)
+        setFacebookLoginButton()
+    }
+    
+    func setFacebookLoginButton () {
+        let button = FBSDKLoginButton()
+        self.addSubview(button)
+        button.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self.signUpButton)
+            make.width.equalTo(self.signUpButton)
+            make.height.equalTo(self.signUpButton)
+            make.top.equalTo(self.signUpButton.snp.bottom).offset(5)
+        }
+        self.facebookLoginButton = button
     }
     
     // Display a sign in button below the password text field
