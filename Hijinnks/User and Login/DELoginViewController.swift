@@ -54,12 +54,13 @@ class DELoginViewController: UIViewController {
 //        PFUser.logOutInBackground()
     }
     
+    
     func signUpButtonPressed () {
         let createAccountViewController = CreateAccountViewController()
         self.navigationController?.pushViewController(createAccountViewController, animated: true)
     }
     
-    func signInButtonPressed () {
+    func signInButtonPressed () {        
         _ = DEUserManager.sharedManager.login(username: self.loginView.txtUsernameOrEmail.text!, password: self.loginView.txtPassword.text!, viewController: self, errorLabel: self.loginView.errorLabel)
     }
     

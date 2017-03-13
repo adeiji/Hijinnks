@@ -5,22 +5,22 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - FBSDKCoreKit (4.18.0):
+  - FBSDKCoreKit (4.20.1):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.18.0):
+  - FBSDKLoginKit (4.20.1):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.18.0):
+  - FBSDKShareKit (4.20.1):
     - FBSDKCoreKit
-  - GoogleMaps (2.1.1):
-    - GoogleMaps/Maps (= 2.1.1)
-  - GoogleMaps/Base (2.1.1)
-  - GoogleMaps/Maps (2.1.1):
+  - GoogleMaps (2.2.0):
+    - GoogleMaps/Maps (= 2.2.0)
+  - GoogleMaps/Base (2.2.0)
+  - GoogleMaps/Maps (2.2.0):
     - GoogleMaps/Base
-  - GooglePlaces (2.1.1):
-    - GoogleMaps/Base (= 2.1.1)
+  - GooglePlaces (2.2.0):
+    - GoogleMaps/Base (= 2.2.0)
   - Parse (1.14.2):
     - Bolts/Tasks (~> 1.8)
-  - SnapKit (3.1.2)
+  - SnapKit (3.2.0)
 
 DEPENDENCIES:
   - FBSDKCoreKit
@@ -33,14 +33,14 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  FBSDKCoreKit: 15fef8804a4629f98c6f4e55e81a76c9d725d85e
-  FBSDKLoginKit: 6773073e970b2b15fb12e451ce7f11da0532b880
-  FBSDKShareKit: 0b8d6cc3f103c75297eb3c62caec284a2ccf1b9e
-  GoogleMaps: a5b5bbe47734e2443bde781a6aa64e69fdb6d785
-  GooglePlaces: 35636d86e5020cba3856eb988c09a5491de0a65a
+  FBSDKCoreKit: 39a3569652983bf8666620dd334804c9057ae9b2
+  FBSDKLoginKit: 17092ff61a18c54ca423aebc18c5acc2e5a4a728
+  FBSDKShareKit: 4f37934d9ee9500d2d35752595816dc35f967478
+  GoogleMaps: 104c418d61ab8a05dff06ed0784c25ea9d37da45
+  GooglePlaces: bca867d5e9da15384c794b945e4226848bc6e9d9
   Parse: 4335d65f40cb3d43190d723144bbe1afb9c38230
-  SnapKit: 12b24f569cb7c143acc9c22b9d91b23e7b1c84a2
+  SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
 
-PODFILE CHECKSUM: d01709179b4d9a606ee071d744356c119f43f5b2
+PODFILE CHECKSUM: cbde4a108732488f1946098c176916542dd5dd54
 
 COCOAPODS: 1.1.1

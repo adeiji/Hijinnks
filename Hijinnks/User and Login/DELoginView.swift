@@ -48,6 +48,7 @@ class DELoginView: UIView {
     
     func setFacebookLoginButton () {
         let button = FBSDKLoginButton()
+        button.readPermissions = ["public_profile", "enmail", "user_friends"]
         self.addSubview(button)
         button.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.signUpButton)

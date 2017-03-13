@@ -37,7 +37,14 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
         tableData = getInterests()
+        self.tableView = UITableView()
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
         self.tableView.allowsMultipleSelection = true
+        self.view.addSubview(self.tableView)
+        self.tableView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self.view)
+        }
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(getAllSelectedInterests))
         self.navigationItem.rightBarButtonItem = doneButton
     }

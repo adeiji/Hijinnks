@@ -54,7 +54,7 @@ class DEUserManager: NSObject {
             blockUsername = obj?.object(forKey: self.PARSE_CLASS_USERNAME) as! String
             
             PFUser.logInWithUsername(inBackground: blockUsername, password: password, block: { (user, error) in
-                if self.user != nil {
+                if user != nil {
                     // Clear user image defaults
                     self.clearUserImageDefaults()
                     _ = self.isLoggedIn()
@@ -65,8 +65,14 @@ class DEUserManager: NSObject {
                             friend.fetchIfNeededInBackground()
                         }
                     }
+                    
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    appDelegate.setupNavigationController()
                 }
                 else {
+                    if error != nil {
+                        errorLabel.text = error?.localizedDescription
+                    }
                     _ = self.usernameExist(blockUsername.lowercased(), errorLabel: errorLabel)
                 }
             })

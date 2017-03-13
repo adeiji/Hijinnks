@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         // Check if the user is logged in.  If he isn't than show the LoginViewController, otherwise show the ViewInvitationsViewController
-        if !isLoggedIn() {
+        if isLoggedIn() {
             setupNavigationController()
         } else {
             showLoginView()
@@ -37,6 +37,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        if FBSDKAccessToken.current() != nil {
+            setupNavigationController()
+            let user = PFUser()
+            
+            user.username = FBSDKProfile().userID
+            user.signUpInBackground()
+        }
+        
         return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
     

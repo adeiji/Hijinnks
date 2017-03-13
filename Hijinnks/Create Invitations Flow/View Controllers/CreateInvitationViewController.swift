@@ -11,6 +11,7 @@ import UIKit
 import SnapKit
 import GooglePlaces
 import Parse
+import FBSDKShareKit
 
 class CreateInvitationViewController : UIViewController, PassDataBetweenViewControllersProtocol {
     weak var wrapperView:UIView! // This is so that we can have one view in which the Scroll View will have as it's indicator for scrolling
@@ -110,6 +111,28 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         // On the view invitations view controller, add this new invitation object
         delegate.addInvitation!(invitation: newInvitation)
         self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?.last
+        self.promptPostToFacebook()
+    }
+    
+    // Ask the user if they would like to post the invitation to Facebook for others to see
+    func promptPostToFacebook () {
+        let alertController = UIAlertController(title: "Share", message: "Would you like to share this invitation to Facebook?", preferredStyle: .actionSheet)
+        let postToFacebookAction = UIAlertAction(title: "Post to Facebook", style: .default) { (action) in
+            self.postToFacebook()
+        }
+        let noAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        alertController.addAction(postToFacebookAction)
+        alertController.addAction(noAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    // Send an invitation to facebook users
+    func postToFacebook () {
+        let content = FBSDKShareLinkContent()
+        content.contentTitle = self.name
+        content.contentURL = NSURL(string: "http://hijinnks.com") as URL!
+        content.contentDescription = self.inviteMessage
+        FBSDKShareDialog.show(from: self, with: content, delegate: nil)
     }
     
     // Save the invitation to the server and update the View Invitations View Controller with the new invitation
@@ -248,13 +271,12 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         else if textField == inviteInterestsTextField {
             let viewInterestsViewController = ViewInterestsViewController()
             viewInterestsViewController.delegate = self
-            textField.resignFirstResponder()
             self.navigationController?.pushViewController(viewInterestsViewController, animated: true)
         }
     }
-    // When the text field loses focuses change the color of the border back to grey
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.layer.borderColor = UIColor.gray.cgColor
+        textField.resignFirstResponder()
     }
 }
 // Handle the creation, source, and delegation for the duration text field
