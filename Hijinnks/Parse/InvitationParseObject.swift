@@ -110,10 +110,30 @@ class InvitationParseObject : PFObject, PFSubclassing {
             self[ParseObjectColumns.FromUser.rawValue] = newValue
         }
     }
+    
+    var rsvpUsers : Array<String>! {
+        get {
+            return self[ParseObjectColumns.RsvpUsers.rawValue] as! Array<String>
+        }
+        set {
+            self[ParseObjectColumns.RsvpUsers.rawValue] = newValue
+        }
+    }
+    
+    var isPublic : Bool {
+        get {
+            return self[ParseObjectColumns.IsPublic.rawValue] as! Bool
+        }
+        set {
+            self[ParseObjectColumns.IsPublic.rawValue] = newValue
+        }
+    }
+    
+    
     // Gets a NSObject instance of this PFObject
     func getInvitation () -> Invitation {        
         let location = CLLocation(latitude: self.location.latitude, longitude: self.location.longitude)
-        let invitation = Invitation(eventName: self.eventName, location: location, address:self.address, message: self.message, startingTime: self.startingTime, duration: self.duration, invitees: self.invitees, interests: self.interests, fromUser: self.fromUser, dateInvited: self.dateInvited, rsvpCount: self.rsvpCount)
+        let invitation = Invitation(eventName: self.eventName, location: location, address:self.address, message: self.message, startingTime: self.startingTime, duration: self.duration, invitees: self.invitees, interests: self.interests, fromUser: self.fromUser, dateInvited: self.dateInvited, rsvpCount: self.rsvpCount, rsvpUsers: self.rsvpUsers)
         
         return invitation
     }

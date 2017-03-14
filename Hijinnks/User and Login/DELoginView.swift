@@ -36,7 +36,7 @@ class DELoginView: UIView {
     }
     
     func setupUI () {
-        logoView = setLogoView()
+        addImageToBackground()
         txtUsernameOrEmail = setupTextField(placeholder: "Username or Email", textFieldAbove : nil)
         txtPassword = setupTextField(placeholder: "Password", textFieldAbove: txtUsernameOrEmail)
         txtPassword.isSecureTextEntry = true
@@ -46,18 +46,28 @@ class DELoginView: UIView {
         facebookLoginButton = setFacebookLoginButton(signUpButton: signUpButton)
     }
     
+    func addImageToBackground () {
+        let imageView = UIImageView(image: UIImage(named: Images.Background.rawValue))
+        self.addSubview(imageView)
+        imageView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self)
+        }
+        imageView.layer.zPosition = -1
+    }
+    
     func setFacebookLoginButton (signUpButton: UIButton) -> UIButton {
         
         let myFacebookLoginButton = UIButton()
-        myFacebookLoginButton.backgroundColor = .blue
+        myFacebookLoginButton.backgroundColor = Colors.FacebookButton.value
         myFacebookLoginButton.setTitleColor(.white, for: .normal)
         myFacebookLoginButton.setTitle("Login With Facebook", for: .normal)
+        myFacebookLoginButton.layer.cornerRadius = 5
         self.addSubview(myFacebookLoginButton)
         myFacebookLoginButton.snp.makeConstraints { (make) in
             make.width.equalTo(signUpButton)
             make.height.equalTo(signUpButton)
             make.centerX.equalTo(signUpButton)
-            make.top.equalTo(signUpButton.snp.bottom).offset(20)
+            make.top.equalTo(signUpButton.snp.bottom).offset(10)
         }
         
         return myFacebookLoginButton
@@ -68,16 +78,17 @@ class DELoginView: UIView {
     func setupSignInButton (title: String, viewObjectAbove: UIView!) -> UIButton {
         let button = UIButton()
         button.setTitle(title, for: .normal)
-        button.layer.borderColor = UIColor.gray.cgColor
+        button.layer.borderColor = UIColor.white.cgColor
         button.layer.borderWidth = 1
-        button.setTitleColor(.gray, for: .normal)
+        button.layer.cornerRadius = 5
+        button.setTitleColor(.white, for: .normal)
         
         self.addSubview(button)
         button.snp.makeConstraints { (make) in
-            make.top.equalTo(viewObjectAbove.snp.bottom).offset(20)
-            make.width.equalTo(UIConstants.SignUpAndSignInButtonWidth.rawValue)
+            make.top.equalTo(viewObjectAbove.snp.bottom).offset(10)
+            make.width.equalTo(self.txtPassword)
             make.centerX.equalTo(self)
-            make.height.equalTo(40)
+            make.height.equalTo(self.txtPassword)
         }
         
         return button
@@ -100,18 +111,20 @@ class DELoginView: UIView {
     
     func setupTextField (placeholder: String, textFieldAbove : UITextField!) -> UITextField {
         let textField = UITextField()
-        textField.placeholder = placeholder
-        textField.layer.borderWidth = 1
-        textField.layer.borderColor = UIColor.gray.cgColor
-        
+        textField.attributedPlaceholder = NSAttributedString(string: placeholder,
+                                                   attributes: [NSForegroundColorAttributeName: UIColor.white])
+        textField.layer.cornerRadius = 5
+        textField.textAlignment = .center
+        textField.backgroundColor = Colors.AccountTextFieldColor.value
+        textField.textColor = .white
         self.addSubview(textField)
         textField.snp.makeConstraints { (make) in
             make.centerX.equalTo(self)
             if textFieldAbove == nil {
-                make.top.equalTo(logoView.snp.bottom).offset(UIConstants.VerticalDistanceToLogo.rawValue)
+                make.top.equalTo(self.snp.bottom).offset(-340)
             }
             else {
-                make.top.equalTo(textFieldAbove.snp.bottom).offset(20)
+                make.top.equalTo(textFieldAbove.snp.bottom).offset(10)
             }
             make.left.equalTo(self).offset(UIConstants.HorizontalSpacingToSuperview.rawValue)
             make.right.equalTo(self).offset(-UIConstants.HorizontalSpacingToSuperview.rawValue)

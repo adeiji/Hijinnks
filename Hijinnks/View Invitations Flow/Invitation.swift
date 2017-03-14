@@ -23,9 +23,10 @@ class Invitation : NSObject {
     var fromUser:PFUser
     var dateInvited:Date
     var rsvpCount:Int!
+    var invitationParseObject:InvitationParseObject!
+    var rsvpUsers:Array<String>!
     
-    init(eventName: String, location: CLLocation, address: String!, message: String!, startingTime: Date, duration: String!, invitees: Array<PFUser>!, interests: Array<String>!, fromUser: PFUser, dateInvited: Date, rsvpCount: Int!) {
-        
+    init(eventName: String, location: CLLocation, address: String!, message: String!, startingTime: Date, duration: String!, invitees: Array<PFUser>!, interests: Array<String>!, fromUser: PFUser, dateInvited: Date, rsvpCount: Int!, rsvpUsers: Array<String>!) {
         self.eventName = eventName
         self.location = location
         self.address = address
@@ -41,10 +42,25 @@ class Invitation : NSObject {
         } else {
             self.rsvpCount = 0
         }
-        
+        self.rsvpUsers = rsvpUsers        
+        super.init()
+        self.setParseObject()
     }
     
-    func getParseObject () -> PFObject {
+    func incrementRsvpCount (user: PFUser) {
+        self.rsvpCount = self.rsvpCount + 1
+        invitationParseObject.rsvpCount = self.rsvpCount
+        invitationParseObject.rsvpUsers.append(user.objectId!)
+    }
+    func decrementRsvpCount (user: PFUser) {
+        self.rsvpCount = self.rsvpCount - 1
+        invitationParseObject.rsvpCount = self.rsvpCount
+        invitationParseObject.rsvpUsers = invitationParseObject.rsvpUsers.filter {
+            $0 != user.objectId
+        }
+    }
+    
+    func setParseObject () {
         let invitationParseObject = InvitationParseObject()
         invitationParseObject.eventName = self.eventName
         invitationParseObject.location = PFGeoPoint(location: self.location)
@@ -64,9 +80,11 @@ class Invitation : NSObject {
         invitationParseObject.interests = self.interests
         invitationParseObject.fromUser = self.fromUser
         invitationParseObject.rsvpCount = self.rsvpCount
-        
-        return invitationParseObject
+        invitationParseObject.rsvpUsers = self.rsvpUsers
+        self.invitationParseObject = invitationParseObject
     }
     
-    
+    func getParseObject () -> InvitationParseObject {
+        return self.invitationParseObject
+    }
 }

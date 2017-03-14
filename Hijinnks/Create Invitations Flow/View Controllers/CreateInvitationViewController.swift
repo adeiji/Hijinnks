@@ -37,6 +37,15 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     var place:GMSPlace!
     var durations:Array<String>!
     var delegate:PassDataBetweenViewControllersProtocol!
+    var isPublic:Bool!
+    var invitationSendScope:InvitationSendScope!
+    
+    enum InvitationSendScope {
+        case Everyone
+        case AllFriends
+        case SomeFriends
+    }
+    
     weak var selectedTextField:UITextField!
     
     override func viewDidLoad() {
@@ -68,21 +77,24 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         let selectedFriendsUserObjects = mySelectedFriends as! [PFUser]
         for user in selectedFriendsUserObjects {
             if user != selectedFriendsUserObjects.last {
-                self.inviteesTextField.text = "\(user.username!), "
+                self.inviteesTextField.text = self.inviteesTextField.text! + "\(user.username!), "
             } else {
-                self.inviteesTextField.text = "\(user.username!)"
+                self.inviteesTextField.text = self.inviteesTextField.text! + "\(user.username!)"
             }
         }
+        self.invitationSendScope = InvitationSendScope.SomeFriends
     }
     
     func setSelectedFriendsToEveryone() {
         self.selectedFriends = PFUser.current()?.object(forKey: ParseObjectColumns.Friends.rawValue) as! NSArray
         self.inviteesTextField.text = "All Your Friends"
+        self.invitationSendScope = InvitationSendScope.AllFriends
     }
     
     func setSelectedFriendsToAnyone() {
         self.selectedFriends = [PFUser]() as NSArray!
         self.inviteesTextField.text = "Public to Anyone"
+        self.invitationSendScope = InvitationSendScope.Everyone
     }
     
     func getLocation () -> CLLocation! {
@@ -101,7 +113,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
                 let state = placemark?.administrativeArea
                 let zipCode = placemark?.postalCode
                 
-                let fullAddress = String("\(addressNumber) \(address), \(city), \(state) \(zipCode)")
+                let fullAddress = String("\(addressNumber!) \(address!), \(city!), \(state!) \(zipCode!)")
                 self.address = fullAddress
                 self.saveAndSendInvitation(currentLocation: (placemark?.location)!)
             })
@@ -115,17 +127,52 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     
     func saveAndSendInvitation (currentLocation: CLLocation) {
         // Check to make sure all the data entered is valid
+        var invitees:NSArray!
         
-        // Create an invitation object with all the specified data entered by the user
-        let newInvitation = Invitation(eventName: nameTextField.text!, location:  currentLocation, address: self.address, message: self.inviteMessageTextField.text, startingTime: self.startingTime, duration: self.durationTextField.text, invitees: nil, interests: self.selectedInterests as! Array<String>!, fromUser: PFUser.current()!, dateInvited: Date(), rsvpCount: 0)
-        let newInvitationParseObject = newInvitation.getParseObject()
-        
-        // Save the new invitation to the server
-        ParseManager.save(parseObject: newInvitationParseObject)
-        // On the view invitations view controller, add this new invitation object
-        delegate.addInvitation!(invitation: newInvitation)
+        if invitationSendScope == InvitationSendScope.SomeFriends // If the user has selected some friends
+        {
+            invitees = self.selectedFriends
+            createInvitationAndSend(currentLocation: currentLocation, invitees: invitees as! Array<PFUser>)
+        }
+        else if invitationSendScope == InvitationSendScope.AllFriends { // If the user has selected all friends
+            let query = PFUser.query()
+            // Get all the Users that have ObjectIds stored on the device as friends object ids
+            query?.whereKey(ParseObjectColumns.ObjectId.rawValue, containedIn: PFUser.current()?.object(forKey: ParseObjectColumns.Friends.rawValue) as! [Any])
+            query?.findObjectsInBackground(block: { (friends, error) in
+                if (friends != nil) {
+                    self.createInvitationAndSend(currentLocation: currentLocation, invitees: friends as! [PFUser])
+                }
+            })
+        }
+        else {  // If the user has made the invitation public
+            createInvitationAndSend(currentLocation: currentLocation, invitees: Array<PFUser>())
+        }
+
         self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?.last
         self.promptPostToFacebook()
+    }
+    
+    func createInvitationAndSend (currentLocation: CLLocation, invitees: Array<PFUser>) {
+        // Create an invitation object with all the specified data entered by the user
+        let newInvitation = Invitation( eventName: nameTextField.text!,
+                                        location:  currentLocation,
+                                        address: self.address,
+                                        message: self.inviteMessageTextField.text,
+                                        startingTime: self.startingTime,
+                                        duration: self.durationTextField.text,
+                                        invitees: invitees, // Send an empty array, this will mean that anyone can see it
+                                        interests: self.selectedInterests as! Array<String>!,
+                                        fromUser: PFUser.current()!,
+                                        dateInvited: Date(),
+                                        rsvpCount: 0,
+                                        rsvpUsers: Array<String>())
+        
+        let newInvitationParseObject = newInvitation.getParseObject()
+        newInvitation.invitationParseObject = newInvitationParseObject
+        newInvitation.invitationParseObject.isPublic = true
+        ParseManager.save(parseObject: newInvitationParseObject) // Save the new invitation to the server
+        // On the view invitations view controller, add this new invitation object
+        delegate.addInvitation!(invitation: newInvitation)
     }
     
     // Ask the user if they would like to post the invitation to Facebook for others to see
@@ -201,7 +248,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         
         label.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view)
-            make.top.equalTo(self.view).offset(75)
+            make.top.equalTo(self.view).offset(20)
         }
         
         return label

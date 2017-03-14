@@ -30,7 +30,7 @@ class HijinnksButton : UIButton {
             HijinnksStyleKit.drawLikeButton(frame: rect)
         }
         else if customButtonType == .LikeFilledButton {
-            HijinnksStyleKit.drawLikeButtonFilled(frame: rect)
+            HijinnksStyleKit.drawLikeButtonFilled(frame: rect)            
         }
         else if customButtonType == .HomeButton {
             HijinnksStyleKit.drawHomeButton(frame: rect, resizing: .stretch)

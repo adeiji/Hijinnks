@@ -18,8 +18,7 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
     
     override func viewDidLoad() {
         // Add the activity spinner
-        // Hide the TableView so that there is nothing on the pages as the information is downloaded from the server
-        self.tableView.isHidden = true
+        self.tableView.separatorColor = Colors.TableViewSeparatorColor.value
         parseQueue.async {
             let invitationParseObjects = ParseManager.getAllInvitationsNearLocation()
             for invitationParseObject in invitationParseObjects! {
@@ -35,7 +34,6 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
             }
             DispatchQueue.main.async(execute: { 
                 self.tableView.reloadData()
-                self.tableView.isHidden = false
             });
         }
         

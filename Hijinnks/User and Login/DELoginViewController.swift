@@ -80,7 +80,7 @@ class DELoginViewController: UIViewController {
     }
     
     func getProfileInformationFromFacebook () {
-        let requestParameters = ["fields": "id, email, first_name, last_name"]
+        let requestParameters = ["fields": "id, email, first_name, last_name, name"]
         let userDetails = FBSDKGraphRequest(graphPath: "me", parameters: requestParameters)
         _ = userDetails?.start(completionHandler: { (connection, result, error) in
             if(error != nil)
@@ -93,6 +93,7 @@ class DELoginViewController: UIViewController {
             {
                 let myResult = result as! [String:AnyObject]
                 let userId:String = myResult["id"] as! String
+                let name:String = myResult["name"] as! String
                 let userFirstName:String? = myResult["first_name"] as? String
                 let userLastName:String? = myResult["last_name"] as? String
                 let userEmail:String? = myResult["email"] as? String
@@ -116,6 +117,8 @@ class DELoginViewController: UIViewController {
                 {
                     myUser.setObject(userEmail!, forKey: "email")
                 }
+                
+                myUser.username = name
                 
                 DispatchQueue.global().async {
                     // Get Facebook profile picture

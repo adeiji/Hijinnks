@@ -60,6 +60,8 @@ enum ParseObjectColumns : String {
     case InterestsGroups = "interests_groups"
     case Owner = "owner"
     case ObjectId = "objectId"
+    case RsvpUsers = "rsvpUsers"
+    case IsPublic = "isPublic"
 }
 
 enum UIConstants : Int {
@@ -80,6 +82,9 @@ enum Colors {
     case grey
     case invitationTextGrayColor
     case invitationHeaderViewColor
+    case TableViewSeparatorColor
+    case AccountTextFieldColor
+    case FacebookButton
 }
 
 enum Settings {
@@ -106,6 +111,12 @@ extension Colors {
                 return UIColor(red: 68/255, green: 68/255, blue: 68/255, alpha: 0.75)
             case .invitationHeaderViewColor:
                 return UIColor(red: 48/255, green: 62/255, blue: 146/255, alpha: 0.75)
+            case .TableViewSeparatorColor:
+                return UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1.00)
+            case .AccountTextFieldColor:
+                return UIColor(red: 103/255, green: 111/255, blue: 128/255, alpha: 0.75)
+            case .FacebookButton:
+                return UIColor(red: 59/255, green: 87/255, blue: 157/255, alpha: 1.0)
             }
         }
     }
@@ -126,4 +137,5 @@ enum Images : String {
     case CreateInvitationButton = "plus.png"
     case ProfileImageButton = "user.png"
     case ConnectButton = "connect.png"
+    case Background = "Background.png"
 }

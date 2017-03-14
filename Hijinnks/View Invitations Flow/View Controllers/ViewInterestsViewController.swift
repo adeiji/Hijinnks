@@ -78,7 +78,7 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
         self.explanationLabel.snp.makeConstraints { (make) in
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
-            make.top.equalTo(self.view).offset(75)
+            make.top.equalTo(self.view).offset(20)
             make.height.equalTo(75)
         }
     }

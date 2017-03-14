@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import GoogleMaps
+import Parse
 
 class ViewInvitationsCell : UITableViewCell {
     
@@ -26,7 +27,7 @@ class ViewInvitationsCell : UITableViewCell {
     weak var footerView:UIView!
     weak var mapButton:HijinnksButton!
     weak var likeButton:HijinnksButton!
-    weak var rsvpLabel:UILabel!
+    weak var rsvpButton:UIButton!
     weak var addressDataLabel:UILabel!
     weak var addressLabel:UILabel!
     weak var interestsLabel:UILabel!
@@ -48,7 +49,7 @@ class ViewInvitationsCell : UITableViewCell {
         // Set the very large sized content view so that the contentView will shrink.  There seems to be an iOS bug with it growing in size
         self.contentView.bounds = CGRect(x: 0, y: 0, width: 9999, height: 9999)
         self.selectionStyle = .none
-        let font = UIFont.systemFont(ofSize: 16)
+        let font = UIFont.systemFont(ofSize: 14)
         headerView = setHeaderView()
         profileImageView = setProfileImageView()
         invitedDateLabel = setInvitedDateLabel(font: font)
@@ -70,7 +71,7 @@ class ViewInvitationsCell : UITableViewCell {
         footerView = setFooterView()
         mapButton = setMapButton()
         likeButton = setLikeButton()
-        rsvpLabel = setRSVPLabel(font: font)
+        self.rsvpButton = setRSVPButton(font: font)
     }
     
     // Takes the array of interests and turns it into a string with the interests seperated by commas
@@ -87,23 +88,22 @@ class ViewInvitationsCell : UITableViewCell {
         return interestString
     }
     
-    
     func setDescriptionLabel (descriptionViewAbove: UIView!, invitationDetailViewAbove: UIView!, text: String) -> UILabel {
         let myDescriptionLabel = UILabel()
         myDescriptionLabel.text = text
-        myDescriptionLabel.font = UIFont.systemFont(ofSize: 18)
+        myDescriptionLabel.font = UIFont.systemFont(ofSize: 14)
         myDescriptionLabel.textAlignment = .right
         myDescriptionLabel.textColor = Colors.invitationTextGrayColor.value
         self.contentView.addSubview(myDescriptionLabel)
         myDescriptionLabel.snp.makeConstraints { (make) in
             if descriptionViewAbove == nil {
-                make.right.equalTo(self.snp.left).offset(95)
+                make.right.equalTo(self.contentView.snp.left).offset(90)
             }
             else {
                 make.right.equalTo(self.contentView.snp.left).offset(90)
             }
             if invitationDetailViewAbove == nil {
-                make.top.equalTo(self.headerView.snp.bottom).offset(35)
+                make.top.equalTo(self.headerView.snp.bottom).offset(25)
             }
             else {
                 make.top.equalTo(invitationDetailViewAbove.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
@@ -116,7 +116,7 @@ class ViewInvitationsCell : UITableViewCell {
     func setInvitationDetailLabel (viewToLeft: UIView, text: String) -> UILabel {
         let myInvitationDetailLabel = UILabel()
         myInvitationDetailLabel.text = text
-        myInvitationDetailLabel.font = UIFont.systemFont(ofSize: 18)
+        myInvitationDetailLabel.font = UIFont.systemFont(ofSize: 14)
         myInvitationDetailLabel.textColor = Colors.invitationTextGrayColor.value
         myInvitationDetailLabel.numberOfLines = 0
         self.contentView.addSubview(myInvitationDetailLabel)
@@ -132,6 +132,7 @@ class ViewInvitationsCell : UITableViewCell {
     // View at the top of the cell which contains the data invited and the profile picture
     func setHeaderView () -> UIView {
         let view = UIView()
+        view.backgroundColor = .white
         self.contentView.addSubview(view)
         view.layer.borderWidth = 1
         view.layer.borderColor = Colors.invitationTextGrayColor.value.cgColor
@@ -165,7 +166,6 @@ class ViewInvitationsCell : UITableViewCell {
         let label = UILabel()
         label.font = font
         label.textColor = Colors.invitationTextGrayColor.value
-        
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short
@@ -204,9 +204,9 @@ class ViewInvitationsCell : UITableViewCell {
         button.addTarget(self, action: #selector(displayMap), for: .touchUpInside)
         button.snp.makeConstraints { (make) in
             make.left.equalTo(35)
-            make.top.equalTo(self.footerView).offset(15)
-            make.bottom.equalTo(self.footerView).offset(-15)
-            make.width.equalTo(button.snp.height)
+            make.top.equalTo(self.footerView).offset(13)
+            make.bottom.equalTo(self.footerView).offset(-13)
+            make.width.equalTo(button.snp.height).offset(-5)
         }
         return button
     }
@@ -248,17 +248,41 @@ class ViewInvitationsCell : UITableViewCell {
         return button
     }
     
-    func setRSVPLabel (font: UIFont) -> UILabel {
-        let label = UILabel()
-        label.font = font
-        label.text = "\(invitation.rsvpCount)\nRSVP'd"  // Display the number of people who have RSVP'd
-        self.footerView.addSubview(label)
-        label.snp.makeConstraints { (make) in
+    func setRSVPButton (font: UIFont) -> UIButton {
+        let button = UIButton()
+        button.titleLabel?.font = font
+        button.setTitle("\(invitation.rsvpCount!)\nRSVP'd", for: .normal) // Display the number of people who have RSVP'd
+        button.titleLabel?.lineBreakMode = .byWordWrapping
+        button.titleLabel?.textAlignment = .center
+        button.setTitleColor(Colors.invitationTextGrayColor.value, for: .normal)
+        button.addTarget(self, action: #selector(updateRSVPCount), for: .touchUpInside)
+        self.footerView.addSubview(button)
+        button.snp.makeConstraints { (make) in
             make.right.equalTo(self.footerView).offset(-35)
             make.centerY.equalTo(self.mapButton)
         }
         
-        return label
+        return button
+    }
+    
+    func updateRSVPCount () {
+        var invitationParseObject:InvitationParseObject!
+        if invitation.invitationParseObject != nil {
+            invitationParseObject = invitation.invitationParseObject
+        }
+        else {
+            invitationParseObject = invitation.getParseObject()
+        }
+        // If the user has already rsvp'd to this shindig
+        if (invitationParseObject.rsvpUsers.contains((PFUser.current()?.username)!)) {
+            invitation.decrementRsvpCount(user: PFUser.current()!)
+        }
+        else {
+            invitationParseObject.incrementKey(ParseObjectColumns.RSVPCount.rawValue, byAmount: -1)
+            invitation.incrementRsvpCount(user: PFUser.current()!)
+        }
+        
+        self.rsvpButton.setTitle("\(invitation.rsvpCount!)\nRSVP'd", for: .normal) // Display the number of people who have RSVP'd
     }
     
     func likeButtonPressed (likeButton: HijinnksButton) {

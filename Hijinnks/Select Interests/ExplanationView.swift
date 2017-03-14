@@ -30,13 +30,17 @@ class ExplanationView : UIView {
     func setExplanationLabel () {
         let explanationLabel = UILabel()
         explanationLabel.text = "Please Select at Least 2 Interests from the List"
-        explanationLabel.font = UIFont.systemFont(ofSize: 35)
+        explanationLabel.textColor = .white
+        explanationLabel.backgroundColor = Colors.invitationTextGrayColor.value
+        explanationLabel.font = UIFont.systemFont(ofSize: 25)
+        explanationLabel.numberOfLines = 0
+        explanationLabel.textAlignment = .center
         self.addSubview(explanationLabel)
         explanationLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(self).offset(35)
-            make.right.equalTo(self).offset(-35)
-            make.center.equalTo(self)
-            make.height.equalTo(200)
+            make.left.equalTo(self)
+            make.right.equalTo(self)
+            make.top.equalTo(self)
+            make.height.equalTo(self)
         }
         self.explanationLabel = explanationLabel
     }

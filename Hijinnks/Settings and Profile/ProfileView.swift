@@ -55,7 +55,7 @@ class ProfileView : UIView {
         self.addSubview(profileImageView)
         profileImageView.snp.makeConstraints { (make) in
             make.centerX.equalTo(self)
-            make.top.equalTo(self).offset(75)
+            make.top.equalTo(self).offset(15)
             make.width.equalTo(100)
             make.height.equalTo(100)
         }
@@ -206,7 +206,7 @@ class ProfileView : UIView {
             make.left.equalTo(self)
             make.top.equalTo(myRsvpLabel.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
             make.right.equalTo(self)
-            make.bottom.equalTo(self)
+            make.bottom.equalTo(self).offset(75)
         }
         self.viewInvitationsTableView = viewInvitationsTableView
     }

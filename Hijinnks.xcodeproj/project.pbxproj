@@ -27,6 +27,7 @@
 		F42ECC901E60DA62007B5B55 /* ParseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42ECC8F1E60DA62007B5B55 /* ParseManager.swift */; };
 		F42ECC931E60DAA3007B5B55 /* InvitationParseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42ECC921E60DAA3007B5B55 /* InvitationParseObject.swift */; };
 		F42ECC951E60DBD6007B5B55 /* Invitation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42ECC941E60DBD6007B5B55 /* Invitation.swift */; };
+		F43AB80A1E78ABB40092FB5B /* Background.png in Resources */ = {isa = PBXBuildFile; fileRef = F43AB8091E78ABB40092FB5B /* Background.png */; };
 		F44CAD6F1E5F690700C91A1F /* ViewInvitationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD6E1E5F690700C91A1F /* ViewInvitationsViewController.swift */; };
 		F44CAD731E5F695F00C91A1F /* CreateInvitationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD721E5F695F00C91A1F /* CreateInvitationViewController.swift */; };
 		F44CAD771E5F928000C91A1F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD761E5F928000C91A1F /* Colors.swift */; };
@@ -108,6 +109,7 @@
 		F42ECC8F1E60DA62007B5B55 /* ParseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseManager.swift; path = Managers/ParseManager.swift; sourceTree = "<group>"; };
 		F42ECC921E60DAA3007B5B55 /* InvitationParseObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvitationParseObject.swift; path = Parse/InvitationParseObject.swift; sourceTree = "<group>"; };
 		F42ECC941E60DBD6007B5B55 /* Invitation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Invitation.swift; path = "View Invitations Flow/Invitation.swift"; sourceTree = "<group>"; };
+		F43AB8091E78ABB40092FB5B /* Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Background.png; path = ../../UI/Background.png; sourceTree = "<group>"; };
 		F44CAD6E1E5F690700C91A1F /* ViewInvitationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewInvitationsViewController.swift; path = "View Invitations Flow/View Controllers/ViewInvitationsViewController.swift"; sourceTree = "<group>"; };
 		F44CAD721E5F695F00C91A1F /* CreateInvitationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateInvitationViewController.swift; path = "Create Invitations Flow/View Controllers/CreateInvitationViewController.swift"; sourceTree = "<group>"; };
 		F44CAD761E5F928000C91A1F /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = UI/Constants/Colors.swift; sourceTree = "<group>"; };
@@ -343,6 +345,7 @@
 		F4A0D1B91E5A453A00C6CDFE /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F43AB8091E78ABB40092FB5B /* Background.png */,
 				F4BA9E201E77053000590B32 /* connect.png */,
 				F4CCE49A1E73C0150090BCD3 /* plus.png */,
 				F4CCE4981E73BFAD0090BCD3 /* house.png */,
@@ -560,6 +563,7 @@
 			files = (
 				F4BA9E211E77053000590B32 /* connect.png in Resources */,
 				F4E0D8651E5A09E500FFEEB8 /* LaunchScreen.storyboard in Resources */,
+				F43AB80A1E78ABB40092FB5B /* Background.png in Resources */,
 				F4A0D1BB1E5A454500C6CDFE /* textLogo.png in Resources */,
 				F4CCE49B1E73C0150090BCD3 /* plus.png in Resources */,
 				F4CCE4991E73BFAD0090BCD3 /* house.png in Resources */,

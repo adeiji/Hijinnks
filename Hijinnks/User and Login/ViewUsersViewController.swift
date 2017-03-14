@@ -22,11 +22,18 @@ class ViewUsersViewController : UITableViewController {
     init(setting: Settings) {
         self.setting = setting
         super.init(style: .plain)
-        self.tableView.allowsMultipleSelection = true
+        self.tableView.separatorColor = Colors.TableViewSeparatorColor.value
+        if setting == Settings.ViewUsersInvite {
+            self.tableView.allowsMultipleSelection = true
+        }
+        else if setting == Settings.ViewUsersAll {
+            self.tableView.allowsMultipleSelection = false
+        }
     }
     
     func showAllUsers () {
         let query = PFUser.query()
+        query?.whereKey(ParseObjectColumns.ObjectId.rawValue, notEqualTo: PFUser.current()?.objectId! as Any)
         query?.findObjectsInBackground(block: { (users, error) in
             self.friends = users as! [PFUser]
             self.tableView.reloadData()

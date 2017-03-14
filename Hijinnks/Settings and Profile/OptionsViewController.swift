@@ -14,7 +14,7 @@ import FBSDKLoginKit
 
 class OptionsViewController : UITableViewController, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate, PassDataBetweenViewControllersProtocol {
     
-    let options = [ProfileOptions.InviteFacebookFriends.rawValue, ProfileOptions.ChangePassword.rawValue, ProfileOptions.ReportProblem.rawValue, ProfileOptions.Logout.rawValue, ProfileOptions.ChangeInterests.rawValue]
+    let options = [ProfileOptions.ReportProblem.rawValue, ProfileOptions.Logout.rawValue, ProfileOptions.ChangeInterests.rawValue]
     
     override func viewDidLoad() {
         
@@ -72,8 +72,7 @@ class OptionsViewController : UITableViewController, UINavigationControllerDeleg
     func confirmLogout () {
         let alertController = UIAlertController(title: "Logout", message: "Are You Sure You Want To Log Out?", preferredStyle: .alert)
         let yesAction = UIAlertAction(title: "Yes", style: .destructive) { (action) in
-            PFUser.logOut()
-            FBSDKLoginManager().logOut()
+            PFUser.logOutInBackground()
             // Show the login by removing all the current views and making the login view controller the root
             (UIApplication.shared.delegate as! AppDelegate).showLoginView()
         }

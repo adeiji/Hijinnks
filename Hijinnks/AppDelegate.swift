@@ -63,7 +63,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Setup the views for the entire application.  For ex: UINavigationBar color, UITextField text
     func configureGlobalAppearances () {
         
-        
+        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "banner.png")!.resizableImage(withCapInsets: UIEdgeInsets.zero, resizingMode: .stretch), for: .default)
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
     }
     
     func initializeParse(launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
