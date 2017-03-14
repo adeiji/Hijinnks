@@ -20,6 +20,12 @@ PODS:
     - GoogleMaps/Base (= 2.2.0)
   - Parse (1.14.2):
     - Bolts/Tasks (~> 1.8)
+  - ParseFacebookUtilsV4 (1.11.1):
+    - Bolts/Tasks (>= 1.6)
+    - FBSDKCoreKit (~> 4.10)
+    - FBSDKLoginKit (~> 4.10)
+    - FBSDKTVOSKit (~> 4.10)
+    - Parse (~> 1.12)
   - SnapKit (3.2.0)
 
 DEPENDENCIES:
@@ -29,6 +35,7 @@ DEPENDENCIES:
   - GoogleMaps
   - GooglePlaces
   - Parse
+  - ParseFacebookUtilsV4
   - SnapKit (~> 3.0)
 
 SPEC CHECKSUMS:
@@ -39,8 +46,9 @@ SPEC CHECKSUMS:
   GoogleMaps: 104c418d61ab8a05dff06ed0784c25ea9d37da45
   GooglePlaces: bca867d5e9da15384c794b945e4226848bc6e9d9
   Parse: 4335d65f40cb3d43190d723144bbe1afb9c38230
+  ParseFacebookUtilsV4: 2f30c2b7021c8005d3042781da7ef87d06589421
   SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
 
-PODFILE CHECKSUM: cbde4a108732488f1946098c176916542dd5dd54
+PODFILE CHECKSUM: 41ac770081fab82dc61ebdad96779c4efd89cc0f
 
 COCOAPODS: 1.1.1

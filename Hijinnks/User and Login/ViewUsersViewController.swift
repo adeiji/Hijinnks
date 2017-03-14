@@ -70,7 +70,7 @@ class ViewUsersViewController : UITableViewController {
         }
         
         delegate.setSelectedFriends!(mySelectedFriends: selectedFriends)
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

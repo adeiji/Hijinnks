@@ -10,7 +10,7 @@ target 'Hijinnks' do
   pod 'GooglePlaces'
   pod 'GoogleMaps'
   pod 'Parse'
-  pod 'ParseFacebookUtils'
+  pod 'ParseFacebookUtilsV4'
   pod 'FBSDKCoreKit'
   pod 'FBSDKLoginKit'
   pod 'FBSDKShareKit'

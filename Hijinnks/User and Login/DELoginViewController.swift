@@ -8,6 +8,7 @@
 //
 import UIKit
 import Parse
+import ParseFacebookUtilsV4
 
 class DELoginViewController: UIViewController {
 // MARK: - IBOutlets
@@ -44,6 +45,7 @@ class DELoginViewController: UIViewController {
             self.view.addSubview(self.loginView)
             self.loginView.signInButton.addTarget(self, action: #selector(signInButtonPressed), for: .touchUpInside)
             self.loginView.signUpButton.addTarget(self, action: #selector(signUpButtonPressed), for: .touchUpInside)
+            self.loginView.facebookLoginButton.addTarget(self, action: #selector(facebookLoginButtonPressed), for: .touchUpInside)
             loginView.snp.makeConstraints({ (make) in
                 make.edges.equalTo(self.view)
             })
@@ -54,6 +56,86 @@ class DELoginViewController: UIViewController {
 //        PFUser.logOutInBackground()
     }
     
+    // Login using facebook and get their public profile and email address
+    func facebookLoginButtonPressed () {
+        PFFacebookUtils.logInInBackground(withReadPermissions: ["public_profile","email"]) { (user, error) in
+            if(error != nil)
+            {
+                //Display an alert message
+                let myAlert = UIAlertController(title:"Alert", message:error?.localizedDescription, preferredStyle: UIAlertControllerStyle.alert);
+                let okAction =  UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil)
+                myAlert.addAction(okAction);
+                self.present(myAlert, animated:true, completion:nil);
+                
+                return
+            }
+            
+            if(FBSDKAccessToken.current() != nil)
+            {
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.setupNavigationController()
+            }
+            self.getProfileInformationFromFacebook()
+        }
+    }
+    
+    func getProfileInformationFromFacebook () {
+        let requestParameters = ["fields": "id, email, first_name, last_name"]
+        let userDetails = FBSDKGraphRequest(graphPath: "me", parameters: requestParameters)
+        _ = userDetails?.start(completionHandler: { (connection, result, error) in
+            if(error != nil)
+            {
+                print("\(error?.localizedDescription)")
+                return
+            }
+            
+            if(result != nil)
+            {
+                let myResult = result as! [String:AnyObject]
+                let userId:String = myResult["id"] as! String
+                let userFirstName:String? = myResult["first_name"] as? String
+                let userLastName:String? = myResult["last_name"] as? String
+                let userEmail:String? = myResult["email"] as? String
+                print("\(userEmail)")
+                let myUser:PFUser = PFUser.current()!
+                
+                // Save first name
+                if(userFirstName != nil)
+                {
+                    myUser.setObject(userFirstName!, forKey: "first_name")
+                }
+                
+                //Save last name
+                if(userLastName != nil)
+                {
+                    myUser.setObject(userLastName!, forKey: "last_name")
+                }
+                
+                // Save email address
+                if(userEmail != nil)
+                {
+                    myUser.setObject(userEmail!, forKey: "email")
+                }
+                
+                DispatchQueue.global().async {
+                    // Get Facebook profile picture
+                    let userProfile = "https://graph.facebook.com/" + userId + "/picture?type=large"
+                    let profilePictureUrl = NSURL(string: userProfile)
+                    let profilePictureData = NSData(contentsOf: profilePictureUrl! as URL)
+                    if(profilePictureData != nil) {
+                        let profileFileObject = PFFile(data:profilePictureData! as Data)
+                        myUser.setObject(profileFileObject!, forKey: "profile_picture")
+                    }
+                    
+                    myUser.saveInBackground(block: { (success, error) -> Void in
+                        if(success) {
+                            print("User details are now updated")
+                        }
+                    })
+                }
+            }
+        })
+    }
     
     func signUpButtonPressed () {
         let createAccountViewController = CreateAccountViewController()
@@ -100,9 +182,5 @@ class DELoginViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-
-    @IBAction func login(withFacebook sender: Any) {
-        _ = DEUserManager.sharedManager.loginWithFacebook()
     }
 }

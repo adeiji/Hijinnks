@@ -12,6 +12,7 @@ import GooglePlaces
 import GoogleMaps
 import Parse
 import FBSDKCoreKit
+import ParseFacebookUtilsV4
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        initializeParse()
+        initializeParse(launchOptions: launchOptions)
         initializeGoogleMaps()
         configureGlobalAppearances()
         startLocationServices()
@@ -65,13 +66,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
-    func initializeParse() {
+    func initializeParse(launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
         let parseConfiguration = ParseClientConfiguration { (ParseMutableClientConfiguration) in
             ParseMutableClientConfiguration.applicationId = "com.hijinnks.dephyned"
             ParseMutableClientConfiguration.server = "https://hijinnks.herokuapp.com/parse"
         }
         
         Parse.initialize(with: parseConfiguration)
+        PFFacebookUtils.initializeFacebook(applicationLaunchOptions: launchOptions)
     }
     
     func isLoggedIn () -> Bool {

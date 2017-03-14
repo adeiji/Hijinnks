@@ -8,6 +8,7 @@
 //
 import Foundation
 import Parse
+import ParseFacebookUtilsV4
 
 private let sharedUserManager = DEUserManager()
 
@@ -121,11 +122,7 @@ class DEUserManager: NSObject {
     class var sharedManager : DEUserManager {
         return sharedUserManager
     }
-
-    func loginWithFacebook() -> Error? {
-        return nil
-    }
-
+    
     func isLinkedWithFacebook() -> Bool {
         return false
     }

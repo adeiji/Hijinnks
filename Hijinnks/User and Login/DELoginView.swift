@@ -43,20 +43,25 @@ class DELoginView: UIView {
         errorLabel = setupErrorLabel()
         signInButton = setupSignInButton(title: "SIGN IN", viewObjectAbove: errorLabel)
         signUpButton = setupSignInButton(title: "SIGN UP", viewObjectAbove: signInButton)
-        setFacebookLoginButton()
+        facebookLoginButton = setFacebookLoginButton(signUpButton: signUpButton)
     }
     
-    func setFacebookLoginButton () {
-        let button = FBSDKLoginButton()
-        button.readPermissions = ["public_profile", "enmail", "user_friends"]
-        self.addSubview(button)
-        button.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self.signUpButton)
-            make.width.equalTo(self.signUpButton)
-            make.height.equalTo(self.signUpButton)
-            make.top.equalTo(self.signUpButton.snp.bottom).offset(5)
+    func setFacebookLoginButton (signUpButton: UIButton) -> UIButton {
+        
+        let myFacebookLoginButton = UIButton()
+        myFacebookLoginButton.backgroundColor = .blue
+        myFacebookLoginButton.setTitleColor(.white, for: .normal)
+        myFacebookLoginButton.setTitle("Login With Facebook", for: .normal)
+        self.addSubview(myFacebookLoginButton)
+        myFacebookLoginButton.snp.makeConstraints { (make) in
+            make.width.equalTo(signUpButton)
+            make.height.equalTo(signUpButton)
+            make.centerX.equalTo(signUpButton)
+            make.top.equalTo(signUpButton.snp.bottom).offset(20)
         }
-        self.facebookLoginButton = button
+        
+        return myFacebookLoginButton
+        
     }
     
     // Display a sign in button below the password text field
