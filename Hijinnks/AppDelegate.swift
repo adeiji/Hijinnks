@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import GooglePlaces
+import GoogleMaps
 import Parse
 import FBSDKCoreKit
 
@@ -22,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         initializeParse()
-        GMSPlacesClient.provideAPIKey("AIzaSyBumgyof-1r1HAiXd6pY6ZUjoj1mQb5Ie4")
+        initializeGoogleMaps()
         configureGlobalAppearances()
         startLocationServices()
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -34,6 +35,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             showLoginView()
         }
         return true
+    }
+    
+    func initializeGoogleMaps () {
+        GMSPlacesClient.provideAPIKey("AIzaSyBumgyof-1r1HAiXd6pY6ZUjoj1mQb5Ie4")
+        GMSServices.provideAPIKey("AIzaSyCwH5MoYOHPX0P3tfDG26zgUNLQ4LSOAWI")
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {

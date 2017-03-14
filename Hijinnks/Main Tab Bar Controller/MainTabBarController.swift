@@ -22,9 +22,23 @@ class MainTabBarController : UITabBarController {
         viewControllers.append(createInvitationViewController)
         viewControllers.append(getViewInvitationsViewController(viewInvitationsViewController: viewInvitationsViewController))
         viewControllers.append(profileViewController)
+        viewControllers.append(getConnectViewController())
+        
         self.viewControllers = viewControllers
         self.tabBar.tintColor = .gray
         self.selectedViewController = self.viewControllers?.last
+    }
+    
+    func getConnectViewController () -> UINavigationController {
+        let connectViewController = ViewUsersViewController(setting: Settings.ViewUsersAll)
+        connectViewController.showAllUsers()
+        connectViewController.navigationItem.title = StringConstants.Hijinnks.rawValue
+        let connectViewControllerTabBarItem = UITabBarItem()
+        connectViewControllerTabBarItem.image = UIImage(named: Images.ConnectButton.rawValue)
+        connectViewControllerTabBarItem.title = StringConstants.Connect.rawValue
+        connectViewController.tabBarItem = connectViewControllerTabBarItem
+        let connectNavigationController = UINavigationController(rootViewController: connectViewController)
+        return connectNavigationController
     }
     
     func getViewInvitationsViewController (viewInvitationsViewController : ViewInvitationsViewController) -> UINavigationController {

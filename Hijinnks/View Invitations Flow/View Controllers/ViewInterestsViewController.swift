@@ -25,6 +25,8 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
     var tableData:NSArray!
     var delegate:PassDataBetweenViewControllersProtocol!
     var tableView = UITableView()
+    var setting:Settings
+    var explanationLabel:UILabel!
     
     func getInterests () -> NSArray {
         
@@ -34,19 +36,70 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
         return myInterests!
     }
     
+    init(setting: Settings) {
+        self.setting = setting
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableData = getInterests()
+        setupUI()
+        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(getAllSelectedInterests))
+        self.navigationItem.rightBarButtonItem = doneButton
+    }
+    
+    func setupUI () {
+        self.view.backgroundColor = .white
+        if setting == Settings.ViewInterestsCreateInvite {
+            setExplanationLabel(text: "Please select up to 3 interests that you feel fit this invitation.")
+            setTableView(explanationLabel: self.explanationLabel)
+        }
+        else if setting == Settings.ViewInterestsAddFriend {
+            setExplanationLabel(text: "Please select up to 3 interests that this friend will be affiliated with.")
+            setTableView(explanationLabel: self.explanationLabel)
+        }
+        else if setting == Settings.ViewInterestsCreateAccountOrChangeInterests {
+            setExplanationLabel(text: "Please select up to 3 interests that you would like to receive invitations for.")
+            setTableView(explanationLabel: self.explanationLabel)
+        }
+    }
+    // The label that provides an explanation of what they are to do with this view
+    func setExplanationLabel (text: String) {
+        self.explanationLabel = UILabel()
+        self.explanationLabel.text = text
+        self.explanationLabel.numberOfLines = 0
+        self.explanationLabel.textAlignment = .center
+        self.view.addSubview(self.explanationLabel)
+        self.explanationLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(self.view)
+            make.right.equalTo(self.view)
+            make.top.equalTo(self.view).offset(75)
+            make.height.equalTo(75)
+        }
+    }
+    
+    func setTableView (explanationLabel: UILabel!) {
         self.tableView = UITableView()
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.allowsMultipleSelection = true
         self.view.addSubview(self.tableView)
         self.tableView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.view)
+            if explanationLabel == nil {
+                make.edges.equalTo(self.view)
+            }
+            else {
+                make.left.equalTo(self.view)
+                make.right.equalTo(self.view)
+                make.bottom.equalTo(self.view)
+                make.top.equalTo(explanationLabel.snp.bottom)
+            }
         }
-        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(getAllSelectedInterests))
-        self.navigationItem.rightBarButtonItem = doneButton
     }
     
     func showExplanationView () {

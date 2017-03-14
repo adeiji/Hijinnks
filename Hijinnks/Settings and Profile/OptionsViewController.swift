@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Parse
 import MessageUI
+import FBSDKLoginKit
 
 class OptionsViewController : UITableViewController, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate, PassDataBetweenViewControllersProtocol {
     
@@ -40,7 +41,7 @@ class OptionsViewController : UITableViewController, UINavigationControllerDeleg
             let changePasswordViewController = ChangePasswordViewController()
             self.navigationController?.pushViewController(changePasswordViewController, animated: true)
         } else if selectedOption == ProfileOptions.ChangeInterests.rawValue {
-            let viewInterestsViewController = ViewInterestsViewController()
+            let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsCreateAccountOrChangeInterests)
             viewInterestsViewController.delegate = self
             self.navigationController?.pushViewController(viewInterestsViewController, animated: true)
         }
@@ -72,6 +73,7 @@ class OptionsViewController : UITableViewController, UINavigationControllerDeleg
         let alertController = UIAlertController(title: "Logout", message: "Are You Sure You Want To Log Out?", preferredStyle: .alert)
         let yesAction = UIAlertAction(title: "Yes", style: .destructive) { (action) in
             PFUser.logOut()
+            FBSDKLoginManager().logOut()
             // Show the login by removing all the current views and making the login view controller the root
             (UIApplication.shared.delegate as! AppDelegate).showLoginView()
         }

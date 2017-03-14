@@ -27,7 +27,7 @@ class CreateAccountViewController : UIViewController, PassDataBetweenViewControl
         let password = createAccountView.txtPassword.text
         let email = createAccountView.txtEmail.text
         
-        let viewInterestsViewController = ViewInterestsViewController()
+        let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsCreateAccountOrChangeInterests)
         viewInterestsViewController.delegate = self
         viewInterestsViewController.showExplanationView()
         // Create user and then display the view interests view controller upon success

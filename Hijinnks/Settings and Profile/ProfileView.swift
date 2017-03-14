@@ -24,6 +24,7 @@ class ProfileView : UIView {
     weak var rsvpLabel:UILabel!
     weak var viewInvitationsTableView:UITableView!
     weak var profileImageView:UIImageView!
+    weak var addFriendButton:UIButton!
     var tableViewDataSourceAndDelegate:UIViewController!
     weak var user:PFUser!
     
@@ -73,7 +74,29 @@ class ProfileView : UIView {
         }
         
         self.usernameLabel = myUsernameLabel
-        setEditProfileButton(myUsernameLabel: self.usernameLabel)
+        if user.isEqual(PFUser.current()) {
+            setEditProfileButton(myUsernameLabel: self.usernameLabel)
+        } else {
+            setAddFriendButton(myUsernameLabel: self.usernameLabel)
+        }
+    }
+    
+    func setAddFriendButton (myUsernameLabel: UILabel) {
+        let addFriendButton = UIButton()
+        addFriendButton.setTitle("Add Friend", for: .normal)
+        addFriendButton.backgroundColor = .white
+        addFriendButton.setTitleColor(.black, for: .normal)
+        addFriendButton.layer.borderColor = Colors.invitationTextGrayColor.value.cgColor
+        addFriendButton.layer.borderWidth = 1
+        self.addSubview(addFriendButton)
+        addFriendButton.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self)
+            make.top.equalTo(myUsernameLabel.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
+            make.width.equalTo(100)
+            make.height.equalTo(UIConstants.ProfileViewButtonHeights.rawValue)
+        }
+        self.addFriendButton = addFriendButton
+        setBioTextField(myOptionsButton: self.addFriendButton, myEditProfileButton: self.addFriendButton)
     }
     
     func setEditProfileButton (myUsernameLabel:UILabel) {
@@ -117,7 +140,6 @@ class ProfileView : UIView {
     func setBioTextField (myOptionsButton:UIButton, myEditProfileButton: UIButton)
     {
         let bioTextView = UITextView()
-//        bioTextField.text = user.object(forKey: ParseObjectColumns.UserBio.rawValue) as! String?
         bioTextView.text = "Nothing I love more than sitting back and drinking a nice ice cold beer"
         bioTextView.textColor = .black
         self.addSubview(bioTextView)

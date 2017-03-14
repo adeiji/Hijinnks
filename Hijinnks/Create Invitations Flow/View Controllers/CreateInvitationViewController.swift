@@ -64,11 +64,25 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     }
     
     func setSelectedFriends(mySelectedFriends: NSArray) {
-        selectedFriends = mySelectedFriends
+        self.selectedFriends = mySelectedFriends
+        let selectedFriendsUserObjects = mySelectedFriends as! [PFUser]
+        for user in selectedFriendsUserObjects {
+            if user != selectedFriendsUserObjects.last {
+                self.inviteesTextField.text = "\(user.username!), "
+            } else {
+                self.inviteesTextField.text = "\(user.username!)"
+            }
+        }
     }
     
     func setSelectedFriendsToEveryone() {
-        selectedFriends.adding(InviteesPresets.Everyone.rawValue)
+        self.selectedFriends = PFUser.current()?.object(forKey: ParseObjectColumns.Friends.rawValue) as! NSArray
+        self.inviteesTextField.text = "All Your Friends"
+    }
+    
+    func setSelectedFriendsToAnyone() {
+        self.selectedFriends = [PFUser]() as NSArray!
+        self.inviteesTextField.text = "Public to Anyone"
     }
     
     func getLocation () -> CLLocation! {
@@ -93,7 +107,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             })
         }
         else {
-            return CLLocation(latitude: place.coordinate.longitude, longitude: place.coordinate.longitude)
+            return CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
         }
         
         return nil
@@ -169,13 +183,12 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         
         durationTextField = createTextField(superview: wrapperView, relativeViewAbove: startingTimeTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: 10, placeholderText: "Enter a duration", showViewController: nil, colorViewColor: Colors.grey.value)
         
-        let viewInterestsViewController = ViewInterestsViewController()
         let selectFriendsViewController = SelectFriendsViewController()
         selectFriendsViewController.delegate = self
         
         inviteesTextField = createTextField(superview: wrapperView, relativeViewAbove: durationTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: 10, placeholderText: "Whom would you like to invite?", showViewController: nil, colorViewColor: Colors.green.value)
         
-        inviteInterestsTextField = createTextField(superview: wrapperView, relativeViewAbove: inviteesTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: 10, placeholderText: "What kind of invite is this?", showViewController: viewInterestsViewController, colorViewColor: Colors.blue.value)
+        inviteInterestsTextField = createTextField(superview: wrapperView, relativeViewAbove: inviteesTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: 10, placeholderText: "What kind of invite is this?", showViewController: nil, colorViewColor: Colors.blue.value)
         
         setupDurationTextFieldInputView()
     }
@@ -269,9 +282,17 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             self.navigationController?.present(autocompleteViewController, animated: true, completion: nil)
         }
         else if textField == inviteInterestsTextField {
-            let viewInterestsViewController = ViewInterestsViewController()
+            textField.resignFirstResponder()
+            let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsCreateInvite)
             viewInterestsViewController.delegate = self
             self.navigationController?.pushViewController(viewInterestsViewController, animated: true)
+        }
+        else if textField == inviteesTextField {
+            textField.resignFirstResponder()
+            let viewUsersViewController = ViewUsersViewController(setting: Settings.ViewUsersInvite)
+            viewUsersViewController.showAllFriends()
+            viewUsersViewController.delegate = self
+            self.navigationController?.pushViewController(viewUsersViewController, animated: true)
         }
     }
     

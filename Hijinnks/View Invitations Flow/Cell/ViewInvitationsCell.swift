@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import GoogleMaps
 
 class ViewInvitationsCell : UITableViewCell {
     
@@ -30,7 +31,9 @@ class ViewInvitationsCell : UITableViewCell {
     weak var addressLabel:UILabel!
     weak var interestsLabel:UILabel!
     weak var interestsDataLabel:UILabel!
+    weak var mapView:UIView!
     var invitation:Invitation
+    var isMapShown:Bool = false
     
     required init(invitation: Invitation) {
         self.invitation = invitation
@@ -198,6 +201,7 @@ class ViewInvitationsCell : UITableViewCell {
     func setMapButton () -> HijinnksButton {
         let button = HijinnksButton(customButtonType: .MapButton)
         self.footerView.addSubview(button)
+        button.addTarget(self, action: #selector(displayMap), for: .touchUpInside)
         button.snp.makeConstraints { (make) in
             make.left.equalTo(35)
             make.top.equalTo(self.footerView).offset(15)
@@ -205,6 +209,28 @@ class ViewInvitationsCell : UITableViewCell {
             make.width.equalTo(button.snp.height)
         }
         return button
+    }
+    
+    func displayMap () {
+        if self.isMapShown {
+            self.mapView.removeFromSuperview()
+        }
+        else {
+            let camera = GMSCameraPosition.camera(withLatitude: invitation.location.coordinate.latitude, longitude: invitation.location.coordinate.longitude, zoom: 15)
+            let marker = GMSMarker(position: CLLocationCoordinate2D(latitude: invitation.location.coordinate.latitude, longitude: invitation.location.coordinate.longitude))
+            let mapView = GMSMapView.map(withFrame: .zero, camera: camera)
+            marker.map = mapView
+            self.mapView = UIView()
+            self.mapView = mapView
+            self.addSubview(self.mapView)
+            self.mapView.snp.makeConstraints { (make) in
+                make.left.equalTo(self)
+                make.top.equalTo(self.headerView.snp.bottom)
+                make.bottom.equalTo(self.footerView.snp.top)
+                make.right.equalTo(self)
+            }
+        }
+        self.isMapShown = !self.isMapShown
     }
     
     // This is the like button which is shaped as a heart that they can click on to like the invitation

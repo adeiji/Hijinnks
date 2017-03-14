@@ -18,6 +18,7 @@ class DescriptionAndCreditsViewController : UIViewController {
         credits.append("Icon made by Madebyoliver from www.flaticon.com")
         credits.append("Icon made by Google from www.flaticon.com")
         credits.append("Icon made by Madebyoliver from www.flaticon.com")
+        credits.append("Icon made by Dinosoft from www.flaticon.com")
     }
     
 }

@@ -16,6 +16,7 @@ enum StringConstants : String {
     case ViewInvitations = "View Invitations"
     case CreateInvitation = "Create Invitation"
     case Profile = "Profile"
+    case Connect = "Connect"
 }
 
 enum fileType : String {
@@ -29,6 +30,7 @@ enum InviteesPresets : String {
 
 enum ParseCustomObjectsClassNames : String {
     case Invitation = "Invitation"
+    case InterestsGroup = "Interests_Group"
 }
 
 enum ProfileOptions : String {
@@ -54,6 +56,10 @@ enum ParseObjectColumns : String {
     case RSVPCount = "rsvpCount"
     case UserSentInvitations = "sentInvitations"
     case UserBio = "bio"
+    case Name = "name"
+    case InterestsGroups = "interests_groups"
+    case Owner = "owner"
+    case ObjectId = "objectId"
 }
 
 enum UIConstants : Int {
@@ -74,6 +80,14 @@ enum Colors {
     case grey
     case invitationTextGrayColor
     case invitationHeaderViewColor
+}
+
+enum Settings {
+    case ViewUsersAll
+    case ViewUsersInvite
+    case ViewInterestsCreateAccountOrChangeInterests
+    case ViewInterestsAddFriend
+    case ViewInterestsCreateInvite
 }
 
 extension Colors {
@@ -111,4 +125,5 @@ enum Images : String {
     case HouseButton = "house.png"
     case CreateInvitationButton = "plus.png"
     case ProfileImageButton = "user.png"
+    case ConnectButton = "connect.png"
 }
