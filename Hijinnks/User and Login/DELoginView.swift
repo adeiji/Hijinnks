@@ -53,6 +53,15 @@ class DELoginView: UIView {
             make.edges.equalTo(self)
         }
         imageView.layer.zPosition = -1
+        
+        let blackAlphaView = UIView()
+        self.addSubview(blackAlphaView)
+        blackAlphaView.backgroundColor = .black
+        blackAlphaView.alpha = 0.35
+        blackAlphaView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self)
+        }
+        blackAlphaView.layer.zPosition = -1
     }
     
     func setFacebookLoginButton (signUpButton: UIButton) -> UIButton {

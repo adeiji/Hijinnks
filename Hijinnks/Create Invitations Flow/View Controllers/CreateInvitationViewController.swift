@@ -86,9 +86,11 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     }
     
     func setSelectedFriendsToEveryone() {
-        self.selectedFriends = PFUser.current()?.object(forKey: ParseObjectColumns.Friends.rawValue) as! NSArray
-        self.inviteesTextField.text = "All Your Friends"
-        self.invitationSendScope = InvitationSendScope.AllFriends
+        if PFUser.current()?.object(forKey: ParseObjectColumns.Friends.rawValue) != nil {
+            self.selectedFriends = PFUser.current()?.object(forKey: ParseObjectColumns.Friends.rawValue) as! NSArray
+            self.inviteesTextField.text = "All Your Friends"
+            self.invitationSendScope = InvitationSendScope.AllFriends
+        }
     }
     
     func setSelectedFriendsToAnyone() {
@@ -128,28 +130,44 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     func saveAndSendInvitation (currentLocation: CLLocation) {
         // Check to make sure all the data entered is valid
         var invitees:NSArray!
-        
-        if invitationSendScope == InvitationSendScope.SomeFriends // If the user has selected some friends
-        {
-            invitees = self.selectedFriends
-            createInvitationAndSend(currentLocation: currentLocation, invitees: invitees as! Array<PFUser>)
-        }
-        else if invitationSendScope == InvitationSendScope.AllFriends { // If the user has selected all friends
-            let query = PFUser.query()
-            // Get all the Users that have ObjectIds stored on the device as friends object ids
-            query?.whereKey(ParseObjectColumns.ObjectId.rawValue, containedIn: PFUser.current()?.object(forKey: ParseObjectColumns.Friends.rawValue) as! [Any])
-            query?.findObjectsInBackground(block: { (friends, error) in
-                if (friends != nil) {
-                    self.createInvitationAndSend(currentLocation: currentLocation, invitees: friends as! [PFUser])
-                }
-            })
-        }
-        else {  // If the user has made the invitation public
-            createInvitationAndSend(currentLocation: currentLocation, invitees: Array<PFUser>())
-        }
+        if validateTextFields() {
+            if invitationSendScope == InvitationSendScope.SomeFriends // If the user has selected some friends
+            {
+                invitees = self.selectedFriends
+                createInvitationAndSend(currentLocation: currentLocation, invitees: invitees as! Array<PFUser>)
+            }
+            else if invitationSendScope == InvitationSendScope.AllFriends { // If the user has selected all friends
+                let query = PFUser.query()
+                // Get all the Users that have ObjectIds stored on the device as friends object ids
+                query?.whereKey(ParseObjectColumns.ObjectId.rawValue, containedIn: PFUser.current()?.object(forKey: ParseObjectColumns.Friends.rawValue) as! [Any])
+                query?.findObjectsInBackground(block: { (friends, error) in
+                    if (friends != nil) {
+                        self.createInvitationAndSend(currentLocation: currentLocation, invitees: friends as! [PFUser])
+                    }
+                })
+            }
+            else {  // If the user has made the invitation public
+                createInvitationAndSend(currentLocation: currentLocation, invitees: Array<PFUser>())
+            }
 
-        self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?.last
-        self.promptPostToFacebook()
+            self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?.last
+            self.promptPostToFacebook()
+        }
+    }
+    
+    // Check to make sure that the information that needs to be entered is entered correctly
+    func validateTextFields () -> Bool
+    {
+        if nameTextField.text == "" || locationTextField.text == "" || self.address == nil || self.inviteMessageTextField.text == "" || self.startingTime == nil || self.durationTextField.text == nil || self.inviteesTextField.text == "" || self.selectedInterests == nil {
+            
+            let alertController = UIAlertController(title: "Invitation", message: "Please enter data into all fields", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+            alertController.addAction(okayAction)
+            self.present(alertController, animated: true, completion: nil)
+            return false
+        }
+        
+        return true
     }
     
     func createInvitationAndSend (currentLocation: CLLocation, invitees: Array<PFUser>) {
@@ -320,6 +338,15 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         return textField
     }
     
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if self.selectedTextField != nil && textField == self.selectedTextField {
+            self.selectedTextField = nil
+            return false
+        }
+        
+        return true
+    }
+    
     // When the text field is selected than change the color of the border
     func textFieldDidBeginEditing(_ textField: UITextField) {
         self.selectedTextField = textField
@@ -329,22 +356,16 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             self.navigationController?.present(autocompleteViewController, animated: true, completion: nil)
         }
         else if textField == inviteInterestsTextField {
-            textField.resignFirstResponder()
             let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsCreateInvite)
             viewInterestsViewController.delegate = self
             self.navigationController?.pushViewController(viewInterestsViewController, animated: true)
         }
         else if textField == inviteesTextField {
-            textField.resignFirstResponder()
             let viewUsersViewController = ViewUsersViewController(setting: Settings.ViewUsersInvite)
             viewUsersViewController.showAllFriends()
             viewUsersViewController.delegate = self
             self.navigationController?.pushViewController(viewUsersViewController, animated: true)
         }
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.resignFirstResponder()
     }
 }
 // Handle the creation, source, and delegation for the duration text field

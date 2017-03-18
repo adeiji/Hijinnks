@@ -62,6 +62,8 @@ enum ParseObjectColumns : String {
     case ObjectId = "objectId"
     case RsvpUsers = "rsvpUsers"
     case IsPublic = "isPublic"
+    case Profile_Picture = "profile_picture"
+    
 }
 
 enum UIConstants : Int {

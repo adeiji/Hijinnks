@@ -41,8 +41,7 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
         self.snp.makeConstraints { (make) in
             make.edges.equalTo(self.superview!)
         }
-        
-        logoView = setLogoView()
+        addImageToBackground()
         lblUsernameError = setUsernameErrorLabel()
         txtUsername = setTextField(viewAbove: lblUsernameError, placeholderText: "Enter username", isSecureTextEntry: false)
         txtEmail = setTextField(viewAbove: txtUsername, placeholderText: "Enter your email", isSecureTextEntry: false)
@@ -50,6 +49,25 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
         txtConfirmPassword = setTextField(viewAbove: txtPassword, placeholderText: "Confirm your password", isSecureTextEntry: true)
         signupButton = setSignupButton()
     }
+    
+    func addImageToBackground () {
+        let imageView = UIImageView(image: UIImage(named: Images.Background.rawValue))
+        self.addSubview(imageView)
+        imageView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self)
+        }
+        imageView.layer.zPosition = -2
+        
+        let blackAlphaView = UIView()
+        self.addSubview(blackAlphaView)
+        blackAlphaView.backgroundColor = .black
+        blackAlphaView.alpha = 0.35
+        blackAlphaView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self)
+        }
+        blackAlphaView.layer.zPosition = -1
+    }
+    
     
     func setLogoView () -> CustomHijinnksView {
         let view = CustomHijinnksView(customViewType: .LogoView)
@@ -73,7 +91,7 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
         label.snp.makeConstraints { (make) in
             make.left.equalTo(self).offset(UIConstants.HorizontalSpacingToSuperview.rawValue)
             make.right.equalTo(self).offset(UIConstants.HorizontalSpacingToSuperview.rawValue)
-            make.top.equalTo(logoView.snp.bottom).offset(UIConstants.VerticalDistanceToLogo.rawValue)
+            make.top.equalTo(self).offset(30)
         }
         
         return label
@@ -81,10 +99,13 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
     
     func setTextField (viewAbove: UIView!, placeholderText: String, isSecureTextEntry: Bool) -> UITextField {
         let textField = UITextField()
-        textField.placeholder = placeholderText
+        textField.attributedPlaceholder = NSAttributedString(string: placeholderText,
+                                                             attributes: [NSForegroundColorAttributeName: UIColor.white])
+        textField.textAlignment = .center
         textField.isSecureTextEntry = isSecureTextEntry
-        textField.layer.borderWidth = 1
-        textField.layer.borderColor = Colors.invitationTextGrayColor.value.cgColor
+        textField.backgroundColor = Colors.AccountTextFieldColor.value
+        textField.layer.cornerRadius = 5
+        textField.textColor = .white
         self.addSubview(textField)
         
         textField.snp.makeConstraints { (make) in
@@ -107,15 +128,17 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
     func setSignupButton () -> UIButton {
         
         let button = UIButton()
-        button.setTitle("Sign Up", for: .normal)
-        button.layer.borderColor = UIColor.gray.cgColor
+        button.setTitle("SIGN UP", for: .normal)
+        button.layer.borderColor = UIColor.white.cgColor
         button.layer.borderWidth = 1
-        button.setTitleColor(.gray, for: .normal)
+        button.layer.cornerRadius = 5
+        button.setTitleColor(.white, for: .normal)
         self.addSubview(button)
         button.snp.makeConstraints { (make) in
             make.centerX.equalTo(self)
-            make.top.equalTo(txtConfirmPassword.snp.bottom).offset(25)
+            make.top.equalTo(txtConfirmPassword.snp.bottom).offset(10)
             make.width.equalTo(UIConstants.SignUpAndSignInButtonWidth.rawValue)
+            make.height.equalTo(self.txtUsername)
         }
         
         return button

@@ -89,7 +89,7 @@ class ViewUsersViewController : UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == kGroupIndexPath {
+        if setting != Settings.ViewUsersAll && section == kGroupIndexPath {
             return "Select Groups"
         }
         

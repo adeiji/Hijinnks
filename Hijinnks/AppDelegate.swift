@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         configureGlobalAppearances()
         startLocationServices()
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-        
+
         // Check if the user is logged in.  If he isn't than show the LoginViewController, otherwise show the ViewInvitationsViewController
         if isLoggedIn() {
             setupNavigationController()
@@ -46,10 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         if FBSDKAccessToken.current() != nil {
             setupNavigationController()
-            let user = PFUser()
             
-            user.username = FBSDKProfile().userID
-            user.signUpInBackground()
         }
         
         return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
@@ -64,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func configureGlobalAppearances () {
         
         UINavigationBar.appearance().setBackgroundImage(UIImage(named: "banner.png")!.resizableImage(withCapInsets: UIEdgeInsets.zero, resizingMode: .stretch), for: .default)
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white, NSFontAttributeName : UIFont.systemFont(ofSize: 22)];
     }
     
     func initializeParse(launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {

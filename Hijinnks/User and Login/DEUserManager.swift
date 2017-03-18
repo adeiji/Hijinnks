@@ -17,7 +17,6 @@ class DEUserManager: NSObject {
     let PARSE_CLASS_USER_RANK = "rank"
     let PARSE_CLASS_USER_CANONICAL_USERNAME = "canonical_username"
     let USER_RANK_STANDARD = "standard"
-    let PARSE_CLASS_USER_PROFILE_PICTURE = "profile_picture"
     var delegate:PassDataBetweenViewControllersProtocol!
     
     func createUser(withUserName userName: String, password: String, email: String, errorLabel label: UILabel, showViewControllerOnComplete: UIViewController) {
@@ -105,7 +104,7 @@ class DEUserManager: NSObject {
             userQuery?.findObjectsInBackground(block: { (objects, error) in
                 if error == nil {
                     self.userObject = self.user
-                    let imageFile: PFFile? = (self.user[self.PARSE_CLASS_USER_PROFILE_PICTURE] as? PFFile)
+                    let imageFile: PFFile? = (self.user[ParseObjectColumns.Profile_Picture.rawValue] as? PFFile)
                     imageFile?.getDataStreamInBackground(block: { (data, error) in
                         
                     })
@@ -142,7 +141,7 @@ class DEUserManager: NSObject {
     func addProfileImage(_ profileImageData: Data) {
         let myUser: PFObject? = PFUser.current()
         let imageFile = PFFile(data: profileImageData)
-        myUser?.setObject(imageFile as Any, forKey: self.PARSE_CLASS_USER_PROFILE_PICTURE)
+        myUser?.setObject(imageFile as Any, forKey: ParseObjectColumns.Profile_Picture.rawValue)
         
         myUser?.saveInBackground(block: {(_ succeeded: Bool, _ error: Error?) -> Void in
             if error == nil {

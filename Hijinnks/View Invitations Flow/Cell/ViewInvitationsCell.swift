@@ -149,16 +149,29 @@ class ViewInvitationsCell : UITableViewCell {
     // Profile view which will display the profile image of the person who invited you on the top left of the table view cell
     func setProfileImageView () -> UIImageView {
         let imageView = UIImageView()
-        imageView.layer.cornerRadius = imageView.frame.size.height / 2
         headerView.addSubview(imageView)
         imageView.snp.makeConstraints { (make) in
             make.left.equalTo(self.headerView).offset(3)
-            make.top.equalTo(self.headerView).offset(3)
-            make.bottom.equalTo(self.headerView).offset(3)
+            make.top.equalTo(self.headerView).offset(5)
+            make.bottom.equalTo(self.headerView).offset(-5)
             make.height.equalTo(imageView.snp.width)
         }
-        
+        // make sure that we display the image in a circle
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 40 / 2
+        self.loadProfileImage()
         return imageView
+    }
+    
+    // Get the image from the server and display it
+    func loadProfileImage () {
+        let imageData = invitation.fromUser.value(forKey: ParseObjectColumns.Profile_Picture.rawValue) as! PFFile
+        imageData.getDataInBackground { (data: Data?, error: Error?) in
+            let image = UIImage(data: data!)
+            if image != nil {
+                self.profileImageView.image = image
+            }
+        }
     }
     
     // Display the data the user was invited

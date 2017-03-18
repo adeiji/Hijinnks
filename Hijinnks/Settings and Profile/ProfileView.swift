@@ -60,7 +60,20 @@ class ProfileView : UIView {
             make.height.equalTo(100)
         }
         self.profileImageView = profileImageView
+        self.profileImageView.clipsToBounds = true
         setUsernameLabel(myProfileImageView: self.profileImageView)
+        loadProfileImage()
+    }
+    
+    // Get the image from the server and display it
+    func loadProfileImage () {
+        let imageData = PFUser.current()?.value(forKey: ParseObjectColumns.Profile_Picture.rawValue) as! PFFile
+        imageData.getDataInBackground { (data: Data?, error: Error?) in
+            let image = UIImage(data: data!)
+            if image != nil {
+                self.profileImageView.image = image
+            }
+        }
     }
 
     func setUsernameLabel (myProfileImageView: UIImageView) {
@@ -165,10 +178,10 @@ class ProfileView : UIView {
         }
         
         self.interestsView = interestsView
-        self.followersLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "301\nFollowers", labelOnLeft: nil, isLastLabelOnRight: false)
-        self.followingLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "301\nFollowing", labelOnLeft: self.followersLabel, isLastLabelOnRight: false)
-        self.inviteesLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "15\nInvitees", labelOnLeft: self.followingLabel, isLastLabelOnRight: false)
-        self.rsvpLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "15\nRSVPs", labelOnLeft: self.inviteesLabel, isLastLabelOnRight: true)
+        self.followersLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "0\nFollowers", labelOnLeft: nil, isLastLabelOnRight: false)
+        self.followingLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "0\nFollowing", labelOnLeft: self.followersLabel, isLastLabelOnRight: false)
+        self.inviteesLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "0\nInvitees", labelOnLeft: self.followingLabel, isLastLabelOnRight: false)
+        self.rsvpLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "0\nRSVPs", labelOnLeft: self.inviteesLabel, isLastLabelOnRight: true)
         self.setViewInvitationsTableView(myRsvpLabel: self.rsvpLabel)
     }
     
@@ -206,7 +219,7 @@ class ProfileView : UIView {
             make.left.equalTo(self)
             make.top.equalTo(myRsvpLabel.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
             make.right.equalTo(self)
-            make.bottom.equalTo(self).offset(75)
+            make.bottom.equalTo(self).offset(-50)
         }
         self.viewInvitationsTableView = viewInvitationsTableView
     }
