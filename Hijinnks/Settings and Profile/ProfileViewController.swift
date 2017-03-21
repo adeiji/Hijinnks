@@ -10,16 +10,38 @@ import Foundation
 import UIKit
 import Parse
 
-class ProfileViewController : UIViewController, UITableViewDelegate, UITableViewDataSource, PassDataBetweenViewControllersProtocol {
+class ProfileViewController : UIViewController, UITableViewDelegate, UITableViewDataSource, PassDataBetweenViewControllersProtocol, UIGestureRecognizerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
  
     var profileView:ProfileView!
     var user:PFUser!
     var invitations:[Invitation]! = [Invitation]()
+    var activitySpinner:UIActivityIndicatorView!
+    
+    func startActivitySpinner () {
+        // Add the activity spinner
+        self.activitySpinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        self.activitySpinner.startAnimating()
+        self.activitySpinner.hidesWhenStopped = true
+        
+        self.view.addSubview(self.activitySpinner)
+        self.activitySpinner.snp.makeConstraints { (make) in
+            make.center.equalTo(self.view)
+        }
+    }
+    
+    init(user: PFUser) {
+        super.init(nibName: nil, bundle: nil)
+        self.user = user
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        self.profileView = ProfileView(myUser: user, myTableViewDataSourceAndDelegate: self)
+        self.profileView = ProfileView(myUser: self.user, myTableViewDataSourceAndDelegate: self)
         self.view.addSubview(self.profileView)
         self.profileView.setupUI()  // Setup the UI after we've added to the subview to make sure that the profile view can be set up with autolayout to it's superview
         self.getAllInvitationsFromUser()
@@ -29,6 +51,24 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         if self.profileView.addFriendButton != nil {
             self.profileView.addFriendButton.addTarget(self, action: #selector(addFriendButtonPressed), for: .touchUpInside)
         }
+        // Only allow the user to edit the profile image if the user is looking at his own profile page
+        if user == PFUser.current() {
+            self.profileView.imageViewTapRecognizer.addTarget(self, action: #selector(profileImageTapped))
+            self.profileView.imageViewTapRecognizer.delegate = self
+        }
+    }
+    
+    func profileImageTapped () {
+        let photoHandler = PhotoHandler(viewController: self)
+        _ = photoHandler.promptForPicture()
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        let image = info[UIImagePickerControllerEditedImage] as! UIImage
+        let imageData = UIImageJPEGRepresentation(image, 0.2)
+        self.profileView.profileImageView.image = image
+        DEUserManager.sharedManager.addProfileImage(imageData!)
     }
     
     // Display the interests page to allow the user to affiliate their friend with specific interests
@@ -62,6 +102,8 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
     
     // Get all the invitations that have been sent by the user of this profile view
     func getAllInvitationsFromUser () {
+        
+        self.startActivitySpinner()
         let query = InvitationParseObject.query()
         query?.whereKey(ParseObjectColumns.FromUser.rawValue, equalTo: user)
         query?.findObjectsInBackground(block: { (invitationParseObjects, error) in
@@ -71,6 +113,9 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
             }
             else {
                 self.displayInvitationsForUser(invitationParseObjects: invitationParseObjects as! [InvitationParseObject]!)
+                self.activitySpinner.stopAnimating()
+                self.activitySpinner.removeFromSuperview()
+                self.tabBarController?.tabBar.isUserInteractionEnabled = true
             }
         })
     }

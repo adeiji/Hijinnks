@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import Parse
 
-class CreateAccountViewController : UIViewController, PassDataBetweenViewControllersProtocol {
+class CreateAccountViewController : UIViewController, PassDataBetweenViewControllersProtocol, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var createAccountView:DECreateAccountView!
     
@@ -21,7 +21,10 @@ class CreateAccountViewController : UIViewController, PassDataBetweenViewControl
         createAccountView.setupUI()
         createAccountView.signupButton.addTarget(self, action: #selector(signupButtonPressed), for: .touchUpInside)
     }
-    
+
+    /*!
+     * - Description When the user presses the Sign Up button we sign him in and prompt for a picture
+     */
     func signupButtonPressed () {
         let username = createAccountView.txtUsername.text
         let password = createAccountView.txtPassword.text
@@ -41,5 +44,4 @@ class CreateAccountViewController : UIViewController, PassDataBetweenViewControl
         let appDelegate = UIApplication.shared.delegate
         appDelegate?.window!?.rootViewController = tabBarController
     }
-    
 }

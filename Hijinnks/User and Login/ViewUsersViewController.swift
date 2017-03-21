@@ -132,8 +132,7 @@ class ViewUsersViewController : UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if setting == Settings.ViewUsersAll {
-            let profileViewController = ProfileViewController()
-            profileViewController.user = self.friends[indexPath.row]
+            let profileViewController = ProfileViewController(user: self.friends[indexPath.row])
             self.navigationController?.pushViewController(profileViewController, animated: true)
         } else if setting == Settings.ViewUsersInvite {
             if indexPath.section == kGroupIndexPath {

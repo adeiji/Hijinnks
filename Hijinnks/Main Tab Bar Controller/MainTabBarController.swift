@@ -19,13 +19,14 @@ class MainTabBarController : UITabBarController {
         let profileViewController = getProfileViewController()
         
         var viewControllers:[UIViewController] = [UIViewController]()
-        viewControllers.append(createInvitationViewController)
-        viewControllers.append(getViewInvitationsViewController(viewInvitationsViewController: viewInvitationsViewController))
         viewControllers.append(profileViewController)
         viewControllers.append(getConnectViewController())
+        viewControllers.append(createInvitationViewController)
+        // Add this last so that it's the firs thing the user sees when they open the application
+        viewControllers.append(getViewInvitationsViewController(viewInvitationsViewController: viewInvitationsViewController))
         
         self.viewControllers = viewControllers
-        self.tabBar.tintColor = .gray
+        self.tabBar.tintColor = .black
         self.selectedViewController = self.viewControllers?.last
     }
     
@@ -34,7 +35,7 @@ class MainTabBarController : UITabBarController {
         connectViewController.showAllUsers()
         connectViewController.navigationItem.title = StringConstants.Hijinnks.rawValue
         let connectViewControllerTabBarItem = UITabBarItem()
-        connectViewControllerTabBarItem.image = UIImage(named: Images.ConnectButton.rawValue)
+        connectViewControllerTabBarItem.image = UIImage(named: Images.ConnectButton.rawValue)?.withRenderingMode(.alwaysOriginal)
         connectViewControllerTabBarItem.title = StringConstants.Connect.rawValue
         connectViewController.tabBarItem = connectViewControllerTabBarItem
         let connectNavigationController = UINavigationController(rootViewController: connectViewController)
@@ -54,13 +55,12 @@ class MainTabBarController : UITabBarController {
     }
     
     func getProfileViewController () -> UINavigationController {
-        let profileViewController = ProfileViewController()
+        let profileViewController = ProfileViewController(user: PFUser.current()!)
         profileViewController.navigationItem.title = StringConstants.Hijinnks.rawValue
         let profileViewControllerTabBarItem = UITabBarItem()
         profileViewControllerTabBarItem.image = UIImage(named: Images.ProfileImageButton.rawValue)?.withRenderingMode(.alwaysOriginal)
         profileViewControllerTabBarItem.title = StringConstants.Profile.rawValue
         profileViewController.tabBarItem = profileViewControllerTabBarItem        
-        profileViewController.user = PFUser.current()
         
         let profileNavigationController = UINavigationController(rootViewController: profileViewController)
         return profileNavigationController

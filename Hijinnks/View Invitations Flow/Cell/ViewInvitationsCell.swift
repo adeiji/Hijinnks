@@ -91,7 +91,7 @@ class ViewInvitationsCell : UITableViewCell {
     func setDescriptionLabel (descriptionViewAbove: UIView!, invitationDetailViewAbove: UIView!, text: String) -> UILabel {
         let myDescriptionLabel = UILabel()
         myDescriptionLabel.text = text
-        myDescriptionLabel.font = UIFont.systemFont(ofSize: 14)
+        myDescriptionLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightBold)
         myDescriptionLabel.textAlignment = .right
         myDescriptionLabel.textColor = Colors.invitationTextGrayColor.value
         self.contentView.addSubview(myDescriptionLabel)

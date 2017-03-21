@@ -56,6 +56,22 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification: )), name: NSNotification.Name.UIKeyboardWillHide , object: nil)
     }
     
+    func reset () {
+        setupUI()
+        self.selectedInterests = nil
+        self.selectedFriends = nil
+        self.name = nil
+        self.address = nil
+        self.locationCoordinates = nil
+        self.inviteMessage = nil
+        self.startingTime = nil
+        self.duration = nil
+        self.place = nil
+        self.durations = nil
+        self.isPublic = true
+        self.invitationSendScope = nil
+    }
+    
     func setSelectedInterests(mySelectedInterest: NSArray) {
         selectedInterests = mySelectedInterest
         var interestsString = String()
@@ -152,6 +168,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
 
             self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?.last
             self.promptPostToFacebook()
+            self.reset()
         }
     }
     

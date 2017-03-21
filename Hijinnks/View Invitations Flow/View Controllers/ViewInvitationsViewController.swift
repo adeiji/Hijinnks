@@ -15,10 +15,25 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
     
     let parseQueue = DispatchQueue(label: "com.parse.handler")
     var invitations:[Invitation] = [Invitation]()
+    var activitySpinner:UIActivityIndicatorView!
+    
+    func startActivitySpinner () {
+        // Add the activity spinner
+        self.activitySpinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        self.activitySpinner.startAnimating()
+        self.activitySpinner.hidesWhenStopped = true
+        self.tabBarController?.tabBar.isUserInteractionEnabled = false
+        
+        self.view.addSubview(self.activitySpinner)
+        self.activitySpinner.snp.makeConstraints { (make) in
+            make.center.equalTo(self.view)
+        }
+    }
     
     override func viewDidLoad() {
-        // Add the activity spinner
+        startActivitySpinner()
         self.tableView.separatorColor = Colors.TableViewSeparatorColor.value
+        self.tabBarController?.tabBar.isUserInteractionEnabled = false
         parseQueue.async {
             let invitationParseObjects = ParseManager.getAllInvitationsNearLocation()
             for invitationParseObject in invitationParseObjects! {
@@ -34,6 +49,8 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
             }
             DispatchQueue.main.async(execute: { 
                 self.tableView.reloadData()
+                self.tabBarController?.tabBar.isUserInteractionEnabled = true
+                self.activitySpinner.removeFromSuperview()
             });
         }
         

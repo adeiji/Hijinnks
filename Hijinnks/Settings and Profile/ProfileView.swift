@@ -15,7 +15,6 @@ class ProfileView : UIView {
     weak var usernameLabel:UILabel!
     weak var editProfileButton:UIButton!
     weak var optionsButton:UIButton!
-    weak var profileImage:UIImageView!
     weak var bioTextView:UITextView!
     weak var interestsView:InterestsView!
     weak var followersLabel:UILabel!
@@ -25,6 +24,7 @@ class ProfileView : UIView {
     weak var viewInvitationsTableView:UITableView!
     weak var profileImageView:UIImageView!
     weak var addFriendButton:UIButton!
+    var imageViewTapRecognizer:UITapGestureRecognizer!
     var tableViewDataSourceAndDelegate:UIViewController!
     weak var user:PFUser!
     
@@ -46,7 +46,6 @@ class ProfileView : UIView {
         setProfileImageView()
     }
     
-    
     func setProfileImageView () {
         let profileImageView = UIImageView()
         profileImageView.image = nil
@@ -61,17 +60,24 @@ class ProfileView : UIView {
         }
         self.profileImageView = profileImageView
         self.profileImageView.clipsToBounds = true
+        
+        self.imageViewTapRecognizer = UITapGestureRecognizer()
+        self.imageViewTapRecognizer.numberOfTapsRequired = 1
+        self.profileImageView.addGestureRecognizer(imageViewTapRecognizer)
+        self.profileImageView.isUserInteractionEnabled = true
         setUsernameLabel(myProfileImageView: self.profileImageView)
         loadProfileImage()
     }
     
     // Get the image from the server and display it
     func loadProfileImage () {
-        let imageData = PFUser.current()?.value(forKey: ParseObjectColumns.Profile_Picture.rawValue) as! PFFile
-        imageData.getDataInBackground { (data: Data?, error: Error?) in
-            let image = UIImage(data: data!)
-            if image != nil {
-                self.profileImageView.image = image
+        if (user.value(forKey: ParseObjectColumns.Profile_Picture.rawValue) != nil) {
+            let imageData = user.value(forKey: ParseObjectColumns.Profile_Picture.rawValue) as! PFFile
+            imageData.getDataInBackground { (data: Data?, error: Error?) in
+                let image = UIImage(data: data!)
+                if image != nil {
+                    self.profileImageView.image = image
+                }
             }
         }
     }

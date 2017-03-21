@@ -135,7 +135,7 @@ enum HijinnksViewTypes {
 }
 
 enum Images : String {
-    case HouseButton = "house.png"
+    case HouseButton = "home.png"
     case CreateInvitationButton = "plus.png"
     case ProfileImageButton = "user.png"
     case ConnectButton = "connect.png"

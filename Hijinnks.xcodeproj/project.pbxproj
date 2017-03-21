@@ -24,10 +24,12 @@
 		F40705431E778F1B00EB8094 /* InterestsGroupParseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40705421E778F1B00EB8094 /* InterestsGroupParseObject.swift */; };
 		F40A11EB1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40A11EA1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift */; };
 		F40A11ED1E60B1DB00DAD619 /* SelectFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40A11EC1E60B1DB00DAD619 /* SelectFriendsViewController.swift */; };
+		F4272B6F1E7D8D850045B213 /* launchscreen-01.png in Resources */ = {isa = PBXBuildFile; fileRef = F4272B6E1E7D8D850045B213 /* launchscreen-01.png */; };
 		F42ECC901E60DA62007B5B55 /* ParseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42ECC8F1E60DA62007B5B55 /* ParseManager.swift */; };
 		F42ECC931E60DAA3007B5B55 /* InvitationParseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42ECC921E60DAA3007B5B55 /* InvitationParseObject.swift */; };
 		F42ECC951E60DBD6007B5B55 /* Invitation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42ECC941E60DBD6007B5B55 /* Invitation.swift */; };
 		F43AB80A1E78ABB40092FB5B /* Background.png in Resources */ = {isa = PBXBuildFile; fileRef = F43AB8091E78ABB40092FB5B /* Background.png */; };
+		F43AB80E1E7CFA4D0092FB5B /* launchArtboard 1.png in Resources */ = {isa = PBXBuildFile; fileRef = F43AB80D1E7CFA4D0092FB5B /* launchArtboard 1.png */; };
 		F44CAD6F1E5F690700C91A1F /* ViewInvitationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD6E1E5F690700C91A1F /* ViewInvitationsViewController.swift */; };
 		F44CAD731E5F695F00C91A1F /* CreateInvitationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD721E5F695F00C91A1F /* CreateInvitationViewController.swift */; };
 		F44CAD771E5F928000C91A1F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD761E5F928000C91A1F /* Colors.swift */; };
@@ -42,16 +44,25 @@
 		F4A0D1B51E5A427800C6CDFE /* HijinnksStyleKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A0D1B41E5A427800C6CDFE /* HijinnksStyleKit.swift */; };
 		F4A0D1B71E5A447E00C6CDFE /* CustomHijinnksImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A0D1B61E5A447E00C6CDFE /* CustomHijinnksImageView.swift */; };
 		F4A0D1BB1E5A454500C6CDFE /* textLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = F4A0D1BA1E5A454500C6CDFE /* textLogo.png */; };
+		F4B7F9101E81993C001AF380 /* PhotoHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B7F90F1E81993C001AF380 /* PhotoHandler.swift */; };
+		F4B7F9321E81CAFB001AF380 /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B7F92F1E81CAFB001AF380 /* user.png */; };
+		F4B7F9331E81CAFB001AF380 /* user@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B7F9301E81CAFB001AF380 /* user@2x.png */; };
+		F4B7F9341E81CAFB001AF380 /* user@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B7F9311E81CAFB001AF380 /* user@3x.png */; };
+		F4B7F93E1E81D281001AF380 /* connect.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B7F9351E81D281001AF380 /* connect.png */; };
+		F4B7F93F1E81D281001AF380 /* connect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B7F9361E81D281001AF380 /* connect@2x.png */; };
+		F4B7F9401E81D281001AF380 /* connect@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B7F9371E81D281001AF380 /* connect@3x.png */; };
+		F4B7F9411E81D281001AF380 /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B7F9381E81D281001AF380 /* home.png */; };
+		F4B7F9421E81D281001AF380 /* home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B7F9391E81D281001AF380 /* home@2x.png */; };
+		F4B7F9431E81D281001AF380 /* home@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B7F93A1E81D281001AF380 /* home@3x.png */; };
+		F4B7F9441E81D281001AF380 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B7F93B1E81D281001AF380 /* plus.png */; };
+		F4B7F9451E81D281001AF380 /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B7F93C1E81D281001AF380 /* plus@2x.png */; };
+		F4B7F9461E81D281001AF380 /* plus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B7F93D1E81D281001AF380 /* plus@3x.png */; };
 		F4BA9E1F1E7701F300590B32 /* ViewUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BA9E1E1E7701F300590B32 /* ViewUsersViewController.swift */; };
-		F4BA9E211E77053000590B32 /* connect.png in Resources */ = {isa = PBXBuildFile; fileRef = F4BA9E201E77053000590B32 /* connect.png */; };
 		F4CCE48B1E71EBD40090BCD3 /* CreateInvitationsViewController+UIElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CCE48A1E71EBD40090BCD3 /* CreateInvitationsViewController+UIElements.swift */; };
 		F4CCE48D1E7201630090BCD3 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CCE48C1E7201630090BCD3 /* CreateAccountViewController.swift */; };
 		F4CCE4911E737C350090BCD3 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CCE4901E737C350090BCD3 /* ProfileViewController.swift */; };
 		F4CCE4931E737F7A0090BCD3 /* ProfileViewController+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CCE4921E737F7A0090BCD3 /* ProfileViewController+UI.swift */; };
 		F4CCE4951E7381390090BCD3 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CCE4941E7381390090BCD3 /* ProfileView.swift */; };
-		F4CCE4971E73A6600090BCD3 /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = F4CCE4961E73A6600090BCD3 /* user.png */; };
-		F4CCE4991E73BFAD0090BCD3 /* house.png in Resources */ = {isa = PBXBuildFile; fileRef = F4CCE4981E73BFAD0090BCD3 /* house.png */; };
-		F4CCE49B1E73C0150090BCD3 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = F4CCE49A1E73C0150090BCD3 /* plus.png */; };
 		F4CCE49D1E746B2C0090BCD3 /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CCE49C1E746B2C0090BCD3 /* OptionsViewController.swift */; };
 		F4CCE49F1E749B990090BCD3 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CCE49E1E749B990090BCD3 /* ChangePasswordViewController.swift */; };
 		F4CCE4A51E74AB5F0090BCD3 /* ExplanationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CCE4A41E74AB5F0090BCD3 /* ExplanationView.swift */; };
@@ -106,10 +117,12 @@
 		F40705421E778F1B00EB8094 /* InterestsGroupParseObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InterestsGroupParseObject.swift; path = Parse/InterestsGroupParseObject.swift; sourceTree = "<group>"; };
 		F40A11EA1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateInvitationViewController+ScrollOnKeyboardShow.swift"; path = "Create Invitations Flow/View Controllers/CreateInvitationViewController+ScrollOnKeyboardShow.swift"; sourceTree = "<group>"; };
 		F40A11EC1E60B1DB00DAD619 /* SelectFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectFriendsViewController.swift; path = "Create Invitations Flow/View Controllers/SelectFriendsViewController.swift"; sourceTree = "<group>"; };
+		F4272B6E1E7D8D850045B213 /* launchscreen-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "launchscreen-01.png"; path = "../../UI/Icons/launchscreen-01.png"; sourceTree = "<group>"; };
 		F42ECC8F1E60DA62007B5B55 /* ParseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseManager.swift; path = Managers/ParseManager.swift; sourceTree = "<group>"; };
 		F42ECC921E60DAA3007B5B55 /* InvitationParseObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvitationParseObject.swift; path = Parse/InvitationParseObject.swift; sourceTree = "<group>"; };
 		F42ECC941E60DBD6007B5B55 /* Invitation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Invitation.swift; path = "View Invitations Flow/Invitation.swift"; sourceTree = "<group>"; };
 		F43AB8091E78ABB40092FB5B /* Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Background.png; path = ../../UI/Background.png; sourceTree = "<group>"; };
+		F43AB80D1E7CFA4D0092FB5B /* launchArtboard 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "launchArtboard 1.png"; path = "../../UI/Icons/launchArtboard 1.png"; sourceTree = "<group>"; };
 		F44CAD6E1E5F690700C91A1F /* ViewInvitationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewInvitationsViewController.swift; path = "View Invitations Flow/View Controllers/ViewInvitationsViewController.swift"; sourceTree = "<group>"; };
 		F44CAD721E5F695F00C91A1F /* CreateInvitationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateInvitationViewController.swift; path = "Create Invitations Flow/View Controllers/CreateInvitationViewController.swift"; sourceTree = "<group>"; };
 		F44CAD761E5F928000C91A1F /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = UI/Constants/Colors.swift; sourceTree = "<group>"; };
@@ -124,16 +137,25 @@
 		F4A0D1B41E5A427800C6CDFE /* HijinnksStyleKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HijinnksStyleKit.swift; path = stylekit/HijinnksStyleKit.swift; sourceTree = "<group>"; };
 		F4A0D1B61E5A447E00C6CDFE /* CustomHijinnksImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomHijinnksImageView.swift; path = UI/CustomHijinnksImageView.swift; sourceTree = "<group>"; };
 		F4A0D1BA1E5A454500C6CDFE /* textLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = textLogo.png; path = stylekit/textLogo.png; sourceTree = "<group>"; };
+		F4B7F90F1E81993C001AF380 /* PhotoHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoHandler.swift; path = "Settings and Profile/PhotoHandler.swift"; sourceTree = "<group>"; };
+		F4B7F92F1E81CAFB001AF380 /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = user.png; path = Buttons/user.png; sourceTree = "<group>"; };
+		F4B7F9301E81CAFB001AF380 /* user@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "user@2x.png"; path = "Buttons/user@2x.png"; sourceTree = "<group>"; };
+		F4B7F9311E81CAFB001AF380 /* user@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "user@3x.png"; path = "Buttons/user@3x.png"; sourceTree = "<group>"; };
+		F4B7F9351E81D281001AF380 /* connect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = connect.png; path = Buttons/connect.png; sourceTree = "<group>"; };
+		F4B7F9361E81D281001AF380 /* connect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "connect@2x.png"; path = "Buttons/connect@2x.png"; sourceTree = "<group>"; };
+		F4B7F9371E81D281001AF380 /* connect@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "connect@3x.png"; path = "Buttons/connect@3x.png"; sourceTree = "<group>"; };
+		F4B7F9381E81D281001AF380 /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = home.png; path = Buttons/home.png; sourceTree = "<group>"; };
+		F4B7F9391E81D281001AF380 /* home@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "home@2x.png"; path = "Buttons/home@2x.png"; sourceTree = "<group>"; };
+		F4B7F93A1E81D281001AF380 /* home@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "home@3x.png"; path = "Buttons/home@3x.png"; sourceTree = "<group>"; };
+		F4B7F93B1E81D281001AF380 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = plus.png; path = Buttons/plus.png; sourceTree = "<group>"; };
+		F4B7F93C1E81D281001AF380 /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus@2x.png"; path = "Buttons/plus@2x.png"; sourceTree = "<group>"; };
+		F4B7F93D1E81D281001AF380 /* plus@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus@3x.png"; path = "Buttons/plus@3x.png"; sourceTree = "<group>"; };
 		F4BA9E1E1E7701F300590B32 /* ViewUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewUsersViewController.swift; path = "User and Login/ViewUsersViewController.swift"; sourceTree = "<group>"; };
-		F4BA9E201E77053000590B32 /* connect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = connect.png; path = ../../../../../Downloads/connect.png; sourceTree = "<group>"; };
 		F4CCE48A1E71EBD40090BCD3 /* CreateInvitationsViewController+UIElements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateInvitationsViewController+UIElements.swift"; path = "Create Invitations Flow/View Controllers/CreateInvitationsViewController+UIElements.swift"; sourceTree = "<group>"; };
 		F4CCE48C1E7201630090BCD3 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateAccountViewController.swift; path = "User and Login/CreateAccountViewController.swift"; sourceTree = "<group>"; };
 		F4CCE4901E737C350090BCD3 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = "Settings and Profile/ProfileViewController.swift"; sourceTree = "<group>"; };
 		F4CCE4921E737F7A0090BCD3 /* ProfileViewController+UI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ProfileViewController+UI.swift"; path = "Settings and Profile/ProfileViewController+UI.swift"; sourceTree = "<group>"; };
 		F4CCE4941E7381390090BCD3 /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileView.swift; path = "Settings and Profile/ProfileView.swift"; sourceTree = "<group>"; };
-		F4CCE4961E73A6600090BCD3 /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = user.png; path = ../../UI/user.png; sourceTree = "<group>"; };
-		F4CCE4981E73BFAD0090BCD3 /* house.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = house.png; path = ../../UI/house.png; sourceTree = "<group>"; };
-		F4CCE49A1E73C0150090BCD3 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = plus.png; path = ../../UI/plus.png; sourceTree = "<group>"; };
 		F4CCE49C1E746B2C0090BCD3 /* OptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OptionsViewController.swift; path = "Settings and Profile/OptionsViewController.swift"; sourceTree = "<group>"; };
 		F4CCE49E1E749B990090BCD3 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangePasswordViewController.swift; path = "Settings and Profile/ChangePasswordViewController.swift"; sourceTree = "<group>"; };
 		F4CCE4A41E74AB5F0090BCD3 /* ExplanationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExplanationView.swift; path = "Select Interests/ExplanationView.swift"; sourceTree = "<group>"; };
@@ -222,6 +244,7 @@
 				F4CCE4941E7381390090BCD3 /* ProfileView.swift */,
 				F4CCE49C1E746B2C0090BCD3 /* OptionsViewController.swift */,
 				F4CCE49E1E749B990090BCD3 /* ChangePasswordViewController.swift */,
+				F4B7F90F1E81993C001AF380 /* PhotoHandler.swift */,
 			);
 			name = "Settings and Profile";
 			sourceTree = "<group>";
@@ -345,11 +368,21 @@
 		F4A0D1B91E5A453A00C6CDFE /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F4B7F9351E81D281001AF380 /* connect.png */,
+				F4B7F9361E81D281001AF380 /* connect@2x.png */,
+				F4B7F9371E81D281001AF380 /* connect@3x.png */,
+				F4B7F9381E81D281001AF380 /* home.png */,
+				F4B7F9391E81D281001AF380 /* home@2x.png */,
+				F4B7F93A1E81D281001AF380 /* home@3x.png */,
+				F4B7F93B1E81D281001AF380 /* plus.png */,
+				F4B7F93C1E81D281001AF380 /* plus@2x.png */,
+				F4B7F93D1E81D281001AF380 /* plus@3x.png */,
+				F4B7F92F1E81CAFB001AF380 /* user.png */,
+				F4B7F9301E81CAFB001AF380 /* user@2x.png */,
+				F4B7F9311E81CAFB001AF380 /* user@3x.png */,
+				F4272B6E1E7D8D850045B213 /* launchscreen-01.png */,
+				F43AB80D1E7CFA4D0092FB5B /* launchArtboard 1.png */,
 				F43AB8091E78ABB40092FB5B /* Background.png */,
-				F4BA9E201E77053000590B32 /* connect.png */,
-				F4CCE49A1E73C0150090BCD3 /* plus.png */,
-				F4CCE4981E73BFAD0090BCD3 /* house.png */,
-				F4CCE4961E73A6600090BCD3 /* user.png */,
 				F40110CD1E6B907C004124DA /* search.png */,
 				F40110C71E6B596A004124DA /* banner.png */,
 				F4A0D1BA1E5A454500C6CDFE /* textLogo.png */,
@@ -561,17 +594,27 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4BA9E211E77053000590B32 /* connect.png in Resources */,
+				F4B7F9341E81CAFB001AF380 /* user@3x.png in Resources */,
+				F4272B6F1E7D8D850045B213 /* launchscreen-01.png in Resources */,
+				F4B7F9431E81D281001AF380 /* home@3x.png in Resources */,
+				F4B7F9401E81D281001AF380 /* connect@3x.png in Resources */,
 				F4E0D8651E5A09E500FFEEB8 /* LaunchScreen.storyboard in Resources */,
+				F4B7F9411E81D281001AF380 /* home.png in Resources */,
+				F4B7F93F1E81D281001AF380 /* connect@2x.png in Resources */,
 				F43AB80A1E78ABB40092FB5B /* Background.png in Resources */,
 				F4A0D1BB1E5A454500C6CDFE /* textLogo.png in Resources */,
-				F4CCE49B1E73C0150090BCD3 /* plus.png in Resources */,
-				F4CCE4991E73BFAD0090BCD3 /* house.png in Resources */,
-				F4CCE4971E73A6600090BCD3 /* user.png in Resources */,
+				F43AB80E1E7CFA4D0092FB5B /* launchArtboard 1.png in Resources */,
 				F44CAD7A1E5F95F300C91A1F /* interests.plist in Resources */,
+				F4B7F9461E81D281001AF380 /* plus@3x.png in Resources */,
+				F4B7F9321E81CAFB001AF380 /* user.png in Resources */,
+				F4B7F9441E81D281001AF380 /* plus.png in Resources */,
 				F40110CE1E6B907C004124DA /* search.png in Resources */,
 				F4E0D8621E5A09E500FFEEB8 /* Assets.xcassets in Resources */,
+				F4B7F93E1E81D281001AF380 /* connect.png in Resources */,
+				F4B7F9451E81D281001AF380 /* plus@2x.png in Resources */,
+				F4B7F9421E81D281001AF380 /* home@2x.png in Resources */,
 				F40110C81E6B596A004124DA /* banner.png in Resources */,
+				F4B7F9331E81CAFB001AF380 /* user@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -754,6 +797,7 @@
 				F4CCE48B1E71EBD40090BCD3 /* CreateInvitationsViewController+UIElements.swift in Sources */,
 				F44CAD7C1E5F968700C91A1F /* ViewInterestsViewController.swift in Sources */,
 				F4CCE4931E737F7A0090BCD3 /* ProfileViewController+UI.swift in Sources */,
+				F4B7F9101E81993C001AF380 /* PhotoHandler.swift in Sources */,
 				F4E0D8601E5A09E500FFEEB8 /* Hijinnks.xcdatamodeld in Sources */,
 				F4E0D85A1E5A09E500FFEEB8 /* ViewController.swift in Sources */,
 				F4E0D8581E5A09E500FFEEB8 /* AppDelegate.swift in Sources */,
@@ -918,6 +962,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
 				INFOPLIST_FILE = Hijinnks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -937,6 +982,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
 				INFOPLIST_FILE = Hijinnks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;

@@ -37,7 +37,6 @@ class DEAddProfileImageViewController: UIViewController, UIImagePickerController
     @IBAction func takeProfileImagePicture(_ sender: Any) {
         // Make sure that they have a camera on this device
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            
             // Display Alert Controller asking if they want to use the camera or pull from already existing images
             
         }

@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import Parse
 @testable import Hijinnks
 
 class HijinnksTests: XCTestCase {
@@ -21,16 +22,19 @@ class HijinnksTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func isCameraAvailable () {
+        let createAccountViewController = CreateAccountViewController()
+        let photoHandler = PhotoHandler(viewController: createAccountViewController)
+        XCTAssertEqual(photoHandler.viewController, createAccountViewController)
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func setProfileImageView () {
+        let profileViewController = ProfileViewController()
+        let user = PFUser()
+        profileViewController.profileView = ProfileView(myUser: user, myTableViewDataSourceAndDelegate: profileViewController)
+        profileViewController.profileView.setupUI()
+        let gestureRecognizersCount = profileViewController.profileView.profileImageView.gestureRecognizers?.count
+        XCTAssertGreaterThan(gestureRecognizersCount, 0) // There should be a tap gesture recognizer so that the user can tap the image in order to add or edit one
     }
     
 }
