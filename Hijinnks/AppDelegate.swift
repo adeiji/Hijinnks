@@ -13,6 +13,7 @@ import GoogleMaps
 import Parse
 import FBSDKCoreKit
 import ParseFacebookUtilsV4
+import SendBirdSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -27,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         initializeGoogleMaps()
         configureGlobalAppearances()
         startLocationServices()
+        SBDMain.initWithApplicationId(APIKeys.SendBirdAPIKey.rawValue)
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
 
         // Check if the user is logged in.  If he isn't than show the LoginViewController, otherwise show the ViewInvitationsViewController
@@ -61,8 +63,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func configureGlobalAppearances () {
         
         UINavigationBar.appearance().setBackgroundImage(UIImage(named: "banner.png")!.resizableImage(withCapInsets: UIEdgeInsets.zero, resizingMode: .stretch), for: .default)
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white, NSFontAttributeName : UIFont.systemFont(ofSize: 22)];
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white, NSFontAttributeName : UIFont.systemFont(ofSize: 24)];
         UINavigationBar.appearance().tintColor = UIColor.white
+        
     }
     
     func initializeParse(launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
@@ -70,6 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             ParseMutableClientConfiguration.applicationId = "com.hijinnks.dephyned"
             ParseMutableClientConfiguration.server = "https://hijinnks.herokuapp.com/parse"
         }
+        
         
         Parse.initialize(with: parseConfiguration)
         PFFacebookUtils.initializeFacebook(applicationLaunchOptions: launchOptions)
@@ -80,6 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return false
         }
         
+        DEUserManager.sharedManager.setupSendBird(userId: (PFUser.current()?.objectId)!)
         return true
     }
     

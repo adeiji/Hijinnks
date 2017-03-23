@@ -9,6 +9,7 @@
 import Foundation
 import Parse
 import ParseFacebookUtilsV4
+import SendBirdSDK
 
 private let sharedUserManager = DEUserManager()
 
@@ -26,7 +27,7 @@ class DEUserManager: NSObject {
         self.user.email = email
         
         self.user.signUpInBackground(block: {(_ succeeded: Bool, _ error: Error?) -> Void in
-            if error == nil {
+            if error == nil {  // User has signed up successfully
                 self.userObject = self.user
                 self.userObject[self.PARSE_CLASS_USER_RANK] = self.USER_RANK_STANDARD
                 self.userObject[self.PARSE_CLASS_USER_CANONICAL_USERNAME] = userName
@@ -35,12 +36,31 @@ class DEUserManager: NSObject {
                 let appDelegate = UIApplication.shared.delegate
                 let navigationController = appDelegate?.window!?.rootViewController as! UINavigationController
                 navigationController.pushViewController(showViewControllerOnComplete, animated: true)
+                self.setupSendBird(userId: (self.user?.objectId)!)
             }
             else {
                 label.isHidden = false
                 label.text = error?.localizedDescription
             }
         })        
+    }
+    
+    /**
+     * - Description Initializes Send Bird and connects the user
+     * - Parameter userId - String value which is the userId that will be affiliated with the Send Bird User
+     *
+     * - Code - setupSendBird(<User Id of the Parse User>)
+     */
+    func setupSendBird (userId: String) {        
+        SBDMain.connect(withUserId: userId) { (user, error) in
+            if error == nil {
+                print("User with Id \(user?.userId) has been connected to Send Bird")
+            }
+            else {
+                print("Error connecting user with Id \(user?.userId) to Send Bird")
+                print((error?.localizedDescription)! as String)
+            }
+        }
     }
 
     func login(username: String, password: String, viewController: UIViewController, errorLabel: UILabel) -> Error? {
@@ -50,9 +70,11 @@ class DEUserManager: NSObject {
         let query: PFQuery? = PFUser.query()
         query?.whereKey(self.PARSE_CLASS_USERNAME, equalTo: lowercaseUsername)
         query?.getFirstObjectInBackground(block: { (obj, error) in
-            // If there's no returned objects we know then that this email does not exist, if we get a returned object though, we want to get that username and login now
-            blockUsername = obj?.object(forKey: self.PARSE_CLASS_USERNAME) as! String
             
+            if obj != nil {
+                // If there's no returned objects we know then that this email does not exist, if we get a returned object though, we want to get that username and login now
+                blockUsername = obj?.object(forKey: self.PARSE_CLASS_USERNAME) as! String
+            }
             PFUser.logInWithUsername(inBackground: blockUsername, password: password, block: { (user, error) in
                 if user != nil {
                     // Clear user image defaults
@@ -68,6 +90,7 @@ class DEUserManager: NSObject {
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     appDelegate.setupNavigationController()
+                    self.setupSendBird(userId: (user?.objectId)!)
                 }
                 else {
                     if error != nil {

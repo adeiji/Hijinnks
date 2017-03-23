@@ -19,15 +19,16 @@ class MainTabBarController : UITabBarController {
         let profileViewController = getProfileViewController()
         
         var viewControllers:[UIViewController] = [UIViewController]()
+        viewControllers.append(getViewInvitationsViewController(viewInvitationsViewController: viewInvitationsViewController))
         viewControllers.append(profileViewController)
         viewControllers.append(getConnectViewController())
         viewControllers.append(createInvitationViewController)
         // Add this last so that it's the firs thing the user sees when they open the application
-        viewControllers.append(getViewInvitationsViewController(viewInvitationsViewController: viewInvitationsViewController))
+        
         
         self.viewControllers = viewControllers
         self.tabBar.tintColor = .black
-        self.selectedViewController = self.viewControllers?.last
+        self.selectedViewController = self.viewControllers?.first
     }
     
     func getConnectViewController () -> UINavigationController {
@@ -36,7 +37,7 @@ class MainTabBarController : UITabBarController {
         connectViewController.navigationItem.title = StringConstants.Hijinnks.rawValue
         let connectViewControllerTabBarItem = UITabBarItem()
         connectViewControllerTabBarItem.image = UIImage(named: Images.ConnectButton.rawValue)?.withRenderingMode(.alwaysOriginal)
-        connectViewControllerTabBarItem.title = StringConstants.Connect.rawValue
+        connectViewControllerTabBarItem.title = StringConstants.Friends.rawValue
         connectViewController.tabBarItem = connectViewControllerTabBarItem
         let connectNavigationController = UINavigationController(rootViewController: connectViewController)
         return connectNavigationController
@@ -68,7 +69,7 @@ class MainTabBarController : UITabBarController {
 
     func getCreateInvitationViewController (viewInvitationsViewController : ViewInvitationsViewController) -> UINavigationController {
         let createInvitationViewController = CreateInvitationViewController()
-        createInvitationViewController.navigationItem.title = StringConstants.Hijinnks.rawValue
+        createInvitationViewController.navigationItem.title = StringConstants.CreateInvitation.rawValue
         let createInvitationViewControllerTabBarItem = UITabBarItem()
         createInvitationViewControllerTabBarItem.image = UIImage(named: Images.CreateInvitationButton.rawValue)?.withRenderingMode(.alwaysOriginal)
         createInvitationViewControllerTabBarItem.title = StringConstants.CreateInvitation.rawValue

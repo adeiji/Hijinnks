@@ -26,6 +26,7 @@ PODS:
     - FBSDKLoginKit (~> 4.10)
     - FBSDKTVOSKit (~> 4.10)
     - Parse (~> 1.12)
+  - SendBirdSDK (3.0.44)
   - SnapKit (3.2.0)
 
 DEPENDENCIES:
@@ -36,6 +37,7 @@ DEPENDENCIES:
   - GooglePlaces
   - Parse
   - ParseFacebookUtilsV4
+  - SendBirdSDK
   - SnapKit (~> 3.0)
 
 SPEC CHECKSUMS:
@@ -47,8 +49,9 @@ SPEC CHECKSUMS:
   GooglePlaces: bca867d5e9da15384c794b945e4226848bc6e9d9
   Parse: 4335d65f40cb3d43190d723144bbe1afb9c38230
   ParseFacebookUtilsV4: 2f30c2b7021c8005d3042781da7ef87d06589421
+  SendBirdSDK: 976ced2079ea1fef23f97b51c1d09aaa70ff8182
   SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
 
-PODFILE CHECKSUM: 41ac770081fab82dc61ebdad96779c4efd89cc0f
+PODFILE CHECKSUM: 9efe6600d9f344e13a8a987afbb1ad5622848e1d
 
 COCOAPODS: 1.1.1

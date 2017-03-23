@@ -37,14 +37,17 @@ class DELoginView: UIView {
     
     func setupUI () {
         addImageToBackground()
-        txtUsernameOrEmail = setupTextField(placeholder: "Username or Email", textFieldAbove : nil)
-        txtPassword = setupTextField(placeholder: "Password", textFieldAbove: txtUsernameOrEmail)
+        _ = setLogoView()
+        txtUsernameOrEmail = setupTextField(placeholder: "Enter Username or Email", textFieldAbove : nil)
+        txtPassword = setupTextField(placeholder: "Enter Password", textFieldAbove: txtUsernameOrEmail)
         txtPassword.isSecureTextEntry = true
         errorLabel = setupErrorLabel()
         signInButton = setupSignInButton(title: "SIGN IN", viewObjectAbove: errorLabel)
-        signUpButton = setupSignInButton(title: "SIGN UP", viewObjectAbove: signInButton)
+        signUpButton = setupSignInButton(title: "CREATE ACCOUNT", viewObjectAbove: nil)
         facebookLoginButton = setFacebookLoginButton(signUpButton: signUpButton)
     }
+    
+    
     
     func addImageToBackground () {
         let imageView = UIImageView(image: UIImage(named: Images.Background.rawValue))
@@ -94,7 +97,12 @@ class DELoginView: UIView {
         
         self.addSubview(button)
         button.snp.makeConstraints { (make) in
-            make.top.equalTo(viewObjectAbove.snp.bottom).offset(10)
+            if viewObjectAbove != nil {
+                make.top.equalTo(viewObjectAbove.snp.bottom).offset(10)
+            }
+            else {
+                make.top.equalTo(self.snp.bottom).offset(-135)
+            }
             make.width.equalTo(self.txtPassword)
             make.centerX.equalTo(self)
             make.height.equalTo(self.txtPassword)
@@ -105,7 +113,7 @@ class DELoginView: UIView {
     
     func setLogoView () -> CustomHijinnksView {
         let view = CustomHijinnksView(customViewType: .LogoView)
-        view.backgroundColor = .white
+        view.backgroundColor = .clear
         self.addSubview(view)
         
         view.snp.makeConstraints { (make) in
@@ -125,12 +133,14 @@ class DELoginView: UIView {
         textField.layer.cornerRadius = 5
         textField.textAlignment = .center
         textField.backgroundColor = Colors.AccountTextFieldColor.value
+        textField.layer.borderColor = Colors.AccountTextFieldBorderColor.value.cgColor
+        textField.layer.borderWidth = 0.5
         textField.textColor = .white
         self.addSubview(textField)
         textField.snp.makeConstraints { (make) in
             make.centerX.equalTo(self)
             if textFieldAbove == nil {
-                make.top.equalTo(self.snp.bottom).offset(-340)
+                make.top.equalTo(self.snp.top).offset(175)
             }
             else {
                 make.top.equalTo(textFieldAbove.snp.bottom).offset(10)
@@ -147,9 +157,10 @@ class DELoginView: UIView {
         let label = UILabel()
         self.addSubview(label)
         label.font = UIFont.systemFont(ofSize: 12)
+        label.textColor = .white
         label.snp.makeConstraints { (make) in
             make.centerX.equalTo(txtPassword)
-            make.top.equalTo(txtPassword.snp.bottom).offset(20)
+            make.top.equalTo(txtPassword.snp.bottom).offset(5)
             make.width.equalTo(txtPassword)
         }
         

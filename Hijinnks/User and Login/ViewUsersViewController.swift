@@ -22,7 +22,7 @@ class ViewUsersViewController : UITableViewController {
     init(setting: Settings) {
         self.setting = setting
         super.init(style: .plain)
-        self.tableView.separatorColor = Colors.TableViewSeparatorColor.value
+        self.tableView.separatorStyle = .none
         if setting == Settings.ViewUsersInvite {
             self.tableView.allowsMultipleSelection = true
         }
@@ -70,13 +70,15 @@ class ViewUsersViewController : UITableViewController {
     func doneButtonPressed () {
         let selectedFriends = NSMutableArray()
         let indexPaths = self.tableView.indexPathsForSelectedRows
-        for indexPath in indexPaths! {
-            // Get each indexPath
-            let user = self.friends[indexPath.row]
-            selectedFriends.add(user)
+        if indexPaths != nil {  // If the user has actually selectred a person
+            for indexPath in indexPaths! {
+                // Get each indexPath
+                let user = self.friends[indexPath.row]
+                selectedFriends.add(user)
+            }
+            
+            delegate.setSelectedFriends!(mySelectedFriends: selectedFriends)
         }
-        
-        delegate.setSelectedFriends!(mySelectedFriends: selectedFriends)
         _ = self.navigationController?.popViewController(animated: true)
     }
     
@@ -93,7 +95,7 @@ class ViewUsersViewController : UITableViewController {
             return "Select Groups"
         }
         
-        return "Friends"
+        return nil
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

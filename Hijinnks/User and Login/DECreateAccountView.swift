@@ -71,7 +71,7 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
     
     func setLogoView () -> CustomHijinnksView {
         let view = CustomHijinnksView(customViewType: .LogoView)
-        view.backgroundColor = .white
+        view.backgroundColor = .clear
         self.addSubview(view)
         
         view.snp.makeConstraints { (make) in
@@ -104,6 +104,8 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
         textField.textAlignment = .center
         textField.isSecureTextEntry = isSecureTextEntry
         textField.backgroundColor = Colors.AccountTextFieldColor.value
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = Colors.AccountTextFieldBorderColor.value.cgColor
         textField.layer.cornerRadius = 5
         textField.textColor = .white
         self.addSubview(textField)
@@ -128,7 +130,7 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
     func setSignupButton () -> UIButton {
         
         let button = UIButton()
-        button.setTitle("SIGN UP", for: .normal)
+        button.setTitle("CREATE ACCOUNT", for: .normal)
         button.layer.borderColor = UIColor.white.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5

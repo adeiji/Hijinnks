@@ -37,4 +37,12 @@ class HijinnksTests: XCTestCase {
         XCTAssertGreaterThan(gestureRecognizersCount, 0) // There should be a tap gesture recognizer so that the user can tap the image in order to add or edit one
     }
     
+    func setupConversationViewUI () {
+        let conversationViewController = ConversationViewController()
+        let conversationView = ConversationView()
+        XCTAssertNotEqual(conversationViewController.users, nil)
+        conversationView.setupUI()
+        
+    }
+    
 }

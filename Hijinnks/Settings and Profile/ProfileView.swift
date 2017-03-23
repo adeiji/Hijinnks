@@ -58,8 +58,10 @@ class ProfileView : UIView {
             make.width.equalTo(100)
             make.height.equalTo(100)
         }
+        
         self.profileImageView = profileImageView
         self.profileImageView.clipsToBounds = true
+        self.profileImageView.layer.cornerRadius = 5
         
         self.imageViewTapRecognizer = UITapGestureRecognizer()
         self.imageViewTapRecognizer.numberOfTapsRequired = 1

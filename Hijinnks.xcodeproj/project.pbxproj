@@ -74,6 +74,8 @@
 		F4E0D8701E5A09E500FFEEB8 /* HijinnksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0D86F1E5A09E500FFEEB8 /* HijinnksTests.swift */; };
 		F4E0D87B1E5A09E500FFEEB8 /* HijinnksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0D87A1E5A09E500FFEEB8 /* HijinnksUITests.swift */; };
 		F4E0D8931E5A130000FFEEB8 /* CustomHijinnksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0D8921E5A130000FFEEB8 /* CustomHijinnksView.swift */; };
+		F4F054191E84291800486B7D /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F054181E84291800486B7D /* ConversationViewController.swift */; };
+		F4F0541B1E84298700486B7D /* ConversationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F0541A1E84298700486B7D /* ConversationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -174,6 +176,8 @@
 		F4E0D87C1E5A09E500FFEEB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F4E0D8921E5A130000FFEEB8 /* CustomHijinnksView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomHijinnksView.swift; path = UI/CustomHijinnksView.swift; sourceTree = "<group>"; };
 		F4E0D8941E5A161800FFEEB8 /* Hijinnks-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hijinnks-Bridging-Header.h"; sourceTree = "<group>"; };
+		F4F054181E84291800486B7D /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = "User and Login/ConversationViewController.swift"; sourceTree = "<group>"; };
+		F4F0541A1E84298700486B7D /* ConversationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationView.swift; path = "User and Login/ConversationView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,6 +264,8 @@
 				F40110E31E6DFD25004124DA /* DEUserManager.swift */,
 				F4CCE48C1E7201630090BCD3 /* CreateAccountViewController.swift */,
 				F4BA9E1E1E7701F300590B32 /* ViewUsersViewController.swift */,
+				F4F054181E84291800486B7D /* ConversationViewController.swift */,
+				F4F0541A1E84298700486B7D /* ConversationView.swift */,
 			);
 			name = Users;
 			sourceTree = "<group>";
@@ -779,6 +785,7 @@
 			files = (
 				F40110E41E6DFD25004124DA /* DEAddProfileImageViewController.swift in Sources */,
 				F40110E61E6DFD25004124DA /* DELoginView.swift in Sources */,
+				F4F0541B1E84298700486B7D /* ConversationView.swift in Sources */,
 				F4E0D8931E5A130000FFEEB8 /* CustomHijinnksView.swift in Sources */,
 				F40110C61E6B4834004124DA /* HijinnksButton.swift in Sources */,
 				F40A11EB1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift in Sources */,
@@ -791,6 +798,7 @@
 				F492FF601E60937900A5154C /* CreateInvitationViewController+Autocompletion.swift in Sources */,
 				F4CCE49F1E749B990090BCD3 /* ChangePasswordViewController.swift in Sources */,
 				F4CCE4951E7381390090BCD3 /* ProfileView.swift in Sources */,
+				F4F054191E84291800486B7D /* ConversationViewController.swift in Sources */,
 				F4CCE4A51E74AB5F0090BCD3 /* ExplanationView.swift in Sources */,
 				F42ECC901E60DA62007B5B55 /* ParseManager.swift in Sources */,
 				F42ECC931E60DAA3007B5B55 /* InvitationParseObject.swift in Sources */,

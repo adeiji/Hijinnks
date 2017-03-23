@@ -24,6 +24,7 @@ class ParseManager {
     // Get all the invitations that are near a specific location
     class func getAllInvitationsNearLocation () -> [InvitationParseObject]! {
         let query = InvitationParseObject.query()
+        query?.addDescendingOrder(ParseObjectColumns.StartingTime.rawValue)
         do {
             let invitations = try query?.findObjects()
             return invitations as! [InvitationParseObject]

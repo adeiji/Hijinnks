@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Parse
+import SendBirdSDK
 
 class ProfileViewController : UIViewController, UITableViewDelegate, UITableViewDataSource, PassDataBetweenViewControllersProtocol, UIGestureRecognizerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
  
@@ -56,6 +57,15 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
             self.profileView.imageViewTapRecognizer.addTarget(self, action: #selector(profileImageTapped))
             self.profileView.imageViewTapRecognizer.delegate = self
         }
+        else {
+            let messageBarItem = UIBarButtonItem(title: "Message", style: .plain, target: self, action: #selector(messageButtonPressed))
+            self.navigationItem.setRightBarButton(messageBarItem, animated: true)
+        }
+    }
+    
+    func messageButtonPressed () {
+        let userIds:[String] = [self.user.objectId!, (PFUser.current()?.objectId)!]
+        self.createConversationChannel(userIds: userIds)
     }
     
     func profileImageTapped () {
@@ -65,7 +75,14 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         picker.dismiss(animated: true, completion: nil)
-        let image = info[UIImagePickerControllerEditedImage] as! UIImage
+        var image:UIImage!
+        
+        if info[UIImagePickerControllerEditedImage] != nil {
+            image = info[UIImagePickerControllerEditedImage] as! UIImage
+        }
+        else {
+            image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        }
         let imageData = UIImageJPEGRepresentation(image, 0.2)
         self.profileView.profileImageView.image = image
         DEUserManager.sharedManager.addProfileImage(imageData!)
@@ -158,5 +175,25 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         let viewInvitationsCell = ViewInvitationsCell(invitation: invitations[indexPath.row])
         return viewInvitationsCell
     }
-    
+}
+
+// Send Bird API Extension
+extension ProfileViewController {
+    /**
+     * - Description Creates a channel conversation using the Send Bird API
+     * - Parameter userIds - String array which contains the user ids of the two people who will be in this channel.  The max should be 2, because this is direct, 1 to 1 messaging
+     * - Returns nil
+     * - Code createConversationChannel([Ids of two users who are in this channel])
+     */
+    func createConversationChannel (userIds : [String]) {
+        SBDGroupChannel.createChannel(withUserIds: userIds, isDistinct: true) { (channel, error) in
+            if error != nil {
+                print("Error creating channel for users with ids \(userIds) - \(error)")
+                return
+            }
+        }
+        
+        let conversationViewController = ConversationViewController(toUser: self.user)
+        self.navigationController?.pushViewController(conversationViewController, animated: true)
+    }
 }

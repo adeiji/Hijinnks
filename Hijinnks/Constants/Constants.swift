@@ -14,9 +14,10 @@ let kInterestsPlistFile = "interests"
 enum StringConstants : String {
     case Hijinnks = "Hijinnks"
     case ViewInvitations = "View Invitations"
-    case CreateInvitation = "Create Invitation"
+    case CreateInvitation = "Create Invite"
     case Profile = "Profile"
     case Connect = "Connect"
+    case Friends = "Friends"
 }
 
 enum fileType : String {
@@ -75,6 +76,7 @@ enum UIConstants : Int {
     case ProfileViewNumberOfLabelColumns = 4
     case ProfileViewButtonHeights = 35
     case ProfileViewUserDetailCountsHeight = 100
+    case CreateInvitationVerticalSpacing = 20
 }
 
 enum Colors {
@@ -86,6 +88,7 @@ enum Colors {
     case invitationHeaderViewColor
     case TableViewSeparatorColor
     case AccountTextFieldColor
+    case AccountTextFieldBorderColor
     case FacebookButton
 }
 
@@ -116,7 +119,9 @@ extension Colors {
             case .TableViewSeparatorColor:
                 return UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1.00)
             case .AccountTextFieldColor:
-                return UIColor(red: 103/255, green: 111/255, blue: 128/255, alpha: 0.75)
+                return UIColor(red: 103/255, green: 111/255, blue: 128/255, alpha: 0.50)
+            case .AccountTextFieldBorderColor:
+                return UIColor(red: 28/255, green: 105/255, blue: 241/255, alpha: 0.90)
             case .FacebookButton:
                 return UIColor(red: 59/255, green: 87/255, blue: 157/255, alpha: 1.0)
             }
@@ -140,4 +145,8 @@ enum Images : String {
     case ProfileImageButton = "user.png"
     case ConnectButton = "connect.png"
     case Background = "Background.png"
+}
+
+enum APIKeys : String {
+    case SendBirdAPIKey = "F9F8AD8A-06BE-467C-8FD4-3567B9D904A3"    
 }

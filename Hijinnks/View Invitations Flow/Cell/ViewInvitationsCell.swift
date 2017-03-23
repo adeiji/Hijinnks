@@ -92,8 +92,7 @@ class ViewInvitationsCell : UITableViewCell {
         let myDescriptionLabel = UILabel()
         myDescriptionLabel.text = text
         myDescriptionLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightBold)
-        myDescriptionLabel.textAlignment = .right
-        myDescriptionLabel.textColor = Colors.invitationTextGrayColor.value
+        myDescriptionLabel.textAlignment = .right        
         self.contentView.addSubview(myDescriptionLabel)
         myDescriptionLabel.snp.makeConstraints { (make) in
             if descriptionViewAbove == nil {
@@ -165,11 +164,13 @@ class ViewInvitationsCell : UITableViewCell {
     
     // Get the image from the server and display it
     func loadProfileImage () {
-        let imageData = invitation.fromUser.value(forKey: ParseObjectColumns.Profile_Picture.rawValue) as! PFFile
-        imageData.getDataInBackground { (data: Data?, error: Error?) in
-            let image = UIImage(data: data!)
-            if image != nil {
-                self.profileImageView.image = image
+        if invitation.fromUser.value(forKey: ParseObjectColumns.Profile_Picture.rawValue) != nil {
+            let imageData = invitation.fromUser.value(forKey: ParseObjectColumns.Profile_Picture.rawValue) as! PFFile
+            imageData.getDataInBackground { (data: Data?, error: Error?) in
+                let image = UIImage(data: data!)
+                if image != nil {
+                    self.profileImageView.image = image
+                }
             }
         }
     }
@@ -177,8 +178,9 @@ class ViewInvitationsCell : UITableViewCell {
     // Display the data the user was invited
     func setInvitedDateLabel (font: UIFont) -> UILabel {
         let label = UILabel()
-        label.font = font
-        label.textColor = Colors.invitationTextGrayColor.value
+        let boldFont = UIFont.boldSystemFont(ofSize: font.pointSize)
+        label.font = boldFont
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short

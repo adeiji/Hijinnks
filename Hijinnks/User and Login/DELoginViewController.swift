@@ -76,6 +76,8 @@ class DELoginViewController: UIViewController {
                 appDelegate.setupNavigationController()
             }
             self.getProfileInformationFromFacebook()
+            // Connect this user with Send Bird
+            DEUserManager.sharedManager.setupSendBird(userId: (user?.objectId)!)
         }
     }
     
