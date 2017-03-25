@@ -35,8 +35,13 @@ class ViewUsersViewController : UITableViewController {
         let query = PFUser.query()
         query?.whereKey(ParseObjectColumns.ObjectId.rawValue, notEqualTo: PFUser.current()?.objectId! as Any)
         query?.findObjectsInBackground(block: { (users, error) in
-            self.friends = users as! [PFUser]
-            self.tableView.reloadData()
+            if (error != nil) {
+                print((error?.localizedDescription)! as String)
+            }
+            else if (users != nil) {
+                self.friends = users as! [PFUser]
+                self.tableView.reloadData()
+            }
         })
     }
     

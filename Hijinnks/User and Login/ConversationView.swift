@@ -39,7 +39,7 @@ class ConversationView : UIView {
     func keyboardWillShow (notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
-            self.messageTextField.snp.makeConstraints { (make) in
+            self.messageTextField.snp.remakeConstraints { (make) in
                 make.left.equalTo(self).offset(5)
                 make.right.equalTo(self).offset(-75)
                 make.bottom.equalTo(self).offset(-keyboardHeight)
@@ -67,6 +67,12 @@ class ConversationView : UIView {
         self.messageTextField.becomeFirstResponder()
         self.messageTextField.backgroundColor = .white
         self.addSubview(self.messageTextField)
+        self.messageTextField.snp.makeConstraints { (make) in
+            make.left.equalTo(self).offset(5)
+            make.right.equalTo(self).offset(-75)
+            make.bottom.equalTo(self).offset(-75)
+            make.height.equalTo(50)
+        }
     }
     
     func setMessagesTableView () {
@@ -76,7 +82,7 @@ class ConversationView : UIView {
         self.messagesTableView.snp.makeConstraints { (make) in
             make.left.equalTo(self)
             make.right.equalTo(self)
-            make.top.equalTo(listOfUsersView.snp.bottom)
+            make.top.equalTo(self.listOfUsersView.snp.bottom)
             make.bottom.equalTo(self.messageTextField.snp.top)
         }
     }
@@ -86,8 +92,8 @@ class ConversationView : UIView {
         self.listOfUsersView.backgroundColor = .white
         self.listOfUsersView.layer.borderColor = UIColor.black.cgColor
         self.listOfUsersView.layer.borderWidth = 0.5
-        self.showUsers()
         self.addSubview(self.listOfUsersView)
+        self.showUsers()
         self.listOfUsersView.snp.makeConstraints { (make) in
             make.left.equalTo(self).offset(-1)
             make.top.equalTo(self)
@@ -136,8 +142,10 @@ class ConversationView : UIView {
 }
 
 class MessageCell : UITableViewCell {
-    weak var messageLabel:UILabel!
-    weak var messageOwnerLabel:UILabel!
+    // WARN - See about changing this to weak var in the future
+    var messageLabel:UILabel!
+    var messageOwnerLabel:UILabel!
+ 
     var messageOwner:PFUser
     var message:String
     
@@ -145,19 +153,27 @@ class MessageCell : UITableViewCell {
         self.messageOwner = messageOwner
         self.message = message
         super.init(style: .default, reuseIdentifier: "message")
-        
-        self.setMessageOwnerLabel()
-        self.setMessageLabel()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setupUI () {
+        self.contentView.autoresizingMask = .flexibleHeight
+        self.autoresizingMask = .flexibleHeight
+        // Set the very large sized content view so that the contentView will shrink.  There seems to be an iOS bug with it growing in size
+        self.contentView.bounds = CGRect(x: 0, y: 0, width: 9999, height: 9999)
+        
+        self.setMessageOwnerLabel()
+        self.setMessageLabel()
+    }
+    
     func setMessageOwnerLabel () {
         self.messageOwnerLabel = UILabel()
         self.messageOwnerLabel.font = UIFont.systemFont(ofSize: 12)
         self.messageOwnerLabel.text = messageOwner.username
+        self.contentView.addSubview(self.messageOwnerLabel)
         self.messageOwnerLabel.snp.makeConstraints { (make) in
             make.right.equalTo(self.contentView).offset(-20)
             make.top.equalTo(self.contentView).offset(10)
@@ -167,13 +183,39 @@ class MessageCell : UITableViewCell {
     func setMessageLabel () {
         self.messageLabel = UILabel()
         self.messageLabel.text = message
-        self.contentView.addSubview(self.messageLabel)
-        self.messageLabel.snp.makeConstraints { (make) in
+        self.messageLabel.textAlignment = .right
+        self.messageLabel.textColor = .white
+        self.messageLabel.numberOfLines = 0
+        self.messageLabel.preferredMaxLayoutWidth = self.frame.size.width - 40
+        let messageLabelView = self.messageLabel.withPadding(padding: UIEdgeInsetsMake(10, 10, 10, 10))
+        messageLabelView.layer.cornerRadius = 5
+        messageLabelView.backgroundColor = Colors.blue.value
+        self.contentView.addSubview(messageLabelView)
+        messageLabelView.snp.makeConstraints { (make) in
             if messageOwner == PFUser.current() {
                 make.right.equalTo(self.messageOwnerLabel)
-                make.left.equalTo(self.contentView).offset(75)
+                make.left.greaterThanOrEqualTo(self.contentView).offset(40)
             }
             make.top.equalTo(self.messageOwnerLabel.snp.bottom).offset(5)
+            make.bottom.equalTo(self.contentView).offset(-20)
         }
+    }
+}
+
+extension UILabel {
+    convenience init(text: String) {
+        self.init()
+        self.text = text
+    }
+}
+
+extension UIView {
+    func withPadding(padding: UIEdgeInsets) -> UIView {
+        let container = UIView()
+        container.addSubview(self)
+        snp.makeConstraints { make in
+            make.edges.equalTo(container).inset(padding)
+        }
+        return container
     }
 }

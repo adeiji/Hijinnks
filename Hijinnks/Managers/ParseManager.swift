@@ -32,6 +32,7 @@ class ParseManager {
         catch {
             print(error.localizedDescription)
         }
+        
         return nil
     }
 }

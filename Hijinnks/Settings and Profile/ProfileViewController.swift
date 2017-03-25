@@ -191,9 +191,11 @@ extension ProfileViewController {
                 print("Error creating channel for users with ids \(userIds) - \(error)")
                 return
             }
+            DispatchQueue.main.sync {
+                let conversationViewController = ConversationViewController(toUser: self.user)
+                conversationViewController.channel = channel                
+                self.navigationController?.pushViewController(conversationViewController, animated: true)
+            }            
         }
-        
-        let conversationViewController = ConversationViewController(toUser: self.user)
-        self.navigationController?.pushViewController(conversationViewController, animated: true)
     }
 }
