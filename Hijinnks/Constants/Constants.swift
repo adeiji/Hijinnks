@@ -150,3 +150,7 @@ enum Images : String {
 enum APIKeys : String {
     case SendBirdAPIKey = "F9F8AD8A-06BE-467C-8FD4-3567B9D904A3"    
 }
+
+enum ConversationChannelKeys : String {
+    case One_To_One = "one_to_one"
+}

@@ -78,10 +78,12 @@ class ConversationView : UIView {
     func setMessagesTableView () {
         self.messagesTableView = UITableView()
         self.messagesTableView.separatorStyle = .none
+        self.messagesTableView.layer.borderWidth = 0.5
+        self.messagesTableView.layer.borderColor = UIColor.gray.cgColor
         self.addSubview(self.messagesTableView)
         self.messagesTableView.snp.makeConstraints { (make) in
-            make.left.equalTo(self)
-            make.right.equalTo(self)
+            make.left.equalTo(self).offset(-1)
+            make.right.equalTo(self).offset(1)
             make.top.equalTo(self.listOfUsersView.snp.bottom)
             make.bottom.equalTo(self.messageTextField.snp.top)
         }
@@ -149,6 +151,13 @@ class MessageCell : UITableViewCell {
     var messageOwner:PFUser
     var message:String
     
+    /**
+     * - Description Initialize the MessageCell object
+     * - Parameter messageOwner - The PFUser who sent this message
+     * - Parameter message - The message that needs to be displayed
+     * - Returns MessageCell Object
+     * - Code let messageCell = MessageCell(messageOwner: <PFUser>, message:<String>)
+     */
     init(messageOwner: PFUser, message: String) {
         self.messageOwner = messageOwner
         self.message = message
@@ -175,7 +184,13 @@ class MessageCell : UITableViewCell {
         self.messageOwnerLabel.text = messageOwner.username
         self.contentView.addSubview(self.messageOwnerLabel)
         self.messageOwnerLabel.snp.makeConstraints { (make) in
-            make.right.equalTo(self.contentView).offset(-20)
+            if messageOwner == PFUser.current() {
+                make.right.equalTo(self.contentView).offset(-20)
+            }
+            else {
+                make.left.equalTo(self.contentView).offset(20)
+            }
+            
             make.top.equalTo(self.contentView).offset(10)
         }
     }
@@ -186,7 +201,7 @@ class MessageCell : UITableViewCell {
         self.messageLabel.textAlignment = .right
         self.messageLabel.textColor = .white
         self.messageLabel.numberOfLines = 0
-        self.messageLabel.preferredMaxLayoutWidth = self.frame.size.width - 40
+        self.messageLabel.preferredMaxLayoutWidth = self.frame.size.width - 50
         let messageLabelView = self.messageLabel.withPadding(padding: UIEdgeInsetsMake(10, 10, 10, 10))
         messageLabelView.layer.cornerRadius = 5
         messageLabelView.backgroundColor = Colors.blue.value
@@ -194,7 +209,10 @@ class MessageCell : UITableViewCell {
         messageLabelView.snp.makeConstraints { (make) in
             if messageOwner == PFUser.current() {
                 make.right.equalTo(self.messageOwnerLabel)
-                make.left.greaterThanOrEqualTo(self.contentView).offset(40)
+                make.left.greaterThanOrEqualTo(self.contentView).offset(50)
+            } else {
+                make.left.equalTo(self.messageOwnerLabel)
+                make.right.greaterThanOrEqualTo(self.contentView).offset(-50)
             }
             make.top.equalTo(self.messageOwnerLabel.snp.bottom).offset(5)
             make.bottom.equalTo(self.contentView).offset(-20)

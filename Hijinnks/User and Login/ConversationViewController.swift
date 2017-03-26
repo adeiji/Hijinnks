@@ -44,7 +44,7 @@ class ConversationViewController : UIViewController, UITableViewDataSource, UITa
     
     override func viewDidLoad() {
         // Make self the delegate for the SBDChannel with the specified identifier
-        SBDMain.add(self as SBDChannelDelegate, identifier: "test")
+        SBDMain.add(self as SBDChannelDelegate, identifier: ConversationChannelKeys.One_To_One.rawValue)
         self.setupConversationView()
         
         // Get all the previous messages that have been sent in this channel
@@ -90,6 +90,12 @@ class ConversationViewController : UIViewController, UITableViewDataSource, UITa
         }
     }
     
+    /**
+     * - Description Get the user that is the sender of a SBDUserMessage
+     * - Parameter message SBDUserMessage - The message to check for the sender of
+     * - Returns PFUser - The PFUser who sent the message
+     * - Code let user = getUser(message)
+     */
     func getUser (message: SBDUserMessage) -> PFUser {
         let messageOwner = message.sender
         
@@ -105,6 +111,7 @@ class ConversationViewController : UIViewController, UITableViewDataSource, UITa
         let user = getUser(message: message)
         let messageCell = MessageCell(messageOwner: user, message: message.message!)
         messageCell.setupUI()
+        messageCell.isUserInteractionEnabled = false    // We don't want the user being able to click on a message
         return messageCell
     }
     
