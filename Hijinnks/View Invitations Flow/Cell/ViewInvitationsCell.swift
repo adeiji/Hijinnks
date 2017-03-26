@@ -25,9 +25,12 @@ class ViewInvitationsCell : UITableViewCell {
     weak var timeLabel:UILabel!
     weak var startTimeLabel:UILabel!
     weak var footerView:UIView!
+    
     weak var mapButton:HijinnksButton!
     weak var likeButton:HijinnksButton!
     weak var rsvpButton:UIButton!
+    weak var commentButton:UIButton!
+    
     weak var addressDataLabel:UILabel!
     weak var addressLabel:UILabel!
     weak var interestsLabel:UILabel!
@@ -36,10 +39,12 @@ class ViewInvitationsCell : UITableViewCell {
     var invitation:Invitation
     var isMapShown:Bool = false
     
-    required init(invitation: Invitation) {
+    let delegate:PassDataBetweenViewControllersProtocol
+    
+    required init(invitation: Invitation, delegate: PassDataBetweenViewControllersProtocol) {
         self.invitation = invitation
-        super.init(style: .default, reuseIdentifier: nil)
-        
+        self.delegate = delegate
+        super.init(style: .default, reuseIdentifier: nil)        
         setupUI()
     }
     
@@ -68,10 +73,11 @@ class ViewInvitationsCell : UITableViewCell {
         self.interestsLabel = setDescriptionLabel(descriptionViewAbove: self.messageLabel, invitationDetailViewAbove: self.messageDataLabel, text: "Interests:")
         self.interestsDataLabel = setInvitationDetailLabel(viewToLeft: self.interestsLabel, text: getInterestsAsString())
         
-        footerView = setFooterView()
-        mapButton = setMapButton()
-        likeButton = setLikeButton()
+        self.footerView = setFooterView()
+        self.mapButton = setMapButton()
+        self.likeButton = setLikeButton()
         self.rsvpButton = setRSVPButton(font: font)
+        self.commentButton = setCommentButton()
     }
     
     // Takes the array of interests and turns it into a string with the interests seperated by commas
@@ -278,6 +284,24 @@ class ViewInvitationsCell : UITableViewCell {
         }
         
         return button
+    }
+    
+    func setCommentButton () -> UIButton {
+        let button = UIButton()
+        button.setTitle("C", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action: #selector(commentButtonPressed), for: .touchUpInside)
+        self.footerView.addSubview(button)
+        button.snp.makeConstraints { (make) in
+            make.left.equalTo(self.rsvpButton.snp.right).offset(10)
+            make.centerY.equalTo(self.footerView)
+        }
+        
+        return button
+    }
+    
+    func commentButtonPressed () {
+        delegate.showInvitationCommentScreen!(invitation: self.invitation)
     }
     
     func updateRSVPCount () {

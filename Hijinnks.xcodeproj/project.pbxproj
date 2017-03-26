@@ -76,6 +76,9 @@
 		F4E0D8931E5A130000FFEEB8 /* CustomHijinnksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0D8921E5A130000FFEEB8 /* CustomHijinnksView.swift */; };
 		F4F054191E84291800486B7D /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F054181E84291800486B7D /* ConversationViewController.swift */; };
 		F4F0541B1E84298700486B7D /* ConversationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F0541A1E84298700486B7D /* ConversationView.swift */; };
+		F4F0541D1E882DFC00486B7D /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F0541C1E882DFC00486B7D /* CommentViewController.swift */; };
+		F4F0541F1E882FE400486B7D /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F0541E1E882FE400486B7D /* CommentView.swift */; };
+		F4F054211E884B7E00486B7D /* CommentParseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F054201E884B7E00486B7D /* CommentParseObject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -178,6 +181,9 @@
 		F4E0D8941E5A161800FFEEB8 /* Hijinnks-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hijinnks-Bridging-Header.h"; sourceTree = "<group>"; };
 		F4F054181E84291800486B7D /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = "User and Login/ConversationViewController.swift"; sourceTree = "<group>"; };
 		F4F0541A1E84298700486B7D /* ConversationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationView.swift; path = "User and Login/ConversationView.swift"; sourceTree = "<group>"; };
+		F4F0541C1E882DFC00486B7D /* CommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentViewController.swift; path = "View Invitations Flow/View Controllers/CommentViewController.swift"; sourceTree = "<group>"; };
+		F4F0541E1E882FE400486B7D /* CommentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentView.swift; path = "View Invitations Flow/View Controllers/CommentView.swift"; sourceTree = "<group>"; };
+		F4F054201E884B7E00486B7D /* CommentParseObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentParseObject.swift; path = Parse/CommentParseObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -276,6 +282,7 @@
 				F42ECC8F1E60DA62007B5B55 /* ParseManager.swift */,
 				F42ECC921E60DAA3007B5B55 /* InvitationParseObject.swift */,
 				F40705421E778F1B00EB8094 /* InterestsGroupParseObject.swift */,
+				F4F054201E884B7E00486B7D /* CommentParseObject.swift */,
 			);
 			name = Parse;
 			sourceTree = "<group>";
@@ -287,6 +294,8 @@
 				F44CAD6D1E5F68D100C91A1F /* View Invitation Table View Controller */,
 				F44CAD7B1E5F968700C91A1F /* ViewInterestsViewController.swift */,
 				F42ECC941E60DBD6007B5B55 /* Invitation.swift */,
+				F4F0541C1E882DFC00486B7D /* CommentViewController.swift */,
+				F4F0541E1E882FE400486B7D /* CommentView.swift */,
 			);
 			name = "Invitations Flow";
 			sourceTree = "<group>";
@@ -801,6 +810,8 @@
 				F4F054191E84291800486B7D /* ConversationViewController.swift in Sources */,
 				F4CCE4A51E74AB5F0090BCD3 /* ExplanationView.swift in Sources */,
 				F42ECC901E60DA62007B5B55 /* ParseManager.swift in Sources */,
+				F4F054211E884B7E00486B7D /* CommentParseObject.swift in Sources */,
+				F4F0541F1E882FE400486B7D /* CommentView.swift in Sources */,
 				F42ECC931E60DAA3007B5B55 /* InvitationParseObject.swift in Sources */,
 				F4CCE48B1E71EBD40090BCD3 /* CreateInvitationsViewController+UIElements.swift in Sources */,
 				F44CAD7C1E5F968700C91A1F /* ViewInterestsViewController.swift in Sources */,
@@ -815,6 +826,7 @@
 				F40705431E778F1B00EB8094 /* InterestsGroupParseObject.swift in Sources */,
 				F4CCE48D1E7201630090BCD3 /* CreateAccountViewController.swift in Sources */,
 				F4A0D1B51E5A427800C6CDFE /* HijinnksStyleKit.swift in Sources */,
+				F4F0541D1E882DFC00486B7D /* CommentViewController.swift in Sources */,
 				F4A0D1B71E5A447E00C6CDFE /* CustomHijinnksImageView.swift in Sources */,
 				F452F5141E6A3C5900616BB3 /* ViewInvitationsCell.swift in Sources */,
 				F40110E91E6DFD25004124DA /* DEUserManager.swift in Sources */,

@@ -11,6 +11,9 @@ import UIKit
 import SendBirdSDK
 import Parse
 
+/**
+ * - The view controller which  handles having conversations with other users
+ */
 class ConversationViewController : UIViewController, UITableViewDataSource, UITableViewDelegate ,SBDChannelDelegate {
     
     var toUser:PFUser

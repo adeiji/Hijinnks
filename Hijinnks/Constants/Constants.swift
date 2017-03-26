@@ -32,6 +32,7 @@ enum InviteesPresets : String {
 enum ParseCustomObjectsClassNames : String {
     case Invitation = "Invitation"
     case InterestsGroup = "Interests_Group"
+    case Comment = "Comment"
 }
 
 enum ProfileOptions : String {
@@ -64,6 +65,9 @@ enum ParseObjectColumns : String {
     case RsvpUsers = "rsvpUsers"
     case IsPublic = "isPublic"
     case Profile_Picture = "profile_picture"
+    case Comments = "comments"
+    case Comment = "comment"
+    case User = "user"
     
 }
 
@@ -77,6 +81,7 @@ enum UIConstants : Int {
     case ProfileViewButtonHeights = 35
     case ProfileViewUserDetailCountsHeight = 100
     case CreateInvitationVerticalSpacing = 20
+    
 }
 
 enum Colors {
@@ -153,4 +158,8 @@ enum APIKeys : String {
 
 enum ConversationChannelKeys : String {
     case One_To_One = "one_to_one"
+}
+
+enum TableViewCellIdentifiers : String {
+    case Comment = "comment"
 }

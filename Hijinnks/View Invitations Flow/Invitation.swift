@@ -25,8 +25,9 @@ class Invitation : NSObject {
     var rsvpCount:Int!
     var invitationParseObject:InvitationParseObject!
     var rsvpUsers:Array<String>!
+    var comments:Array<CommentParseObject>!
     
-    init(eventName: String, location: CLLocation, address: String!, message: String!, startingTime: Date, duration: String!, invitees: Array<PFUser>!, interests: Array<String>!, fromUser: PFUser, dateInvited: Date, rsvpCount: Int!, rsvpUsers: Array<String>!) {
+    init(eventName: String, location: CLLocation, address: String!, message: String!, startingTime: Date, duration: String!, invitees: Array<PFUser>!, interests: Array<String>!, fromUser: PFUser, dateInvited: Date, rsvpCount: Int!, rsvpUsers: Array<String>!, comments: Array<CommentParseObject>!, invitationParseObject: InvitationParseObject!) {
         self.eventName = eventName
         self.location = location
         self.address = address
@@ -42,9 +43,15 @@ class Invitation : NSObject {
         } else {
             self.rsvpCount = 0
         }
-        self.rsvpUsers = rsvpUsers        
+        self.rsvpUsers = rsvpUsers
         super.init()
-        self.setParseObject()
+        self.comments = comments
+        self.setParseObject(parseObject: invitationParseObject)
+    }
+    
+    func setComments (comments: Array<CommentParseObject>) {
+        self.comments = comments
+        self.invitationParseObject.comments = comments
     }
     
     func incrementRsvpCount (user: PFUser) {
@@ -60,28 +67,40 @@ class Invitation : NSObject {
         }
     }
     
-    func setParseObject () {
-        let invitationParseObject = InvitationParseObject()
-        invitationParseObject.eventName = self.eventName
-        invitationParseObject.location = PFGeoPoint(location: self.location)
-        invitationParseObject.address = self.address
-        invitationParseObject.message = self.message
-        invitationParseObject.startingTime = self.startingTime
-        invitationParseObject.dateInvited = self.dateInvited
-        invitationParseObject.duration = self.duration
-        
-        if self.invitees == nil {
-            invitationParseObject.invitees = [PFUser]()
+    /**
+     * - Description Create a Parse Object from the current NSObject. We do this so that we can manipulate both the NSObject and the Parse Object seperately.  There are specific fields that we don't want to manipulate in the Parse Object and therefore we keep these two objects seperated so that manipulations can be made to each object seperately
+     */
+    func setParseObject (parseObject: InvitationParseObject!) {
+        if (parseObject == nil) {
+            let invitationParseObject = InvitationParseObject()
+            invitationParseObject.eventName = self.eventName
+            invitationParseObject.location = PFGeoPoint(location: self.location)
+            invitationParseObject.address = self.address
+            invitationParseObject.message = self.message
+            invitationParseObject.startingTime = self.startingTime
+            invitationParseObject.dateInvited = self.dateInvited
+            invitationParseObject.duration = self.duration
+            
+            if self.invitees == nil {
+                invitationParseObject.invitees = [PFUser]()
+            } else {
+                invitationParseObject.invitees = self.invitees
+            }
+            
+            if self.comments == nil {
+                invitationParseObject.comments = Array<CommentParseObject>()
+            } else {
+                invitationParseObject.comments = self.comments
+            }
+            
+            invitationParseObject.interests = self.interests
+            invitationParseObject.fromUser = self.fromUser
+            invitationParseObject.rsvpCount = self.rsvpCount
+            invitationParseObject.rsvpUsers = self.rsvpUsers
+            self.invitationParseObject = invitationParseObject
+        } else {
+            self.invitationParseObject = parseObject
         }
-        else {
-            invitationParseObject.invitees = self.invitees
-        }
-        
-        invitationParseObject.interests = self.interests
-        invitationParseObject.fromUser = self.fromUser
-        invitationParseObject.rsvpCount = self.rsvpCount
-        invitationParseObject.rsvpUsers = self.rsvpUsers
-        self.invitationParseObject = invitationParseObject
     }
     
     func getParseObject () -> InvitationParseObject {

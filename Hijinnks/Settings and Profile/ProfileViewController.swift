@@ -165,14 +165,14 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
     }
     
     func calculateHeightForCell (invitation: Invitation) -> CGFloat {
-        let viewInvitationCell = ViewInvitationsCell(invitation: invitation)
+        let viewInvitationCell = ViewInvitationsCell(invitation: invitation, delegate: self)
         viewInvitationCell.contentView.layoutIfNeeded()
         let size = viewInvitationCell.contentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
         return size.height
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let viewInvitationsCell = ViewInvitationsCell(invitation: invitations[indexPath.row])
+        let viewInvitationsCell = ViewInvitationsCell(invitation: invitations[indexPath.row], delegate: self)
         return viewInvitationsCell
     }
 }

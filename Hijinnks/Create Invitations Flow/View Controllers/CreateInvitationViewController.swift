@@ -200,7 +200,9 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
                                         fromUser: PFUser.current()!,
                                         dateInvited: Date(),
                                         rsvpCount: 0,
-                                        rsvpUsers: Array<String>())
+                                        rsvpUsers: Array<String>(),
+                                        comments: Array<CommentParseObject>(),
+                                        invitationParseObject: nil)
         
         let newInvitationParseObject = newInvitation.getParseObject()
         newInvitation.invitationParseObject = newInvitationParseObject

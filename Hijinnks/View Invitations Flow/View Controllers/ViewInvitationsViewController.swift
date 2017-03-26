@@ -73,14 +73,14 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
     }
     
     func calculateHeightForCell (invitation: Invitation) -> CGFloat {
-        let viewInvitationCell = ViewInvitationsCell(invitation: invitation)
+        let viewInvitationCell = ViewInvitationsCell(invitation: invitation, delegate: self)
         viewInvitationCell.contentView.layoutIfNeeded()
         let size = viewInvitationCell.contentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
         return size.height
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let viewInvitationsCell = ViewInvitationsCell(invitation: invitations[indexPath.row])
+        let viewInvitationsCell = ViewInvitationsCell(invitation: invitations[indexPath.row], delegate: self)
         return viewInvitationsCell
     }
     
@@ -88,5 +88,20 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
         // Add the new invitation and update the display
         invitations.append(invitation)
         self.tableView.reloadData()
+    }
+    
+    /**
+     * - Description Delegate method that is called when a user presses the Comment button on the ViewInvitationCell object
+     * - Parameter invitation <Invitation> The invitation which the comment button was pressed for
+     * - Code delegate.showInvitationCommentScreen(invitation: invitation)
+     */
+    func showInvitationCommentScreen(invitation: Invitation) {
+        let commentViewController = CommentViewController(invitation: invitation)
+        self.navigationController?.pushViewController(commentViewController, animated: true)
+    }
+    
+    func commentButtonPressed (invitation: Invitation) {
+        let commentViewController = CommentViewController(invitation: invitation)
+        self.navigationController?.pushViewController(commentViewController, animated: true)
     }
 }

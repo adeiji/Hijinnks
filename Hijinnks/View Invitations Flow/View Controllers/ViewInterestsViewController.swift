@@ -16,6 +16,7 @@ import Parse
     @objc optional func setSelectedFriendsToEveryone ()
     @objc optional func setSelectedFriendsToAnyone ()
     @objc optional func addInvitation (invitation: Invitation)
+    @objc optional func showInvitationCommentScreen (invitation: Invitation)
     @objc optional func loggedIn ()
     @objc optional func loadInvitations (invitations: [InvitationParseObject])
 }
