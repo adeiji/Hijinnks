@@ -11,10 +11,14 @@ import UIKit
 import Parse
 import MessageUI
 import FBSDKLoginKit
+import FBSDKShareKit
 
 class OptionsViewController : UITableViewController, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate, PassDataBetweenViewControllersProtocol {
     
-    let options = [ProfileOptions.ReportProblem.rawValue, ProfileOptions.Logout.rawValue, ProfileOptions.ChangeInterests.rawValue]
+    /**
+     * - Description The options that the user can select
+     */
+    let options = [ProfileOptions.ReportProblem.rawValue, ProfileOptions.Logout.rawValue, ProfileOptions.ChangeInterests.rawValue, ProfileOptions.InviteFacebookFriends.rawValue]
     
     override func viewDidLoad() {
         
@@ -44,7 +48,21 @@ class OptionsViewController : UITableViewController, UINavigationControllerDeleg
             let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsCreateAccountOrChangeInterests)
             viewInterestsViewController.delegate = self
             self.navigationController?.pushViewController(viewInterestsViewController, animated: true)
+        } else if selectedOption == ProfileOptions.InviteFacebookFriends.rawValue {
+            // Send an invitation to facebook users
+            self.postToFacebook()
         }
+    }
+    
+    /**
+     * - Description Post to Facebook
+     */
+    func postToFacebook () {
+        let content = FBSDKShareLinkContent()
+        content.contentTitle = "Invite Friends"
+        content.contentURL = NSURL(string: "http://hijinnks.com") as URL!
+        content.contentDescription = "Become a beta tester for Hijinnks!"
+        FBSDKShareDialog.show(from: self, with: content, delegate: nil)
     }
     
     func setSelectedInterests(mySelectedInterest: NSArray) {

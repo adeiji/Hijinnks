@@ -198,7 +198,6 @@ class MessageCell : UITableViewCell {
     func setMessageLabel () {
         self.messageLabel = UILabel()
         self.messageLabel.text = message
-        self.messageLabel.textAlignment = .right
         self.messageLabel.textColor = .white
         self.messageLabel.numberOfLines = 0
         self.messageLabel.preferredMaxLayoutWidth = self.frame.size.width - 50
@@ -210,9 +209,11 @@ class MessageCell : UITableViewCell {
             if messageOwner == PFUser.current() {
                 make.right.equalTo(self.messageOwnerLabel)
                 make.left.greaterThanOrEqualTo(self.contentView).offset(50)
+                self.messageLabel.textAlignment = .right
             } else {
                 make.left.equalTo(self.messageOwnerLabel)
-                make.right.greaterThanOrEqualTo(self.contentView).offset(-50)
+                make.right.lessThanOrEqualTo(self.contentView).offset(-50)
+                self.messageLabel.textAlignment = .left
             }
             make.top.equalTo(self.messageOwnerLabel.snp.bottom).offset(5)
             make.bottom.equalTo(self.contentView).offset(-20)
