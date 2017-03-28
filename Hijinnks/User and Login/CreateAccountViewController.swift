@@ -39,7 +39,7 @@ class CreateAccountViewController : UIViewController, PassDataBetweenViewControl
     
     func setSelectedInterests(mySelectedInterest: Array<String>) {
         PFUser.current()?.setObject(mySelectedInterest, forKey: ParseObjectColumns.Interests.rawValue)
-        // Once the user has selecte the interests that he wants than we show the main tab controller
+        // Once the user has selected the interests that he wants than we show the main tab controller
         let tabBarController = MainTabBarController()
         let appDelegate = UIApplication.shared.delegate
         appDelegate?.window!?.rootViewController = tabBarController

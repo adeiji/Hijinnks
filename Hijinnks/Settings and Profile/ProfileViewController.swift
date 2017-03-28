@@ -61,6 +61,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
             let messageBarItem = UIBarButtonItem(title: "Message", style: .plain, target: self, action: #selector(messageButtonPressed))
             self.navigationItem.setRightBarButton(messageBarItem, animated: true)
         }
+        
     }
     
     func messageButtonPressed () {
@@ -148,6 +149,13 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         self.profileView.viewInvitationsTableView.dataSource = self
         self.profileView.viewInvitationsTableView.delegate = self
         self.profileView.viewInvitationsTableView.reloadData()
+        self.profileView.viewInvitationsTableView.snp.remakeConstraints { (make) in
+            make.left.equalTo(self.profileView)
+            make.right.equalTo(self.profileView)
+            make.top.equalTo(self.profileView.rsvpLabel.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
+            make.height.equalTo(self.profileView.viewInvitationsTableView.contentSize.height + 150)
+            make.bottom.equalTo(self.profileView.wrapperView)
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
