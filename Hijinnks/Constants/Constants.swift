@@ -68,9 +68,9 @@ enum ParseObjectColumns : String {
     case Comments = "comments"
     case Comment = "comment"
     case User = "user"
-    case isWeekly = "isWeekly"
-    case isMonthly = "isMonthly"
-    
+    case IsWeekly = "isWeekly"
+    case IsMonthly = "isMonthly"
+    case MaxAttendees = "maxAttendees"
 }
 
 enum UIConstants : Int {
@@ -164,4 +164,9 @@ enum ConversationChannelKeys : String {
 
 enum TableViewCellIdentifiers : String {
     case Comment = "comment"
+}
+
+enum AnimationConfirmation {
+    case Square
+    case Circle
 }

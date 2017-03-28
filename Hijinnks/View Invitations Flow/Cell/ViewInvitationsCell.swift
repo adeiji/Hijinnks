@@ -36,12 +36,12 @@ class ViewInvitationsCell : UITableViewCell {
     weak var interestsLabel:UILabel!
     weak var interestsDataLabel:UILabel!
     weak var mapView:UIView!
-    var invitation:Invitation
+    var invitation:InvitationParseObject
     var isMapShown:Bool = false
     
     let delegate:PassDataBetweenViewControllersProtocol
     
-    required init(invitation: Invitation, delegate: PassDataBetweenViewControllersProtocol) {
+    required init(invitation: InvitationParseObject, delegate: PassDataBetweenViewControllersProtocol) {
         self.invitation = invitation
         self.delegate = delegate
         super.init(style: .default, reuseIdentifier: nil)        
@@ -237,8 +237,8 @@ class ViewInvitationsCell : UITableViewCell {
             self.mapView.removeFromSuperview()
         }
         else {
-            let camera = GMSCameraPosition.camera(withLatitude: invitation.location.coordinate.latitude, longitude: invitation.location.coordinate.longitude, zoom: 15)
-            let marker = GMSMarker(position: CLLocationCoordinate2D(latitude: invitation.location.coordinate.latitude, longitude: invitation.location.coordinate.longitude))
+            let camera = GMSCameraPosition.camera(withLatitude: invitation.location.latitude, longitude: invitation.location.longitude, zoom: 15)
+            let marker = GMSMarker(position: CLLocationCoordinate2D(latitude: invitation.location.latitude, longitude: invitation.location.longitude))
             let mapView = GMSMapView.map(withFrame: .zero, camera: camera)
             marker.map = mapView
             self.mapView = UIView()
@@ -304,23 +304,12 @@ class ViewInvitationsCell : UITableViewCell {
         delegate.showInvitationCommentScreen!(invitation: self.invitation)
     }
     
+    /**
+     * - Description Increase or decrease the count of those who have RSVP'd and update the users who have RSVP'd
+     */
     func updateRSVPCount () {
-        var invitationParseObject:InvitationParseObject!
-        if invitation.invitationParseObject != nil {
-            invitationParseObject = invitation.invitationParseObject
-        }
-        else {
-            invitationParseObject = invitation.getParseObject()
-        }
-        // If the user has already rsvp'd to this shindig
-        if (invitationParseObject.rsvpUsers.contains((PFUser.current()?.username)!)) {
-            invitation.decrementRsvpCount(user: PFUser.current()!)
-        }
-        else {
-            invitationParseObject.incrementKey(ParseObjectColumns.RSVPCount.rawValue, byAmount: -1)
-            invitation.incrementRsvpCount(user: PFUser.current()!)
-        }
-        
+        delegate.rsvpButtonPressed!(invitation: self.invitation)
+        self.invitation.saveInBackground()
         self.rsvpButton.setTitle("\(invitation.rsvpCount!)\nRSVP'd", for: .normal) // Display the number of people who have RSVP'd
     }
     

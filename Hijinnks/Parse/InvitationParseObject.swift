@@ -140,27 +140,49 @@ class InvitationParseObject : PFObject, PFSubclassing {
     
     var isWeekly : Bool {
         get {
-            return self[ParseObjectColumns.isWeekly.rawValue] as! Bool
+            return self[ParseObjectColumns.IsWeekly.rawValue] as! Bool
         }
         set {
-            self[ParseObjectColumns.isWeekly.rawValue] = newValue
+            self[ParseObjectColumns.IsWeekly.rawValue] = newValue
         }
     }
     
     var isMonthly : Bool {
         get {
-            return self[ParseObjectColumns.isMonthly.rawValue] as! Bool
+            return self[ParseObjectColumns.IsMonthly.rawValue] as! Bool
         }
         set {
-            self[ParseObjectColumns.isMonthly.rawValue] = newValue
+            self[ParseObjectColumns.IsMonthly.rawValue] = newValue
         }
     }
     
-    // Gets a NSObject instance of this PFObject
-    func getInvitation () -> Invitation {        
-        let location = CLLocation(latitude: self.location.latitude, longitude: self.location.longitude)
-        let invitation = Invitation(eventName: self.eventName, location: location, address:self.address, message: self.message, startingTime: self.startingTime, duration: self.duration, invitees: self.invitees, interests: self.interests, fromUser: self.fromUser, dateInvited: self.dateInvited, rsvpCount: self.rsvpCount, rsvpUsers: self.rsvpUsers, comments: self.comments, invitationParseObject: self)
-        
-        return invitation
+    var maxAttendees : Int {
+        get {
+            return self[ParseObjectColumns.MaxAttendees.rawValue] as! Int
+        }
+        set {
+            self[ParseObjectColumns.MaxAttendees.rawValue] = newValue
+        }
+    }
+    
+    convenience init(eventName: String, location: PFGeoPoint, address: String, message: String, startingTime: Date, duration: String, invitees: Array<PFUser>, interests: Array<String>, fromUser: PFUser, dateInvited: Date, rsvpCount: Int, rsvpUsers: Array<String>, comments: Array<CommentParseObject>, isWeekly: Bool, isMonthly: Bool, maxAttendees: Int)
+    {
+        self.init()
+        self.eventName = eventName
+        self.location = location
+        self.address = address
+        self.message = message
+        self.startingTime = startingTime
+        self.duration = duration
+        self.invitees = invitees
+        self.interests = interests
+        self.fromUser = fromUser
+        self.dateInvited = dateInvited
+        self.rsvpCount = rsvpCount
+        self.rsvpUsers = rsvpUsers
+        self.comments = comments
+        self.isWeekly = isWeekly
+        self.isMonthly = isMonthly
+        self.maxAttendees = maxAttendees
     }
 }

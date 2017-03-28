@@ -15,7 +15,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
  
     var profileView:ProfileView!
     var user:PFUser!
-    var invitations:[Invitation]! = [Invitation]()
+    var invitations:[InvitationParseObject]! = [InvitationParseObject]()
     var activitySpinner:UIActivityIndicatorView!
     
     func startActivitySpinner () {
@@ -96,12 +96,12 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
     }
     
     // When the user sets the interests for the friend that they're adding than we add the friend and attribute the friend to specific interests
-    func setSelectedInterests(mySelectedInterest: NSArray) {
+    func setSelectedInterests(mySelectedInterest: Array<String>) {
         // The name of the interests_group will be set to whatever the name of the interests is that was selected
         // So we go through each interests and add this new friend to the interests selected
         for interest in mySelectedInterest {
             let myInterestGroup = InterestsGroupParseObject()
-            myInterestGroup.name = interest as! String
+            myInterestGroup.name = interest
             myInterestGroup.friend = user
             myInterestGroup.owner = PFUser.current()!
             myInterestGroup.saveEventually()
@@ -140,10 +140,9 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
     // Display the invitations that this user has done in the table view for this view controller
     func displayInvitationsForUser (invitationParseObjects : [InvitationParseObject]!) {
         for invitationParseObject in invitationParseObjects! {
-            let myInvitation = invitationParseObject.getInvitation()
             // Set the user to the user that is already set for this View Controller, otherwise we'll have to fetch the user from every single invitation parse object that is received from the user which would be pointless because we already have that fetched object (user) as a property for this class
-            myInvitation.fromUser = user
-            self.invitations?.append(myInvitation)
+            invitationParseObject.fromUser = user
+            self.invitations?.append(invitationParseObject)
         }
         
         self.profileView.viewInvitationsTableView.dataSource = self
@@ -164,7 +163,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         return calculateHeightForCell(invitation: invitations[indexPath.row])
     }
     
-    func calculateHeightForCell (invitation: Invitation) -> CGFloat {
+    func calculateHeightForCell (invitation: InvitationParseObject) -> CGFloat {
         let viewInvitationCell = ViewInvitationsCell(invitation: invitation, delegate: self)
         viewInvitationCell.contentView.layoutIfNeeded()
         let size = viewInvitationCell.contentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)

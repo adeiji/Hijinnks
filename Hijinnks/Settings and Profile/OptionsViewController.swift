@@ -65,10 +65,6 @@ class OptionsViewController : UITableViewController, UINavigationControllerDeleg
         FBSDKShareDialog.show(from: self, with: content, delegate: nil)
     }
     
-    func setSelectedInterests(mySelectedInterest: NSArray) {
-        
-    }
-    
     func showEmailScreen () {
         if MFMailComposeViewController.canSendMail() {
             let mailViewController = MFMailComposeViewController()

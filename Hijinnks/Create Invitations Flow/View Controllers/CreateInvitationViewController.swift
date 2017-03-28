@@ -21,15 +21,16 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     weak var inviteMessageTextField:UITextField!
     weak var startingTimeTextField:UITextField!
     weak var durationTextField:UITextField!
-    
     weak var inviteesTextField:UITextField!
     weak var inviteInterestsTextField:UITextField! // Change this in production
+    weak var maxNumberOfAttendeesTextField:UITextField!
+    
     weak var scrollView:UIScrollView!
     
     weak var weeklyButton:UIButton!
     weak var monthlyButton:UIButton!
     
-    var selectedInterests:NSArray!
+    var selectedInterests:Array<String>!
     var selectedFriends:NSArray!
     var name:String!
     var address:String!
@@ -42,8 +43,10 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     var delegate:PassDataBetweenViewControllersProtocol!
     var isPublic:Bool!
     var invitationSendScope:InvitationSendScope!
-    var isWeekly:Bool!
-    var isMonthly:Bool!
+    
+    // These should be set to false by default.  User should have to set either of these values to true
+    var isWeekly:Bool = false
+    var isMonthly:Bool = false
     
     enum InvitationSendScope {
         case Everyone
@@ -59,18 +62,20 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         setupUI()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification: )), name: NSNotification.Name.UIKeyboardWillShow , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification: )), name: NSNotification.Name.UIKeyboardWillHide , object: nil)
-        self.monthlyButton.addTarget(self, action: #selector(monthlyButtonPressed), for: .touchUpInside)
-        self.weeklyButton.addTarget(self, action: #selector(weeklyButtonPressed), for: .touchUpInside)
+        self.monthlyButton.addTarget(self, action: #selector(monthlyButtonPressed(_:)), for: .touchUpInside)
+        self.weeklyButton.addTarget(self, action: #selector(weeklyButtonPressed(_:)), for: .touchUpInside)
     }
     
-    func monthlyButtonPressed () {
+    func monthlyButtonPressed (_ sender: UIButton) {
         self.isMonthly = true
         self.isWeekly = false
+        self.showRecurringButtonHighlighted(button: sender)
     }
     
-    func weeklyButtonPressed () {
+    func weeklyButtonPressed (_ sender: UIButton) {
         self.isWeekly = true
         self.isMonthly = false
+        self.showRecurringButtonHighlighted(button: sender)
     }
     
     func showRecurringButtonHighlighted (button: UIButton) {
@@ -112,7 +117,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         self.view.addSubview(recurringLabel)
         recurringLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view)
-            make.top.equalTo(self.inviteInterestsTextField.snp.bottom).offset(UIConstants.CreateInvitationVerticalSpacing.rawValue)
+            make.top.equalTo(self.maxNumberOfAttendeesTextField.snp.bottom).offset(UIConstants.CreateInvitationVerticalSpacing.rawValue)
         }
         
         let weeklyButton = UIButton()
@@ -126,7 +131,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         weeklyButton.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view).offset(-100)
             make.width.equalTo(90)
-            make.top.equalTo(recurringLabel.snp.bottom).offset(30)
+            make.top.equalTo(recurringLabel.snp.bottom).offset(UIConstants.CreateInvitationVerticalSpacing.rawValue)
             make.height.equalTo(50)
         }
         
@@ -141,7 +146,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         monthlyButton.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view).offset(100)
             make.width.equalTo(90)
-            make.top.equalTo(recurringLabel.snp.bottom).offset(30)
+            make.top.equalTo(recurringLabel.snp.bottom).offset(UIConstants.CreateInvitationVerticalSpacing.rawValue)
             make.height.equalTo(50)
         }
         
@@ -153,16 +158,16 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         return UIButton()
     }
     
-    func setSelectedInterests(mySelectedInterest: NSArray) {
+    func setSelectedInterests(mySelectedInterest: Array<String>) {
         selectedInterests = mySelectedInterest
         var interestsString = String()
         
         for interest in selectedInterests {
-            if (interest as! String) != (selectedInterests.lastObject as! String) {
-                interestsString += (interest as! String) + ", "
+            if interest != selectedInterests.last {
+                interestsString += interest + ", "
             }
             else {
-                interestsString += (interest as! String)
+                interestsString += interest
             }
         }
         
@@ -196,7 +201,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         self.invitationSendScope = InvitationSendScope.Everyone
     }
     
-    func getLocation () -> CLLocation! {
+    func getLocation () -> PFGeoPoint! {
         // If the user did not select a place using the Google Maps Autocomplete feature, than we need to use his current location
         // So we need to get the current location from the Location Manager and than we need to get an address using the Lat/Long coordinates returned
         if self.place == nil {
@@ -214,24 +219,25 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
                 
                 let fullAddress = String("\(addressNumber!) \(address!), \(city!), \(state!) \(zipCode!)")
                 self.address = fullAddress
-                self.saveAndSendInvitation(currentLocation: (placemark?.location)!)
+                let location = PFGeoPoint(location: placemark?.location)
+                self.saveAndSendInvitation(currentLocation: location)
             })
         }
         else {
-            return CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
+            return PFGeoPoint(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
         }
         
         return nil
     }
     
-    func saveAndSendInvitation (currentLocation: CLLocation) {
+    func saveAndSendInvitation (currentLocation: PFGeoPoint) {
         // Check to make sure all the data entered is valid
         var invitees:NSArray!
         if validateTextFields() {
             if invitationSendScope == InvitationSendScope.SomeFriends // If the user has selected some friends
             {
                 invitees = self.selectedFriends
-                createInvitationAndSend(currentLocation: currentLocation, invitees: invitees as! Array<PFUser>)
+                createInvitationAndSend(location: currentLocation, invitees: invitees as! Array<PFUser>)
             }
             else if invitationSendScope == InvitationSendScope.AllFriends { // If the user has selected all friends
                 let query = PFUser.query()
@@ -239,12 +245,12 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
                 query?.whereKey(ParseObjectColumns.ObjectId.rawValue, containedIn: PFUser.current()?.object(forKey: ParseObjectColumns.Friends.rawValue) as! [Any])
                 query?.findObjectsInBackground(block: { (friends, error) in
                     if (friends != nil) {
-                        self.createInvitationAndSend(currentLocation: currentLocation, invitees: friends as! [PFUser])
+                        self.createInvitationAndSend(location: currentLocation, invitees: friends as! [PFUser])
                     }
                 })
             }
             else {  // If the user has made the invitation public
-                createInvitationAndSend(currentLocation: currentLocation, invitees: Array<PFUser>())
+                createInvitationAndSend(location: currentLocation, invitees: Array<PFUser>())
             }
 
             self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?.last
@@ -268,28 +274,34 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         return true
     }
     
-    func createInvitationAndSend (currentLocation: CLLocation, invitees: Array<PFUser>) {
+    /**
+     * - Description Create the invitation and than save on the server
+     * - Parameter location CLLocation - The location that the user is currently at
+     * - Parameter invitees Array<PFUser> - The array of PFUser(s) that the user has invited
+     * - Returns nil
+     */
+    func createInvitationAndSend (location: PFGeoPoint, invitees: Array<PFUser>) {
         // Create an invitation object with all the specified data entered by the user
-        let newInvitation = Invitation( eventName: nameTextField.text!,
-                                        location:  currentLocation,
-                                        address: self.address,
-                                        message: self.inviteMessageTextField.text,
-                                        startingTime: self.startingTime,
-                                        duration: self.durationTextField.text,
-                                        invitees: invitees, // Send an empty array, this will mean that anyone can see it
-                                        interests: self.selectedInterests as! Array<String>!,
-                                        fromUser: PFUser.current()!,
-                                        dateInvited: Date(),
-                                        rsvpCount: 0,
-                                        rsvpUsers: Array<String>(),
-                                        comments: Array<CommentParseObject>(),
-                                        invitationParseObject: nil)
+    
         
-        let newInvitationParseObject = newInvitation.getParseObject()
-        newInvitation.invitationParseObject = newInvitationParseObject
-        newInvitation.invitationParseObject.isPublic = true
+        let newInvitation = InvitationParseObject( eventName: self.nameTextField.text!,
+                                                   location:  location,
+                                                   address: self.address,
+                                                   message: self.inviteMessageTextField.text!,
+                                                   startingTime: self.startingTime!,
+                                                   duration: self.durationTextField.text!,
+                                                   invitees: invitees,
+                                                   interests: self.selectedInterests,
+                                                   fromUser: PFUser.current()!,
+                                                   dateInvited: Date(),
+                                                   rsvpCount: 0,
+                                                   rsvpUsers: Array<String>(),
+                                                   comments: Array<CommentParseObject>(),
+                                                   isWeekly: self.isWeekly,
+                                                   isMonthly: self.isMonthly,
+                                                   maxAttendees: Int(self.maxNumberOfAttendeesTextField.text!)!)
         
-        ParseManager.save(parseObject: newInvitationParseObject) // Save the new invitation to the server
+        ParseManager.save(parseObject: newInvitation) // Save the new invitation to the server
         // On the view invitations view controller, add this new invitation object
         delegate.addInvitation!(invitation: newInvitation)
     }
@@ -317,7 +329,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     
     // Save the invitation to the server and update the View Invitations View Controller with the new invitation
     func sendInvite () {
-        let location:CLLocation! = getLocation()
+        let location:PFGeoPoint! = getLocation()
         // If the location returns nil than that means that the invitations has already been created and saved to the server
         if location != nil {
             self.address = locationTextField.text
@@ -358,9 +370,14 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         
         inviteInterestsTextField = createTextField(superview: wrapperView, relativeViewAbove: inviteesTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "What kind of invite is this?", showViewController: nil, colorViewColor: Colors.blue.value)
         
+        self.maxNumberOfAttendeesTextField = createTextField(superview: self.wrapperView, relativeViewAbove: inviteInterestsTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing.rawValue, placeholderText: "Max number of attendees", showViewController: nil, colorViewColor: Colors.blue.value)
+        self.maxNumberOfAttendeesTextField.keyboardType = .numberPad
+        
         setupDurationTextFieldInputView()
         setRecurringView()
     }
+    
+    
     
     func createHeaderLabel () -> UILabel {
         let label = UILabel()

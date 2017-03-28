@@ -13,7 +13,7 @@ import Parse
 class CommentViewController : UIViewController, UITableViewDataSource {
     
     var commentView:CommentView!
-    var invitation:Invitation!
+    var invitation:InvitationParseObject!
     var comments:Array<CommentParseObject>!
     
     override func viewDidLoad() {
@@ -32,7 +32,7 @@ class CommentViewController : UIViewController, UITableViewDataSource {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(invitation: Invitation) {
+    init(invitation: InvitationParseObject) {
         self.invitation = invitation
         if self.invitation.comments != nil {
             self.comments = self.invitation.comments
@@ -67,9 +67,8 @@ class CommentViewController : UIViewController, UITableViewDataSource {
             commentParseObject.user = PFUser.current()
             self.comments.append(commentParseObject)
         }
-        
-        self.invitation.setComments(comments: self.comments)
-        self.invitation.getParseObject().saveInBackground()
+        self.invitation.comments = self.comments        
+        self.invitation.saveInBackground()
         _ = self.navigationController?.popViewController(animated: true)
     }
 }

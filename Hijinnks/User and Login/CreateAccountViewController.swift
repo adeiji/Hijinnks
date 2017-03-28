@@ -37,8 +37,8 @@ class CreateAccountViewController : UIViewController, PassDataBetweenViewControl
         DEUserManager.sharedManager.createUser(withUserName: username!, password: password!, email: email!, errorLabel: createAccountView.lblUsernameError, showViewControllerOnComplete: viewInterestsViewController)
     }
     
-    func setSelectedInterests(mySelectedInterest: NSArray) {
-        PFUser.current()?.setObject(mySelectedInterest as! [String], forKey: ParseObjectColumns.Interests.rawValue)
+    func setSelectedInterests(mySelectedInterest: Array<String>) {
+        PFUser.current()?.setObject(mySelectedInterest, forKey: ParseObjectColumns.Interests.rawValue)
         // Once the user has selecte the interests that he wants than we show the main tab controller
         let tabBarController = MainTabBarController()
         let appDelegate = UIApplication.shared.delegate

@@ -14,7 +14,7 @@ import Parse
 class ViewInvitationsViewController : UITableViewController, PassDataBetweenViewControllersProtocol {
     
     let parseQueue = DispatchQueue(label: "com.parse.handler")
-    var invitations:[Invitation] = [Invitation]()
+    var invitations:[InvitationParseObject] = [InvitationParseObject]()
     var activitySpinner:UIActivityIndicatorView!
     
     func startActivitySpinner () {
@@ -44,8 +44,8 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
                     print(error.localizedDescription)
                     // Display to user that there was an error getting the data
                 }
-                let invitation = invitationParseObject.getInvitation()
-                self.invitations.append(invitation)
+                
+                self.invitations.append(invitationParseObject)
             }
             DispatchQueue.main.async(execute: { 
                 self.tableView.reloadData()
@@ -72,7 +72,7 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
         return calculateHeightForCell(invitation: invitations[indexPath.row])
     }
     
-    func calculateHeightForCell (invitation: Invitation) -> CGFloat {
+    func calculateHeightForCell (invitation: InvitationParseObject) -> CGFloat {
         let viewInvitationCell = ViewInvitationsCell(invitation: invitation, delegate: self)
         viewInvitationCell.contentView.layoutIfNeeded()
         let size = viewInvitationCell.contentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
@@ -84,7 +84,7 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
         return viewInvitationsCell
     }
     
-    func addInvitation(invitation: Invitation) {
+    func addInvitation(invitation: InvitationParseObject) {
         // Add the new invitation and update the display
         invitations.append(invitation)
         self.tableView.reloadData()
@@ -95,13 +95,30 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
      * - Parameter invitation <Invitation> The invitation which the comment button was pressed for
      * - Code delegate.showInvitationCommentScreen(invitation: invitation)
      */
-    func showInvitationCommentScreen(invitation: Invitation) {
+    func showInvitationCommentScreen(invitation: InvitationParseObject) {
         let commentViewController = CommentViewController(invitation: invitation)
         self.navigationController?.pushViewController(commentViewController, animated: true)
     }
     
-    func commentButtonPressed (invitation: Invitation) {
+    func commentButtonPressed (invitation: InvitationParseObject) {
         let commentViewController = CommentViewController(invitation: invitation)
         self.navigationController?.pushViewController(commentViewController, animated: true)
+    }
+    
+    func rsvpButtonPressed(invitation: InvitationParseObject) {
+        // If the user has already rsvp'd to this shindig
+        if (invitation.rsvpUsers.contains((PFUser.current()?.objectId)!)) {
+            invitation.rsvpUsers = invitation.rsvpUsers.filter {
+                $0 != PFUser.current()?.objectId
+            }
+            invitation.rsvpCount = invitation.rsvpCount - 1
+        }
+        else {
+            invitation.incrementKey(ParseObjectColumns.RSVPCount.rawValue, byAmount: 1)
+            invitation.rsvpUsers.append((PFUser.current()?.objectId)!)
+            let confirmationViewColor = UIColor(red: 36/255, green: 66/255, blue: 156/255, alpha: 1.0)
+            Animations.showConfirmationView(type: AnimationConfirmation.Circle, message: "You RSVP'd", backgroundColor: confirmationViewColor, superView: self.view.superview!, textColor: .white)
+        }
+        
     }
 }

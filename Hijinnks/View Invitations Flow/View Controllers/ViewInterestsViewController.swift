@@ -11,14 +11,15 @@ import UIKit
 import Parse
 
 @objc protocol PassDataBetweenViewControllersProtocol {
-    @objc optional func setSelectedInterests(mySelectedInterest: NSArray)
+    @objc optional func setSelectedInterests(mySelectedInterest: Array<String>)
     @objc optional func setSelectedFriends(mySelectedFriends: NSArray)
     @objc optional func setSelectedFriendsToEveryone ()
     @objc optional func setSelectedFriendsToAnyone ()
-    @objc optional func addInvitation (invitation: Invitation)
-    @objc optional func showInvitationCommentScreen (invitation: Invitation)
+    @objc optional func addInvitation (invitation: InvitationParseObject)
+    @objc optional func showInvitationCommentScreen (invitation: InvitationParseObject)
     @objc optional func loggedIn ()
     @objc optional func loadInvitations (invitations: [InvitationParseObject])
+    @objc optional func rsvpButtonPressed (invitation: InvitationParseObject)
 }
 
 class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITableViewDataSource   {
@@ -115,14 +116,14 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
     func getAllSelectedInterests () {
         
         let selectedRowsIndexPaths = self.tableView.indexPathsForSelectedRows
-        let selectedInterests:NSMutableArray = NSMutableArray()
+        var selectedInterests:Array<String> = Array<String>()
         
         for indexPath in selectedRowsIndexPaths! {
             let interest = tableData[indexPath.row]
-            selectedInterests.add(interest)
+            selectedInterests.append(interest as! String)
         }
         
-        delegate.setSelectedInterests!(mySelectedInterest: selectedInterests as NSArray)
+        delegate.setSelectedInterests!(mySelectedInterest: selectedInterests)
         _ = self.navigationController?.popViewController(animated: true)
     }
 }
