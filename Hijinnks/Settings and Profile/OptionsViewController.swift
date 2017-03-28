@@ -21,7 +21,7 @@ class OptionsViewController : UITableViewController, UINavigationControllerDeleg
     let options = [ProfileOptions.ReportProblem.rawValue, ProfileOptions.Logout.rawValue, ProfileOptions.ChangeInterests.rawValue, ProfileOptions.InviteFacebookFriends.rawValue]
     
     override func viewDidLoad() {
-        
+        self.navigationItem.title = StringConstants.Hijinnks.rawValue
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

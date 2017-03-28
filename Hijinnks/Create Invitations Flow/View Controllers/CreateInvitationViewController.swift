@@ -26,6 +26,9 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     weak var inviteInterestsTextField:UITextField! // Change this in production
     weak var scrollView:UIScrollView!
     
+    weak var weeklyButton:UIButton!
+    weak var monthlyButton:UIButton!
+    
     var selectedInterests:NSArray!
     var selectedFriends:NSArray!
     var name:String!
@@ -39,6 +42,8 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     var delegate:PassDataBetweenViewControllersProtocol!
     var isPublic:Bool!
     var invitationSendScope:InvitationSendScope!
+    var isWeekly:Bool!
+    var isMonthly:Bool!
     
     enum InvitationSendScope {
         case Everyone
@@ -54,6 +59,36 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         setupUI()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification: )), name: NSNotification.Name.UIKeyboardWillShow , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification: )), name: NSNotification.Name.UIKeyboardWillHide , object: nil)
+        self.monthlyButton.addTarget(self, action: #selector(monthlyButtonPressed), for: .touchUpInside)
+        self.weeklyButton.addTarget(self, action: #selector(weeklyButtonPressed), for: .touchUpInside)
+    }
+    
+    func monthlyButtonPressed () {
+        self.isMonthly = true
+        self.isWeekly = false
+    }
+    
+    func weeklyButtonPressed () {
+        self.isWeekly = true
+        self.isMonthly = false
+    }
+    
+    func showRecurringButtonHighlighted (button: UIButton) {
+        var otherButton:UIButton!
+        
+        if button == self.weeklyButton
+        {
+            otherButton = self.monthlyButton
+        }
+        else
+        {
+            otherButton = self.weeklyButton
+        }
+        
+        button.backgroundColor = .black
+        button.setTitleColor(.white, for: .normal)
+        otherButton.backgroundColor = .white
+        otherButton.setTitleColor(.black, for: .normal)
     }
     
     func reset () {
@@ -70,6 +105,52 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         self.durations = nil
         self.isPublic = true
         self.invitationSendScope = nil
+    }
+    
+    func setRecurringView () {
+        let recurringLabel = UILabel(text: "Would you like this to be a recurring event?")
+        self.view.addSubview(recurringLabel)
+        recurringLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(self.inviteInterestsTextField.snp.bottom).offset(UIConstants.CreateInvitationVerticalSpacing.rawValue)
+        }
+        
+        let weeklyButton = UIButton()
+        weeklyButton.layer.borderWidth = 2
+        weeklyButton.layer.borderColor = UIColor.black.cgColor
+        weeklyButton.layer.cornerRadius = 5
+        weeklyButton.setTitleColor(.black, for: .normal)
+        weeklyButton.setTitle("Weekly", for: .normal)
+        weeklyButton.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
+        self.view.addSubview(weeklyButton)
+        weeklyButton.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self.view).offset(-100)
+            make.width.equalTo(90)
+            make.top.equalTo(recurringLabel.snp.bottom).offset(30)
+            make.height.equalTo(50)
+        }
+        
+        let monthlyButton = UIButton()
+        monthlyButton.layer.borderColor = UIColor.black.cgColor
+        monthlyButton.layer.borderWidth = 2
+        monthlyButton.layer.cornerRadius = 5
+        monthlyButton.setTitle("Monthly", for: .normal)
+        monthlyButton.setTitleColor(.black, for: .normal)
+        monthlyButton.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
+        self.view.addSubview(monthlyButton)
+        monthlyButton.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self.view).offset(100)
+            make.width.equalTo(90)
+            make.top.equalTo(recurringLabel.snp.bottom).offset(30)
+            make.height.equalTo(50)
+        }
+        
+        self.monthlyButton = monthlyButton
+        self.weeklyButton = weeklyButton
+    }
+    
+    func getRecurringButton () -> UIButton {
+        return UIButton()
     }
     
     func setSelectedInterests(mySelectedInterest: NSArray) {
@@ -207,6 +288,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         let newInvitationParseObject = newInvitation.getParseObject()
         newInvitation.invitationParseObject = newInvitationParseObject
         newInvitation.invitationParseObject.isPublic = true
+        
         ParseManager.save(parseObject: newInvitationParseObject) // Save the new invitation to the server
         // On the view invitations view controller, add this new invitation object
         delegate.addInvitation!(invitation: newInvitation)
@@ -277,6 +359,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         inviteInterestsTextField = createTextField(superview: wrapperView, relativeViewAbove: inviteesTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "What kind of invite is this?", showViewController: nil, colorViewColor: Colors.blue.value)
         
         setupDurationTextFieldInputView()
+        setRecurringView()
     }
     
     func createHeaderLabel () -> UILabel {

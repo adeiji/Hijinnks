@@ -68,6 +68,8 @@ enum ParseObjectColumns : String {
     case Comments = "comments"
     case Comment = "comment"
     case User = "user"
+    case isWeekly = "isWeekly"
+    case isMonthly = "isMonthly"
     
 }
 

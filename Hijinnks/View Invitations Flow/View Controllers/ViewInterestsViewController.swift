@@ -97,7 +97,7 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
             else {
                 make.left.equalTo(self.view)
                 make.right.equalTo(self.view)
-                make.bottom.equalTo(self.view)
+                make.bottom.equalTo(self.view).offset(-70)
                 make.top.equalTo(explanationLabel.snp.bottom)
             }
         }
@@ -137,9 +137,6 @@ extension ViewInterestsViewController {
         return "Interests"
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
-    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()

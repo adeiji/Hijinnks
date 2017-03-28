@@ -138,6 +138,23 @@ class InvitationParseObject : PFObject, PFSubclassing {
         }
     }
     
+    var isWeekly : Bool {
+        get {
+            return self[ParseObjectColumns.isWeekly.rawValue] as! Bool
+        }
+        set {
+            self[ParseObjectColumns.isWeekly.rawValue] = newValue
+        }
+    }
+    
+    var isMonthly : Bool {
+        get {
+            return self[ParseObjectColumns.isMonthly.rawValue] as! Bool
+        }
+        set {
+            self[ParseObjectColumns.isMonthly.rawValue] = newValue
+        }
+    }
     
     // Gets a NSObject instance of this PFObject
     func getInvitation () -> Invitation {        

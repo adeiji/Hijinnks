@@ -97,6 +97,7 @@ class Invitation : NSObject {
             invitationParseObject.fromUser = self.fromUser
             invitationParseObject.rsvpCount = self.rsvpCount
             invitationParseObject.rsvpUsers = self.rsvpUsers
+            
             self.invitationParseObject = invitationParseObject
         } else {
             self.invitationParseObject = parseObject

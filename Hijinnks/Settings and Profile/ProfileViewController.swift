@@ -23,7 +23,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         self.activitySpinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         self.activitySpinner.startAnimating()
         self.activitySpinner.hidesWhenStopped = true
-        
+        self.navigationItem.title = StringConstants.Hijinnks.rawValue
         self.view.addSubview(self.activitySpinner)
         self.activitySpinner.snp.makeConstraints { (make) in
             make.center.equalTo(self.view)
