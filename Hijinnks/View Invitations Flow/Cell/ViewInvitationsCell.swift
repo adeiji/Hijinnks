@@ -15,7 +15,7 @@ class ViewInvitationsCell : UITableViewCell {
     
     weak var headerView:UIView!
     weak var profileImageView:UIImageView!
-    weak var invitedDateLabel:UILabel!
+    weak var eventNameLabel:UILabel!
     weak var fromLabel:UILabel!
     weak var fromUserLabel:UILabel!
     weak var toLabel:UILabel!
@@ -57,7 +57,7 @@ class ViewInvitationsCell : UITableViewCell {
         let font = UIFont.systemFont(ofSize: 14)
         headerView = setHeaderView()
         profileImageView = setProfileImageView()
-        invitedDateLabel = setInvitedDateLabel(font: font)
+        self.eventNameLabel = setEventNameLabel(font: font)
         
         self.fromLabel = setDescriptionLabel(descriptionViewAbove: nil, invitationDetailViewAbove: nil,  text: "From:")
         self.fromUserLabel = setInvitationDetailLabel(viewToLeft: self.fromLabel, text: invitation.fromUser.username!)
@@ -182,16 +182,12 @@ class ViewInvitationsCell : UITableViewCell {
     }
     
     // Display the data the user was invited
-    func setInvitedDateLabel (font: UIFont) -> UILabel {
+    func setEventNameLabel (font: UIFont) -> UILabel {
         let label = UILabel()
         let boldFont = UIFont.boldSystemFont(ofSize: font.pointSize)
         label.font = boldFont
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .short
-        let startDateAndTime = "Invited: " + StyledDate.getDateAsString(date: self.invitation.dateInvited)
-        label.text =  startDateAndTime
+        label.text =  self.invitation.eventName
         headerView.addSubview(label)
         label.snp.makeConstraints { (make) in
             make.center.equalTo(self.headerView)

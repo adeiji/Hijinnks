@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Parse
 
+// FIXME: Need to comment this code
 class ProfileView : UIScrollView {
     
     weak var usernameLabel:UILabel!
@@ -21,6 +22,7 @@ class ProfileView : UIScrollView {
     weak var followingLabel:UILabel!
     weak var inviteesLabel:UILabel!
     weak var rsvpLabel:UILabel!
+    var interestsContainerView:UIView!
     weak var viewInvitationsTableView:UITableView!
     weak var profileImageView:UIImageView!
     weak var addFriendButton:UIButton!
@@ -55,6 +57,67 @@ class ProfileView : UIScrollView {
             make.edges.equalTo(self)
         }
         return view
+    }
+    
+    func showInterests () {
+        if self.user.value(forKey: ParseObjectColumns.Interests.rawValue) != nil {
+            let interests = self.user.value(forKey: ParseObjectColumns.Interests.rawValue) as! [String]
+            let label = UILabel(text: interests[0])
+            label.textAlignment = .center
+            label.textColor = .white
+            self.interestsContainerView = UIView()
+            self.wrapperView.addSubview(self.interestsContainerView)
+            let messageLabelView = label.withPadding(padding: UIEdgeInsetsMake(5, 5, 5, 5))
+            
+            self.interestsContainerView.snp.makeConstraints({ (make) in
+                make.left.equalTo(self.wrapperView).offset(10)
+                make.right.equalTo(self.wrapperView).offset(-10)
+                make.top.equalTo(self.bioTextView.snp.bottom).offset(5)
+            })
+            addInterest(containerView: interestsContainerView, viewInRelationTo: interestsContainerView, interests: interests, counter: 0, lineNumber: 0, messageLabelView: messageLabelView)
+        }
+    }
+    
+    
+    // FIXME: This must be refactored.  Right now it's jarbled nonsense!!
+    func addInterest (containerView: UIView, viewInRelationTo: UIView, interests: [String], counter: Int, lineNumber: Int, messageLabelView: UIView) {
+        containerView.addSubview(messageLabelView)
+        messageLabelView.backgroundColor = Colors.blue.value
+        messageLabelView.layer.cornerRadius = 5
+        messageLabelView.snp.makeConstraints { (make) in
+            make.left.equalTo(viewInRelationTo).offset(10)
+            make.top.equalTo(containerView).offset(10 + (lineNumber * 35))
+        }
+        
+        messageLabelView.layoutIfNeeded()
+        var newLineNumber:Int!
+        var newViewInRelationTo:UIView!
+        
+        if viewInRelationTo.frame.origin.x + viewInRelationTo.frame.size.width + 10 + messageLabelView.frame.size.width > viewInRelationTo.frame.size.width - 10 {
+            newLineNumber = lineNumber + 1
+            newViewInRelationTo = containerView
+            messageLabelView.snp.remakeConstraints { (make) in
+                make.left.equalTo(viewInRelationTo).offset(10)
+                make.top.equalTo(containerView).offset(10 + (lineNumber * 35))
+            }
+        }
+        else {
+            newLineNumber = lineNumber
+            newViewInRelationTo = messageLabelView
+        }
+        
+        if counter < interests.count - 1 {
+            let label = UILabel(text: interests[counter + 1])
+            label.textAlignment = .center
+            label.textColor = .white
+            let myMessageLabelView = label.withPadding(padding: UIEdgeInsetsMake(5, 5, 5, 5))
+            addInterest(containerView: containerView, viewInRelationTo: newViewInRelationTo, interests: interests, counter: counter + 1, lineNumber: newLineNumber, messageLabelView: myMessageLabelView)
+        }
+        else {
+            messageLabelView.snp.makeConstraints({ (make) in
+                make.bottom.equalTo(containerView)
+            })
+        }
     }
     
     func setProfileImageView () {
@@ -179,7 +242,7 @@ class ProfileView : UIScrollView {
             make.left.equalTo(self.wrapperView).offset(UIConstants.ProfileViewHorizontalSpacing.rawValue)
             make.top.equalTo(myEditProfileButton.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
             make.right.equalTo(self.wrapperView).offset(-UIConstants.ProfileViewHorizontalSpacing.rawValue)
-            make.height.equalTo(120)
+            make.height.equalTo(35)
         }
         
         self.bioTextView = bioTextView
@@ -189,9 +252,15 @@ class ProfileView : UIScrollView {
     func setInterestsView (myBioTextView: UITextView) {
         let interestsView = InterestsView()
         self.wrapperView.addSubview(interestsView)
+        self.showInterests()
         interestsView.snp.makeConstraints { (make) in
             make.left.equalTo(myBioTextView)
-            make.top.equalTo(myBioTextView).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
+            if self.interestsContainerView != nil {
+                make.top.equalTo(self.interestsContainerView.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
+            }
+            else {
+                make.top.equalTo(myBioTextView.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
+            }
             make.right.equalTo(myBioTextView).offset(UIConstants.ProfileViewHorizontalSpacing.rawValue)
             make.height.equalTo(75)
         }
@@ -201,7 +270,7 @@ class ProfileView : UIScrollView {
         self.followingLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "0\nFollowing", labelOnLeft: self.followersLabel, isLastLabelOnRight: false)
         self.inviteesLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "0\nInvitees", labelOnLeft: self.followingLabel, isLastLabelOnRight: false)
         self.rsvpLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "0\nRSVPs", labelOnLeft: self.inviteesLabel, isLastLabelOnRight: true)
-        self.setViewInvitationsTableView(myRsvpLabel: self.rsvpLabel)
+        self.setViewInvitationsTableView(viewAbove: self.rsvpLabel)
     }
     
     func setUserDetailCountLabels (myInterestsView: InterestsView, text: String, labelOnLeft: UILabel!, isLastLabelOnRight: Bool) -> UILabel {
@@ -231,12 +300,12 @@ class ProfileView : UIScrollView {
         return detailLabel
     }
     
-    func setViewInvitationsTableView (myRsvpLabel: UILabel) {
+    func setViewInvitationsTableView (viewAbove: UIView) {
         let viewInvitationsTableView = UITableView()
         self.wrapperView.addSubview(viewInvitationsTableView)
         viewInvitationsTableView.snp.makeConstraints { (make) in
             make.left.equalTo(self.wrapperView)
-            make.top.equalTo(myRsvpLabel.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
+            make.top.equalTo(viewAbove.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
             make.right.equalTo(self.wrapperView)
             make.bottom.equalTo(self.wrapperView).offset(-50)
         }

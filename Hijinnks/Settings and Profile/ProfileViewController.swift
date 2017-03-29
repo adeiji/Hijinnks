@@ -152,11 +152,12 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         self.profileView.viewInvitationsTableView.snp.remakeConstraints { (make) in
             make.left.equalTo(self.profileView)
             make.right.equalTo(self.profileView)
-            make.top.equalTo(self.profileView.rsvpLabel.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
+            make.top.equalTo(self.profileView.interestsView.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
             make.height.equalTo(self.profileView.viewInvitationsTableView.contentSize.height + 150)
             make.bottom.equalTo(self.profileView.wrapperView)
         }
     }
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // This can happen if there are no invitations for the user or any in the area

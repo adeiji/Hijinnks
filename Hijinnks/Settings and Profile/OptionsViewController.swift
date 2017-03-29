@@ -96,6 +96,11 @@ class OptionsViewController : UITableViewController, UINavigationControllerDeleg
         
         self.present(alertController, animated: true, completion: nil)
     }
+    
+    func setSelectedInterests(mySelectedInterest: Array<String>) {
+        PFUser.current()?.setObject(mySelectedInterest, forKey: ParseObjectColumns.Interests.rawValue)
+        PFUser.current()?.saveInBackground()
+    }
 }
 
 class LogoutCellView : UITableViewCell {

@@ -81,7 +81,7 @@ enum UIConstants : Int {
     case ProfileViewVerticalSpacing = 5
     case ProfileViewNumberOfLabelColumns = 4
     case ProfileViewButtonHeights = 35
-    case ProfileViewUserDetailCountsHeight = 100
+    case ProfileViewUserDetailCountsHeight = 50
     case CreateInvitationVerticalSpacing = 20
     
 }
