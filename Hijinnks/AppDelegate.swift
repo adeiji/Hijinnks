@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // Setup the views for the entire application.  For ex: UINavigationBar color, UITextField text
     func configureGlobalAppearances () {
-        
+        // Set the appearance of the UINavigationBar
         UINavigationBar.appearance().setBackgroundImage(UIImage(named: "banner.png")!.resizableImage(withCapInsets: UIEdgeInsets.zero, resizingMode: .stretch), for: .default)
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white, NSFontAttributeName : UIFont.systemFont(ofSize: 24)];
         UINavigationBar.appearance().tintColor = UIColor.white

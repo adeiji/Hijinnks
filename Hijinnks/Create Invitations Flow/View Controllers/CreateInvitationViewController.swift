@@ -64,6 +64,13 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification: )), name: NSNotification.Name.UIKeyboardWillHide , object: nil)
         self.monthlyButton.addTarget(self, action: #selector(monthlyButtonPressed(_:)), for: .touchUpInside)
         self.weeklyButton.addTarget(self, action: #selector(weeklyButtonPressed(_:)), for: .touchUpInside)
+        let tap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        self.view.addGestureRecognizer(tap)
+    }
+    
+    // Dismiss the keyboard
+    func dismissKeyboard () {
+        self.view.endEditing(true)
     }
     
     func monthlyButtonPressed (_ sender: UIButton) {
@@ -110,6 +117,8 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         self.durations = nil
         self.isPublic = true
         self.invitationSendScope = nil
+        self.isWeekly = false
+        self.isMonthly = false
     }
     
     func setRecurringView () {
@@ -192,6 +201,12 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             self.selectedFriends = PFUser.current()?.object(forKey: ParseObjectColumns.Friends.rawValue) as! NSArray
             self.inviteesTextField.text = "All Your Friends"
             self.invitationSendScope = InvitationSendScope.AllFriends
+        } else {
+            // Inform the user that he is a loser and has no friends
+            let alertController = UIAlertController(title: "No Friends", message: "Sorry, doesn't seem like you have any friends yet.", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+            alertController.addAction(okayAction)
+            self.present(alertController, animated: true, completion: nil)
         }
     }
     
@@ -345,13 +360,13 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         scrollView = createScrollView()
         scrollView.contentSize = scrollView.frame.size
         wrapperView = createWrapperView(myScrollView: scrollView)
-        nameTextField = createTextField(superview: wrapperView, relativeViewAbove: nil, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Enter the event name", showViewController: nil, colorViewColor: Colors.green.value)
+        nameTextField = createTextField(superview: wrapperView, relativeViewAbove: nil, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Event Name", showViewController: nil, colorViewColor: Colors.green.value)
         
         locationTextField = createTextField(superview: wrapperView, relativeViewAbove: nameTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Leave Empty to Use Current Location", showViewController: nil, colorViewColor: Colors.blue.value)
         
-        inviteMessageTextField = createTextField(superview: wrapperView, relativeViewAbove: locationTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Enter a message", showViewController: nil, colorViewColor: Colors.green.value)
+        inviteMessageTextField = createTextField(superview: wrapperView, relativeViewAbove: locationTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Message", showViewController: nil, colorViewColor: Colors.green.value)
         
-        startingTimeTextField = createTextField(superview: wrapperView, relativeViewAbove: inviteMessageTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Start time and date", showViewController: nil, colorViewColor: Colors.blue.value)
+        startingTimeTextField = createTextField(superview: wrapperView, relativeViewAbove: inviteMessageTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Time", showViewController: nil, colorViewColor: Colors.blue.value)
         
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .dateAndTime
@@ -361,16 +376,16 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         startingTimeTextField.inputView = datePicker
         datePicker.addTarget(self, action: #selector(startTimePickerDateChanged(sender:)), for: .valueChanged)
         
-        durationTextField = createTextField(superview: wrapperView, relativeViewAbove: startingTimeTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Enter a duration", showViewController: nil, colorViewColor: Colors.grey.value)
+        durationTextField = createTextField(superview: wrapperView, relativeViewAbove: startingTimeTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Duration", showViewController: nil, colorViewColor: Colors.grey.value)
         
         let selectFriendsViewController = SelectFriendsViewController()
         selectFriendsViewController.delegate = self
         
-        inviteesTextField = createTextField(superview: wrapperView, relativeViewAbove: durationTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Whom would you like to invite?", showViewController: nil, colorViewColor: Colors.green.value)
+        inviteesTextField = createTextField(superview: wrapperView, relativeViewAbove: durationTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Who's Invited?", showViewController: nil, colorViewColor: Colors.green.value)
         
-        inviteInterestsTextField = createTextField(superview: wrapperView, relativeViewAbove: inviteesTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "What kind of invite is this?", showViewController: nil, colorViewColor: Colors.blue.value)
+        inviteInterestsTextField = createTextField(superview: wrapperView, relativeViewAbove: inviteesTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Type of Invite", showViewController: nil, colorViewColor: Colors.blue.value)
         
-        self.maxNumberOfAttendeesTextField = createTextField(superview: self.wrapperView, relativeViewAbove: inviteInterestsTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing.rawValue, placeholderText: "Max number of attendees", showViewController: nil, colorViewColor: Colors.blue.value)
+        self.maxNumberOfAttendeesTextField = createTextField(superview: self.wrapperView, relativeViewAbove: inviteInterestsTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing.rawValue, placeholderText: "Max Attendees", showViewController: nil, colorViewColor: Colors.blue.value)
         self.maxNumberOfAttendeesTextField.keyboardType = .numberPad
         
         setupDurationTextFieldInputView()
@@ -441,6 +456,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         textField.layer.cornerRadius = 5
         textField.layer.borderWidth = 0.75
         textField.font = UIFont.systemFont(ofSize: 14)
+        textField.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
         textField.delegate = self
     
         textField.snp.makeConstraints { (make) in

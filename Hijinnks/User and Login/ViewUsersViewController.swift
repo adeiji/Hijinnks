@@ -22,7 +22,7 @@ class ViewUsersViewController : UITableViewController {
     init(setting: Settings) {
         self.setting = setting
         super.init(style: .plain)
-        self.tableView.separatorStyle = .none
+        
         if setting == Settings.ViewUsersInvite {
             self.tableView.allowsMultipleSelection = true
         }

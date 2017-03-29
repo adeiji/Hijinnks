@@ -64,6 +64,10 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        self.profileView.showInterests()
+    }
+    
     func messageButtonPressed () {
         let userIds:[String] = [self.user.objectId!, (PFUser.current()?.objectId)!]
         self.createConversationChannel(userIds: userIds)
@@ -151,7 +155,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         self.profileView.viewInvitationsTableView.reloadData()
         self.profileView.viewInvitationsTableView.snp.remakeConstraints { (make) in
             make.left.equalTo(self.profileView)
-            make.right.equalTo(self.profileView)
+            make.right.equalTo(self.profileView)            
             make.top.equalTo(self.profileView.interestsView.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
             make.height.equalTo(self.profileView.viewInvitationsTableView.contentSize.height + 150)
             make.bottom.equalTo(self.profileView.wrapperView)

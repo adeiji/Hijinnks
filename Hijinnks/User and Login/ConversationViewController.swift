@@ -67,8 +67,10 @@ class ConversationViewController : UIViewController, UITableViewDataSource, UITa
      */
     func reloadTableView () {
         self.conversationView.messagesTableView.reloadData()
-        let indexPath = IndexPath(row: self.messages.count - 1, section: 0)
-        self.conversationView.messagesTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        if self.messages.count > 0 {
+            let indexPath = IndexPath(row: self.messages.count - 1, section: 0)
+            self.conversationView.messagesTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
     }
     
     func sendButtonPressed () {

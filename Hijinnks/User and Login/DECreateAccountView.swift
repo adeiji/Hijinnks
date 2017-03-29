@@ -87,10 +87,11 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
     func setUsernameErrorLabel () -> UILabel {
         let label = UILabel()
         label.textColor = .red
+        label.textAlignment = .center
         self.addSubview(label)
         label.snp.makeConstraints { (make) in
             make.left.equalTo(self).offset(UIConstants.HorizontalSpacingToSuperview.rawValue)
-            make.right.equalTo(self).offset(UIConstants.HorizontalSpacingToSuperview.rawValue)
+            make.right.equalTo(self).offset(-UIConstants.HorizontalSpacingToSuperview.rawValue)
             make.top.equalTo(self).offset(30)
         }
         

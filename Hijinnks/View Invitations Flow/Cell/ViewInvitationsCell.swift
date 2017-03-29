@@ -77,7 +77,7 @@ class ViewInvitationsCell : UITableViewCell {
         self.mapButton = setMapButton()
         self.likeButton = setLikeButton()
         self.rsvpButton = setRSVPButton(font: font)
-        self.commentButton = setCommentButton()
+//        self.commentButton = setCommentButton()
     }
     
     // Takes the array of interests and turns it into a string with the interests seperated by commas
@@ -164,18 +164,18 @@ class ViewInvitationsCell : UITableViewCell {
         // make sure that we display the image in a circle
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 40 / 2
-        self.loadProfileImage()
+        self.loadProfileImage(imageView: imageView)
         return imageView
     }
     
     // Get the image from the server and display it
-    func loadProfileImage () {
+    func loadProfileImage (imageView: UIImageView) {
         if invitation.fromUser.value(forKey: ParseObjectColumns.Profile_Picture.rawValue) != nil {
             let imageData = invitation.fromUser.value(forKey: ParseObjectColumns.Profile_Picture.rawValue) as! PFFile
             imageData.getDataInBackground { (data: Data?, error: Error?) in
                 let image = UIImage(data: data!)
                 if image != nil {
-                    self.profileImageView.image = image
+                    imageView.image = image
                 }
             }
         }

@@ -92,6 +92,7 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.allowsMultipleSelection = true
+        self.tableView.separatorStyle = .none
         self.view.addSubview(self.tableView)
         self.tableView.snp.makeConstraints { (make) in
             if explanationLabel == nil {

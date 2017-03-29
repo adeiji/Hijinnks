@@ -68,7 +68,7 @@ class OptionsViewController : UITableViewController, UINavigationControllerDeleg
     func showEmailScreen () {
         if MFMailComposeViewController.canSendMail() {
             let mailViewController = MFMailComposeViewController()
-            mailViewController.setSubject("Problem Discovered Within Hijinnks Application")
+            mailViewController.setSubject("Report")
             mailViewController.setToRecipients(["adebayoiji@gmail.com", "info@hijinnks.com"])
             mailViewController.setMessageBody("Uh oh!  Looks like there was an issue with the application.", isHTML: false)
             mailViewController.mailComposeDelegate = self

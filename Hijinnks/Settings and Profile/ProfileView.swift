@@ -75,6 +75,15 @@ class ProfileView : UIScrollView {
                 make.top.equalTo(self.bioTextView.snp.bottom).offset(5)
             })
             addInterest(containerView: interestsContainerView, viewInRelationTo: interestsContainerView, interests: interests, counter: 0, lineNumber: 0, messageLabelView: messageLabelView)
+        } else {
+            self.interestsContainerView = UIView()
+            self.wrapperView.addSubview(self.interestsContainerView)
+            self.interestsContainerView.snp.makeConstraints({ (make) in
+                make.left.equalTo(self.wrapperView).offset(10)
+                make.right.equalTo(self.wrapperView).offset(-10)
+                make.top.equalTo(self.bioTextView.snp.bottom).offset(5)
+                make.height.equalTo(0)
+            })
         }
     }
     
@@ -254,13 +263,8 @@ class ProfileView : UIScrollView {
         self.wrapperView.addSubview(interestsView)
         self.showInterests()
         interestsView.snp.makeConstraints { (make) in
-            make.left.equalTo(myBioTextView)
-            if self.interestsContainerView != nil {
-                make.top.equalTo(self.interestsContainerView.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
-            }
-            else {
-                make.top.equalTo(myBioTextView.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
-            }
+            make.left.equalTo(myBioTextView)            
+            make.top.equalTo(self.interestsContainerView.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
             make.right.equalTo(myBioTextView).offset(UIConstants.ProfileViewHorizontalSpacing.rawValue)
             make.height.equalTo(75)
         }
@@ -302,6 +306,7 @@ class ProfileView : UIScrollView {
     
     func setViewInvitationsTableView (viewAbove: UIView) {
         let viewInvitationsTableView = UITableView()
+        viewInvitationsTableView.separatorStyle = .none
         self.wrapperView.addSubview(viewInvitationsTableView)
         viewInvitationsTableView.snp.makeConstraints { (make) in
             make.left.equalTo(self.wrapperView)
