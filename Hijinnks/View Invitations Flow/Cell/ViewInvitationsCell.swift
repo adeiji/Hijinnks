@@ -59,17 +59,23 @@ class ViewInvitationsCell : UITableViewCell {
         profileImageView = setProfileImageView()
         self.eventNameLabel = setEventNameLabel(font: font)
         
-        self.fromLabel = setDescriptionLabel(descriptionViewAbove: nil, invitationDetailViewAbove: nil,  text: "From:")
+        // To: Adebayo Ijidakinro
+        self.toLabel = setDescriptionLabel(descriptionViewAbove: nil, invitationDetailViewAbove: nil, text: "To:")
+        self.toUserLabel = setInvitationDetailLabel(viewToLeft: self.toLabel, text: "Ade")
+        // From: Yo' Mamma
+        self.fromLabel = setDescriptionLabel(descriptionViewAbove: self.toLabel, invitationDetailViewAbove: self.toUserLabel,  text: "From:")
         self.fromUserLabel = setInvitationDetailLabel(viewToLeft: self.fromLabel, text: invitation.fromUser.username!)
+        // Location: 3423 Yo Mamma Drive
         self.addressLabel = setDescriptionLabel(descriptionViewAbove: self.fromLabel, invitationDetailViewAbove: self.fromUserLabel, text: "Location:")
         self.addressDataLabel = setInvitationDetailLabel(viewToLeft: self.addressLabel, text: invitation.address)
+        // Time: Mar 28, 2017, 7:45 PM
         self.timeLabel = setDescriptionLabel(descriptionViewAbove: self.addressLabel, invitationDetailViewAbove: self.addressDataLabel, text: "Time:")
         let startingTime = StyledDate.getDateAsString(date: self.invitation.startingTime)
         self.startTimeLabel = setInvitationDetailLabel(viewToLeft: self.timeLabel, text: startingTime)
-        self.toLabel = setDescriptionLabel(descriptionViewAbove: self.timeLabel, invitationDetailViewAbove: self.startTimeLabel, text: "To:")
-        self.toUserLabel = setInvitationDetailLabel(viewToLeft: self.toLabel, text: "Ade")
-        self.messageLabel = setDescriptionLabel(descriptionViewAbove: self.toLabel, invitationDetailViewAbove: self.toUserLabel, text: "Message:")
+        // Message: We all gonna have a great time!
+        self.messageLabel = setDescriptionLabel(descriptionViewAbove: self.timeLabel, invitationDetailViewAbove: self.startTimeLabel, text: "Message:")
         self.messageDataLabel = setInvitationDetailLabel(viewToLeft: self.messageLabel, text: invitation.message)
+        // Interests: Sports/Exercising, Dancing, Eating Out
         self.interestsLabel = setDescriptionLabel(descriptionViewAbove: self.messageLabel, invitationDetailViewAbove: self.messageDataLabel, text: "Interests:")
         self.interestsDataLabel = setInvitationDetailLabel(viewToLeft: self.interestsLabel, text: getInterestsAsString())
         
