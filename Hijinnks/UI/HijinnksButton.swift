@@ -35,5 +35,12 @@ class HijinnksButton : UIButton {
         else if customButtonType == .HomeButton {
             HijinnksStyleKit.drawHomeButton(frame: rect, resizing: .stretch)
         }
+        else if customButtonType == .CommentButton {
+            HijinnksStyleKit.drawCommentButton(frame: rect)
+        }
+        else if customButtonType == .MessageButton {
+            HijinnksStyleKit.drawMessageButton(frame: rect)
+        }
     }
 }
+

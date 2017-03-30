@@ -48,7 +48,7 @@ class CommentView : UIView {
     
     func setSendButton () {
         self.sendButton = UIButton()
-        self.sendButton.setTitle("Comment", for: .normal)
+        self.sendButton.setTitle("Send", for: .normal)
         self.sendButton.setTitleColor(.white, for: .normal)
         self.sendButton.backgroundColor = Colors.blue.value
         self.addSubview(self.sendButton)

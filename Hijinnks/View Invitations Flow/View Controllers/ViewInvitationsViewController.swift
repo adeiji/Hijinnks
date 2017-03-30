@@ -32,7 +32,7 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
     
     override func viewDidLoad() {
         startActivitySpinner()
-        self.tableView.separatorColor = Colors.TableViewSeparatorColor.value
+        self.tableView.separatorStyle = .none
         self.tabBarController?.tabBar.isUserInteractionEnabled = false
         parseQueue.async {
             let invitationParseObjects = ParseManager.getAllInvitationsNearLocation()

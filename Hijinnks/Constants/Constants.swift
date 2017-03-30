@@ -140,6 +140,8 @@ enum HijinnksViewTypes {
     case MapButton
     case LikeEmptyButton
     case LikeFilledButton
+    case CommentButton
+    case MessageButton
     case HomeButton
     case ProfileButton
     case SearchButton

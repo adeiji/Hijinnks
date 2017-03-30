@@ -96,7 +96,9 @@ class ViewInvitationsCell : UITableViewCell {
         self.mapButton = setMapButton()
         self.likeButton = setLikeButton()
         self.rsvpButton = setRSVPButton(font: font)
-//        self.commentButton = setCommentButton()
+        self.commentButton = setCommentButton()
+        setLikeButtonConstraints()
+        setCommentButtonConstraints()
     }
     
     // Takes the array of interests and turns it into a string with the interests seperated by commas
@@ -239,9 +241,9 @@ class ViewInvitationsCell : UITableViewCell {
         self.footerView.addSubview(button)
         button.addTarget(self, action: #selector(displayMap), for: .touchUpInside)
         button.snp.makeConstraints { (make) in
-            make.left.equalTo(35)
-            make.top.equalTo(self.footerView).offset(13)
-            make.bottom.equalTo(self.footerView).offset(-13)
+            make.left.equalTo(20)
+            make.top.equalTo(self.footerView).offset(15)
+            make.bottom.equalTo(self.footerView).offset(-11)
             make.width.equalTo(button.snp.height).offset(-5)
         }
         return button
@@ -274,14 +276,18 @@ class ViewInvitationsCell : UITableViewCell {
         let button = HijinnksButton(customButtonType: .LikeEmptyButton)
         button.addTarget(self, action: #selector(likeButtonPressed(likeButton:)), for: .touchUpInside)
         self.footerView.addSubview(button)
-        button.snp.makeConstraints { (make) in
-            make.center.equalTo(self.footerView)
-            make.top.equalTo(self.mapButton)
-            make.bottom.equalTo(self.mapButton)
-            make.width.equalTo(button.snp.height)
-        }
+        
         
         return button
+    }
+    
+    func setLikeButtonConstraints () {
+        self.likeButton.snp.makeConstraints { (make) in
+            make.top.equalTo(self.mapButton)
+            make.bottom.equalTo(self.mapButton)
+            make.width.equalTo(self.likeButton.snp.height)
+            make.left.equalTo(self.mapButton.snp.right).offset(20)
+        }
     }
     
     func setRSVPButton (font: UIFont) -> UIButton {
@@ -302,17 +308,21 @@ class ViewInvitationsCell : UITableViewCell {
     }
     
     func setCommentButton () -> UIButton {
-        let button = UIButton()
-        button.setTitle("C", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        let button = HijinnksButton(customButtonType: .CommentButton)
         button.addTarget(self, action: #selector(commentButtonPressed), for: .touchUpInside)
         self.footerView.addSubview(button)
-        button.snp.makeConstraints { (make) in
-            make.left.equalTo(self.rsvpButton.snp.right).offset(10)
-            make.centerY.equalTo(self.footerView)
-        }
         
         return button
+    }
+    
+    func setCommentButtonConstraints () {
+        self.commentButton.snp.makeConstraints { (make) in
+            make.left.equalTo(self.likeButton.snp.right).offset(20)
+            make.centerY.equalTo(self.footerView)
+            make.top.equalTo(self.mapButton)
+            make.bottom.equalTo(self.mapButton)
+            make.width.equalTo(self.commentButton.snp.height)
+        }
     }
     
     func commentButtonPressed () {

@@ -58,8 +58,9 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
             self.profileView.imageViewTapRecognizer.delegate = self
         }
         else {
+            
             let messageBarItem = UIBarButtonItem(title: "Message", style: .plain, target: self, action: #selector(messageButtonPressed))
-            self.navigationItem.setRightBarButton(messageBarItem, animated: true)
+            self.navigationItem.setLeftBarButton(messageBarItem, animated: true)
         }
         
     }
