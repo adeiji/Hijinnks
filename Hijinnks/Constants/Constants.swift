@@ -118,7 +118,7 @@ extension Colors {
             case .red:
                 return UIColor(red: 231/255, green: 76/255, blue: 60/255, alpha: 0.75)
             case .grey:
-                return UIColor(red: 127/255, green: 140/255, blue: 141/255, alpha: 0.75)
+                return UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
             case .invitationTextGrayColor:
                 return UIColor(red: 68/255, green: 68/255, blue: 68/255, alpha: 0.75)
             case .invitationHeaderViewColor:

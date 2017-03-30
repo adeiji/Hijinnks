@@ -59,9 +59,22 @@ class ViewInvitationsCell : UITableViewCell {
         profileImageView = setProfileImageView()
         self.eventNameLabel = setEventNameLabel(font: font)
         
+        var toUserText:String!
+        let invitees:Array<PFUser>! = self.invitation.invitees
+        
+        if self.invitation.isPublic {
+            toUserText = "Anyone"
+        } else {
+            var inviteesCount = 0
+            if invitees != nil {
+                inviteesCount = invitees.count
+            }
+            toUserText = "You and \(inviteesCount) others"
+        }
+        
         // To: Adebayo Ijidakinro
         self.toLabel = setDescriptionLabel(descriptionViewAbove: nil, invitationDetailViewAbove: nil, text: "To:")
-        self.toUserLabel = setInvitationDetailLabel(viewToLeft: self.toLabel, text: "Ade")
+        self.toUserLabel = setInvitationDetailLabel(viewToLeft: self.toLabel, text: toUserText)
         // From: Yo' Mamma
         self.fromLabel = setDescriptionLabel(descriptionViewAbove: self.toLabel, invitationDetailViewAbove: self.toUserLabel,  text: "From:")
         self.fromUserLabel = setInvitationDetailLabel(viewToLeft: self.fromLabel, text: invitation.fromUser.username!)

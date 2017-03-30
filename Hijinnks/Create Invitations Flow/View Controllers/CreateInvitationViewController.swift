@@ -41,7 +41,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     var place:GMSPlace!
     var durations:Array<String>!
     var delegate:PassDataBetweenViewControllersProtocol!
-    var isPublic:Bool!
+    var isPublic:Bool = false
     var invitationSendScope:InvitationSendScope!
     
     // These should be set to false by default.  User should have to set either of these values to true
@@ -456,7 +456,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         textField.layer.cornerRadius = 5
         textField.layer.borderWidth = 0.75
         textField.font = UIFont.systemFont(ofSize: 14)
-        textField.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
+        textField.backgroundColor = Colors.grey.value
         textField.delegate = self
     
         textField.snp.makeConstraints { (make) in
@@ -503,6 +503,12 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             viewUsersViewController.delegate = self
             self.navigationController?.pushViewController(viewUsersViewController, animated: true)
         }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let backItem = UIBarButtonItem()
+        backItem.title = ""
+        navigationItem.backBarButtonItem = backItem // This will show in the next view
     }
 }
 // Handle the creation, source, and delegation for the duration text field

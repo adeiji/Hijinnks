@@ -22,15 +22,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchscreen-01.png" translatesAutoresizingMaskIntoConstraints="NO" id="pQN-Ua-ppT">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchscreenlogo.png" translatesAutoresizingMaskIntoConstraints="NO" id="pdY-Ur-8Cf">
+                                <rect key="frame" x="44" y="293" width="287" height="80"/>
                             </imageView>
                         </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="pQN-Ua-ppT" secondAttribute="trailing" constant="-16" id="0t4-3F-JgP"/>
-                            <constraint firstItem="pQN-Ua-ppT" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="-16" id="8Sl-ea-EmQ"/>
-                            <constraint firstItem="pQN-Ua-ppT" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="-20" id="qgv-W2-5Vy"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="pQN-Ua-ppT" secondAttribute="bottom" id="s93-gU-A57"/>
+                            <constraint firstItem="pdY-Ur-8Cf" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="LRa-Il-UyK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="pdY-Ur-8Cf" secondAttribute="trailing" constant="28" id="Vd8-Wn-3FH"/>
+                            <constraint firstItem="pdY-Ur-8Cf" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="a3d-5U-Ttc"/>
+                            <constraint firstItem="pdY-Ur-8Cf" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="28" id="dV8-hE-pIf"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -40,6 +41,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="launchscreen-01.png" width="299" height="528"/>
+        <image name="launchscreenlogo.png" width="266" height="80"/>
     </resources>
 </document>

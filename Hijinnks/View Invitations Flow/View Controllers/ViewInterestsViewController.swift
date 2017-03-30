@@ -54,7 +54,6 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(getAllSelectedInterests))
         self.navigationItem.rightBarButtonItem = doneButton
         self.navigationItem.title = StringConstants.Hijinnks.rawValue
-        self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title: "Back", style: .plain, target: nil, action: nil)
     }
     
     func setupUI () {

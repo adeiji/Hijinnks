@@ -24,11 +24,12 @@
 		F40705431E778F1B00EB8094 /* InterestsGroupParseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40705421E778F1B00EB8094 /* InterestsGroupParseObject.swift */; };
 		F40A11EB1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40A11EA1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift */; };
 		F40A11ED1E60B1DB00DAD619 /* SelectFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40A11EC1E60B1DB00DAD619 /* SelectFriendsViewController.swift */; };
-		F4272B6F1E7D8D850045B213 /* launchscreen-01.png in Resources */ = {isa = PBXBuildFile; fileRef = F4272B6E1E7D8D850045B213 /* launchscreen-01.png */; };
+		F40BEFE71E8CACED00AFEC65 /* launchscreenlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = F40BEFE41E8CACED00AFEC65 /* launchscreenlogo.png */; };
+		F40BEFE81E8CACED00AFEC65 /* launchscreenlogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F40BEFE51E8CACED00AFEC65 /* launchscreenlogo@2x.png */; };
+		F40BEFE91E8CACED00AFEC65 /* launchscreenlogo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F40BEFE61E8CACED00AFEC65 /* launchscreenlogo@3x.png */; };
 		F42ECC901E60DA62007B5B55 /* ParseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42ECC8F1E60DA62007B5B55 /* ParseManager.swift */; };
 		F42ECC931E60DAA3007B5B55 /* InvitationParseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42ECC921E60DAA3007B5B55 /* InvitationParseObject.swift */; };
 		F43AB80A1E78ABB40092FB5B /* Background.png in Resources */ = {isa = PBXBuildFile; fileRef = F43AB8091E78ABB40092FB5B /* Background.png */; };
-		F43AB80E1E7CFA4D0092FB5B /* launchArtboard 1.png in Resources */ = {isa = PBXBuildFile; fileRef = F43AB80D1E7CFA4D0092FB5B /* launchArtboard 1.png */; };
 		F44CAD6F1E5F690700C91A1F /* ViewInvitationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD6E1E5F690700C91A1F /* ViewInvitationsViewController.swift */; };
 		F44CAD731E5F695F00C91A1F /* CreateInvitationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD721E5F695F00C91A1F /* CreateInvitationViewController.swift */; };
 		F44CAD771E5F928000C91A1F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD761E5F928000C91A1F /* Colors.swift */; };
@@ -122,11 +123,12 @@
 		F40705421E778F1B00EB8094 /* InterestsGroupParseObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InterestsGroupParseObject.swift; path = Parse/InterestsGroupParseObject.swift; sourceTree = "<group>"; };
 		F40A11EA1E60A0BF00DAD619 /* CreateInvitationViewController+ScrollOnKeyboardShow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateInvitationViewController+ScrollOnKeyboardShow.swift"; path = "Create Invitations Flow/View Controllers/CreateInvitationViewController+ScrollOnKeyboardShow.swift"; sourceTree = "<group>"; };
 		F40A11EC1E60B1DB00DAD619 /* SelectFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectFriendsViewController.swift; path = "Create Invitations Flow/View Controllers/SelectFriendsViewController.swift"; sourceTree = "<group>"; };
-		F4272B6E1E7D8D850045B213 /* launchscreen-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "launchscreen-01.png"; path = "../../UI/Icons/launchscreen-01.png"; sourceTree = "<group>"; };
+		F40BEFE41E8CACED00AFEC65 /* launchscreenlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launchscreenlogo.png; sourceTree = "<group>"; };
+		F40BEFE51E8CACED00AFEC65 /* launchscreenlogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launchscreenlogo@2x.png"; sourceTree = "<group>"; };
+		F40BEFE61E8CACED00AFEC65 /* launchscreenlogo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launchscreenlogo@3x.png"; sourceTree = "<group>"; };
 		F42ECC8F1E60DA62007B5B55 /* ParseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseManager.swift; path = Managers/ParseManager.swift; sourceTree = "<group>"; };
 		F42ECC921E60DAA3007B5B55 /* InvitationParseObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvitationParseObject.swift; path = Parse/InvitationParseObject.swift; sourceTree = "<group>"; };
 		F43AB8091E78ABB40092FB5B /* Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Background.png; path = ../../UI/Background.png; sourceTree = "<group>"; };
-		F43AB80D1E7CFA4D0092FB5B /* launchArtboard 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "launchArtboard 1.png"; path = "../../UI/Icons/launchArtboard 1.png"; sourceTree = "<group>"; };
 		F44CAD6E1E5F690700C91A1F /* ViewInvitationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewInvitationsViewController.swift; path = "View Invitations Flow/View Controllers/ViewInvitationsViewController.swift"; sourceTree = "<group>"; };
 		F44CAD721E5F695F00C91A1F /* CreateInvitationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateInvitationViewController.swift; path = "Create Invitations Flow/View Controllers/CreateInvitationViewController.swift"; sourceTree = "<group>"; };
 		F44CAD761E5F928000C91A1F /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = UI/Constants/Colors.swift; sourceTree = "<group>"; };
@@ -382,6 +384,9 @@
 		F4A0D1B91E5A453A00C6CDFE /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F40BEFE41E8CACED00AFEC65 /* launchscreenlogo.png */,
+				F40BEFE51E8CACED00AFEC65 /* launchscreenlogo@2x.png */,
+				F40BEFE61E8CACED00AFEC65 /* launchscreenlogo@3x.png */,
 				F4B7F9351E81D281001AF380 /* connect.png */,
 				F4B7F9361E81D281001AF380 /* connect@2x.png */,
 				F4B7F9371E81D281001AF380 /* connect@3x.png */,
@@ -394,8 +399,6 @@
 				F4B7F92F1E81CAFB001AF380 /* user.png */,
 				F4B7F9301E81CAFB001AF380 /* user@2x.png */,
 				F4B7F9311E81CAFB001AF380 /* user@3x.png */,
-				F4272B6E1E7D8D850045B213 /* launchscreen-01.png */,
-				F43AB80D1E7CFA4D0092FB5B /* launchArtboard 1.png */,
 				F43AB8091E78ABB40092FB5B /* Background.png */,
 				F40110CD1E6B907C004124DA /* search.png */,
 				F40110C71E6B596A004124DA /* banner.png */,
@@ -618,7 +621,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4B7F9341E81CAFB001AF380 /* user@3x.png in Resources */,
-				F4272B6F1E7D8D850045B213 /* launchscreen-01.png in Resources */,
+				F40BEFE81E8CACED00AFEC65 /* launchscreenlogo@2x.png in Resources */,
 				F4B7F9431E81D281001AF380 /* home@3x.png in Resources */,
 				F4B7F9401E81D281001AF380 /* connect@3x.png in Resources */,
 				F4E0D8651E5A09E500FFEEB8 /* LaunchScreen.storyboard in Resources */,
@@ -626,13 +629,14 @@
 				F4B7F93F1E81D281001AF380 /* connect@2x.png in Resources */,
 				F43AB80A1E78ABB40092FB5B /* Background.png in Resources */,
 				F4A0D1BB1E5A454500C6CDFE /* textLogo.png in Resources */,
-				F43AB80E1E7CFA4D0092FB5B /* launchArtboard 1.png in Resources */,
 				F44CAD7A1E5F95F300C91A1F /* interests.plist in Resources */,
 				F4B7F9461E81D281001AF380 /* plus@3x.png in Resources */,
+				F40BEFE71E8CACED00AFEC65 /* launchscreenlogo.png in Resources */,
 				F4B7F9321E81CAFB001AF380 /* user.png in Resources */,
 				F4B7F9441E81D281001AF380 /* plus.png in Resources */,
 				F40110CE1E6B907C004124DA /* search.png in Resources */,
 				F4E0D8621E5A09E500FFEEB8 /* Assets.xcassets in Resources */,
+				F40BEFE91E8CACED00AFEC65 /* launchscreenlogo@3x.png in Resources */,
 				F4B7F93E1E81D281001AF380 /* connect.png in Resources */,
 				F4B7F9451E81D281001AF380 /* plus@2x.png in Resources */,
 				F4B7F9421E81D281001AF380 /* home@2x.png in Resources */,

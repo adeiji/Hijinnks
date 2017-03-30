@@ -30,11 +30,19 @@ class ProfileView : UIScrollView {
     var tableViewDataSourceAndDelegate:UIViewController!
     weak var user:PFUser!
     weak var wrapperView:UIView!
+    var isFriend:Bool
     
     init(myUser: PFUser, myTableViewDataSourceAndDelegate: UIViewController) {
-        super.init(frame: .zero)
         self.user = myUser
         self.tableViewDataSourceAndDelegate = myTableViewDataSourceAndDelegate
+        self.isFriend = false
+        if PFUser.current()?.value(forKey: ParseObjectColumns.Friends.rawValue) != nil {
+            let friends = PFUser.current()?.value(forKey: ParseObjectColumns.Friends.rawValue) as! [String]
+            if friends.contains(self.user.objectId!) {
+                self.isFriend = true
+            }
+        }
+        super.init(frame: .zero)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -187,7 +195,15 @@ class ProfileView : UIScrollView {
     
     func setAddFriendButton (myUsernameLabel: UILabel) {
         let addFriendButton = UIButton()
-        addFriendButton.setTitle("Add Friend", for: .normal)
+        
+        // If the user is not already a friend
+        if self.isFriend == false {
+            addFriendButton.setTitle("Add Friend", for: .normal)
+        }
+        else {
+            addFriendButton.setTitle("Remove", for: .normal)
+        }
+        
         addFriendButton.backgroundColor = .white
         addFriendButton.setTitleColor(.black, for: .normal)
         addFriendButton.layer.borderColor = Colors.invitationTextGrayColor.value.cgColor
@@ -206,10 +222,12 @@ class ProfileView : UIScrollView {
     func setEditProfileButton (myUsernameLabel:UILabel) {
         let editProfileButton = UIButton()
         editProfileButton.setTitle("Edit Profile", for: .normal)
-        editProfileButton.backgroundColor = .white
+        editProfileButton.backgroundColor = Colors.grey.value
         editProfileButton.setTitleColor(.black, for: .normal)
         editProfileButton.layer.borderColor = Colors.invitationTextGrayColor.value.cgColor
         editProfileButton.layer.borderWidth = 1
+        editProfileButton.layer.cornerRadius = 5
+        
         self.wrapperView.addSubview(editProfileButton)
         editProfileButton.snp.makeConstraints { (make) in
             make.right.equalTo(self.snp.centerX).offset(-10)
@@ -225,10 +243,11 @@ class ProfileView : UIScrollView {
     func setOptionsButton (myEditProfileButton:UIButton) {
         let optionsButton = UIButton()
         optionsButton.setTitle("Options", for: .normal)
-        optionsButton.backgroundColor = .white
+        optionsButton.backgroundColor = Colors.grey.value
         optionsButton.setTitleColor(.black, for: .normal)
         optionsButton.layer.borderColor = Colors.invitationTextGrayColor.value.cgColor
         optionsButton.layer.borderWidth = 1
+        optionsButton.layer.cornerRadius = 5
         self.wrapperView.addSubview(optionsButton)
         optionsButton.snp.makeConstraints { (make) in
             make.left.equalTo(self.snp.centerX).offset(10)
@@ -244,8 +263,9 @@ class ProfileView : UIScrollView {
     func setBioTextField (myOptionsButton:UIButton, myEditProfileButton: UIButton)
     {
         let bioTextView = UITextView()
-        bioTextView.text = "Nothing I love more than sitting back and drinking a nice ice cold beer"
+        bioTextView.text = ""
         bioTextView.textColor = .black
+        bioTextView.isUserInteractionEnabled = false
         self.wrapperView.addSubview(bioTextView)
         bioTextView.snp.makeConstraints { (make) in
             make.left.equalTo(self.wrapperView).offset(UIConstants.ProfileViewHorizontalSpacing.rawValue)

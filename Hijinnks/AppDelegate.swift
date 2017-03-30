@@ -66,6 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white, NSFontAttributeName : UIFont.systemFont(ofSize: 24)];
         UINavigationBar.appearance().tintColor = UIColor.white
         
+        
     }
     
     func initializeParse(launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {

@@ -29,7 +29,7 @@ class DELoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+         self.navigationController?.navigationBar.isHidden = true
         // Check to see why this page is being displayed.
         if self.isAccount { // User is trying to access the settings and account page
             self.btnSkip.isHidden = true
@@ -54,6 +54,10 @@ class DELoginViewController: UIViewController {
 //        self.setUpCreateAccountView()
         
 //        PFUser.logOutInBackground()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false
     }
     
     // Login using facebook and get their public profile and email address
