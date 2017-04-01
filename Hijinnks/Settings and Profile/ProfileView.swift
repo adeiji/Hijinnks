@@ -82,7 +82,51 @@ class ProfileView : UIScrollView {
                 make.right.equalTo(self.wrapperView).offset(-10)
                 make.top.equalTo(self.bioTextView.snp.bottom).offset(5)
             })
-            addInterest(containerView: interestsContainerView, viewInRelationTo: interestsContainerView, interests: interests, counter: 0, lineNumber: 0, messageLabelView: messageLabelView)
+            
+            let windowWidth = (UIApplication.shared.delegate as! AppDelegate).window?.frame.size.width
+            
+            if self.user.value(forKey: ParseObjectColumns.Interests.rawValue) != nil {
+                var xPos:CGFloat = 0
+                var yPos:CGFloat = 0
+                
+                for interest in self.user.value(forKey: ParseObjectColumns.Interests.rawValue) as! [String] {
+                    
+                    let label = UILabel(text: interest)
+                    label.sizeToFit()
+                    
+                    let interestView = UIView()
+                    interestView.translatesAutoresizingMaskIntoConstraints = true
+                    interestView.frame = label.frame
+                    interestView.addSubview(label)
+                    interestView.frame.size.width = interestView.frame.width + 20
+                    interestView.frame.size.height = interestView.frame.height + 20
+                    
+                    label.center.x = interestView.center.x
+                    label.center.y = interestView.center.y
+                    
+                    interestView.frame.origin.x = xPos
+                    interestView.frame.origin.y = yPos
+                    interestView.backgroundColor = Colors.grey.value
+                    interestView.layer.cornerRadius = 3
+                    
+                    xPos = interestView.frame.origin.x + interestView.frame.width + 10
+                    
+                    // If this label is going to go past the length of the window than add this to the next line
+                    if xPos + 10 > windowWidth! {
+                        yPos = yPos + 50
+                        xPos = 0
+                        interestView.frame.origin.y = yPos
+                        interestView.frame.origin.x = xPos
+                    }
+                    
+                    self.interestsContainerView.addSubview(interestView)
+                }
+                
+                self.interestsContainerView.snp.makeConstraints({ (make) in
+                    make.height.equalTo(yPos + 45)
+                })
+            }
+            
         } else {
             self.interestsContainerView = UIView()
             self.wrapperView.addSubview(self.interestsContainerView)
@@ -91,48 +135,6 @@ class ProfileView : UIScrollView {
                 make.right.equalTo(self.wrapperView).offset(-10)
                 make.top.equalTo(self.bioTextView.snp.bottom).offset(5)
                 make.height.equalTo(0)
-            })
-        }
-    }
-    
-    
-    // FIXME: This must be refactored.  Right now it's jarbled nonsense!!
-    func addInterest (containerView: UIView, viewInRelationTo: UIView, interests: [String], counter: Int, lineNumber: Int, messageLabelView: UIView) {
-        containerView.addSubview(messageLabelView)
-        messageLabelView.backgroundColor = Colors.blue.value
-        messageLabelView.layer.cornerRadius = 5
-        messageLabelView.snp.makeConstraints { (make) in
-            make.left.equalTo(viewInRelationTo).offset(10)
-            make.top.equalTo(containerView).offset(10 + (lineNumber * 35))
-        }
-        
-        messageLabelView.layoutIfNeeded()
-        var newLineNumber:Int!
-        var newViewInRelationTo:UIView!
-        
-        if viewInRelationTo.frame.origin.x + viewInRelationTo.frame.size.width + 10 + messageLabelView.frame.size.width > viewInRelationTo.frame.size.width - 10 {
-            newLineNumber = lineNumber + 1
-            newViewInRelationTo = containerView
-            messageLabelView.snp.remakeConstraints { (make) in
-                make.left.equalTo(viewInRelationTo).offset(10)
-                make.top.equalTo(containerView).offset(10 + (lineNumber * 35))
-            }
-        }
-        else {
-            newLineNumber = lineNumber
-            newViewInRelationTo = messageLabelView
-        }
-        
-        if counter < interests.count - 1 {
-            let label = UILabel(text: interests[counter + 1])
-            label.textAlignment = .center
-            label.textColor = .white
-            let myMessageLabelView = label.withPadding(padding: UIEdgeInsetsMake(5, 5, 5, 5))
-            addInterest(containerView: containerView, viewInRelationTo: newViewInRelationTo, interests: interests, counter: counter + 1, lineNumber: newLineNumber, messageLabelView: myMessageLabelView)
-        }
-        else {
-            messageLabelView.snp.makeConstraints({ (make) in
-                make.bottom.equalTo(containerView)
             })
         }
     }

@@ -63,10 +63,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func configureGlobalAppearances () {
         // Set the appearance of the UINavigationBar
         UINavigationBar.appearance().setBackgroundImage(UIImage(named: "banner.png")!.resizableImage(withCapInsets: UIEdgeInsets.zero, resizingMode: .stretch), for: .default)
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white, NSFontAttributeName : UIFont.systemFont(ofSize: 24)];
         UINavigationBar.appearance().tintColor = UIColor.white
-        
-        
+
     }
     
     func initializeParse(launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
