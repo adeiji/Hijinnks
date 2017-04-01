@@ -91,13 +91,14 @@ class CommentView : UIView {
 
 class CommentViewCell : UITableViewCell {
     
-    let comment:CommentParseObject
+    let comment:String
     var profileImageView:UIImageView!
     var messageLabel:UILabel!
+    let profileImage:UIImage!
     
-    
-    init(comment: CommentParseObject) {
+    init(comment: String, profileImage: UIImage!) {
         self.comment = comment
+        self.profileImage = profileImage
         super.init(style: .default, reuseIdentifier: TableViewCellIdentifiers.Comment.rawValue)
     }
     
@@ -106,6 +107,9 @@ class CommentViewCell : UITableViewCell {
     }
     
     func setupUI () {
+        self.contentView.autoresizingMask = .flexibleHeight
+        self.autoresizingMask = .flexibleHeight
+        self.contentView.bounds = CGRect(x: 0, y: 0, width: 9999, height: 9999)
         // 1.  Add the profile Image
         self.setProfileImage()
     }
@@ -113,6 +117,8 @@ class CommentViewCell : UITableViewCell {
     func setProfileImage () {
         self.profileImageView = UIImageView()
         self.contentView.addSubview(self.profileImageView)
+        self.profileImageView.layer.cornerRadius = 35 / 2.0
+        self.profileImageView.clipsToBounds = true
         self.profileImageView.snp.makeConstraints { (make) in
             make.left.equalTo(self.contentView).offset(20)
             make.centerY.equalTo(self.contentView)
@@ -120,46 +126,21 @@ class CommentViewCell : UITableViewCell {
             make.width.equalTo(self.profileImageView.snp.height)
         }
         
-        loadProfileImage(profileImageView: self.profileImageView)
+        self.profileImageView.image = self.profileImage
+        self.setMessageLabel()
     }
     
-    func setMessageLabel (comment: CommentParseObject) {
-        comment.fetchIfNeededInBackground { (commentBlockObject, error) in
-            if error == nil {
-                self.messageLabel = UILabel(text: (commentBlockObject as! CommentParseObject).comment)
-                self.contentView.addSubview(self.messageLabel)
-                self.messageLabel.snp.makeConstraints { (make) in
-                    make.left.equalTo(self.profileImageView.snp.right).offset(10)
-                    make.centerY.equalTo(self.contentView)
-                    make.top.equalTo(self.contentView)
-                    make.bottom.equalTo(self.contentView)
-                }
-            }
+    func setMessageLabel () {
+        self.messageLabel = UILabel(text: self.comment)
+        self.messageLabel.numberOfLines = 0
+        
+        self.contentView.addSubview(self.messageLabel)
+        self.messageLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(self.profileImageView.snp.right).offset(10)
+            make.right.equalTo(self.contentView).offset(-20)
+            make.top.equalTo(self.contentView).offset(10)
+            make.bottom.equalTo(self.contentView).offset(-10)
         }
-        
-    }
- 
-    // Get the image from the server and display it
-    func loadProfileImage (profileImageView: UIImageView!) {
-        self.comment.fetchIfNeededInBackground { (comment, error) in
-            if comment != nil {
-                let commentObject = comment as! CommentParseObject
-                commentObject.user.fetchIfNeededInBackground { (user, error) in
-                    if user?.value(forKey: ParseObjectColumns.Profile_Picture.rawValue) != nil {
-                        let imageData = user?.value(forKey: ParseObjectColumns.Profile_Picture.rawValue) as! PFFile
-                        imageData.getDataInBackground { (data: Data?, error: Error?) in
-                            let image = UIImage(data: data!)
-                            if image != nil {
-                                profileImageView.image = image
-                            }
-                        }
-                    }
-                }
-            }
-            self.setMessageLabel(comment: self.comment)
-        }
-        
-        
     }
     
 }

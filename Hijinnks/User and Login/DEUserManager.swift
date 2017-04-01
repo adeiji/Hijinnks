@@ -20,6 +20,7 @@ class DEUserManager: NSObject {
     let USER_RANK_STANDARD = "standard"
     var delegate:PassDataBetweenViewControllersProtocol!
     var friends:[PFUser]!
+    var profileImage:UIImage!
     
     func createUser(withUserName userName: String, password: String, email: String, errorLabel label: UILabel, showViewControllerOnComplete: UIViewController) {
         self.user = PFUser()
@@ -84,7 +85,7 @@ class DEUserManager: NSObject {
                     
                     // Get all the friends for the user and fetch them from the server than store in array
                     self.setFriends(user: user!)
-                    
+                    self.setProfileImage(user: user!)
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     appDelegate.setupNavigationController()
                     self.setupSendBird(userId: (user?.objectId)!)
@@ -99,6 +100,23 @@ class DEUserManager: NSObject {
         })
         return nil
     }
+    
+    /**
+     * - Description Get's the users profile picture from the server
+     * - Parameter user PFUser - the user whose profile image we're getting
+     */
+    func setProfileImage (user: PFUser) {
+        if user.value(forKey: ParseObjectColumns.Profile_Picture.rawValue) != nil {
+            let profileImageData = user.value(forKey: ParseObjectColumns.Profile_Picture.rawValue) as! PFFile
+            profileImageData.getDataInBackground(block: { (data, error) in
+                if error == nil {
+                    let image = UIImage(data: data!)
+                    self.profileImage = image
+                }
+            })
+        }
+    }
+    
     /**
      * - Description Get all the friends for the user and fetch them
      * - Parameter user PFUser - the user whose friends we are getting

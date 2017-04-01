@@ -37,7 +37,7 @@ class MainTabBarController : UITabBarController {
         connectViewController.navigationItem.title = StringConstants.Hijinnks.rawValue
         let connectViewControllerTabBarItem = UITabBarItem()
         connectViewControllerTabBarItem.image = UIImage(named: Images.ConnectButton.rawValue)?.withRenderingMode(.alwaysOriginal)
-        connectViewControllerTabBarItem.title = StringConstants.Friends.rawValue
+        connectViewControllerTabBarItem.title = StringConstants.Connect.rawValue
         connectViewController.tabBarItem = connectViewControllerTabBarItem
         let connectNavigationController = UINavigationController(rootViewController: connectViewController)
         return connectNavigationController
