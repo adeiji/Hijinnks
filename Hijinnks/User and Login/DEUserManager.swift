@@ -19,6 +19,7 @@ class DEUserManager: NSObject {
     let PARSE_CLASS_USER_CANONICAL_USERNAME = "canonical_username"
     let USER_RANK_STANDARD = "standard"
     var delegate:PassDataBetweenViewControllersProtocol!
+    var friends:[PFUser]!
     
     func createUser(withUserName userName: String, password: String, email: String, errorLabel label: UILabel, showViewControllerOnComplete: UIViewController) {
         self.user = PFUser()
@@ -81,12 +82,8 @@ class DEUserManager: NSObject {
                     self.clearUserImageDefaults()
                     _ = self.isLoggedIn()
                     
-                    // Get all the users friends if they have any
-                    if self.user.object(forKey:ParseObjectColumns.Friends.rawValue) != nil {
-                        for friend in self.user.object(forKey: ParseObjectColumns.Friends.rawValue) as! [PFObject] {
-                            friend.fetchIfNeededInBackground()
-                        }
-                    }
+                    // Get all the friends for the user and fetch them from the server than store in array
+                    self.setFriends(user: user!)
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     appDelegate.setupNavigationController()
@@ -102,6 +99,44 @@ class DEUserManager: NSObject {
         })
         return nil
     }
+    /**
+     * - Description Get all the friends for the user and fetch them
+     * - Parameter user PFUser - the user whose friends we are getting
+     */
+    func setFriends (user: PFUser) {
+        let getFriendsQueue = DispatchQueue(label: "com.parse.friends")
+        
+        getFriendsQueue.async {
+            // Get all the users friends if they have any
+            if user.object(forKey:ParseObjectColumns.Friends.rawValue) != nil
+            {
+                let friends = user.object(forKey:ParseObjectColumns.Friends.rawValue) as! [String]
+                var friendObjects = [PFUser]()
+                let query = PFUser.query()
+                
+                // Get the users from the server with the list of object ids
+                query?.whereKey(ParseObjectColumns.ObjectId.rawValue, containedIn: friends)
+                query?.findObjectsInBackground(block: { (friends, error) in
+                    if friends?.count != 0 {
+                        for friend in friends!
+                        {
+                            do
+                            {
+                                try friend.fetch()
+                                friendObjects.append(friend as! PFUser)
+                            }
+                            catch {
+                                print(error.localizedDescription)
+                            }
+                        }
+                        
+                        self.friends = friendObjects
+                    }
+                })
+            }
+        }
+    }
+    
     /*
      
      Change the password of the current user

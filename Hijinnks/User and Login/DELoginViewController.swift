@@ -151,8 +151,16 @@ class DELoginViewController: UIViewController {
         self.navigationController?.pushViewController(createAccountViewController, animated: true)
     }
     
-    func signInButtonPressed () {        
-        _ = DEUserManager.sharedManager.login(username: self.loginView.txtUsernameOrEmail.text!, password: self.loginView.txtPassword.text!, viewController: self, errorLabel: self.loginView.errorLabel)
+    func signInButtonPressed () {
+        
+        // If the password text field is hidden then we know that the user has already pressed sign in once
+        if (self.loginView.txtPassword.isHidden == false) {
+            _ = DEUserManager.sharedManager.login(username: self.loginView.txtUsernameOrEmail.text!, password: self.loginView.txtPassword.text!, viewController: self, errorLabel: self.loginView.errorLabel)
+        }
+        else {
+            self.loginView.txtPassword.isHidden = false
+            self.loginView.txtUsernameOrEmail.isHidden = false
+        }
     }
     
     func createAnAccount(_ sender: Any) {

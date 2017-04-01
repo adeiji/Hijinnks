@@ -39,12 +39,12 @@ class DELoginView: UIView {
         addImageToBackground()
         _ = setLogoView()
         txtUsernameOrEmail = setupTextField(placeholder: "Enter Username or Email", textFieldAbove : nil)
-        txtPassword = setupTextField(placeholder: "Enter Password", textFieldAbove: txtUsernameOrEmail)
+        txtPassword = setupTextField(placeholder: "Enter Password", textFieldAbove: self.txtUsernameOrEmail)
         txtPassword.isSecureTextEntry = true
         errorLabel = setupErrorLabel()
-        signInButton = setupSignInButton(title: "SIGN IN", viewObjectAbove: errorLabel)
-        signUpButton = setupSignInButton(title: "CREATE ACCOUNT", viewObjectAbove: nil)
-        facebookLoginButton = setFacebookLoginButton(signUpButton: signUpButton)
+        signInButton = setupSignInButton(title: "SIGN IN", viewObjectAbove: nil)
+        signUpButton = setupSignInButton(title: "CREATE ACCOUNT", viewObjectAbove: self.signInButton)
+        facebookLoginButton = setFacebookLoginButton(signUpButton: self.signUpButton)
     }
     
     
@@ -101,7 +101,7 @@ class DELoginView: UIView {
                 make.top.equalTo(viewObjectAbove.snp.bottom).offset(10)
             }
             else {
-                make.top.equalTo(self.snp.bottom).offset(-135)
+                make.top.equalTo(self.snp.bottom).offset(-170)
             }
             make.width.equalTo(self.txtPassword)
             make.centerX.equalTo(self)
@@ -136,6 +136,8 @@ class DELoginView: UIView {
         textField.layer.borderColor = Colors.AccountTextFieldBorderColor.value.cgColor
         textField.layer.borderWidth = 0.5
         textField.textColor = .white
+        textField.isHidden = true
+        textField.autocorrectionType = .no
         self.addSubview(textField)
         textField.snp.makeConstraints { (make) in
             make.centerX.equalTo(self)

@@ -75,7 +75,7 @@ class ProfileView : UIScrollView {
             label.textColor = .white
             self.interestsContainerView = UIView()
             self.wrapperView.addSubview(self.interestsContainerView)
-            let messageLabelView = label.withPadding(padding: UIEdgeInsetsMake(5, 5, 5, 5))
+            _ = label.withPadding(padding: UIEdgeInsetsMake(5, 5, 5, 5))
             
             self.interestsContainerView.snp.makeConstraints({ (make) in
                 make.left.equalTo(self.wrapperView).offset(10)
