@@ -1,3 +1,4 @@
+
 //
 //  HijinnksButton.swift
 //  Hijinnks
@@ -41,6 +42,32 @@ class HijinnksButton : UIButton {
         else if customButtonType == .MessageButton {
             HijinnksStyleKit.drawMessageButton(frame: rect)
         }
+        else if customButtonType == .SettingsButton {
+            HijinnksStyleKit.drawSettings(frame: rect)
+        }
+        else if customButtonType == .SendButton {
+            HijinnksStyleKit.drawSendButton(frame: rect)
+        }
+        else if customButtonType == .ConversationButton {
+            HijinnksStyleKit.drawChatButton(frame: rect)
+        }
     }
 }
 
+class HijinnksBarButtonItem : UIView {
+    var customButtonType:HijinnksViewTypes
+    
+    init(customButtonType: HijinnksViewTypes) {
+        self.customButtonType = customButtonType
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func draw(_ rect: CGRect) {
+        
+    }
+    
+}

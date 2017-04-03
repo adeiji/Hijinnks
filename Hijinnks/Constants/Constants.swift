@@ -43,7 +43,9 @@ enum ProfileOptions : String {
     case Logout = "Log Out"
 }
 
-enum ParseObjectColumns : String {
+enum ParseObjectColumns : String {    
+    case InviteCount = "inviteCount"
+    case Followers = "followers"
     case EventName = "eventName"
     case Location = "location"
     case Details = "details"
@@ -52,6 +54,7 @@ enum ParseObjectColumns : String {
     case Duration = "duration"
     case Invitees = "invitees"
     case Interests = "interests"
+    case DateInvited = "dateInvited"
     case Friends = "friends"
     case FromUser = "fromUser"
     case Address = "address"
@@ -71,13 +74,14 @@ enum ParseObjectColumns : String {
     case IsWeekly = "isWeekly"
     case IsMonthly = "isMonthly"
     case MaxAttendees = "maxAttendees"
+    case NumberOfLikes = "numberOfLikes"
 }
 
 enum UIConstants : Int {
     case VerticalDistanceToLogo = 30
     case HorizontalSpacingToSuperview = 45
     case SignUpAndSignInButtonWidth = 225
-    case ProfileViewHorizontalSpacing = 15
+    case ProfileViewHorizontalSpacing = 10
     case ProfileViewVerticalSpacing = 5
     case ProfileViewNumberOfLabelColumns = 4
     case ProfileViewButtonHeights = 35
@@ -116,7 +120,7 @@ extension Colors {
             case .blue:
                 return UIColor(red: 52/255, green: 152/255, blue: 219/255, alpha: 0.75)
             case .red:
-                return UIColor(red: 231/255, green: 76/255, blue: 60/255, alpha: 0.75)
+                return UIColor(red: 247/255, green: 247/255, blue: 247/255, alpha: 0.75)
             case .grey:
                 return UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
             case .invitationTextGrayColor:
@@ -146,6 +150,9 @@ enum HijinnksViewTypes {
     case ProfileButton
     case SearchButton
     case LogoView
+    case ConversationButton
+    case SettingsButton
+    case SendButton
 }
 
 enum Images : String {
@@ -171,4 +178,8 @@ enum TableViewCellIdentifiers : String {
 enum AnimationConfirmation {
     case Square
     case Circle
+}
+
+enum InvitationConstants : Int {
+    case NoMaxAttendeesNumber = 0
 }

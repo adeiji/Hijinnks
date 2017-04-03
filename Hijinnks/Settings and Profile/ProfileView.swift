@@ -30,6 +30,7 @@ class ProfileView : UIScrollView {
     var tableViewDataSourceAndDelegate:UIViewController!
     weak var user:PFUser!
     weak var wrapperView:UIView!
+    var likeButton:HijinnksButton!
     var isFriend:Bool
     
     init(myUser: PFUser, myTableViewDataSourceAndDelegate: UIViewController) {
@@ -188,14 +189,41 @@ class ProfileView : UIScrollView {
         }
         
         self.usernameLabel = myUsernameLabel
-        if user.isEqual(PFUser.current()) {
-            setEditProfileButton(myUsernameLabel: self.usernameLabel)
+        setLikeView(myUsernameLabel: self.usernameLabel)
+    }
+    
+    func setLikeView (myUsernameLabel: UILabel) {
+        let likeButton = HijinnksButton(customButtonType: .LikeFilledButton)
+        self.addSubview(likeButton)
+        likeButton.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self).offset(-10)
+            make.top.equalTo(myUsernameLabel.snp.bottom).offset(10)
+            make.width.equalTo(20)
+            make.height.equalTo(likeButton.snp.width)
+        }
+        
+        let likeCounterLabel = UILabel()
+        self.addSubview(likeCounterLabel)
+        likeCounterLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self).offset(10)
+            make.centerY.equalTo(likeButton)
+        }
+        likeCounterLabel.textColor = .red
+        let likes = self.user.value(forKey: ParseObjectColumns.NumberOfLikes.rawValue) as? Int
+        if likes != nil {
+            likeCounterLabel.text = "\(likes!)"
         } else {
-            setAddFriendButton(myUsernameLabel: self.usernameLabel)
+            likeCounterLabel.text = "0"
+        }
+        self.likeButton = likeButton
+        if self.user != PFUser.current() {
+            setAddFriendButton()
+        } else {
+            self.setBioTextField()
         }
     }
     
-    func setAddFriendButton (myUsernameLabel: UILabel) {
+    func setAddFriendButton () {
         let addFriendButton = UIButton()
         
         // If the user is not already a friend
@@ -213,67 +241,47 @@ class ProfileView : UIScrollView {
         self.wrapperView.addSubview(addFriendButton)
         addFriendButton.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.wrapperView)
-            make.top.equalTo(myUsernameLabel.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
+            make.top.equalTo(self.likeButton.snp.bottom).offset(15)
             make.width.equalTo(100)
             make.height.equalTo(UIConstants.ProfileViewButtonHeights.rawValue)
         }
         self.addFriendButton = addFriendButton
-        setBioTextField(myOptionsButton: self.addFriendButton, myEditProfileButton: self.addFriendButton)
+        setBioTextField()
     }
     
-    func setEditProfileButton (myUsernameLabel:UILabel) {
-        let editProfileButton = UIButton()
-        editProfileButton.setTitle("Edit Profile", for: .normal)
-        editProfileButton.backgroundColor = Colors.grey.value
-        editProfileButton.setTitleColor(.black, for: .normal)
-        editProfileButton.layer.borderColor = Colors.invitationTextGrayColor.value.cgColor
-        editProfileButton.layer.borderWidth = 1
-        editProfileButton.layer.cornerRadius = 5
-        
-        self.wrapperView.addSubview(editProfileButton)
-        editProfileButton.snp.makeConstraints { (make) in
-            make.right.equalTo(self.snp.centerX).offset(-10)
-            make.top.equalTo(myUsernameLabel.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
-            make.width.equalTo(100)
-            make.height.equalTo(UIConstants.ProfileViewButtonHeights.rawValue)
-        }
-        
-        self.editProfileButton = editProfileButton
-        setOptionsButton(myEditProfileButton: self.editProfileButton)
-    }
-    
-    func setOptionsButton (myEditProfileButton:UIButton) {
-        let optionsButton = UIButton()
-        optionsButton.setTitle("Options", for: .normal)
-        optionsButton.backgroundColor = Colors.grey.value
-        optionsButton.setTitleColor(.black, for: .normal)
-        optionsButton.layer.borderColor = Colors.invitationTextGrayColor.value.cgColor
-        optionsButton.layer.borderWidth = 1
-        optionsButton.layer.cornerRadius = 5
-        self.wrapperView.addSubview(optionsButton)
-        optionsButton.snp.makeConstraints { (make) in
-            make.left.equalTo(self.snp.centerX).offset(10)
-            make.centerY.equalTo(myEditProfileButton)
-            make.width.equalTo(100)
-            make.height.equalTo(myEditProfileButton)
-        }
-        
-        self.optionsButton = optionsButton
-        setBioTextField(myOptionsButton: self.optionsButton, myEditProfileButton: self.editProfileButton)
-    }
-    
-    func setBioTextField (myOptionsButton:UIButton, myEditProfileButton: UIButton)
+    func setBioTextField ()
     {
         let bioTextView = UITextView()
-        bioTextView.text = ""
+        bioTextView.text = DEUserManager.sharedManager.getBio(user: self.user)
         bioTextView.textColor = .black
         bioTextView.isUserInteractionEnabled = false
+        bioTextView.returnKeyType = .done
+
+        if self.user == PFUser.current() {
+            if bioTextView.text.isEmpty {
+                bioTextView.text = "Enter Your Bio"
+                bioTextView.textColor = .lightGray
+            }
+            bioTextView.isUserInteractionEnabled = true
+            bioTextView.delegate = self
+        }
         self.wrapperView.addSubview(bioTextView)
         bioTextView.snp.makeConstraints { (make) in
             make.left.equalTo(self.wrapperView).offset(UIConstants.ProfileViewHorizontalSpacing.rawValue)
-            make.top.equalTo(myEditProfileButton.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
+            if self.addFriendButton == nil {
+                make.top.equalTo(self.likeButton.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
+            }
+            else
+            {
+                make.top.equalTo(self.addFriendButton.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
+            }
             make.right.equalTo(self.wrapperView).offset(-UIConstants.ProfileViewHorizontalSpacing.rawValue)
-            make.height.equalTo(35)
+            if DEUserManager.sharedManager.getBio(user: self.user) != nil || self.user == PFUser.current() {
+                make.height.equalTo(35)
+            }
+            else {
+                make.height.equalTo(0)
+            }
         }
         
         self.bioTextView = bioTextView
@@ -288,14 +296,33 @@ class ProfileView : UIScrollView {
             make.left.equalTo(myBioTextView)            
             make.top.equalTo(self.interestsContainerView.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
             make.right.equalTo(myBioTextView).offset(UIConstants.ProfileViewHorizontalSpacing.rawValue)
-            make.height.equalTo(75)
+            make.height.equalTo(60)
         }
         
         self.interestsView = interestsView
-        self.followersLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "0\nFollowers", labelOnLeft: nil, isLastLabelOnRight: false)
-        self.followingLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "0\nFollowing", labelOnLeft: self.followersLabel, isLastLabelOnRight: false)
-        self.inviteesLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "0\nInvitees", labelOnLeft: self.followingLabel, isLastLabelOnRight: false)
-        self.rsvpLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "0\nRSVPs", labelOnLeft: self.inviteesLabel, isLastLabelOnRight: true)
+        let followers = self.user.value(forKey: ParseObjectColumns.Followers.rawValue) as? [String]
+        var count = 0
+        if followers != nil {
+            count = (followers?.count)!
+        }
+        self.followersLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "\(count)\nFollowers", labelOnLeft: nil, isLastLabelOnRight: false)
+        
+        let following = self.user.value(forKey: ParseObjectColumns.Friends.rawValue) as? [String]
+        
+        if following != nil {
+            count = (following?.count)!
+        }
+        self.followingLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "\(count)\nFollowing", labelOnLeft: self.followersLabel, isLastLabelOnRight: false)
+        var inviteCount = self.user.value(forKey: ParseObjectColumns.InviteCount.rawValue) as? Int
+        if inviteCount == nil {
+            inviteCount = 0
+        }
+        self.inviteesLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "\(inviteCount!)\nInvites", labelOnLeft: self.followingLabel, isLastLabelOnRight: false)
+        var rsvpCount = self.user.value(forKey: ParseObjectColumns.InviteCount.rawValue) as? Int
+        if rsvpCount == nil {
+            rsvpCount = 0
+        }
+        self.rsvpLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "\(rsvpCount!)\nRSVPs", labelOnLeft: self.inviteesLabel, isLastLabelOnRight: true)
         self.setViewInvitationsTableView(viewAbove: self.rsvpLabel)
     }
     
@@ -340,6 +367,39 @@ class ProfileView : UIScrollView {
         self.viewInvitationsTableView.isUserInteractionEnabled = false
     }
     
+}
+
+// Text View Delegate Methods for BioTextView
+extension ProfileView : UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == .lightGray {
+            textView.text = nil
+            textView.textColor = .black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Enter your bio"
+            textView.textColor = .lightGray
+        }
+        else {
+            DEUserManager.sharedManager.setBio(bio: textView.text)            
+        }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        // User pressed enter
+        if text.rangeOfCharacter(from: .newlines) != nil {
+            textView.resignFirstResponder()
+            return false
+        }
+        
+        let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+        let numberOfChars = newText.characters.count // for Swift use count(newText)
+        
+        return numberOfChars < 100;
+    }
 }
 
 class InterestsView : UIView {

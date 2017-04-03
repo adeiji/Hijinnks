@@ -45,7 +45,7 @@ class OptionsViewController : UITableViewController, UINavigationControllerDeleg
             let changePasswordViewController = ChangePasswordViewController()
             self.navigationController?.pushViewController(changePasswordViewController, animated: true)
         } else if selectedOption == ProfileOptions.ChangeInterests.rawValue {
-            let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsCreateAccountOrChangeInterests)
+            let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsCreateAccountOrChangeInterests, willPresentViewController: false)
             viewInterestsViewController.delegate = self
             self.navigationController?.pushViewController(viewInterestsViewController, animated: true)
         } else if selectedOption == ProfileOptions.InviteFacebookFriends.rawValue {

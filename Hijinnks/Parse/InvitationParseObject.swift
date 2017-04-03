@@ -70,10 +70,10 @@ class InvitationParseObject : PFObject, PFSubclassing {
     }
     var dateInvited : Date! {
         get {
-            return self[ParseObjectColumns.StartingTime.rawValue] as! Date
+            return self[ParseObjectColumns.DateInvited.rawValue] as! Date
         }
         set {
-            self[ParseObjectColumns.StartingTime.rawValue] = newValue
+            self[ParseObjectColumns.DateInvited.rawValue] = newValue
         }
     }
     var duration : String! {
@@ -156,16 +156,16 @@ class InvitationParseObject : PFObject, PFSubclassing {
         }
     }
     
-    var maxAttendees : Int {
+    var maxAttendees : Int! {
         get {
-            return self[ParseObjectColumns.MaxAttendees.rawValue] as! Int
+            return self[ParseObjectColumns.MaxAttendees.rawValue] as? Int
         }
         set {
             self[ParseObjectColumns.MaxAttendees.rawValue] = newValue
         }
     }
     
-    convenience init(eventName: String, location: PFGeoPoint, address: String, message: String, startingTime: Date, duration: String, invitees: Array<PFUser>, interests: Array<String>, fromUser: PFUser, dateInvited: Date, rsvpCount: Int, rsvpUsers: Array<String>, comments: Array<CommentParseObject>, isWeekly: Bool, isMonthly: Bool, maxAttendees: Int)
+    convenience init(eventName: String, location: PFGeoPoint, address: String, message: String, startingTime: Date, duration: String, invitees: Array<PFUser>, interests: Array<String>, fromUser: PFUser, dateInvited: Date, rsvpCount: Int, rsvpUsers: Array<String>, comments: Array<CommentParseObject>, isWeekly: Bool, isMonthly: Bool, maxAttendees: Int, isPublic: Bool)
     {
         self.init()
         self.eventName = eventName
@@ -184,5 +184,6 @@ class InvitationParseObject : PFObject, PFSubclassing {
         self.isWeekly = isWeekly
         self.isMonthly = isMonthly
         self.maxAttendees = maxAttendees
+        self.isPublic = isPublic
     }
 }

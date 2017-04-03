@@ -210,6 +210,8 @@ class MessageCell : UITableViewCell {
                 make.right.equalTo(self.messageOwnerLabel)
                 make.left.greaterThanOrEqualTo(self.contentView).offset(50)
                 self.messageLabel.textAlignment = .right
+                messageLabel.textColor = .black
+                messageLabelView.backgroundColor = Colors.grey.value
             } else {
                 make.left.equalTo(self.messageOwnerLabel)
                 make.right.lessThanOrEqualTo(self.contentView).offset(-50)

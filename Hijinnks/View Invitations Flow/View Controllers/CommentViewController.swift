@@ -23,6 +23,8 @@ class CommentViewController : UIViewController, UITableViewDataSource, UITableVi
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = .white
         let commentsQueue = DispatchQueue(label: "com.parse.comments")
         commentsQueue.async {
             self.getComments()

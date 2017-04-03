@@ -69,7 +69,7 @@ class ViewInvitationsCell : UITableViewCell {
             if invitees != nil {
                 inviteesCount = invitees.count
             }
-            toUserText = "You and \(inviteesCount) others"
+            toUserText = "You and \(inviteesCount - 1) others"
         }
         
         // To: Adebayo Ijidakinro
@@ -97,8 +97,7 @@ class ViewInvitationsCell : UITableViewCell {
         self.likeButton = setLikeButton()
         self.rsvpButton = setRSVPButton(font: font)
         self.commentButton = setCommentButton()
-        setLikeButtonConstraints()
-        setCommentButtonConstraints()
+        
     }
     
     // Takes the array of interests and turns it into a string with the interests seperated by commas
@@ -277,26 +276,32 @@ class ViewInvitationsCell : UITableViewCell {
         button.addTarget(self, action: #selector(likeButtonPressed(likeButton:)), for: .touchUpInside)
         self.footerView.addSubview(button)
         
+        button.snp.makeConstraints { (make) in
+            make.top.equalTo(self.mapButton)
+            make.bottom.equalTo(self.mapButton)
+            make.width.equalTo(button.snp.height)
+            make.left.equalTo(self.mapButton.snp.right).offset(20)
+        }
         
         return button
     }
-    
-    func setLikeButtonConstraints () {
-        self.likeButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.mapButton)
-            make.bottom.equalTo(self.mapButton)
-            make.width.equalTo(self.likeButton.snp.height)
-            make.left.equalTo(self.mapButton.snp.right).offset(20)
-        }
-    }
-    
     func setRSVPButton (font: UIFont) -> UIButton {
         let button = UIButton()
         button.titleLabel?.font = font
-        button.setTitle("\(invitation.rsvpCount!)\nRSVP'd", for: .normal) // Display the number of people who have RSVP'd
+        
+        if invitation.rsvpCount >= invitation.maxAttendees && invitation.maxAttendees != InvitationConstants.NoMaxAttendeesNumber.rawValue
+        {
+            button.setTitleColor(.red, for: .normal)
+            button.setTitle("MAXED\nOUT", for: .normal) // Display the number of people who have RSVP'd
+        }
+        else
+        {
+            button.setTitleColor(Colors.invitationTextGrayColor.value, for: .normal)
+            button.setTitle("\(invitation.rsvpCount!)\nRSVP'd", for: .normal) // Display the number of people who have RSVP'd
+        }
+        
         button.titleLabel?.lineBreakMode = .byWordWrapping
         button.titleLabel?.textAlignment = .center
-        button.setTitleColor(Colors.invitationTextGrayColor.value, for: .normal)
         button.addTarget(self, action: #selector(updateRSVPCount), for: .touchUpInside)
         self.footerView.addSubview(button)
         button.snp.makeConstraints { (make) in
@@ -311,18 +316,13 @@ class ViewInvitationsCell : UITableViewCell {
         let button = HijinnksButton(customButtonType: .CommentButton)
         button.addTarget(self, action: #selector(commentButtonPressed), for: .touchUpInside)
         self.footerView.addSubview(button)
-        
-        return button
-    }
-    
-    func setCommentButtonConstraints () {
-        self.commentButton.snp.makeConstraints { (make) in
+        button.snp.makeConstraints { (make) in
             make.left.equalTo(self.likeButton.snp.right).offset(20)
-            make.centerY.equalTo(self.footerView)
             make.top.equalTo(self.mapButton)
             make.bottom.equalTo(self.mapButton)
-            make.width.equalTo(self.commentButton.snp.height)
+            make.width.equalTo(button.snp.height)
         }
+        return button
     }
     
     func commentButtonPressed () {
@@ -333,9 +333,16 @@ class ViewInvitationsCell : UITableViewCell {
      * - Description Increase or decrease the count of those who have RSVP'd and update the users who have RSVP'd
      */
     func updateRSVPCount () {
-        delegate.rsvpButtonPressed!(invitation: self.invitation)
+        delegate.rsvpButtonPressed!(invitation: self.invitation) // Delegate is ViewInvitationsViewController
         self.invitation.saveInBackground()
-        self.rsvpButton.setTitle("\(invitation.rsvpCount!)\nRSVP'd", for: .normal) // Display the number of people who have RSVP'd
+        if invitation.rsvpCount == invitation.maxAttendees && invitation.maxAttendees != 0 {
+            self.rsvpButton.setTitleColor(.red, for: .normal)
+            self.rsvpButton.setTitle("MAXED\nOUT", for: .normal) // Display the number of people who have RSVP'd
+        }
+        else {
+            self.rsvpButton.setTitleColor(Colors.invitationTextGrayColor.value, for: .normal)
+            self.rsvpButton.setTitle("\(invitation.rsvpCount!)\nRSVP'd", for: .normal) // Display the number of people who have RSVP'd
+        }
     }
     
     func likeButtonPressed (likeButton: HijinnksButton) {
@@ -346,6 +353,14 @@ class ViewInvitationsCell : UITableViewCell {
         else if likeButton.customButtonType == .LikeFilledButton {
             likeButton.customButtonType = .LikeEmptyButton
             likeButton.setNeedsDisplay()
+        }
+        
+        // Increase the count of likes by 1 for the user
+        let likes = self.invitation.fromUser.value(forKey: ParseObjectColumns.NumberOfLikes.rawValue)
+        if likes != nil {
+            var myLikes = likes as! Int
+            myLikes += 1
+            self.invitation.fromUser.setValue(myLikes, forKey: ParseObjectColumns.NumberOfLikes.rawValue)
         }
     }
 }

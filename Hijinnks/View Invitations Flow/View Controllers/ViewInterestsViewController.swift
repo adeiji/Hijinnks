@@ -29,6 +29,7 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
     var tableView = UITableView()
     var setting:Settings
     var explanationLabel:UILabel!
+    var wasPresented:Bool = false
     
     func getInterests () -> NSArray {
         
@@ -37,10 +38,20 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
         
         return myInterests!
     }
-    
-    init(setting: Settings) {
+    /**
+     * - Description Initialize the ViewInterestsViewController
+     * - Parameter setting (Settings) - What is the main purpose for this view controller, ex.  To select interest for an invite, for a new friend, or to change interests for your profile
+     * - Parameter willPresentViewController Bool - Will you be presenting this view controller or pushing onto the stack?
+     ```
+        let viewController = ViewInterestsViewController(setting: Settings.ViewInterestsCreateInvite, willPresentViewController: true)
+        let viewController = ViewInterestsViewController(setting: Settings.ViewInterestsAddFriend, willPresentViewController: true)
+        let viewController = ViewInterestsViewController(setting: Settings.ViewInterestsCreateAccountOrChangeInterests, willPresentViewController: true)
+     ```
+     */
+    init(setting: Settings, willPresentViewController: Bool) {
         self.setting = setting
         super.init(nibName: nil, bundle: nil)
+        wasPresented = willPresentViewController
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -126,7 +137,14 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
         }
         
         delegate.setSelectedInterests!(mySelectedInterest: selectedInterests)
-        _ = self.navigationController?.popViewController(animated: true)
+        if wasPresented
+        {
+            self.navigationController?.dismiss(animated: true, completion: nil)
+        }
+        else
+        {
+            _ = self.navigationController?.popViewController(animated: true)
+        }
     }
 }
 

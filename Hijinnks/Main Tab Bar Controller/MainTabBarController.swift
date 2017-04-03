@@ -32,7 +32,7 @@ class MainTabBarController : UITabBarController {
     }
     
     func getConnectViewController () -> UINavigationController {
-        let connectViewController = ViewUsersViewController(setting: Settings.ViewUsersAll)
+        let connectViewController = ViewUsersViewController(setting: Settings.ViewUsersAll, willPresentViewController: false)
         connectViewController.showAllUsers()
         connectViewController.navigationItem.title = StringConstants.Hijinnks.rawValue
         let connectViewControllerTabBarItem = UITabBarItem()

@@ -112,13 +112,18 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
                 $0 != PFUser.current()?.objectId
             }
             invitation.rsvpCount = invitation.rsvpCount - 1
+            invitation.fromUser.incrementKey(ParseObjectColumns.RSVPCount.rawValue, byAmount: -1)
         }
         else {
+            invitation.fromUser.incrementKey(ParseObjectColumns.RSVPCount.rawValue)
             invitation.incrementKey(ParseObjectColumns.RSVPCount.rawValue, byAmount: 1)
             invitation.rsvpUsers.append((PFUser.current()?.objectId)!)
             let confirmationViewColor = UIColor(red: 36/255, green: 66/255, blue: 156/255, alpha: 1.0)
             Animations.showConfirmationView(type: AnimationConfirmation.Circle, message: "You RSVP'd", backgroundColor: confirmationViewColor, superView: self.view.superview!, textColor: .white)
         }
-        
+        invitation.fromUser.saveInBackground()
+        if PFUser.current() == invitation.fromUser {
+            PFUser.current()?.setValue(invitation.fromUser.value(forKey: ParseObjectColumns.RSVPCount.rawValue), forKey: ParseObjectColumns.RSVPCount.rawValue)
+        }
     }
 }

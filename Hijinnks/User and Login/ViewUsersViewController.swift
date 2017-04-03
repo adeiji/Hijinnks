@@ -18,8 +18,10 @@ class ViewUsersViewController : UITableViewController {
     var kFriendIndexPath = 1
     var kGroupIndexPath = 0
     var delegate:PassDataBetweenViewControllersProtocol!
+    /// If this value is set to true than that means that this view controller was presented not pushed onto the view controller stack.
+    var wasPresented:Bool = false
     
-    init(setting: Settings) {
+    init(setting: Settings, willPresentViewController: Bool) {
         self.setting = setting
         super.init(style: .plain)
         
@@ -29,6 +31,8 @@ class ViewUsersViewController : UITableViewController {
         else if setting == Settings.ViewUsersAll {
             self.tableView.allowsMultipleSelection = false
         }
+        
+        self.wasPresented = willPresentViewController
     }
     
     func showAllUsers () {
@@ -84,7 +88,15 @@ class ViewUsersViewController : UITableViewController {
             
             delegate.setSelectedFriends!(mySelectedFriends: selectedFriends)
         }
-        _ = self.navigationController?.popViewController(animated: true)
+        if self.wasPresented
+        {
+            self.dismiss(animated: true, completion: nil)
+        }
+        else
+        {
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+        
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -119,9 +131,9 @@ class ViewUsersViewController : UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if setting == Settings.ViewUsersAll {   // If we need to view all the users
-            let cell = UITableViewCell(style: .default, reuseIdentifier: "userCell")
-            cell.textLabel?.text = self.friends[indexPath.row].username
-            return cell
+            let userCell = UserCell(user: self.friends[indexPath.row])
+            userCell.setupUI()
+            return userCell
         } else if setting == Settings.ViewUsersInvite {   // If the user is currently creating an invitation
             if indexPath.section == kFriendIndexPath {
                 let cell = UITableViewCell(style: .default, reuseIdentifier: "userCell")
@@ -153,10 +165,82 @@ class ViewUsersViewController : UITableViewController {
                         delegate.setSelectedFriendsToAnyone!()
                     }
                 }
-                
-                _ = self.navigationController?.popViewController(animated: true)
+                if self.wasPresented
+                {
+                    self.dismiss(animated: true, completion: nil)
+                }
+                else
+                {
+                    _ = self.navigationController?.popViewController(animated: true)
+                }
             }
         }
     }
+    
+}
+
+class UserCell : UITableViewCell {
+    
+    weak var usernameLabel:UILabel!
+    weak var profileImageView:UIImageView!
+    weak var user:PFUser!
+    
+    init(user: PFUser) {
+        super.init(style: .default, reuseIdentifier: "user_cell")
+        self.user = user
+    }
+    
+    func setupUI() {
+        setUsernameLabel()
+        setProfileImage()
+    }
+    
+    func setUsernameLabel () {
+        let label = UILabel(text: user.username!)
+        self.contentView.addSubview(label)
+        label.snp.makeConstraints { (make) in
+            make.right.equalTo(self.contentView).offset(10)
+            make.centerY.equalTo(self.contentView)
+            make.left.equalTo(self.profileImageView.snp.right).offset(10)
+        }
+        self.usernameLabel = label
+    }
+    
+    func setProfileImage () {
+        let imageView = UIImageView()
+        self.contentView.addSubview(imageView)
+        imageView.snp.makeConstraints { (make) in
+            make.left.equalTo(self.contentView).offset(10)
+            make.centerY.equalTo(self.contentView)
+            make.height.equalTo(50)
+            make.width.equalTo(50)
+        }
+        
+        self.profileImageView = imageView
+        self.loadProfileImage()
+    }
+    
+    func loadProfileImage () {
+        
+        let imageFile = self.user.value(forKey: ParseObjectColumns.Profile_Picture.rawValue) as? PFFile
+        if imageFile != nil {
+            imageFile?.getDataInBackground(block: { (imageData, error) in
+                if error == nil && imageData != nil {
+                    let image = UIImage(data: imageData!)
+                    self.profileImageView.image = image
+                }
+                else {
+                    print("Error retrieving image from server - \(error?.localizedDescription)")
+                }
+            })
+        }
+        
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     
 }

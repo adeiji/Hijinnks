@@ -23,14 +23,32 @@ class ParseManager {
     
     // Get all the invitations that are near a specific location
     class func getAllInvitationsNearLocation () -> [InvitationParseObject]! {
-        let query = InvitationParseObject.query()
-        query?.addDescendingOrder(ParseObjectColumns.StartingTime.rawValue)
+        let interestsQuery = InvitationParseObject.query()
+        let invitedQuery = InvitationParseObject.query()
+        
+        if PFUser.current() != nil {
+//  - - - - if you share the same interests...
+            interestsQuery?.whereKey(ParseObjectColumns.Interests.rawValue, containedIn: DEUserManager.sharedManager.getInterests(user: PFUser.current()!))
+// |
+            // If this invitation was sent specifically to you
+            invitedQuery?.whereKey(ParseObjectColumns.Invitees.rawValue, equalTo: PFUser.current()!)
+// |
+        }
+// |
+//  - -> ... and it's a public invitation
+        interestsQuery?.whereKey(ParseObjectColumns.IsPublic.rawValue, equalTo: true)
+        
+        // If you were invited personally
+        // If you share the same interests and the invite is public
+        let query = PFQuery.orQuery(withSubqueries: [interestsQuery!, invitedQuery!])
+        query.addDescendingOrder(ParseObjectColumns.StartingTime.rawValue)  // Display the invitations by most recent
+        query.whereKey(ParseObjectColumns.StartingTime.rawValue, greaterThan: Date())
         do {
-            let invitations = try query?.findObjects()
+            let invitations = try query.findObjects()
             return invitations as! [InvitationParseObject]
         }
         catch {
-            print(error.localizedDescription)
+            print("Error from Parse - \(error.localizedDescription)")
         }
         
         return nil

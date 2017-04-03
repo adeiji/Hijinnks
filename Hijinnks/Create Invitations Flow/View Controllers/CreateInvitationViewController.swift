@@ -97,9 +97,8 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             otherButton = self.weeklyButton
         }
         
-        button.backgroundColor = .black
-        button.setTitleColor(.white, for: .normal)
-        otherButton.backgroundColor = .white
+        button.backgroundColor = .white
+        otherButton.backgroundColor = Colors.grey.value
         otherButton.setTitleColor(.black, for: .normal)
     }
     
@@ -130,6 +129,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         }
         
         let weeklyButton = UIButton()
+        weeklyButton.backgroundColor = Colors.grey.value
         weeklyButton.layer.borderWidth = 2
         weeklyButton.layer.borderColor = UIColor.black.cgColor
         weeklyButton.layer.cornerRadius = 5
@@ -145,6 +145,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         }
         
         let monthlyButton = UIButton()
+        monthlyButton.backgroundColor = Colors.grey.value
         monthlyButton.layer.borderColor = UIColor.black.cgColor
         monthlyButton.layer.borderWidth = 2
         monthlyButton.layer.cornerRadius = 5
@@ -214,6 +215,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         self.selectedFriends = [PFUser]() as NSArray!
         self.inviteesTextField.text = "Public to Anyone"
         self.invitationSendScope = InvitationSendScope.Everyone
+        self.isPublic = true
     }
     
     func getLocation () -> PFGeoPoint! {
@@ -314,11 +316,14 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
                                                    comments: Array<CommentParseObject>(),
                                                    isWeekly: self.isWeekly,
                                                    isMonthly: self.isMonthly,
-                                                   maxAttendees: Int(self.maxNumberOfAttendeesTextField.text!)!)
+                                                   maxAttendees: Int(self.maxNumberOfAttendeesTextField.text!)!,
+                                                   isPublic: self.isPublic)
         
         ParseManager.save(parseObject: newInvitation) // Save the new invitation to the server
         // On the view invitations view controller, add this new invitation object
         delegate.addInvitation!(invitation: newInvitation)
+        PFUser.current()?.incrementKey(ParseObjectColumns.InviteCount.rawValue)
+        PFUser.current()?.saveInBackground()
     }
     
     // Ask the user if they would like to post the invitation to Facebook for others to see
@@ -354,7 +359,10 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     
     // Place all of the UI elements on screen
     func setupUI() {
-        let donebutton = UIBarButtonItem(title: "Send", style: .done, target: self, action: #selector(sendInvite))
+        let sendButton = HijinnksButton(customButtonType: HijinnksViewTypes.SendButton)
+        sendButton.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+        sendButton.addTarget(self, action: #selector(sendInvite), for: .touchUpInside)
+        let donebutton = UIBarButtonItem(customView: sendButton)
         self.navigationItem.rightBarButtonItem = donebutton
         self.view.backgroundColor = .white
         scrollView = createScrollView()
@@ -493,15 +501,18 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             self.navigationController?.present(autocompleteViewController, animated: true, completion: nil)
         }
         else if textField == inviteInterestsTextField {
-            let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsCreateInvite)
+            let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsCreateInvite, willPresentViewController: true)
             viewInterestsViewController.delegate = self
-            self.navigationController?.pushViewController(viewInterestsViewController, animated: true)
+            viewInterestsViewController.wasPresented = true
+            let navController = UINavigationController(rootViewController: viewInterestsViewController)
+            self.navigationController?.present(navController, animated: true, completion: nil)
         }
         else if textField == inviteesTextField {
-            let viewUsersViewController = ViewUsersViewController(setting: Settings.ViewUsersInvite)
+            let viewUsersViewController = ViewUsersViewController(setting: Settings.ViewUsersInvite, willPresentViewController: true)
             viewUsersViewController.showAllFriends()
             viewUsersViewController.delegate = self
-            self.navigationController?.pushViewController(viewUsersViewController, animated: true)
+            let navController = UINavigationController(rootViewController: viewUsersViewController)
+            self.navigationController?.present(navController, animated: true, completion: nil)
         }
     }
     

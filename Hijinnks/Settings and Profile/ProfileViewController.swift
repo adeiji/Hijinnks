@@ -41,14 +41,17 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         self.view.backgroundColor = .white
         self.profileView = ProfileView(myUser: self.user, myTableViewDataSourceAndDelegate: self)
         self.view.addSubview(self.profileView)
         self.profileView.setupUI()  // Setup the UI after we've added to the subview to make sure that the profile view can be set up with autolayout to it's superview
         self.getAllInvitationsFromUser()
-        if self.profileView.optionsButton != nil {
-            self.profileView.optionsButton.addTarget(self, action: #selector(displayProfileOptions), for: .touchUpInside)
-        }
         if self.profileView.addFriendButton != nil {
             self.profileView.addFriendButton.addTarget(self, action: #selector(addFriendButtonPressed), for: .touchUpInside)
         }
@@ -56,17 +59,20 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         if user == PFUser.current() {
             self.profileView.imageViewTapRecognizer.addTarget(self, action: #selector(profileImageTapped))
             self.profileView.imageViewTapRecognizer.delegate = self
+            let optionsButton = HijinnksButton(customButtonType: .SettingsButton)
+            optionsButton.layoutIfNeeded()
+            optionsButton.addTarget(self, action: #selector(displayProfileOptions), for: .touchUpInside)
+            optionsButton.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+            let optionsBarItem = UIBarButtonItem(customView: optionsButton)
+            self.navigationItem.setRightBarButton(optionsBarItem, animated: true)
         }
         else {
-            
-            let messageBarItem = UIBarButtonItem(title: "Message", style: .plain, target: self, action: #selector(messageButtonPressed))
-            self.navigationItem.setLeftBarButton(messageBarItem, animated: true)
+            let messageButton = HijinnksButton(customButtonType: .ConversationButton)
+            messageButton.addTarget(self, action: #selector(messageButtonPressed), for: .touchUpInside)
+            messageButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+            let messageBarItem = UIBarButtonItem(customView: messageButton)
+            self.navigationItem.setRightBarButton(messageBarItem, animated: true)
         }
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        self.profileView.showInterests()
     }
     
     func messageButtonPressed () {
@@ -96,7 +102,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
     
     // Display the interests page to allow the user to affiliate their friend with specific interests
     func addFriendButtonPressed () {
-        let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsAddFriend)
+        let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsAddFriend, willPresentViewController: false)
         viewInterestsViewController.delegate = self
         self.navigationController?.pushViewController(viewInterestsViewController, animated: true)
     }
@@ -113,8 +119,9 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
             myInterestGroup.saveEventually()
         }
         
-        // Add the friend and save to the server
+        // Add the friend and save to the server.  Update the users followers
         PFUser.current()?.add(user.objectId!, forKey: ParseObjectColumns.Friends.rawValue)
+        self.user.add(PFUser.current()!.objectId!, forKey: ParseObjectColumns.Followers.rawValue)
         PFUser.current()?.saveEventually()
     }
     
