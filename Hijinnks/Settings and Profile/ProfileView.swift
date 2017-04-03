@@ -216,7 +216,7 @@ class ProfileView : UIScrollView {
             likeCounterLabel.text = "0"
         }
         self.likeButton = likeButton
-        if self.user != PFUser.current() {
+        if UtilityFunctions.isCurrent(user: self.user) == false {
             setAddFriendButton()
         } else {
             self.setBioTextField()
@@ -257,7 +257,7 @@ class ProfileView : UIScrollView {
         bioTextView.isUserInteractionEnabled = false
         bioTextView.returnKeyType = .done
 
-        if self.user == PFUser.current() {
+        if UtilityFunctions.isCurrent(user: self.user) == true {
             if bioTextView.text.isEmpty {
                 bioTextView.text = "Enter Your Bio"
                 bioTextView.textColor = .lightGray
@@ -276,7 +276,7 @@ class ProfileView : UIScrollView {
                 make.top.equalTo(self.addFriendButton.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
             }
             make.right.equalTo(self.wrapperView).offset(-UIConstants.ProfileViewHorizontalSpacing.rawValue)
-            if DEUserManager.sharedManager.getBio(user: self.user) != nil || self.user == PFUser.current() {
+            if DEUserManager.sharedManager.getBio(user: self.user) != nil || UtilityFunctions.isCurrent(user: self.user) == true {
                 make.height.equalTo(35)
             }
             else {

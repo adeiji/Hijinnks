@@ -39,7 +39,8 @@ class ViewInvitationsCell : UITableViewCell {
     var invitation:InvitationParseObject
     var isMapShown:Bool = false
     
-    let delegate:PassDataBetweenViewControllersProtocol
+    let delegate:PassDataBetweenViewControllersProtocol // View Controller Handling the View
+    var imageTapGestureRecognizer:UITapGestureRecognizer! // Must keep a reference to this object otherwise the tap gesture recognizer will not work
     
     required init(invitation: InvitationParseObject, delegate: PassDataBetweenViewControllersProtocol) {
         self.invitation = invitation
@@ -55,8 +56,9 @@ class ViewInvitationsCell : UITableViewCell {
         self.contentView.bounds = CGRect(x: 0, y: 0, width: 9999, height: 9999)
         self.selectionStyle = .none
         let font = UIFont.systemFont(ofSize: 14)
-        headerView = setHeaderView()
-        profileImageView = setProfileImageView()
+        self.headerView = setHeaderView()
+        self.profileImageView = setProfileImageView()
+        self.addGestureTapToProfileImageView(imageView: self.profileImageView)
         self.eventNameLabel = setEventNameLabel(font: font)
         
         var toUserText:String!
@@ -186,6 +188,18 @@ class ViewInvitationsCell : UITableViewCell {
         imageView.layer.cornerRadius = 40 / 2
         self.loadProfileImage(imageView: imageView)
         return imageView
+    }
+    
+    func addGestureTapToProfileImageView (imageView: UIImageView) {
+        self.imageTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileImagePressed))
+        self.imageTapGestureRecognizer.numberOfTapsRequired = 1
+        self.imageTapGestureRecognizer.delegate = self
+        self.profileImageView.isUserInteractionEnabled = true
+        self.profileImageView.addGestureRecognizer(self.imageTapGestureRecognizer)
+    }
+    
+    func profileImagePressed () {
+        delegate.profileImagePressed!(user: self.invitation.fromUser)
     }
     
     // Get the image from the server and display it

@@ -49,11 +49,10 @@ class ViewUsersViewController : UITableViewController {
         })
     }
     
-    func showAllFriends () {
-        let friendsObjectIds = PFUser.current()?.object(forKey: ParseObjectColumns.Friends.rawValue)
-        if friendsObjectIds != nil {
+    func showSpecificUsers (userObjectIds : [String]!) {
+        if userObjectIds != nil {
             let query = PFUser.query()
-            query?.whereKey(ParseObjectColumns.ObjectId.rawValue, containedIn: friendsObjectIds as! [String])
+            query?.whereKey(ParseObjectColumns.ObjectId.rawValue, containedIn: userObjectIds)
             query?.findObjectsInBackground(block: { (friends, error) in
                 self.friends = friends as! [PFUser]
                 self.tableView.reloadData()
@@ -136,9 +135,9 @@ class ViewUsersViewController : UITableViewController {
             return userCell
         } else if setting == Settings.ViewUsersInvite {   // If the user is currently creating an invitation
             if indexPath.section == kFriendIndexPath {
-                let cell = UITableViewCell(style: .default, reuseIdentifier: "userCell")
-                cell.textLabel?.text = self.friends[indexPath.row].username
-                return cell
+                let userCell = UserCell(user: self.friends[indexPath.row])
+                userCell.setupUI()
+                return userCell
             } else {
                 let cell = UITableViewCell(style: .default, reuseIdentifier: "groupOptionCell")
                 cell.textLabel?.text = groupOptions[indexPath.row]
@@ -191,8 +190,8 @@ class UserCell : UITableViewCell {
     }
     
     func setupUI() {
-        setUsernameLabel()
         setProfileImage()
+        setUsernameLabel()
     }
     
     func setUsernameLabel () {
@@ -209,11 +208,13 @@ class UserCell : UITableViewCell {
     func setProfileImage () {
         let imageView = UIImageView()
         self.contentView.addSubview(imageView)
+        imageView.layer.cornerRadius = 20
+        imageView.clipsToBounds = true
         imageView.snp.makeConstraints { (make) in
             make.left.equalTo(self.contentView).offset(10)
             make.centerY.equalTo(self.contentView)
-            make.height.equalTo(50)
-            make.width.equalTo(50)
+            make.height.equalTo(40)
+            make.width.equalTo(40)
         }
         
         self.profileImageView = imageView

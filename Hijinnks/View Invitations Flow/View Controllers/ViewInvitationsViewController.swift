@@ -89,7 +89,10 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
         invitations.append(invitation)
         self.tableView.reloadData()
     }
-    
+}
+
+// PassDataBetweenViewControllersProtocol Methods
+extension ViewInvitationsViewController {
     /**
      * - Description Delegate method that is called when a user presses the Comment button on the ViewInvitationCell object
      * - Parameter invitation <Invitation> The invitation which the comment button was pressed for
@@ -106,24 +109,39 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
     }
     
     func rsvpButtonPressed(invitation: InvitationParseObject) {
-        // If the user has already rsvp'd to this shindig
-        if (invitation.rsvpUsers.contains((PFUser.current()?.objectId)!)) {
-            invitation.rsvpUsers = invitation.rsvpUsers.filter {
-                $0 != PFUser.current()?.objectId
+        // If the user who pressed the rsvp button is not the owner of this invitation
+        if UtilityFunctions.isCurrent(user: invitation.fromUser) == false {
+            // If the user has already rsvp'd to this shindig
+            if (invitation.rsvpUsers.contains((PFUser.current()?.objectId)!)) {
+                invitation.rsvpUsers = invitation.rsvpUsers.filter {
+                    $0 != PFUser.current()?.objectId
+                }
+                invitation.rsvpCount = invitation.rsvpCount - 1
+                invitation.fromUser.incrementKey(ParseObjectColumns.RSVPCount.rawValue, byAmount: -1)
             }
-            invitation.rsvpCount = invitation.rsvpCount - 1
-            invitation.fromUser.incrementKey(ParseObjectColumns.RSVPCount.rawValue, byAmount: -1)
+            else {
+                invitation.fromUser.incrementKey(ParseObjectColumns.RSVPCount.rawValue)
+                invitation.incrementKey(ParseObjectColumns.RSVPCount.rawValue, byAmount: 1)
+                invitation.rsvpUsers.append((PFUser.current()?.objectId)!)
+                let confirmationViewColor = UIColor(red: 36/255, green: 66/255, blue: 156/255, alpha: 1.0)
+                Animations.showConfirmationView(type: AnimationConfirmation.Circle, message: "You RSVP'd", backgroundColor: confirmationViewColor, superView: self.view.superview!, textColor: .white)
+            }
+            // Apparently I can't save a user who has not been logged in.  Which I guess makes sense, but we need to possibly figure a way aroun d this
+            invitation.fromUser.saveInBackground()
+            if PFUser.current() == invitation.fromUser {
+                PFUser.current()?.setValue(invitation.fromUser.value(forKey: ParseObjectColumns.RSVPCount.rawValue), forKey: ParseObjectColumns.RSVPCount.rawValue)
+            }
         }
-        else {
-            invitation.fromUser.incrementKey(ParseObjectColumns.RSVPCount.rawValue)
-            invitation.incrementKey(ParseObjectColumns.RSVPCount.rawValue, byAmount: 1)
-            invitation.rsvpUsers.append((PFUser.current()?.objectId)!)
-            let confirmationViewColor = UIColor(red: 36/255, green: 66/255, blue: 156/255, alpha: 1.0)
-            Animations.showConfirmationView(type: AnimationConfirmation.Circle, message: "You RSVP'd", backgroundColor: confirmationViewColor, superView: self.view.superview!, textColor: .white)
-        }
-        invitation.fromUser.saveInBackground()
-        if PFUser.current() == invitation.fromUser {
-            PFUser.current()?.setValue(invitation.fromUser.value(forKey: ParseObjectColumns.RSVPCount.rawValue), forKey: ParseObjectColumns.RSVPCount.rawValue)
+        else {  // I the user who pressed the RSVP button is the owner of this invitation
+            let viewUsersViewController = ViewUsersViewController(setting: .ViewUsersAll, willPresentViewController: false)
+            viewUsersViewController.showSpecificUsers(userObjectIds: invitation.rsvpUsers)
+            self.navigationController?.pushViewController(viewUsersViewController, animated: true)
         }
     }
+    
+    func profileImagePressed(user: PFUser) {
+        let profileViewController = ProfileViewController(user: user)
+        self.navigationController?.pushViewController(profileViewController, animated: true)
+    }
 }
+    

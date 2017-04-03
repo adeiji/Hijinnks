@@ -508,8 +508,8 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             self.navigationController?.present(navController, animated: true, completion: nil)
         }
         else if textField == inviteesTextField {
-            let viewUsersViewController = ViewUsersViewController(setting: Settings.ViewUsersInvite, willPresentViewController: true)
-            viewUsersViewController.showAllFriends()
+            let viewUsersViewController = ViewUsersViewController(setting: Settings.ViewUsersInvite, willPresentViewController: true)            
+            viewUsersViewController.showSpecificUsers(userObjectIds: PFUser.current()?.value(forKey: ParseObjectColumns.Friends.rawValue) as? [String])
             viewUsersViewController.delegate = self
             let navController = UINavigationController(rootViewController: viewUsersViewController)
             self.navigationController?.present(navController, animated: true, completion: nil)

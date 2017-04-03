@@ -20,6 +20,7 @@ import Parse
     @objc optional func loggedIn ()
     @objc optional func loadInvitations (invitations: [InvitationParseObject])
     @objc optional func rsvpButtonPressed (invitation: InvitationParseObject)
+    @objc optional func profileImagePressed (user: PFUser)
 }
 
 class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITableViewDataSource   {

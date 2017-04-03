@@ -41,13 +41,11 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+        self.view.backgroundColor = .white
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.view.backgroundColor = .white
         self.profileView = ProfileView(myUser: self.user, myTableViewDataSourceAndDelegate: self)
         self.view.addSubview(self.profileView)
         self.profileView.setupUI()  // Setup the UI after we've added to the subview to make sure that the profile view can be set up with autolayout to it's superview
@@ -56,7 +54,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
             self.profileView.addFriendButton.addTarget(self, action: #selector(addFriendButtonPressed), for: .touchUpInside)
         }
         // Only allow the user to edit the profile image if the user is looking at his own profile page
-        if user == PFUser.current() {
+        if UtilityFunctions.isCurrent(user: self.user) == true {
             self.profileView.imageViewTapRecognizer.addTarget(self, action: #selector(profileImageTapped))
             self.profileView.imageViewTapRecognizer.delegate = self
             let optionsButton = HijinnksButton(customButtonType: .SettingsButton)

@@ -60,6 +60,7 @@
 		F4B7F9461E81D281001AF380 /* plus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B7F93D1E81D281001AF380 /* plus@3x.png */; };
 		F4BA9E1F1E7701F300590B32 /* ViewUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BA9E1E1E7701F300590B32 /* ViewUsersViewController.swift */; };
 		F4CCABD41E9154230049B8D9 /* DEUserManager+PFUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CCABD31E9154230049B8D9 /* DEUserManager+PFUser.swift */; };
+		F4CCABD71E92935B0049B8D9 /* UtilityFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CCABD61E92935B0049B8D9 /* UtilityFunctions.swift */; };
 		F4CCE48B1E71EBD40090BCD3 /* CreateInvitationsViewController+UIElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CCE48A1E71EBD40090BCD3 /* CreateInvitationsViewController+UIElements.swift */; };
 		F4CCE48D1E7201630090BCD3 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CCE48C1E7201630090BCD3 /* CreateAccountViewController.swift */; };
 		F4CCE4911E737C350090BCD3 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CCE4901E737C350090BCD3 /* ProfileViewController.swift */; };
@@ -161,6 +162,7 @@
 		F4B7F93D1E81D281001AF380 /* plus@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus@3x.png"; path = "Buttons/plus@3x.png"; sourceTree = "<group>"; };
 		F4BA9E1E1E7701F300590B32 /* ViewUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewUsersViewController.swift; path = "User and Login/ViewUsersViewController.swift"; sourceTree = "<group>"; };
 		F4CCABD31E9154230049B8D9 /* DEUserManager+PFUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DEUserManager+PFUser.swift"; path = "User and Login/DEUserManager+PFUser.swift"; sourceTree = "<group>"; };
+		F4CCABD61E92935B0049B8D9 /* UtilityFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UtilityFunctions.swift; path = Utility/UtilityFunctions.swift; sourceTree = "<group>"; };
 		F4CCE48A1E71EBD40090BCD3 /* CreateInvitationsViewController+UIElements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateInvitationsViewController+UIElements.swift"; path = "Create Invitations Flow/View Controllers/CreateInvitationsViewController+UIElements.swift"; sourceTree = "<group>"; };
 		F4CCE48C1E7201630090BCD3 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateAccountViewController.swift; path = "User and Login/CreateAccountViewController.swift"; sourceTree = "<group>"; };
 		F4CCE4901E737C350090BCD3 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = "Settings and Profile/ProfileViewController.swift"; sourceTree = "<group>"; };
@@ -413,6 +415,14 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		F4CCABD51E92934B0049B8D9 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				F4CCABD61E92935B0049B8D9 /* UtilityFunctions.swift */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
 		F4E0D84B1E5A09E400FFEEB8 = {
 			isa = PBXGroup;
 			children = (
@@ -438,6 +448,7 @@
 		F4E0D8561E5A09E500FFEEB8 /* Hijinnks */ = {
 			isa = PBXGroup;
 			children = (
+				F4CCABD51E92934B0049B8D9 /* Utility */,
 				F4FD8C041E8AE83F00875B6D /* Animations */,
 				F40110CF1E6DC730004124DA /* Users */,
 				F40110BF1E6B4400004124DA /* Settings and Profile */,
@@ -841,6 +852,7 @@
 				F4E0D8601E5A09E500FFEEB8 /* Hijinnks.xcdatamodeld in Sources */,
 				F4E0D85A1E5A09E500FFEEB8 /* ViewController.swift in Sources */,
 				F4E0D8581E5A09E500FFEEB8 /* AppDelegate.swift in Sources */,
+				F4CCABD71E92935B0049B8D9 /* UtilityFunctions.swift in Sources */,
 				F4CCE49D1E746B2C0090BCD3 /* OptionsViewController.swift in Sources */,
 				F40110E71E6DFD25004124DA /* DELoginViewController.swift in Sources */,
 				F40110E81E6DFD25004124DA /* DESettingsAccount.swift in Sources */,
