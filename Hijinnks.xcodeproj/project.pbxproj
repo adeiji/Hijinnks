@@ -916,6 +916,106 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		F4CCABD81E93033A0049B8D9 /* Calabash */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Calabash;
+		};
+		F4CCABD91E93033A0049B8D9 /* Calabash */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 66552FC1C1502885B95F5B8F /* Pods-Hijinnks.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = HJPTQ3N75W;
+				INFOPLIST_FILE = Hijinnks/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.Hijinnks;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Hijinnks/Hijinnks-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Calabash;
+		};
+		F4CCABDA1E93033A0049B8D9 /* Calabash */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 11413B1715F52A4CB641F6BD /* Pods-HijinnksTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = HJPTQ3N75W;
+				INFOPLIST_FILE = HijinnksTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.HijinnksTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hijinnks.app/Hijinnks";
+			};
+			name = Calabash;
+		};
+		F4CCABDB1E93033A0049B8D9 /* Calabash */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A1DF02B0671698CEC3DDCF4A /* Pods-HijinnksUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = HJPTQ3N75W;
+				INFOPLIST_FILE = HijinnksUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.dephyned.HijinnksUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = Hijinnks;
+			};
+			name = Calabash;
+		};
 		F4E0D87D1E5A09E500FFEEB8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1115,6 +1215,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F4E0D87D1E5A09E500FFEEB8 /* Debug */,
+				F4CCABD81E93033A0049B8D9 /* Calabash */,
 				F4E0D87E1E5A09E500FFEEB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1124,6 +1225,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F4E0D8801E5A09E500FFEEB8 /* Debug */,
+				F4CCABD91E93033A0049B8D9 /* Calabash */,
 				F4E0D8811E5A09E500FFEEB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1133,6 +1235,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F4E0D8831E5A09E500FFEEB8 /* Debug */,
+				F4CCABDA1E93033A0049B8D9 /* Calabash */,
 				F4E0D8841E5A09E500FFEEB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1142,6 +1245,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F4E0D8861E5A09E500FFEEB8 /* Debug */,
+				F4CCABDB1E93033A0049B8D9 /* Calabash */,
 				F4E0D8871E5A09E500FFEEB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
