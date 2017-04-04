@@ -10,7 +10,7 @@ import UIKit
 import Parse
 import ParseFacebookUtilsV4
 
-class DELoginViewController: UIViewController {
+class DELoginViewController: UIViewController, PassDataBetweenViewControllersProtocol {
 // MARK: - IBOutlets
     var buttons: [UIButton]!
     var textFields: [UITextField]!
@@ -35,10 +35,7 @@ class DELoginViewController: UIViewController {
             self.btnSkip.isHidden = true
         }
         if self.isPosting { // User is trying to post something
-            self.btnSkip.isHidden = true
-            // Display that the user needs to login to post and then move the two visible buttons down.
-            self.lblLoginMessage.text = "Posting an event to HappSnap is free but an account is required. It also only takes a few seconds and then you can get right to it."
-            self.createAccountButtonToBottomConstraint.constant = self.skipButtonToBottomConstraint.constant
+            
         }
         else {  // Prompting for them to login right at start up
             self.loginView = DELoginView()
@@ -50,10 +47,6 @@ class DELoginViewController: UIViewController {
                 make.edges.equalTo(self.view)
             })
         }
-        
-//        self.setUpCreateAccountView()
-        
-//        PFUser.logOutInBackground()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -73,16 +66,54 @@ class DELoginViewController: UIViewController {
                 
                 return
             }
-            
+            // Is Facebook active
             if(FBSDKAccessToken.current() != nil)
             {
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                appDelegate.setupNavigationController()
+                if user != nil {
+                    // If the user has no interests selected yet, than prompt him to add some
+                    if user?.object(forKey: ParseObjectColumns.Interests.rawValue) == nil {
+                        let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsCreateAccountOrChangeInterests, willPresentViewController: false)
+                        viewInterestsViewController.delegate = self
+                        viewInterestsViewController.showExplanationView()
+                        self.navigationController?.pushViewController(viewInterestsViewController, animated: true)
+                    }
+                    else {
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.setupNavigationController()
+                    }
+                    
+                    DEUserManager.sharedManager.setupSendBird(userId: (user?.objectId)!)
+                }
             }
             self.getProfileInformationFromFacebook()
             // Connect this user with Send Bird
-            DEUserManager.sharedManager.setupSendBird(userId: (user?.objectId)!)
         }
+    }
+    
+    /**
+     * - Description Delegat Method - activated when the user has selected an interests on the ViewInterestsViewController object
+     * - Parameter Array<String> mySelectedInterests - The interests that the user has selected
+     * - Code 
+     ```
+        let selectedRowsIndexPaths = self.tableView.indexPathsForSelectedRows
+        var selectedInterests:Array<String> = Array<String>()
+     
+        for indexPath in selectedRowsIndexPaths! {
+            let interest = tableData[indexPath.row]
+            selectedInterests.append(interest as! String)
+        }
+     
+        delegate.setSelectedInterests!(mySelectedInterest: selectedInterests)
+        // Handle the exit of the view controller
+     ```
+     */
+    func setSelectedInterests(mySelectedInterest: Array<String>) {
+        PFUser.current()?.setObject(mySelectedInterest, forKey: ParseObjectColumns.Interests.rawValue)
+        PFUser.current()?.saveInBackground()
+        // Once the user has selected the interests that he wants than we show the main tab controller
+        let tabBarController = MainTabBarController()
+        let appDelegate = UIApplication.shared.delegate
+        appDelegate?.window!?.rootViewController = tabBarController
     }
     
     func getProfileInformationFromFacebook () {

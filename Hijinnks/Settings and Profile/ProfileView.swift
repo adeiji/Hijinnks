@@ -256,7 +256,8 @@ class ProfileView : UIScrollView {
         bioTextView.textColor = .black
         bioTextView.isUserInteractionEnabled = false
         bioTextView.returnKeyType = .done
-
+        bioTextView.font = UIFont.systemFont(ofSize: 14)
+        
         if UtilityFunctions.isCurrent(user: self.user) == true {
             if bioTextView.text.isEmpty {
                 bioTextView.text = "Enter Your Bio"

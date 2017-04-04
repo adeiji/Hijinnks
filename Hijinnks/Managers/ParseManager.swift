@@ -26,7 +26,7 @@ class ParseManager {
         let interestsQuery = InvitationParseObject.query()
         let invitedQuery = InvitationParseObject.query()
         
-        if PFUser.current() != nil {
+        if PFUser.current() != nil && PFUser.current()?.object(forKey: ParseObjectColumns.Interests.rawValue) != nil {
 //  - - - - if you share the same interests...
             interestsQuery?.whereKey(ParseObjectColumns.Interests.rawValue, containedIn: DEUserManager.sharedManager.getInterests(user: PFUser.current()!))
 // |
