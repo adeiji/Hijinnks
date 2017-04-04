@@ -82,6 +82,7 @@
 		F4F0541F1E882FE400486B7D /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F0541E1E882FE400486B7D /* CommentView.swift */; };
 		F4F054211E884B7E00486B7D /* CommentParseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F054201E884B7E00486B7D /* CommentParseObject.swift */; };
 		F4F608551E942F3C0013390E /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = F4F608541E942F3C0013390E /* header.png */; };
+		F4F608591E943D530013390E /* left-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = F4F608581E943D530013390E /* left-arrow.png */; };
 		F4FD8C061E8AE85600875B6D /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FD8C051E8AE85600875B6D /* Animations.swift */; };
 /* End PBXBuildFile section */
 
@@ -191,6 +192,7 @@
 		F4F0541E1E882FE400486B7D /* CommentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentView.swift; path = "View Invitations Flow/View Controllers/CommentView.swift"; sourceTree = "<group>"; };
 		F4F054201E884B7E00486B7D /* CommentParseObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentParseObject.swift; path = Parse/CommentParseObject.swift; sourceTree = "<group>"; };
 		F4F608541E942F3C0013390E /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header.png; sourceTree = "<group>"; };
+		F4F608581E943D530013390E /* left-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "left-arrow.png"; sourceTree = "<group>"; };
 		F4FD8C051E8AE85600875B6D /* Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Animations.swift; path = Animations/Animations.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -391,6 +393,7 @@
 		F4A0D1B91E5A453A00C6CDFE /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F4F608581E943D530013390E /* left-arrow.png */,
 				F4F608541E942F3C0013390E /* header.png */,
 				F40BEFE41E8CACED00AFEC65 /* launchscreenlogo.png */,
 				F40BEFE51E8CACED00AFEC65 /* launchscreenlogo@2x.png */,
@@ -650,6 +653,7 @@
 				F4B7F9461E81D281001AF380 /* plus@3x.png in Resources */,
 				F40BEFE71E8CACED00AFEC65 /* launchscreenlogo.png in Resources */,
 				F4F608551E942F3C0013390E /* header.png in Resources */,
+				F4F608591E943D530013390E /* left-arrow.png in Resources */,
 				F4B7F9321E81CAFB001AF380 /* user.png in Resources */,
 				F4B7F9441E81D281001AF380 /* plus.png in Resources */,
 				F40110CE1E6B907C004124DA /* search.png in Resources */,

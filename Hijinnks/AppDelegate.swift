@@ -66,6 +66,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let searchBarTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: UIFont.systemFontSize)]
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = searchBarTextAttributes
+        let backImg: UIImage = UIImage(named: "left-arrow.png")!
+        UIBarButtonItem.appearance().setBackButtonBackgroundImage(backImg, for: .normal, barMetrics: .default)
+        UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(_ : UIOffset.init(horizontal: 0, vertical: -60), for: UIBarMetrics.default)
     }
     
     func initializeParse(launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
