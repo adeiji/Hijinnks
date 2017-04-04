@@ -324,6 +324,9 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         delegate.addInvitation!(invitation: newInvitation)
         PFUser.current()?.incrementKey(ParseObjectColumns.InviteCount.rawValue)
         PFUser.current()?.saveInBackground()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        Animations.showConfirmationView(type: .Circle, message: "You sent an invitation!", backgroundColor: Colors.blue.value, superView: appDelegate.window!, textColor: .white)
+        self.tabBarController?.selectedIndex = 0
     }
     
     // Ask the user if they would like to post the invitation to Facebook for others to see
@@ -446,10 +449,10 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         let myScrollView = UIScrollView()
         self.view.addSubview(myScrollView)
         myScrollView.snp.makeConstraints { (make) in
-            make.top.equalTo(self.view).offset(20)
+            make.top.equalTo(self.topLayoutGuide as! ConstraintRelatableTarget).offset(20)
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
-            make.bottom.equalTo(self.view)
+            make.bottom.equalTo(self.view).offset(-75)
         }
         
         return myScrollView
@@ -503,7 +506,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         else if textField == inviteInterestsTextField {
             let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsCreateInvite, willPresentViewController: true)
             viewInterestsViewController.delegate = self
-            viewInterestsViewController.wasPresented = true
+            viewInterestsViewController.wasPresented = true            
             let navController = UINavigationController(rootViewController: viewInterestsViewController)
             self.navigationController?.present(navController, animated: true, completion: nil)
         }

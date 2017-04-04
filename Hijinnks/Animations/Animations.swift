@@ -18,10 +18,13 @@ class Animations {
      * - Parameter backgroundColor UIColor - The color of the view
      * - Parameter superView UIView - The view in which to display the confirmation view
      * - Parameter superView UIColor - The color of the message text
-     * - Code showConfirmationView (type: AnimationConfirmation.Circle, message: "You RSVP'd", backgroundColor: .blue, superView: self.view, textColor: .white)
+     * - Code 
+     ```
+    Animations.showConfirmationView (type: AnimationConfirmation.Circle, message: "You RSVP'd", backgroundColor: .blue, superView: self.view, textColor: .white)
+     ```
      */
     class func showConfirmationView (type: AnimationConfirmation, message: String, backgroundColor: UIColor, superView: UIView, textColor: UIColor) {
-        let ConfirmationViewDimension = 150
+        let ConfirmationViewDimension = 200
         let confirmationView = UIView()
         confirmationView.backgroundColor = backgroundColor
         superView.addSubview(confirmationView)
@@ -33,7 +36,7 @@ class Animations {
         
         let confirmationLabel = UILabel(text: message)
         confirmationLabel.textColor = textColor
-        confirmationLabel.font = UIFont.systemFont(ofSize: 30)
+        confirmationLabel.font = UIFont.systemFont(ofSize: 25)
         confirmationLabel.numberOfLines = 0
         confirmationLabel.textAlignment = .center
         confirmationView.addSubview(confirmationLabel)

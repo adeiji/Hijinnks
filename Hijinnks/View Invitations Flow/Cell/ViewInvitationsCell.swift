@@ -310,7 +310,7 @@ class ViewInvitationsCell : UITableViewCell {
         }
         else
         {
-            button.setTitleColor(Colors.invitationTextGrayColor.value, for: .normal)
+            button.setTitleColor(Colors.CommentButtonBlue.value, for: .normal)
             button.setTitle("\(invitation.rsvpCount!)\nRSVP'd", for: .normal) // Display the number of people who have RSVP'd
         }
         

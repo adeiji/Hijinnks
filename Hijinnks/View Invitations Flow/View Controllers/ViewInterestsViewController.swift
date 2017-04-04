@@ -65,7 +65,6 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
         setupUI()
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(getAllSelectedInterests))
         self.navigationItem.rightBarButtonItem = doneButton
-        self.navigationItem.title = StringConstants.Hijinnks.rawValue
     }
     
     func setupUI () {
@@ -131,13 +130,14 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
         
         let selectedRowsIndexPaths = self.tableView.indexPathsForSelectedRows
         var selectedInterests:Array<String> = Array<String>()
-        
-        for indexPath in selectedRowsIndexPaths! {
-            let interest = tableData[indexPath.row]
-            selectedInterests.append(interest as! String)
+        if selectedRowsIndexPaths != nil {
+            for indexPath in selectedRowsIndexPaths! {
+                let interest = tableData[indexPath.row]
+                selectedInterests.append(interest as! String)
+            }
+            
+            delegate.setSelectedInterests!(mySelectedInterest: selectedInterests)
         }
-        
-        delegate.setSelectedInterests!(mySelectedInterest: selectedInterests)
         if wasPresented
         {
             self.navigationController?.dismiss(animated: true, completion: nil)

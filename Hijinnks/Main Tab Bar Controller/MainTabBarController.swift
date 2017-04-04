@@ -14,7 +14,6 @@ class MainTabBarController : UITabBarController {
     
     override func viewDidLoad() {
         let viewInvitationsViewController = ViewInvitationsViewController()
-        viewInvitationsViewController.navigationItem.title = StringConstants.Hijinnks.rawValue
         let createInvitationViewController = getCreateInvitationViewController(viewInvitationsViewController: viewInvitationsViewController)
         let profileViewController = getProfileViewController()
         
@@ -34,12 +33,12 @@ class MainTabBarController : UITabBarController {
     func getConnectViewController () -> UINavigationController {
         let connectViewController = ViewUsersViewController(setting: Settings.ViewUsersAll, willPresentViewController: false)
         connectViewController.showAllUsers()
-        connectViewController.navigationItem.title = StringConstants.Hijinnks.rawValue
         let connectViewControllerTabBarItem = UITabBarItem()
         connectViewControllerTabBarItem.image = UIImage(named: Images.ConnectButton.rawValue)?.withRenderingMode(.alwaysOriginal)
         connectViewControllerTabBarItem.title = StringConstants.Connect.rawValue
         connectViewController.tabBarItem = connectViewControllerTabBarItem
         let connectNavigationController = UINavigationController(rootViewController: connectViewController)
+        connectNavigationController.edgesForExtendedLayout = []
         return connectNavigationController
     }
     
@@ -57,7 +56,6 @@ class MainTabBarController : UITabBarController {
     
     func getProfileViewController () -> UINavigationController {
         let profileViewController = ProfileViewController(user: PFUser.current()!)
-        profileViewController.navigationItem.title = StringConstants.Hijinnks.rawValue
         let profileViewControllerTabBarItem = UITabBarItem()
         profileViewControllerTabBarItem.image = UIImage(named: Images.ProfileImageButton.rawValue)?.withRenderingMode(.alwaysOriginal)
         profileViewControllerTabBarItem.title = StringConstants.Profile.rawValue
@@ -69,7 +67,6 @@ class MainTabBarController : UITabBarController {
 
     func getCreateInvitationViewController (viewInvitationsViewController : ViewInvitationsViewController) -> UINavigationController {
         let createInvitationViewController = CreateInvitationViewController()
-        createInvitationViewController.navigationItem.title = StringConstants.CreateInvitation.rawValue
         let createInvitationViewControllerTabBarItem = UITabBarItem()
         createInvitationViewControllerTabBarItem.image = UIImage(named: Images.CreateInvitationButton.rawValue)?.withRenderingMode(.alwaysOriginal)
         createInvitationViewControllerTabBarItem.title = StringConstants.CreateInvitation.rawValue
@@ -77,6 +74,7 @@ class MainTabBarController : UITabBarController {
         // Set the delegate to the create invitation view controller to the view invitations view controller so that when new invitations are added they will automatically be added on the view invitations view controller
         createInvitationViewController.delegate = viewInvitationsViewController
         let createInvitationNavigationController = UINavigationController(rootViewController: createInvitationViewController)
+        
         return createInvitationNavigationController
     }
     

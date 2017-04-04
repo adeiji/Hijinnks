@@ -239,6 +239,7 @@ class ProfileView : UIScrollView {
         addFriendButton.layer.borderColor = Colors.invitationTextGrayColor.value.cgColor
         addFriendButton.layer.borderWidth = 1
         self.wrapperView.addSubview(addFriendButton)
+        addFriendButton.layer.cornerRadius = 5
         addFriendButton.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.wrapperView)
             make.top.equalTo(self.likeButton.snp.bottom).offset(15)
@@ -256,7 +257,7 @@ class ProfileView : UIScrollView {
         bioTextView.textColor = .black
         bioTextView.isUserInteractionEnabled = false
         bioTextView.returnKeyType = .done
-        bioTextView.font = UIFont.systemFont(ofSize: 14)
+        bioTextView.font = UIFont.systemFont(ofSize: 16)
         
         if UtilityFunctions.isCurrent(user: self.user) == true {
             if bioTextView.text.isEmpty {
@@ -278,7 +279,7 @@ class ProfileView : UIScrollView {
             }
             make.right.equalTo(self.wrapperView).offset(-UIConstants.ProfileViewHorizontalSpacing.rawValue)
             if DEUserManager.sharedManager.getBio(user: self.user) != nil || UtilityFunctions.isCurrent(user: self.user) == true {
-                make.height.equalTo(35)
+                make.height.equalTo(50)
             }
             else {
                 make.height.equalTo(0)

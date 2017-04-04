@@ -93,6 +93,7 @@ enum UIConstants : Int {
 enum Colors {
     case green
     case blue
+    case CommentButtonBlue
     case red
     case grey
     case invitationTextGrayColor
@@ -119,6 +120,8 @@ extension Colors {
                 return UIColor(red: 26/255, green: 188/255, blue: 156/255, alpha: 0.75)
             case .blue:
                 return UIColor(red: 52/255, green: 152/255, blue: 219/255, alpha: 0.75)
+            case .CommentButtonBlue:
+                return UIColor(red: 72/255, green: 128/255, blue: 217/255, alpha: 1.0)
             case .red:
                 return UIColor(red: 247/255, green: 247/255, blue: 247/255, alpha: 0.75)
             case .grey:
@@ -135,6 +138,7 @@ extension Colors {
                 return UIColor(red: 28/255, green: 105/255, blue: 241/255, alpha: 0.90)
             case .FacebookButton:
                 return UIColor(red: 59/255, green: 87/255, blue: 157/255, alpha: 1.0)
+            
             }
         }
     }

@@ -23,7 +23,6 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         self.activitySpinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         self.activitySpinner.startAnimating()
         self.activitySpinner.hidesWhenStopped = true
-        self.navigationItem.title = StringConstants.Hijinnks.rawValue
         self.view.addSubview(self.activitySpinner)
         self.activitySpinner.snp.makeConstraints { (make) in
             make.center.equalTo(self.view)
@@ -65,7 +64,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
             self.navigationItem.setRightBarButton(optionsBarItem, animated: true)
         }
         else {
-            let messageButton = HijinnksButton(customButtonType: .ConversationButton)
+            let messageButton = HijinnksButton(customButtonType: .CommentButton)
             messageButton.addTarget(self, action: #selector(messageButtonPressed), for: .touchUpInside)
             messageButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
             let messageBarItem = UIBarButtonItem(customView: messageButton)
