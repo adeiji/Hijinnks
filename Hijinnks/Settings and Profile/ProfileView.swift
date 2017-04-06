@@ -239,7 +239,8 @@ class ProfileView : UIScrollView {
             addFriendButton.setTitle("Add Friend", for: .normal)
         }
         else {
-            addFriendButton.setTitle("Remove", for: .normal)
+            // FIXME: Make sure that we use String constants for this
+            addFriendButton.setTitle("Unfollow", for: .normal)
         }
         
         addFriendButton.backgroundColor = .white
@@ -338,7 +339,7 @@ class ProfileView : UIScrollView {
         let invitesString = NSMutableAttributedString()
         _ = invitesString.bold("\(inviteCount!)").normal("\nInvites")
         self.inviteesLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: invitesString, labelOnLeft: self.followingLabel, isLastLabelOnRight: false)
-        var rsvpCount = self.user.value(forKey: ParseObjectColumns.InviteCount.rawValue) as? Int
+        var rsvpCount = self.user.value(forKey: ParseObjectColumns.RSVPCount.rawValue) as? Int
         if rsvpCount == nil {
             rsvpCount = 0
         }

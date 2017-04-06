@@ -76,6 +76,8 @@ enum ParseObjectColumns : String {
     case MaxAttendees = "maxAttendees"
     case NumberOfLikes = "numberOfLikes"
     case Canonical_Username = "canonical_username"
+    case LikeCount = "likeCount"
+    case LikedInvitations = "likedInvitations"
 }
 
 enum UIConstants : Int {

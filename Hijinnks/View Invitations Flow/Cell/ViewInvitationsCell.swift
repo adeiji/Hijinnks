@@ -290,6 +290,13 @@ class ViewInvitationsCell : UITableViewCell {
         button.addTarget(self, action: #selector(likeButtonPressed(likeButton:)), for: .touchUpInside)
         self.footerView.addSubview(button)
         
+        // If the user has already liked this invitation than displaly that
+        let likedInvitations = PFUser.current()?.value(forKey: ParseObjectColumns.LikedInvitations.rawValue) as? [String]
+        if likedInvitations?.contains(self.invitation.objectId!) == true {
+            button.customButtonType = .LikeFilledButton
+            button.setNeedsDisplay()
+            
+        }
         button.snp.makeConstraints { (make) in
             make.top.equalTo(self.mapButton)
             make.bottom.equalTo(self.mapButton)
@@ -354,28 +361,64 @@ class ViewInvitationsCell : UITableViewCell {
             self.rsvpButton.setTitle("MAXED\nOUT", for: .normal) // Display the number of people who have RSVP'd
         }
         else {
-            self.rsvpButton.setTitleColor(Colors.invitationTextGrayColor.value, for: .normal)
+            self.rsvpButton.setTitleColor(Colors.CommentButtonBlue.value, for: .normal)
             self.rsvpButton.setTitle("\(invitation.rsvpCount!)\nRSVP'd", for: .normal) // Display the number of people who have RSVP'd
         }
     }
     
     func likeButtonPressed (likeButton: HijinnksButton) {
-        if likeButton.customButtonType == .LikeEmptyButton {
-            likeButton.customButtonType = .LikeFilledButton
-            likeButton.setNeedsDisplay()
-        }
-        else if likeButton.customButtonType == .LikeFilledButton {
-            likeButton.customButtonType = .LikeEmptyButton
-            likeButton.setNeedsDisplay()
+        
+        var likedInvitations = PFUser.current()?.value(forKey: ParseObjectColumns.LikedInvitations.rawValue) as? [String]
+        if likedInvitations == nil {
+            likedInvitations = [String]()
         }
         
-        // Increase the count of likes by 1 for the user
-        let likes = self.invitation.fromUser.value(forKey: ParseObjectColumns.NumberOfLikes.rawValue)
-        if likes != nil {
-            var myLikes = likes as! Int
-            myLikes += 1
-            self.invitation.fromUser.setValue(myLikes, forKey: ParseObjectColumns.NumberOfLikes.rawValue)
+        if likedInvitations?.contains(self.invitation.objectId!) == false {
+            likeButton.customButtonType = .LikeFilledButton
+            likeButton.setNeedsDisplay()
+            likedInvitations?.append(self.invitation.objectId!)
+            PFUser.current()?.setValue(likedInvitations, forKey: ParseObjectColumns.LikedInvitations.rawValue)
+            self.updateLikeCount(likedInvitations: likedInvitations!, increment: 1)
         }
+        else {
+            likeButton.customButtonType = .LikeEmptyButton
+            likeButton.setNeedsDisplay()
+            likedInvitations = likedInvitations?.filter {
+                $0 != self.invitation.objectId
+            }
+            PFUser.current()?.setValue(likedInvitations, forKey: ParseObjectColumns.LikedInvitations.rawValue)
+            self.updateLikeCount(likedInvitations: likedInvitations!, increment: -1)
+        }
+        
+    }
+    
+    func updateLikeCount (likedInvitations: [String], increment: Int) {
+        // Increase the count of likes by 1 for the user
+        var likes = self.invitation.fromUser.value(forKey: ParseObjectColumns.NumberOfLikes.rawValue) as? Int
+        if likes == nil {
+            likes = 0
+        }
+        
+        likes = likes! + increment
+        self.invitation.fromUser.setValue(likes, forKey: ParseObjectColumns.NumberOfLikes.rawValue)
+        self.invitation.fromUser.saveInBackground(block: { (success, error) in
+            if error != nil {
+                print("Error updating user like count on the server - \(error?.localizedDescription)")
+            }
+        })
+        
+        // If the owner of this invitation is the current user than we update the number of likes locally as well
+        if self.invitation.fromUser.objectId == PFUser.current()?.objectId
+        {
+            PFUser.current()?.setValue(likes, forKey: ParseObjectColumns.NumberOfLikes.rawValue)
+        }
+        
+        
+        PFUser.current()?.saveInBackground(block: { (sucess, error) in
+            if error != nil {
+                print("Error saving likedInvitations and likeCount for current user - \(error?.localizedDescription)")
+            }
+        })
     }
 }
 

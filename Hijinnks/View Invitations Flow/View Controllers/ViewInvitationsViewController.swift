@@ -109,6 +109,11 @@ extension ViewInvitationsViewController {
     }
     
     func rsvpButtonPressed(invitation: InvitationParseObject) {
+        let rsvpCount = invitation.fromUser.value(forKey: ParseObjectColumns.RSVPCount.rawValue) as? Int
+        if rsvpCount == nil {
+            invitation.fromUser.setValue(0, forKey: ParseObjectColumns.RSVPCount.rawValue)
+        }
+        
         // If the user who pressed the rsvp button is not the owner of this invitation
         if UtilityFunctions.isCurrent(user: invitation.fromUser) == false {
             // If the user has already rsvp'd to this shindig
@@ -127,7 +132,7 @@ extension ViewInvitationsViewController {
                 Animations.showConfirmationView(type: AnimationConfirmation.Circle, message: "You RSVP'd", backgroundColor: confirmationViewColor, superView: self.view.superview!, textColor: .white)
             }
             // Apparently I can't save a user who has not been logged in.  Which I guess makes sense, but we need to possibly figure a way aroun d this
-            invitation.fromUser.saveInBackground()
+            invitation.saveInBackground()
             if PFUser.current() == invitation.fromUser {
                 PFUser.current()?.setValue(invitation.fromUser.value(forKey: ParseObjectColumns.RSVPCount.rawValue), forKey: ParseObjectColumns.RSVPCount.rawValue)
             }

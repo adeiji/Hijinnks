@@ -50,7 +50,13 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         self.profileView.setupUI()  // Setup the UI after we've added to the subview to make sure that the profile view can be set up with autolayout to it's superview
         self.getAllInvitationsFromUser()
         if self.profileView.addFriendButton != nil {
-            self.profileView.addFriendButton.addTarget(self, action: #selector(addFriendButtonPressed), for: .touchUpInside)
+            // If the user is not a friend
+            if self.profileView.isFriend == false {
+                self.profileView.addFriendButton.addTarget(self, action: #selector(addFriendButtonPressed), for: .touchUpInside)
+            } // If the user is a friend
+            else {
+                self.profileView.addFriendButton.addTarget(self, action: #selector(removeFriendButtonPressed), for: .touchUpInside)
+            }
         }
         // Only allow the user to edit the profile image if the user is looking at his own profile page
         if UtilityFunctions.isCurrent(user: self.user) == true {
@@ -87,6 +93,17 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsAddFriend, willPresentViewController: false)
         viewInterestsViewController.delegate = self
         self.navigationController?.pushViewController(viewInterestsViewController, animated: true)
+        self.profileView.addFriendButton.removeTarget(self, action: #selector(addFriendButtonPressed), for: .touchUpInside)
+        self.profileView.addFriendButton.addTarget(self, action: #selector(removeFriendButtonPressed), for: .touchUpInside)
+        self.profileView.addFriendButton.setTitle("Unfollow", for: .normal)
+    }
+    
+    func removeFriendButtonPressed () {
+        PFUser.current()?.remove(user.objectId!, forKey: ParseObjectColumns.Friends.rawValue)
+        self.user.remove(PFUser.current()!.objectId!, forKey: ParseObjectColumns.Followers.rawValue)
+        PFUser.current()?.saveInBackground()
+        self.user.saveInBackground()
+        self.profileView.addFriendButton.setTitle("Add Friend", for: .normal)
     }
     
     // When the user sets the interests for the friend that they're adding than we add the friend and attribute the friend to specific interests
@@ -104,7 +121,8 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         // Add the friend and save to the server.  Update the users followers
         PFUser.current()?.add(user.objectId!, forKey: ParseObjectColumns.Friends.rawValue)
         self.user.add(PFUser.current()!.objectId!, forKey: ParseObjectColumns.Followers.rawValue)
-        PFUser.current()?.saveEventually()
+        PFUser.current()?.saveInBackground()
+        self.user.saveInBackground()
     }
     
     func displayProfileOptions () {
@@ -198,7 +216,11 @@ extension ProfileViewController {
         let imageData = UIImageJPEGRepresentation(image, 0.2)
         self.profileView.profileImageView.image = image
         DEUserManager.sharedManager.addProfileImage(imageData!)
-        
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        // Show the Navigation Bar
+        UtilityFunctions.showNavBar()
     }
 }
 

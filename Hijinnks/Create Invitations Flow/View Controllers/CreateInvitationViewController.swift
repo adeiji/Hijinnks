@@ -126,7 +126,6 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         self.startingTime = nil
         self.duration = nil
         self.place = nil
-        self.durations = nil
         self.isPublic = true
         self.invitationSendScope = nil
         self.isWeekly = false
@@ -635,7 +634,7 @@ extension CreateInvitationViewController : UIPickerViewDataSource, UIPickerViewD
         durationPicker.dataSource = self
         durationPicker.delegate = self
         durationTextField.inputView = durationPicker
-        durations = durationOptions
+        self.durations = durationOptions
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -643,15 +642,15 @@ extension CreateInvitationViewController : UIPickerViewDataSource, UIPickerViewD
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return durations[row]
+        return self.durations[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return durations.count
+        return self.durations.count
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        durationTextField.text = durations[row]
+        durationTextField.text = self.durations[row]
     }
     
 }
