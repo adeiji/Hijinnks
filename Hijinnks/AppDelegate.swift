@@ -63,9 +63,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func configureGlobalAppearances () {
         // Set the appearance of the UINavigationBar
         UINavigationBar.appearance().setBackgroundImage(UIImage(named: "header.png")!.resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
-        
-        let searchBarTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: UIFont.systemFontSize)]
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = searchBarTextAttributes
+        UINavigationBar.appearance().tintColor = Colors.DarkGray.value
+//        let searchBarTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: UIFont.systemFontSize)]
+//        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = searchBarTextAttributes
         let backImg: UIImage = UIImage(named: "left-arrow.png")!
         UIBarButtonItem.appearance().setBackButtonBackgroundImage(backImg, for: .normal, barMetrics: .default)
         UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(_ : UIOffset.init(horizontal: 0, vertical: -60), for: UIBarMetrics.default)

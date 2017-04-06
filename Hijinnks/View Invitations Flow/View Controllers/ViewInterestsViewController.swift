@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Parse
+import SnapKit
 
 @objc protocol PassDataBetweenViewControllersProtocol {
     @objc optional func setSelectedInterests(mySelectedInterest: Array<String>)
@@ -77,7 +78,7 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
             setExplanationLabel(text: "Please select up to 3 interests that this friend will be affiliated with.")
             setTableView(explanationLabel: self.explanationLabel)
         }
-        else if setting == Settings.ViewInterestsCreateAccountOrChangeInterests {
+        else if setting == Settings.ViewInterestsCreateAccount || setting == Settings.ViewInterestsChangeInterests {
             setExplanationLabel(text: "Please select up to 3 interests that you would like to receive invitations for.")
             setTableView(explanationLabel: self.explanationLabel)
         }
@@ -88,11 +89,12 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
         self.explanationLabel.text = text
         self.explanationLabel.numberOfLines = 0
         self.explanationLabel.textAlignment = .center
+        self.explanationLabel.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightBold)
         self.view.addSubview(self.explanationLabel)
         self.explanationLabel.snp.makeConstraints { (make) in
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
-            make.top.equalTo(self.view).offset(20)
+            make.top.equalTo(self.view).offset(10)
             make.height.equalTo(75)
         }
     }
@@ -102,7 +104,7 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.allowsMultipleSelection = true
-        self.tableView.separatorStyle = .none
+        self.tableView.separatorColor = Colors.TableViewSeparatorColor.value
         self.view.addSubview(self.tableView)
         self.tableView.snp.makeConstraints { (make) in
             if explanationLabel == nil {
@@ -111,7 +113,7 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
             else {
                 make.left.equalTo(self.view)
                 make.right.equalTo(self.view)
-                make.bottom.equalTo(self.view).offset(-70)
+                make.bottom.equalTo(self.view).offset(-75)
                 make.top.equalTo(explanationLabel.snp.bottom)
             }
         }
@@ -137,14 +139,23 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
             }
             
             delegate.setSelectedInterests!(mySelectedInterest: selectedInterests)
+        } // If the user has created an account and they are trying to go through without selecting an interests, than we prompt them to select 2
+        else if selectedRowsIndexPaths == nil && setting == Settings.ViewInterestsCreateAccount {
+            let alertController = UIAlertController(title: "Interests", message: "Please select at least 2 interest", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+            alertController.addAction(okayAction)
+            self.present(alertController, animated: true, completion: nil)
         }
-        if wasPresented
-        {
-            self.navigationController?.dismiss(animated: true, completion: nil)
-        }
-        else
-        {
-            _ = self.navigationController?.popViewController(animated: true)
+        
+        if setting != Settings.ViewInterestsCreateAccount {
+            if wasPresented
+            {
+                self.navigationController?.dismiss(animated: true, completion: nil)
+            }
+            else
+            {
+                _ = self.navigationController?.popViewController(animated: true)
+            }
         }
     }
 }
@@ -163,6 +174,7 @@ extension ViewInterestsViewController {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         cell.textLabel?.text = (tableData[indexPath.row] as! String)
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 14.0)
         
         return cell
     }

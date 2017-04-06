@@ -45,7 +45,7 @@ class OptionsViewController : UITableViewController, UINavigationControllerDeleg
             let changePasswordViewController = ChangePasswordViewController()
             self.navigationController?.pushViewController(changePasswordViewController, animated: true)
         } else if selectedOption == ProfileOptions.ChangeInterests.rawValue {
-            let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsCreateAccountOrChangeInterests, willPresentViewController: false)
+            let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsChangeInterests, willPresentViewController: false)
             viewInterestsViewController.delegate = self
             self.navigationController?.pushViewController(viewInterestsViewController, animated: true)
         } else if selectedOption == ProfileOptions.InviteFacebookFriends.rawValue {
@@ -67,6 +67,7 @@ class OptionsViewController : UITableViewController, UINavigationControllerDeleg
     
     func showEmailScreen () {
         if MFMailComposeViewController.canSendMail() {
+            UINavigationBar.appearance().setBackgroundImage(nil, for: .default)
             let mailViewController = MFMailComposeViewController()
             mailViewController.setSubject("Report")
             mailViewController.setToRecipients(["adebayoiji@gmail.com", "info@hijinnks.com"])
@@ -80,6 +81,7 @@ class OptionsViewController : UITableViewController, UINavigationControllerDeleg
     }
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "header.png")!.resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
         controller.dismiss(animated: true, completion: nil)
     }
     

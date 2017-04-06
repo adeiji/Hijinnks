@@ -301,7 +301,7 @@ class ViewInvitationsCell : UITableViewCell {
     }
     func setRSVPButton (font: UIFont) -> UIButton {
         let button = UIButton()
-        button.titleLabel?.font = font
+        button.titleLabel?.font = UIFont.systemFont(ofSize: font.pointSize, weight: UIFontWeightBold)
         
         if invitation.rsvpCount >= invitation.maxAttendees && invitation.maxAttendees != InvitationConstants.NoMaxAttendeesNumber.rawValue
         {

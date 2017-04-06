@@ -24,6 +24,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     weak var inviteesTextField:UITextField!
     weak var inviteInterestsTextField:UITextField! // Change this in production
     weak var maxNumberOfAttendeesTextField:UITextField!
+    weak var locationSwitch:UISwitch!
     
     weak var scrollView:UIScrollView!
     
@@ -39,6 +40,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     var startingTime:Date!
     var duration:String!
     var place:GMSPlace!
+    var location:PFGeoPoint!
     var durations:Array<String>!
     var delegate:PassDataBetweenViewControllersProtocol!
     var isPublic:Bool = false
@@ -58,7 +60,8 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.scrollView = createScrollView()
+        self.scrollView.contentSize = scrollView.frame.size
         setupUI()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification: )), name: NSNotification.Name.UIKeyboardWillShow , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification: )), name: NSNotification.Name.UIKeyboardWillHide , object: nil)
@@ -74,32 +77,42 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     }
     
     func monthlyButtonPressed (_ sender: UIButton) {
-        self.isMonthly = true
+        if self.isMonthly == true {
+            self.isMonthly = false
+        }
+        else {
+            self.isMonthly = true
+        }
+        
         self.isWeekly = false
         self.showRecurringButtonHighlighted(button: sender)
     }
     
     func weeklyButtonPressed (_ sender: UIButton) {
-        self.isWeekly = true
+        if self.isWeekly == true {
+            self.isWeekly = false
+        } else {
+            self.isWeekly = true
+        }
+        
         self.isMonthly = false
         self.showRecurringButtonHighlighted(button: sender)
     }
     
     func showRecurringButtonHighlighted (button: UIButton) {
-        var otherButton:UIButton!
-        
-        if button == self.weeklyButton
-        {
-            otherButton = self.monthlyButton
+        if self.isWeekly == true {
+            self.weeklyButton.backgroundColor = Colors.grey.value
         }
-        else
-        {
-            otherButton = self.weeklyButton
+        else {
+            self.weeklyButton.backgroundColor = .white
         }
         
-        button.backgroundColor = .white
-        otherButton.backgroundColor = Colors.grey.value
-        otherButton.setTitleColor(.black, for: .normal)
+        if self.isMonthly == true {
+            self.monthlyButton.backgroundColor = Colors.grey.value
+        }
+        else {
+            self.monthlyButton.backgroundColor = .white
+        }
     }
     
     func reset () {
@@ -118,50 +131,73 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         self.invitationSendScope = nil
         self.isWeekly = false
         self.isMonthly = false
+        
     }
     
     func setRecurringView () {
-        let recurringLabel = UILabel(text: "Would you like this to be a recurring event?")
-        self.view.addSubview(recurringLabel)
-        recurringLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(self.maxNumberOfAttendeesTextField.snp.bottom).offset(UIConstants.CreateInvitationVerticalSpacing.rawValue)
+        
+        let recurringView = UIView()
+        recurringView.backgroundColor = .white
+        self.wrapperView.addSubview(recurringView)
+        recurringView.snp.makeConstraints { (make) in
+            make.left.equalTo(self.wrapperView)
+            make.right.equalTo(self.wrapperView)
+            make.top.equalTo(self.locationTextField.snp.bottom).offset(20)
         }
         
+        let recurringLabel = UILabel(text: "Would you like this to be a recurring event?")
+        recurringLabel.font = UIFont.systemFont(ofSize: 14.0)
+        recurringLabel.textColor = Colors.DarkGray.value
+        recurringView.addSubview(recurringLabel)
+        recurringLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(self.wrapperView).offset(20)
+            make.top.equalTo(recurringView).offset(10)
+        }
+        
+        
         let weeklyButton = UIButton()
-        weeklyButton.backgroundColor = Colors.grey.value
-        weeklyButton.layer.borderWidth = 2
-        weeklyButton.layer.borderColor = UIColor.black.cgColor
-        weeklyButton.layer.cornerRadius = 5
-        weeklyButton.setTitleColor(.black, for: .normal)
+        weeklyButton.layer.borderWidth = 0.25
+        weeklyButton.layer.borderColor = Colors.DarkGray.value.cgColor
+        weeklyButton.setTitleColor(Colors.DarkGray.value, for: .normal)
         weeklyButton.setTitle("Weekly", for: .normal)
-        weeklyButton.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
-        self.view.addSubview(weeklyButton)
+        weeklyButton.titleLabel?.font = UIFont.systemFont(ofSize: 12.0)
+        weeklyButton.backgroundColor = .white
+        recurringView.addSubview(weeklyButton)
         weeklyButton.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self.view).offset(-100)
-            make.width.equalTo(90)
-            make.top.equalTo(recurringLabel.snp.bottom).offset(UIConstants.CreateInvitationVerticalSpacing.rawValue)
-            make.height.equalTo(50)
+            make.left.equalTo(recurringView).offset(20)
+            make.right.equalTo(recurringView.snp.centerX)
+            make.top.equalTo(recurringLabel.snp.bottom).offset(10)
+            make.height.equalTo(35)
         }
         
         let monthlyButton = UIButton()
-        monthlyButton.backgroundColor = Colors.grey.value
-        monthlyButton.layer.borderColor = UIColor.black.cgColor
-        monthlyButton.layer.borderWidth = 2
-        monthlyButton.layer.cornerRadius = 5
+        monthlyButton.layer.borderColor = Colors.DarkGray.value.cgColor
+        monthlyButton.layer.borderWidth = 0.25
         monthlyButton.setTitle("Monthly", for: .normal)
-        monthlyButton.setTitleColor(.black, for: .normal)
-        monthlyButton.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
-        self.view.addSubview(monthlyButton)
+        monthlyButton.setTitleColor(Colors.DarkGray.value, for: .normal)
+        monthlyButton.titleLabel?.font = UIFont.systemFont(ofSize: 12.0)
+        monthlyButton.backgroundColor = .white
+        recurringView.addSubview(monthlyButton)
         monthlyButton.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self.view).offset(100)
-            make.width.equalTo(90)
-            make.top.equalTo(recurringLabel.snp.bottom).offset(UIConstants.CreateInvitationVerticalSpacing.rawValue)
-            make.height.equalTo(50)
+            make.left.equalTo(recurringView.snp.centerX)
+            make.right.equalTo(recurringView).offset(-20)
+            make.top.equalTo(weeklyButton)
+            make.height.equalTo(35)
+            make.bottom.equalTo(recurringView).offset(-10)
         }
         
         self.monthlyButton = monthlyButton
         self.weeklyButton = weeklyButton
+        
+        let bottomBorder = UIView()
+        bottomBorder.backgroundColor = UIColor.lightGray
+        self.wrapperView.addSubview(bottomBorder)
+        bottomBorder.snp.makeConstraints { (make) in
+            make.left.equalTo(self.view)
+            make.right.equalTo(self.view)
+            make.height.equalTo(0.25)
+            make.top.equalTo(recurringView.snp.bottom)
+        }
     }
     
     func getRecurringButton () -> UIButton {
@@ -218,33 +254,40 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         self.isPublic = true
     }
     
-    func getLocation () -> PFGeoPoint! {
-        // If the user did not select a place using the Google Maps Autocomplete feature, than we need to use his current location
-        // So we need to get the current location from the Location Manager and than we need to get an address using the Lat/Long coordinates returned
-        if self.place == nil {
-            let locationManager = (UIApplication.shared.delegate as! AppDelegate).locationManager
-            self.locationCoordinates = locationManager!.currentLocation
-        
-            let geoCoder = CLGeocoder()
-            geoCoder.reverseGeocodeLocation(self.locationCoordinates, completionHandler: { (placemarks : [CLPlacemark]?, error: Error?) in
-                let placemark = placemarks?.first
-                let addressNumber = placemark?.subThoroughfare
-                let address = placemark?.thoroughfare
-                let city = placemark?.locality
-                let state = placemark?.administrativeArea
-                let zipCode = placemark?.postalCode
-                
-                let fullAddress = String("\(addressNumber!) \(address!), \(city!), \(state!) \(zipCode!)")
-                self.address = fullAddress
-                let location = PFGeoPoint(location: placemark?.location)
-                self.saveAndSendInvitation(currentLocation: location)
-            })
+    func locationSwitchPressed (sender: UISwitch) {
+        if sender.isOn {
+            _ = getLocation()
         }
         else {
-            return PFGeoPoint(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
+            self.address = nil
+            self.place = nil
+            self.locationTextField.text = ""
         }
+    }
+    
+    func getLocation () {
+        // If the user did not select a place using the Google Maps Autocomplete feature, than we need to use his current location
+        // So we need to get the current location from the Location Manager and than we need to get an address using the Lat/Long coordinates returned
         
-        return nil
+        let locationManager = (UIApplication.shared.delegate as! AppDelegate).locationManager
+        self.locationCoordinates = locationManager!.currentLocation
+    
+        let geoCoder = CLGeocoder()
+        geoCoder.reverseGeocodeLocation(self.locationCoordinates, completionHandler: { (placemarks : [CLPlacemark]?, error: Error?) in
+            let placemark = placemarks?.first
+            let addressNumber = placemark?.subThoroughfare
+            let address = placemark?.thoroughfare
+            let city = placemark?.locality
+            let state = placemark?.administrativeArea
+            let zipCode = placemark?.postalCode
+            
+            let fullAddress = String("\(addressNumber!) \(address!), \(city!), \(state!) \(zipCode!)")
+            self.address = fullAddress
+            self.locationTextField.text = self.address
+            self.location = PFGeoPoint(location: placemark?.location)
+            return
+        })
+        
     }
     
     func saveAndSendInvitation (currentLocation: PFGeoPoint) {
@@ -351,12 +394,18 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     }
     
     // Save the invitation to the server and update the View Invitations View Controller with the new invitation
-    func sendInvite () {
-        let location:PFGeoPoint! = getLocation()
+    func sendInvite () {        
         // If the location returns nil than that means that the invitations has already been created and saved to the server
-        if location != nil {
+        if self.location != nil  {
             self.address = locationTextField.text
-            saveAndSendInvitation(currentLocation: location)
+            saveAndSendInvitation(currentLocation: self.location)
+        }
+        else
+        {
+            let alertController = UIAlertController(title: "Location", message: "Please enter a location, or press the current location switch.", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+            alertController.addAction(okayAction)
+            self.present(alertController, animated: true, completion: nil)
         }
     }
     
@@ -368,14 +417,11 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         let donebutton = UIBarButtonItem(customView: sendButton)
         self.navigationItem.rightBarButtonItem = donebutton
         self.view.backgroundColor = .white
-        scrollView = createScrollView()
-        scrollView.contentSize = scrollView.frame.size
+        
         wrapperView = createWrapperView(myScrollView: scrollView)
         nameTextField = createTextField(superview: wrapperView, relativeViewAbove: nil, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Event Name", showViewController: nil, colorViewColor: Colors.green.value)
         
-        locationTextField = createTextField(superview: wrapperView, relativeViewAbove: nameTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Leave Empty to Use Current Location", showViewController: nil, colorViewColor: Colors.blue.value)
-        
-        inviteMessageTextField = createTextField(superview: wrapperView, relativeViewAbove: locationTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Message", showViewController: nil, colorViewColor: Colors.green.value)
+        inviteMessageTextField = createTextField(superview: wrapperView, relativeViewAbove: self.nameTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Message", showViewController: nil, colorViewColor: Colors.green.value)
         
         startingTimeTextField = createTextField(superview: wrapperView, relativeViewAbove: inviteMessageTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Time", showViewController: nil, colorViewColor: Colors.blue.value)
         
@@ -399,11 +445,37 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         self.maxNumberOfAttendeesTextField = createTextField(superview: self.wrapperView, relativeViewAbove: inviteInterestsTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing.rawValue, placeholderText: "Max Attendees", showViewController: nil, colorViewColor: Colors.blue.value)
         self.maxNumberOfAttendeesTextField.keyboardType = .numberPad
         
+        locationTextField = createTextField(superview: wrapperView, relativeViewAbove: self.maxNumberOfAttendeesTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Location", showViewController: nil, colorViewColor: Colors.blue.value)
+        
+        setLocationSwitch()
         setupDurationTextFieldInputView()
         setRecurringView()
     }
     
-    
+    func setLocationSwitch () {
+        let locationSwitch = UISwitch()
+        locationSwitch.addTarget(self, action: #selector(locationSwitchPressed(sender:)), for: .valueChanged)
+//        locationSwitch.transform = CGAffineTransform(scaleX: 0.85, y: 0.85)
+        locationSwitch.layer.zPosition = 1
+        let locationTextFieldSuperView = self.locationTextField.superview
+        locationTextFieldSuperView?.addSubview(locationSwitch)
+        
+        locationSwitch.snp.makeConstraints { (make) in
+            make.right.equalTo(locationTextFieldSuperView!).offset(-35)
+            make.centerY.equalTo(locationTextFieldSuperView!.snp.centerY).offset(5)
+        }
+        
+        let currentLocationLabel = UILabel(text: "Current Location")
+        currentLocationLabel.font = UIFont.systemFont(ofSize: 14)
+        currentLocationLabel.textColor = Colors.DarkGray.value
+        currentLocationLabel.layer.zPosition = 1
+        locationTextFieldSuperView?.addSubview(currentLocationLabel)
+        currentLocationLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(locationSwitch)
+            make.bottom.equalTo(locationSwitch.snp.top)
+        }
+        self.locationSwitch = locationSwitch
+    }
     
     func createHeaderLabel () -> UILabel {
         let label = UILabel()
@@ -432,7 +504,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     // This is the view that contains all the other subviews.  It acts as a wrapper so that the scroll view works correctly
     func createWrapperView (myScrollView: UIScrollView) -> UIView {
         let myWrapperView = UIView()
-        myWrapperView.backgroundColor = .white
+        myWrapperView.backgroundColor = Colors.VeryLightGray.value
         myScrollView.addSubview(myWrapperView)
         myWrapperView.snp.makeConstraints { (make) in
             make.edges.equalTo(myScrollView)
@@ -447,12 +519,13 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     // Scroll view which will basically act as our main view
     func createScrollView () -> UIScrollView {
         let myScrollView = UIScrollView()
+        myScrollView.backgroundColor = Colors.VeryLightGray.value
         self.view.addSubview(myScrollView)
         myScrollView.snp.makeConstraints { (make) in
-            make.top.equalTo(self.topLayoutGuide as! ConstraintRelatableTarget).offset(20)
+            make.top.equalTo(self.topLayoutGuide as! ConstraintRelatableTarget)
             make.left.equalTo(self.view)
             make.right.equalTo(self.view)
-            make.bottom.equalTo(self.view).offset(-75)
+            make.bottom.equalTo(self.bottomLayoutGuide as! ConstraintRelatableTarget)
         }
         
         return myScrollView
@@ -461,26 +534,50 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     func createTextField (superview: UIView, relativeViewAbove: UIView!, leftConstraintOffset: Int, rightConstraintOffset: Int, verticalSpacingToRelativeViewAbove: Int, placeholderText: String, showViewController: UIViewController!, colorViewColor: UIColor) -> UITextField {
         let textField = UITextField()
         // The superview is the wrapper which contains all our elements within the scroll view
-        superview.addSubview(textField)
-        textField.textAlignment = .center
-        textField.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [ NSForegroundColorAttributeName : UIColor.black ])
-        textField.layer.cornerRadius = 5
-        textField.layer.borderWidth = 0.75
+        textField.textAlignment = .left
+        textField.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [ NSForegroundColorAttributeName : Colors.DarkGray.value ])
+        textField.layer.borderWidth = 0
         textField.font = UIFont.systemFont(ofSize: 14)
-        textField.backgroundColor = Colors.grey.value
+        textField.backgroundColor = .white
         textField.delegate = self
+        textField.textColor = Colors.DarkGray.value
     
-        textField.snp.makeConstraints { (make) in
-            make.left.equalTo(wrapperView).offset(UIConstants.HorizontalSpacingToSuperview.rawValue)
-            make.right.equalTo(wrapperView).offset(-UIConstants.HorizontalSpacingToSuperview.rawValue)
-            
-            if relativeViewAbove == nil { // If there is no other view above this one than this is the view at the very top of the screen
-                make.top.equalTo(wrapperView)
+        let textFieldContainerView = UIView()
+        self.wrapperView.addSubview(textFieldContainerView)
+        textFieldContainerView.backgroundColor = .white
+        textFieldContainerView.snp.makeConstraints { (make) in
+            if placeholderText != "Location" {
+                make.height.equalTo(40)
             }
             else {
-                make.top.equalTo(relativeViewAbove.snp.bottom).offset(verticalSpacingToRelativeViewAbove)
+                make.height.equalTo(60)
             }
-            make.height.equalTo(45)
+            make.left.equalTo(self.wrapperView)
+            make.right.equalTo(self.wrapperView)
+            if relativeViewAbove == nil {
+                make.top.equalTo(self.wrapperView).offset(30)
+            }
+            else {
+                make.top.equalTo(relativeViewAbove.snp.bottom).offset(5)
+            }
+        }
+        
+        textFieldContainerView.addSubview(textField)
+        textField.snp.makeConstraints { (make) in
+            make.left.equalTo(textFieldContainerView).offset(20)
+            make.right.equalTo(textFieldContainerView).offset(-100)
+            make.top.equalTo(textFieldContainerView)
+            make.bottom.equalTo(textFieldContainerView)
+        }
+        
+        let bottomBorder = UIView()
+        bottomBorder.backgroundColor = UIColor.lightGray
+        self.wrapperView.addSubview(bottomBorder)
+        bottomBorder.snp.makeConstraints { (make) in
+            make.left.equalTo(self.wrapperView)
+            make.right.equalTo(self.wrapperView)
+            make.height.equalTo(0.25)
+            make.top.equalTo(textFieldContainerView.snp.bottom)
         }
         
         return textField
@@ -501,6 +598,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         if textField == locationTextField {
             let autocompleteViewController = GMSAutocompleteViewController()
             autocompleteViewController.delegate = self
+            UINavigationBar.appearance().setBackgroundImage(nil, for: .default)
             self.navigationController?.present(autocompleteViewController, animated: true, completion: nil)
         }
         else if textField == inviteInterestsTextField {

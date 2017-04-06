@@ -12,7 +12,7 @@ import FBSDKLoginKit
 class DELoginView: UIView {
 // MARK: - View Outlets
     // This view displays at the top of the login screen and simply displays the logo for the application
-    weak var logoView:CustomHijinnksView!
+    weak var logoView:UIImageView!
     weak var txtUsernameOrEmail: UITextField!
     weak var txtPassword: UITextField!
     weak var signInButton: UIButton!
@@ -36,15 +36,16 @@ class DELoginView: UIView {
     }
     
     func setupUI () {
-        addImageToBackground()
-        _ = setLogoView()
-        txtUsernameOrEmail = setupTextField(placeholder: "Enter Username or Email", textFieldAbove : nil)
-        txtPassword = setupTextField(placeholder: "Enter Password", textFieldAbove: self.txtUsernameOrEmail)
-        txtPassword.isSecureTextEntry = true
-        errorLabel = setupErrorLabel()
+//        addImageToBackground()
+        logoView = setLogoView()
         signInButton = setupSignInButton(title: "SIGN IN", viewObjectAbove: nil)
         signUpButton = setupSignInButton(title: "CREATE ACCOUNT", viewObjectAbove: self.signInButton)
         facebookLoginButton = setFacebookLoginButton(signUpButton: self.signUpButton)
+        
+        txtPassword = setupTextField(placeholder: "Enter Password", viewBelow: self.signInButton)
+        txtUsernameOrEmail = setupTextField(placeholder: "Enter Username or Email", viewBelow : self.txtPassword)
+        txtPassword.isSecureTextEntry = true
+        errorLabel = setupErrorLabel()
     }
     
     
@@ -90,10 +91,10 @@ class DELoginView: UIView {
     func setupSignInButton (title: String, viewObjectAbove: UIView!) -> UIButton {
         let button = UIButton()
         button.setTitle(title, for: .normal)
-        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderColor = Colors.DarkGray.value.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(Colors.DarkGray.value, for: .normal)
         
         self.addSubview(button)
         button.snp.makeConstraints { (make) in
@@ -103,50 +104,54 @@ class DELoginView: UIView {
             else {
                 make.top.equalTo(self.snp.bottom).offset(-170)
             }
-            make.width.equalTo(self.txtPassword)
+            make.left.equalTo(self).offset(UIConstants.HorizontalSpacingToSuperview.rawValue)
+            make.right.equalTo(self).offset(-UIConstants.HorizontalSpacingToSuperview.rawValue)
             make.centerX.equalTo(self)
-            make.height.equalTo(self.txtPassword)
+            make.height.equalTo(45)
         }
         
         return button
     }
     
-    func setLogoView () -> CustomHijinnksView {
-        let view = CustomHijinnksView(customViewType: .LogoView)
-        view.backgroundColor = .clear
-        self.addSubview(view)
+    func setLogoView () -> UIImageView {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: Images.Logo.rawValue)
+        imageView.layer.cornerRadius = 20
+        imageView.clipsToBounds = true
+        self.addSubview(imageView)
         
-        view.snp.makeConstraints { (make) in
-            make.top.equalTo(self).offset(40)
-            make.height.equalTo(75)
-            make.width.equalTo(75 * 0.8)
+        imageView.snp.makeConstraints { (make) in
+            make.top.equalTo(self).offset(100)
+            make.height.equalTo(150)
+            make.width.equalTo(150)
             make.centerX.equalTo(self)
         }
         
-        return view
+        return imageView
     }
     
-    func setupTextField (placeholder: String, textFieldAbove : UITextField!) -> UITextField {
+    func setupTextField (placeholder: String, viewBelow : UIView!) -> UITextField {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: placeholder,
-                                                   attributes: [NSForegroundColorAttributeName: UIColor.white])
+                                                   attributes: [NSForegroundColorAttributeName: Colors.DarkGray.value])
         textField.layer.cornerRadius = 5
         textField.textAlignment = .center
-        textField.backgroundColor = Colors.AccountTextFieldColor.value
-        textField.layer.borderColor = Colors.AccountTextFieldBorderColor.value.cgColor
+        textField.backgroundColor = .white
+        textField.layer.borderColor = Colors.DarkGray.value.cgColor
         textField.layer.borderWidth = 0.5
-        textField.textColor = .white
+        textField.textColor = Colors.DarkGray.value
         textField.isHidden = true
         textField.autocorrectionType = .no
         self.addSubview(textField)
         textField.snp.makeConstraints { (make) in
             make.centerX.equalTo(self)
-            if textFieldAbove == nil {
-                make.top.equalTo(self.snp.top).offset(175)
+            if viewBelow != self.signInButton {
+                make.bottom.equalTo(viewBelow.snp.top).offset(-10)
             }
             else {
-                make.top.equalTo(textFieldAbove.snp.bottom).offset(10)
+                make.bottom.equalTo(viewBelow.snp.top).offset(-65)
             }
+            
             make.left.equalTo(self).offset(UIConstants.HorizontalSpacingToSuperview.rawValue)
             make.right.equalTo(self).offset(-UIConstants.HorizontalSpacingToSuperview.rawValue)
             make.height.equalTo(45)
@@ -159,7 +164,7 @@ class DELoginView: UIView {
         let label = UILabel()
         self.addSubview(label)
         label.font = UIFont.systemFont(ofSize: 12)
-        label.textColor = .white
+        label.textColor = Colors.DarkGray.value
         label.snp.makeConstraints { (make) in
             make.centerX.equalTo(txtPassword)
             make.top.equalTo(txtPassword.snp.bottom).offset(5)

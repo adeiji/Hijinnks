@@ -75,6 +75,7 @@ enum ParseObjectColumns : String {
     case IsMonthly = "isMonthly"
     case MaxAttendees = "maxAttendees"
     case NumberOfLikes = "numberOfLikes"
+    case Canonical_Username = "canonical_username"
 }
 
 enum UIConstants : Int {
@@ -102,12 +103,15 @@ enum Colors {
     case AccountTextFieldColor
     case AccountTextFieldBorderColor
     case FacebookButton
+    case DarkGray
+    case VeryLightGray
 }
 
 enum Settings {
     case ViewUsersAll
     case ViewUsersInvite
-    case ViewInterestsCreateAccountOrChangeInterests
+    case ViewInterestsCreateAccount
+    case ViewInterestsChangeInterests
     case ViewInterestsAddFriend
     case ViewInterestsCreateInvite
 }
@@ -138,7 +142,10 @@ extension Colors {
                 return UIColor(red: 28/255, green: 105/255, blue: 241/255, alpha: 0.90)
             case .FacebookButton:
                 return UIColor(red: 59/255, green: 87/255, blue: 157/255, alpha: 1.0)
-            
+            case .DarkGray:
+                return UIColor(red: 61/255, green: 61/255, blue: 61/255, alpha: 1.0)
+            case .VeryLightGray:
+                return UIColor(red: 249/255, green: 249/255, blue: 249/255, alpha: 1.0)
             }
         }
     }
@@ -165,6 +172,7 @@ enum Images : String {
     case ProfileImageButton = "user.png"
     case ConnectButton = "connect.png"
     case Background = "Background.png"
+    case Logo = "logo.png"
 }
 
 enum APIKeys : String {

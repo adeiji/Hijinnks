@@ -100,7 +100,7 @@ class ConversationView : UIView {
             make.left.equalTo(self).offset(-1)
             make.top.equalTo(self)
             make.right.equalTo(self).offset(1)
-            make.height.equalTo(75)
+            make.height.equalTo(50)
         }
     }
     

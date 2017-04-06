@@ -41,7 +41,7 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
         self.snp.makeConstraints { (make) in
             make.edges.equalTo(self.superview!)
         }
-        addImageToBackground()
+//        addImageToBackground()
         lblUsernameError = setUsernameErrorLabel()
         txtUsername = setTextField(viewAbove: lblUsernameError, placeholderText: "Enter username", isSecureTextEntry: false)
         txtEmail = setTextField(viewAbove: txtUsername, placeholderText: "Enter your email", isSecureTextEntry: false)
@@ -101,14 +101,14 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
     func setTextField (viewAbove: UIView!, placeholderText: String, isSecureTextEntry: Bool) -> UITextField {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: placeholderText,
-                                                             attributes: [NSForegroundColorAttributeName: UIColor.white])
+                                                             attributes: [NSForegroundColorAttributeName: Colors.DarkGray.value])
         textField.textAlignment = .center
         textField.isSecureTextEntry = isSecureTextEntry
-        textField.backgroundColor = Colors.AccountTextFieldColor.value
+        textField.backgroundColor = .white
         textField.layer.borderWidth = 1
-        textField.layer.borderColor = Colors.AccountTextFieldBorderColor.value.cgColor
+        textField.layer.borderColor = Colors.DarkGray.value.cgColor
         textField.layer.cornerRadius = 5
-        textField.textColor = .white
+        textField.textColor = Colors.DarkGray.value
         self.addSubview(textField)
         
         textField.snp.makeConstraints { (make) in

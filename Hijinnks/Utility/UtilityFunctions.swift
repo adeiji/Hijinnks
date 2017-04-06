@@ -27,4 +27,12 @@ class UtilityFunctions {
         return false
     }
     
+    class func showNavBar () {
+        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "header.png")!.resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
+    }
+    
+    class func hideNavBar () {
+        UINavigationBar.appearance().setBackgroundImage(nil, for: .default)
+    }
+    
 }

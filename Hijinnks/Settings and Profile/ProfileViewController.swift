@@ -82,21 +82,6 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         _ = photoHandler.promptForPicture()
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        picker.dismiss(animated: true, completion: nil)
-        var image:UIImage!
-        
-        if info[UIImagePickerControllerEditedImage] != nil {
-            image = info[UIImagePickerControllerEditedImage] as! UIImage
-        }
-        else {
-            image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        }
-        let imageData = UIImageJPEGRepresentation(image, 0.2)
-        self.profileView.profileImageView.image = image
-        DEUserManager.sharedManager.addProfileImage(imageData!)
-    }
-    
     // Display the interests page to allow the user to affiliate their friend with specific interests
     func addFriendButtonPressed () {
         let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsAddFriend, willPresentViewController: false)
@@ -132,7 +117,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         
         self.startActivitySpinner()
         let query = InvitationParseObject.query()
-        query?.whereKey(ParseObjectColumns.FromUser.rawValue, equalTo: user)
+        query?.whereKey(ParseObjectColumns.FromUser.rawValue, equalTo: self.user)
         query?.findObjectsInBackground(block: { (invitationParseObjects, error) in
             if error != nil {
                 // Display that there was an error retrieving the invitations
@@ -149,6 +134,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
     
     // Display the invitations that this user has done in the table view for this view controller
     func displayInvitationsForUser (invitationParseObjects : [InvitationParseObject]!) {
+        self.invitations = [InvitationParseObject]()
         for invitationParseObject in invitationParseObjects! {
             // Set the user to the user that is already set for this View Controller, otherwise we'll have to fetch the user from every single invitation parse object that is received from the user which would be pointless because we already have that fetched object (user) as a property for this class
             invitationParseObject.fromUser = user
@@ -191,6 +177,28 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let viewInvitationsCell = ViewInvitationsCell(invitation: invitations[indexPath.row], delegate: self)
         return viewInvitationsCell
+    }
+}
+
+// Image Picker Delegate
+extension ProfileViewController {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        // Show the Navigation Bar
+        UtilityFunctions.showNavBar()
+        picker.dismiss(animated: true, completion: nil)
+        var image:UIImage!
+        
+        if info[UIImagePickerControllerEditedImage] != nil {
+            image = info[UIImagePickerControllerEditedImage] as! UIImage
+        }
+        else {
+            image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        }
+        let imageData = UIImageJPEGRepresentation(image, 0.2)
+        self.profileView.profileImageView.image = image
+        DEUserManager.sharedManager.addProfileImage(imageData!)
+        
     }
 }
 

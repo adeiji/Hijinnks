@@ -29,7 +29,6 @@ class DELoginViewController: UIViewController, PassDataBetweenViewControllersPro
 
     override func viewDidLoad() {
         super.viewDidLoad()
-         self.navigationController?.navigationBar.isHidden = true
         // Check to see why this page is being displayed.
         if self.isAccount { // User is trying to access the settings and account page
             self.btnSkip.isHidden = true
@@ -53,6 +52,10 @@ class DELoginViewController: UIViewController, PassDataBetweenViewControllersPro
         self.navigationController?.navigationBar.isHidden = false
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
     // Login using facebook and get their public profile and email address
     func facebookLoginButtonPressed () {
         PFFacebookUtils.logInInBackground(withReadPermissions: ["public_profile","email"]) { (user, error) in
@@ -72,7 +75,7 @@ class DELoginViewController: UIViewController, PassDataBetweenViewControllersPro
                 if user != nil {
                     // If the user has no interests selected yet, than prompt him to add some
                     if user?.object(forKey: ParseObjectColumns.Interests.rawValue) == nil {
-                        let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsCreateAccountOrChangeInterests, willPresentViewController: false)
+                        let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsCreateAccount, willPresentViewController: false)
                         viewInterestsViewController.delegate = self
                         viewInterestsViewController.showExplanationView()
                         self.navigationController?.pushViewController(viewInterestsViewController, animated: true)

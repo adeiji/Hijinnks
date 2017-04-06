@@ -99,8 +99,8 @@ class ProfileView : UIScrollView {
                     interestView.translatesAutoresizingMaskIntoConstraints = true
                     interestView.frame = label.frame
                     interestView.addSubview(label)
-                    interestView.frame.size.width = interestView.frame.width + 20
-                    interestView.frame.size.height = interestView.frame.height + 20
+                    interestView.frame.size.width = interestView.frame.width + 10
+                    interestView.frame.size.height = interestView.frame.height + 10
                     
                     label.center.x = interestView.center.x
                     label.center.y = interestView.center.y
@@ -110,14 +110,15 @@ class ProfileView : UIScrollView {
                     interestView.backgroundColor = Colors.grey.value
                     interestView.layer.cornerRadius = 3
                     
-                    xPos = interestView.frame.origin.x + interestView.frame.width + 10
+                    xPos = interestView.frame.origin.x + interestView.frame.width + 5
                     
                     // If this label is going to go past the length of the window than add this to the next line
-                    if xPos + 10 > windowWidth! {
-                        yPos = yPos + 50
-                        xPos = 0
+                    if xPos + 5 >= windowWidth! {
+                        yPos = interestView.frame.origin.y + interestView.frame.height + 5
                         interestView.frame.origin.y = yPos
-                        interestView.frame.origin.x = xPos
+                        interestView.frame.origin.x = 0
+                        xPos = interestView.frame.width + 5
+                        
                     }
                     
                     self.interestsContainerView.addSubview(interestView)
@@ -180,8 +181,15 @@ class ProfileView : UIScrollView {
 
     func setUsernameLabel (myProfileImageView: UIImageView) {
         let myUsernameLabel = UILabel()
-        myUsernameLabel.text = user.username
-        myUsernameLabel.font = UIFont.systemFont(ofSize: 18)
+        
+        let canonicalUsername = user.value(forKey: ParseObjectColumns.Canonical_Username.rawValue) as? String
+        if  canonicalUsername == nil {
+            myUsernameLabel.text = user.username
+        }
+        else {
+            myUsernameLabel.text = canonicalUsername
+        }
+        myUsernameLabel.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightBold)
         self.wrapperView.addSubview(myUsernameLabel)
         myUsernameLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.wrapperView)
@@ -307,30 +315,42 @@ class ProfileView : UIScrollView {
         if followers != nil {
             count = (followers?.count)!
         }
-        self.followersLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "\(count)\nFollowers", labelOnLeft: nil, isLastLabelOnRight: false)
+        
+        let followersString = NSMutableAttributedString()
+        _ = followersString.bold("\(count)").normal("\nFollowers")
+        
+        self.followersLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: followersString, labelOnLeft: nil, isLastLabelOnRight: false)
         
         let following = self.user.value(forKey: ParseObjectColumns.Friends.rawValue) as? [String]
         
         if following != nil {
             count = (following?.count)!
         }
-        self.followingLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "\(count)\nFollowing", labelOnLeft: self.followersLabel, isLastLabelOnRight: false)
+        
+        let followingString = NSMutableAttributedString()
+        _ = followingString.bold("\(count)").normal("\nFollowing")
+        self.followingLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text:followingString, labelOnLeft: self.followersLabel, isLastLabelOnRight: false)
+        
         var inviteCount = self.user.value(forKey: ParseObjectColumns.InviteCount.rawValue) as? Int
         if inviteCount == nil {
             inviteCount = 0
         }
-        self.inviteesLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "\(inviteCount!)\nInvites", labelOnLeft: self.followingLabel, isLastLabelOnRight: false)
+        let invitesString = NSMutableAttributedString()
+        _ = invitesString.bold("\(inviteCount!)").normal("\nInvites")
+        self.inviteesLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: invitesString, labelOnLeft: self.followingLabel, isLastLabelOnRight: false)
         var rsvpCount = self.user.value(forKey: ParseObjectColumns.InviteCount.rawValue) as? Int
         if rsvpCount == nil {
             rsvpCount = 0
         }
-        self.rsvpLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: "\(rsvpCount!)\nRSVPs", labelOnLeft: self.inviteesLabel, isLastLabelOnRight: true)
+        let rsvpsString = NSMutableAttributedString()
+        _ = rsvpsString.bold("\(rsvpCount!)").normal("\nRSVPs")
+        self.rsvpLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: rsvpsString, labelOnLeft: self.inviteesLabel, isLastLabelOnRight: true)
         self.setViewInvitationsTableView(viewAbove: self.rsvpLabel)
     }
     
-    func setUserDetailCountLabels (myInterestsView: InterestsView, text: String, labelOnLeft: UILabel!, isLastLabelOnRight: Bool) -> UILabel {
+    func setUserDetailCountLabels (myInterestsView: InterestsView, text: NSMutableAttributedString, labelOnLeft: UILabel!, isLastLabelOnRight: Bool) -> UILabel {
         let detailLabel = UILabel()
-        detailLabel.text = text
+        detailLabel.attributedText = text
         detailLabel.textAlignment = .center
         detailLabel.numberOfLines = 2
         self.wrapperView.addSubview(detailLabel)
@@ -412,6 +432,22 @@ class InterestsView : UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
 }
+
+extension NSMutableAttributedString {
+    func bold(_ text:String) -> NSMutableAttributedString {
+        let attrs:[String:AnyObject] = [NSFontAttributeName : UIFont.systemFont(ofSize: 14, weight: UIFontWeightBold)]
+        let boldString = NSMutableAttributedString(string:"\(text)", attributes:attrs)
+        self.append(boldString)
+        return self
+    }
+    
+    func normal(_ text:String)->NSMutableAttributedString {
+        let attrs:[String:AnyObject] = [NSForegroundColorAttributeName : Colors.invitationTextGrayColor.value]
+        let normal =  NSAttributedString(string: text, attributes: attrs)
+        
+        self.append(normal)
+        return self
+    }
+}
+
