@@ -240,7 +240,7 @@ class ProfileView : UIScrollView {
         }
         else {
             // FIXME: Make sure that we use String constants for this
-            addFriendButton.setTitle("Unfollow", for: .normal)
+            addFriendButton.setTitle("Unfriend", for: .normal)
         }
         
         addFriendButton.backgroundColor = .white

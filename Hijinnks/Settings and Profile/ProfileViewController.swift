@@ -95,7 +95,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         self.navigationController?.pushViewController(viewInterestsViewController, animated: true)
         self.profileView.addFriendButton.removeTarget(self, action: #selector(addFriendButtonPressed), for: .touchUpInside)
         self.profileView.addFriendButton.addTarget(self, action: #selector(removeFriendButtonPressed), for: .touchUpInside)
-        self.profileView.addFriendButton.setTitle("Unfollow", for: .normal)
+        self.profileView.addFriendButton.setTitle("Unfriend", for: .normal)
     }
     
     func removeFriendButtonPressed () {

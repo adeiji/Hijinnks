@@ -292,10 +292,12 @@ class ViewInvitationsCell : UITableViewCell {
         
         // If the user has already liked this invitation than displaly that
         let likedInvitations = PFUser.current()?.value(forKey: ParseObjectColumns.LikedInvitations.rawValue) as? [String]
-        if likedInvitations?.contains(self.invitation.objectId!) == true {
-            button.customButtonType = .LikeFilledButton
-            button.setNeedsDisplay()
-            
+        if likedInvitations != nil {
+            if likedInvitations?.contains(self.invitation.objectId!) == true {
+                button.customButtonType = .LikeFilledButton
+                button.setNeedsDisplay()
+                
+            }
         }
         button.snp.makeConstraints { (make) in
             make.top.equalTo(self.mapButton)

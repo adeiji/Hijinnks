@@ -42,7 +42,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     var place:GMSPlace!
     var location:PFGeoPoint!
     var durations:Array<String>!
-    var delegate:PassDataBetweenViewControllersProtocol!
+    var delegateViewInvitationsViewController:PassDataBetweenViewControllersProtocol!
     var isPublic:Bool = false
     var invitationSendScope:InvitationSendScope!
     
@@ -361,11 +361,16 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
                                                    maxAttendees: Int(self.maxNumberOfAttendeesTextField.text!)!,
                                                    isPublic: self.isPublic)
         
-        ParseManager.save(parseObject: newInvitation) // Save the new invitation to the server
-        // On the view invitations view controller, add this new invitation object
-        delegate.addInvitation!(invitation: newInvitation)
-        PFUser.current()?.incrementKey(ParseObjectColumns.InviteCount.rawValue)
-        PFUser.current()?.saveInBackground()
+        newInvitation.setValue(UUID().uuidString , forKey: ParseObjectColumns.TempId.rawValue)
+        newInvitation.saveInBackground { (success, error) in
+            if error == nil {
+                // On the view invitations view controller, add this new invitation object
+                self.delegateViewInvitationsViewController.addInvitation!(invitation: newInvitation)
+                PFUser.current()?.incrementKey(ParseObjectColumns.InviteCount.rawValue)
+                PFUser.current()?.saveInBackground()
+            }
+        }
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         Animations.showConfirmationView(type: .Circle, message: "You sent an invitation!", backgroundColor: Colors.blue.value, superView: appDelegate.window!, textColor: .white)
         self.tabBarController?.selectedIndex = 0
@@ -564,7 +569,12 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         textFieldContainerView.addSubview(textField)
         textField.snp.makeConstraints { (make) in
             make.left.equalTo(textFieldContainerView).offset(20)
-            make.right.equalTo(textFieldContainerView).offset(-100)
+            if placeholderText == "Location" {
+                make.right.equalTo(textFieldContainerView).offset(-100)
+            }
+            else {
+                make.right.equalTo(textFieldContainerView).offset(-20)
+            }
             make.top.equalTo(textFieldContainerView)
             make.bottom.equalTo(textFieldContainerView)
         }

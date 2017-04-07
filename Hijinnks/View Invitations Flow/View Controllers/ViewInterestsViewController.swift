@@ -71,15 +71,15 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
     func setupUI () {
         self.view.backgroundColor = .white
         if setting == Settings.ViewInterestsCreateInvite {
-            setExplanationLabel(text: "Please select up to 3 interests that you feel fit this invitation.")
+            setExplanationLabel(text: "Please select interests that you feel fit this invitation.")
             setTableView(explanationLabel: self.explanationLabel)
         }
         else if setting == Settings.ViewInterestsAddFriend {
-            setExplanationLabel(text: "Please select up to 3 interests that this friend will be affiliated with.")
+            setExplanationLabel(text: "Please select interests that this friend will be affiliated with.")
             setTableView(explanationLabel: self.explanationLabel)
         }
         else if setting == Settings.ViewInterestsCreateAccount || setting == Settings.ViewInterestsChangeInterests {
-            setExplanationLabel(text: "Please select up to 3 interests that you would like to receive invitations for.")
+            setExplanationLabel(text: "Please select interests that you would like to receive invitations for.")
             setTableView(explanationLabel: self.explanationLabel)
         }
     }
@@ -140,8 +140,8 @@ class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITab
             
             delegate.setSelectedInterests!(mySelectedInterest: selectedInterests)
         } // If the user has created an account and they are trying to go through without selecting an interests, than we prompt them to select 2
-        else if selectedRowsIndexPaths == nil && setting == Settings.ViewInterestsCreateAccount {
-            let alertController = UIAlertController(title: "Interests", message: "Please select at least 2 interest", preferredStyle: .alert)
+        else if selectedRowsIndexPaths == nil && (setting == Settings.ViewInterestsCreateAccount || setting == Settings.ViewInterestsAddFriend) {
+            let alertController = UIAlertController(title: "Interests", message: "Please select some interest", preferredStyle: .alert)
             let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
             alertController.addAction(okayAction)
             self.present(alertController, animated: true, completion: nil)

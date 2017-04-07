@@ -86,7 +86,32 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
     
     func addInvitation(invitation: InvitationParseObject) {
         // Add the new invitation and update the display
-        invitations.append(invitation)
+        // Get the invitation with the TempId that was just created for this object from the server and add to the top of the tableview
+        var downloadedInvitations:[InvitationParseObject]!
+        parseQueue.async {
+            let query = InvitationParseObject.query()
+            query?.whereKey(ParseObjectColumns.TempId.rawValue, equalTo: invitation.value(forKey: ParseObjectColumns.TempId.rawValue)!)
+            
+            do
+            {
+                downloadedInvitations = try query?.findObjects() as? [InvitationParseObject]
+                if downloadedInvitations != nil {
+                    try downloadedInvitations?.first?.fromUser.fetchIfNeeded()
+                }
+            }
+            catch
+            {
+                print(error.localizedDescription)
+                // FIXME: Display to user that there was an error getting the data
+            }
+            DispatchQueue.main.async(execute: {
+                if downloadedInvitations != nil {
+                    self.invitations.insert(downloadedInvitations.first!, at: 0)
+                    let indexPath:IndexPath = IndexPath(row: 0, section: 0)
+                    self.tableView.insertRows(at: [indexPath], with: .top)
+                }
+            });
+        }
         self.tableView.reloadData()
     }
 }
@@ -131,7 +156,7 @@ extension ViewInvitationsViewController {
                 let confirmationViewColor = UIColor(red: 36/255, green: 66/255, blue: 156/255, alpha: 1.0)
                 Animations.showConfirmationView(type: AnimationConfirmation.Circle, message: "You RSVP'd", backgroundColor: confirmationViewColor, superView: self.view.superview!, textColor: .white)
             }
-            // Apparently I can't save a user who has not been logged in.  Which I guess makes sense, but we need to possibly figure a way aroun d this
+            // Apparently I can't save a user who has not been logged in.  Which I guess makes sense, but we need to possibly figure a way aroun d this            
             invitation.saveInBackground()
             if PFUser.current() == invitation.fromUser {
                 PFUser.current()?.setValue(invitation.fromUser.value(forKey: ParseObjectColumns.RSVPCount.rawValue), forKey: ParseObjectColumns.RSVPCount.rawValue)

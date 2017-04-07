@@ -72,7 +72,7 @@ class MainTabBarController : UITabBarController {
         createInvitationViewControllerTabBarItem.title = StringConstants.CreateInvitation.rawValue
         createInvitationViewController.tabBarItem = createInvitationViewControllerTabBarItem
         // Set the delegate to the create invitation view controller to the view invitations view controller so that when new invitations are added they will automatically be added on the view invitations view controller
-        createInvitationViewController.delegate = viewInvitationsViewController
+        createInvitationViewController.delegateViewInvitationsViewController = viewInvitationsViewController
         let createInvitationNavigationController = UINavigationController(rootViewController: createInvitationViewController)
         
         return createInvitationNavigationController
