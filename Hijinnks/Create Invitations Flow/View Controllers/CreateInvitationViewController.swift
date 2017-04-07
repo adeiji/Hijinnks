@@ -65,8 +65,6 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         setupUI()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification: )), name: NSNotification.Name.UIKeyboardWillShow , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification: )), name: NSNotification.Name.UIKeyboardWillHide , object: nil)
-        self.monthlyButton.addTarget(self, action: #selector(monthlyButtonPressed(_:)), for: .touchUpInside)
-        self.weeklyButton.addTarget(self, action: #selector(weeklyButtonPressed(_:)), for: .touchUpInside)
         let tap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         self.view.addGestureRecognizer(tap)
     }
@@ -187,6 +185,9 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         
         self.monthlyButton = monthlyButton
         self.weeklyButton = weeklyButton
+        
+        self.monthlyButton.addTarget(self, action: #selector(monthlyButtonPressed(_:)), for: .touchUpInside)
+        self.weeklyButton.addTarget(self, action: #selector(weeklyButtonPressed(_:)), for: .touchUpInside)
         
         let bottomBorder = UIView()
         bottomBorder.backgroundColor = UIColor.lightGray
@@ -314,7 +315,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
 
             self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?.last
             self.promptPostToFacebook()
-            self.reset()
+            
         }
     }
     
@@ -374,6 +375,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         Animations.showConfirmationView(type: .Circle, message: "You sent an invitation!", backgroundColor: Colors.blue.value, superView: appDelegate.window!, textColor: .white)
         self.tabBarController?.selectedIndex = 0
+        self.reset()
     }
     
     // Ask the user if they would like to post the invitation to Facebook for others to see
@@ -401,7 +403,12 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     func sendInvite () {        
         // If the location returns nil than that means that the invitations has already been created and saved to the server
         if self.location != nil  {
-            self.address = locationTextField.text
+            if locationTextField.text?.isEmpty == true {
+                self.address = nil
+            } else {
+                self.address = locationTextField.text
+            }
+            
             saveAndSendInvitation(currentLocation: self.location)
         }
         else

@@ -149,6 +149,7 @@ class ViewUsersViewController : UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var shouldDismiss = true
         if setting == Settings.ViewUsersAll {
             let profileViewController = ProfileViewController(user: self.friends[indexPath.row])
             self.navigationController?.pushViewController(profileViewController, animated: true)
@@ -156,7 +157,16 @@ class ViewUsersViewController : UITableViewController {
             if indexPath.section == kGroupIndexPath {
                 if indexPath.row == 0 {  // all your friends
                     if delegate != nil {
-                        delegate!.setSelectedFriendsToEveryone!()
+                        if self.friends.count > 0 {
+                            delegate!.setSelectedFriendsToEveryone!()
+                        }
+                        else {
+                            let alert = UIAlertController(title: "No Friends Yet", message: "Ooops, it seems you don't have any friends in the app yet.", preferredStyle: .alert)
+                            let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+                            alert.addAction(okayAction)
+                            self.present(alert, animated: true, completion: nil)
+                            shouldDismiss = false
+                        }
                     }
                 }
                 else {
@@ -164,7 +174,8 @@ class ViewUsersViewController : UITableViewController {
                         delegate.setSelectedFriendsToAnyone!()
                     }
                 }
-                if self.wasPresented
+                
+                if self.wasPresented && shouldDismiss == true
                 {
                     self.dismiss(animated: true, completion: nil)
                 }
