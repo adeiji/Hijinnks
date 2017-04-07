@@ -176,6 +176,7 @@ enum Images : String {
     case ConnectButton = "connect.png"
     case Background = "Background.png"
     case Logo = "logo.png"
+    case LaunchScreen_Logo = "launchscreen_logo.png"
 }
 
 enum APIKeys : String {

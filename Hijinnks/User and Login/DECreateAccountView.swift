@@ -105,7 +105,7 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
         textField.textAlignment = .center
         textField.isSecureTextEntry = isSecureTextEntry
         textField.backgroundColor = .white
-        textField.layer.borderWidth = 1
+        textField.layer.borderWidth = 0.5
         textField.layer.borderColor = Colors.DarkGray.value.cgColor
         textField.layer.cornerRadius = 5
         textField.textColor = Colors.DarkGray.value
@@ -132,10 +132,10 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
         
         let button = UIButton()
         button.setTitle("CREATE ACCOUNT", for: .normal)
-        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderColor = Colors.DarkGray.value.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(Colors.DarkGray.value, for: .normal)
         self.addSubview(button)
         button.snp.makeConstraints { (make) in
             make.centerX.equalTo(self)

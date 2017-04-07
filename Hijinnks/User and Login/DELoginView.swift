@@ -115,7 +115,7 @@ class DELoginView: UIView {
     
     func setLogoView () -> UIImageView {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: Images.Logo.rawValue)
+        imageView.image = UIImage(named: Images.LaunchScreen_Logo.rawValue)
         imageView.layer.cornerRadius = 20
         imageView.clipsToBounds = true
         self.addSubview(imageView)
