@@ -101,6 +101,7 @@ enum Colors {
     case red
     case grey
     case invitationTextGrayColor
+    case TextGrayColor
     case invitationHeaderViewColor
     case TableViewSeparatorColor
     case AccountTextFieldColor
@@ -126,7 +127,7 @@ extension Colors {
             case .green:
                 return UIColor(red: 26/255, green: 188/255, blue: 156/255, alpha: 0.75)
             case .blue:
-                return UIColor(red: 52/255, green: 152/255, blue: 219/255, alpha: 0.75)
+                return UIColor(red: 34/255, green: 63/255, blue: 158/255, alpha: 1.0)
             case .CommentButtonBlue:
                 return UIColor(red: 72/255, green: 128/255, blue: 217/255, alpha: 1.0)
             case .red:
@@ -149,6 +150,8 @@ extension Colors {
                 return UIColor(red: 61/255, green: 61/255, blue: 61/255, alpha: 1.0)
             case .VeryLightGray:
                 return UIColor(red: 249/255, green: 249/255, blue: 249/255, alpha: 1.0)
+            case .TextGrayColor:
+                return UIColor(red: 96/255, green: 96/255, blue: 96/255, alpha: 1.0)
             }
         }
     }
@@ -167,6 +170,8 @@ enum HijinnksViewTypes {
     case ConversationButton
     case SettingsButton
     case SendButton
+    case Clock
+    case Cancel
 }
 
 enum Images : String {

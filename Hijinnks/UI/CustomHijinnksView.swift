@@ -26,6 +26,13 @@ class CustomHijinnksView : UIView {
         if customViewType == .LogoView {
             HijinnksStyleKit.drawLogoWithText(frame: rect)
         }
+        else if customViewType == .MapButton {
+            HijinnksStyleKit.drawMapButton(frame: rect)
+        }
+        else if customViewType == .Clock {
+            HijinnksStyleKit.drawClock(frame: rect)
+        }
+        
     }
 }
 

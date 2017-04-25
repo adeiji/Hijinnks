@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.83</string>
+	<string>1.841</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -61,6 +61,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSContactsUsageDescription</key>
+	<string>We only will use your contacts to allow you to select contacts to send invites to.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>We only will use your camera to get your profile photo</string>
 	<key>NSLocationAlwaysUsageDescription</key>

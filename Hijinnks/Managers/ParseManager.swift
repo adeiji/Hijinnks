@@ -42,9 +42,8 @@ class ParseManager {
         // If you share the same interests and the invite is public
         let query = PFQuery.orQuery(withSubqueries: [interestsQuery!, invitedQuery!])
         query.addDescendingOrder(ParseObjectColumns.StartingTime.rawValue)  // Display the invitations by most recent
-        #if RELEASE
-            query.whereKey(ParseObjectColumns.StartingTime.rawValue, greaterThan: Date())
-        #endif
+        query.whereKey(ParseObjectColumns.StartingTime.rawValue, greaterThan: Date())
+        
         do {
             let invitations = try query.findObjects()
             return invitations as! [InvitationParseObject]

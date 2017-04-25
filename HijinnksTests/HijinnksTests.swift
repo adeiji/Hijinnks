@@ -12,6 +12,8 @@ import Parse
 
 class HijinnksTests: XCTestCase {
     
+    var quickInviteView:QuickInviteView!
+    
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -22,27 +24,20 @@ class HijinnksTests: XCTestCase {
         super.tearDown()
     }
     
-    func isCameraAvailable () {
-        let createAccountViewController = CreateAccountViewController()
-        let photoHandler = PhotoHandler(viewController: createAccountViewController)
-        XCTAssertEqual(photoHandler.viewController, createAccountViewController)
+    // When the user presses public on the Quick Invite screen than isPublic must be true
+    func quickInvitePublicButtonPressed () {
+        let quickInviteController = QuickInviteController()
+        quickInviteController.invitation.isPublic = false
+        quickInviteController.publicButtonPressed()
+        XCTAssertTrue()
     }
     
-    func setProfileImageView () {
-        let profileViewController = ProfileViewController()
-        let user = PFUser()
-        profileViewController.profileView = ProfileView(myUser: user, myTableViewDataSourceAndDelegate: profileViewController)
-        profileViewController.profileView.setupUI()
-        let gestureRecognizersCount = profileViewController.profileView.profileImageView.gestureRecognizers?.count
-        XCTAssertGreaterThan(gestureRecognizersCount, 0) // There should be a tap gesture recognizer so that the user can tap the image in order to add or edit one
-    }
-    
-    func setupConversationViewUI () {
-        let conversationViewController = ConversationViewController()
-        let conversationView = ConversationView()
-        XCTAssertNotEqual(conversationViewController.users, nil)
-        conversationView.setupUI()
-        
+    // When the user presses All Friends on the Quick Invite page than isPublic must be false
+    func quickInviteAllFriendsButtonPressed () {
+        let quickInviteController = QuickInviteController()
+        quickInviteController.invitation.isPublic = true
+        quickInviteController.allFriendsButtonPressed()
+        XCTAssertFalse()
     }
     
 }

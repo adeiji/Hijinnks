@@ -27,6 +27,21 @@ class UtilityFunctions {
         return false
     }
     
+    class func getParseUserObjectsFromObjectIds (user: PFUser, objectIds: [String]) -> [PFUser]! {
+        let query = PFUser.query()
+        // Get all the Users that have ObjectIds stored on the device as friends object ids
+        query?.whereKey(ParseObjectColumns.ObjectId.rawValue, containedIn: user.object(forKey: ParseObjectColumns.Friends.rawValue) as! [Any])
+        do {
+            let users = try query?.findObjects()
+            return users as? [PFUser]
+        }
+        catch {
+            print(error.localizedDescription)
+        }
+        
+        return nil
+    }
+    
     class func showNavBar () {
         UINavigationBar.appearance().setBackgroundImage(UIImage(named: "header.png")!.resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
     }

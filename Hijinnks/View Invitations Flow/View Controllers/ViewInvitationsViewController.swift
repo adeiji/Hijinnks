@@ -22,7 +22,6 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
         self.activitySpinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         self.activitySpinner.startAnimating()
         self.activitySpinner.hidesWhenStopped = true
-        self.tabBarController?.tabBar.isUserInteractionEnabled = false
         
         self.view.addSubview(self.activitySpinner)
         self.activitySpinner.snp.makeConstraints { (make) in
@@ -33,7 +32,7 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
     override func viewDidLoad() {
         startActivitySpinner()
         self.tableView.separatorStyle = .none
-        self.tabBarController?.tabBar.isUserInteractionEnabled = false
+        
         parseQueue.async {
             let invitationParseObjects = ParseManager.getAllInvitationsNearLocation()
             for invitationParseObject in invitationParseObjects! {

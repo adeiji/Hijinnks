@@ -51,6 +51,9 @@ class HijinnksButton : UIButton {
         else if customButtonType == .ConversationButton {
             HijinnksStyleKit.drawChatButton(frame: rect)
         }
+        else if customButtonType == .Cancel {
+            HijinnksStyleKit.drawCancel(frame: rect)
+        }
     }
 }
 

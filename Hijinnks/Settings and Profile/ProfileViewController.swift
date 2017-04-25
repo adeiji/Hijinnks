@@ -41,6 +41,8 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {

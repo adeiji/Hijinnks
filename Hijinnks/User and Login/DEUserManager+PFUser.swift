@@ -12,6 +12,18 @@ import Parse
 extension DEUserManager {
     
     /**
+     * - Description Get a list of all the friends user objects
+     * - Parameter The user of which to get the friends from
+     * - Returns [String] - The list of friends' object ids
+     ```
+        DEUserManager.sharedManager.getFriends(self.user!)
+     ```
+     */
+    func getFriends (user: PFUser) -> [String]! {
+        return user.value(forKey: ParseObjectColumns.Friends.rawValue) as? [String]
+    }
+    
+    /**
      * - Description Get the Interests of a user
      * - Parameter user - The user of which to get the interests from
      * - Returns [String] - The interests of the user

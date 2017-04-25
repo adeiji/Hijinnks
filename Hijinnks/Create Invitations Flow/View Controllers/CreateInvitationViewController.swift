@@ -300,14 +300,14 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
                 createInvitationAndSend(location: currentLocation, invitees: invitees as! Array<PFUser>)
             }
             else if invitationSendScope == InvitationSendScope.AllFriends { // If the user has selected all friends
-                let query = PFUser.query()
-                // Get all the Users that have ObjectIds stored on the device as friends object ids
-                query?.whereKey(ParseObjectColumns.ObjectId.rawValue, containedIn: PFUser.current()?.object(forKey: ParseObjectColumns.Friends.rawValue) as! [Any])
-                query?.findObjectsInBackground(block: { (friends, error) in
-                    if (friends != nil) {
-                        self.createInvitationAndSend(location: currentLocation, invitees: friends as! [PFUser])
-                    }
-                })
+                let parseQueue = DispatchQueue(label: "com.parse.handler")
+                parseQueue.async {
+                    let friends = UtilityFunctions.getParseUserObjectsFromObjectIds(user: PFUser.current()!, objectIds: DEUserManager.sharedManager.getFriends(user: PFUser.current()!))
+                    DispatchQueue.main.async(execute: { 
+                        self.createInvitationAndSend(location: currentLocation, invitees: friends!)
+                    })
+                }
+                
             }
             else {  // If the user has made the invitation public
                 createInvitationAndSend(location: currentLocation, invitees: Array<PFUser>())
@@ -315,7 +315,6 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
 
             self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?.last
             self.promptPostToFacebook()
-            
         }
     }
     
