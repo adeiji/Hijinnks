@@ -31,6 +31,7 @@ class QuickInviteView : UIView, UITableViewDataSource {
     weak var sendButton:UIButton!
     weak var orLabel:UILabel!
     weak var addDetailsButton:UIButton!
+    weak var invitedTableViewGrayOverlay:UIView!
     
     let friends = DEUserManager.sharedManager.friends
     
@@ -94,26 +95,7 @@ class QuickInviteView : UIView, UITableViewDataSource {
     }()
     
     
-    func setupUI () {
-        let window = UIApplication.shared.keyWindow
-        let outerView = UIView()
-        outerView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.75)
-        
-        window?.addSubview(outerView)
-        outerView.snp.makeConstraints({ (make) in
-            make.edges.equalTo(window!)
-        })
-        
-        outerView.addSubview(self)
-        
-        if (self.superview != nil) {
-            self.snp.makeConstraints { (make) in
-                make.left.equalTo(self.superview!).offset(25)
-                make.right.equalTo(self.superview!).offset(-25)
-                make.centerY.equalTo(self.superview!)
-                make.height.equalTo(480)
-            }
-        }
+    func setupUI () {        
         self.backgroundColor = .white
         self.layer.borderColor = Colors.blue.value.cgColor
         self.layer.borderWidth = 2.0
@@ -262,9 +244,10 @@ class QuickInviteView : UIView, UITableViewDataSource {
             make.right.equalTo(self.nowSwitch.snp.left).offset(-TEXTFIELDS_HORIZONTAL_SPACING_SIBLING)
         }
         
-        timeTextField.attributedPlaceholder = NSAttributedString(string: "Time", attributes: [NSForegroundColorAttributeName : UIColor.black])
+        timeTextField.attributedPlaceholder = NSAttributedString(string: "Time", attributes: [NSForegroundColorAttributeName : UIColor.black])        
         return timeTextField
     }
+    
     
     // The switch that appears on the right of the location view
     func setNowSwitch () -> UISwitch {
@@ -380,6 +363,7 @@ extension QuickInviteView {
         self.allFriendsButton = self.setAllFriendsButton()
         self.publicButton = self.setPublicButton()
         self.invitedTableView = self.setTableView()
+        self.invitedTableViewGrayOverlay = self.setTableViewGrayOverlay()
     }
     
     func setAllFriendsButton () -> UIButton {
@@ -411,10 +395,9 @@ extension QuickInviteView {
         publicButton.setTitle("Public", for: .normal)
         publicButton.layer.cornerRadius = CGFloat(BUTTON_CORNER_RADIUS)
         publicButton.titleLabel?.font = buttonFont
+        
         return publicButton
     }
-    
-    
     
     func setTableView () -> UITableView {
         let tableView = UITableView()
@@ -425,10 +408,24 @@ extension QuickInviteView {
             make.right.equalTo(self).offset(-10)
             make.top.equalTo(self.publicButton.snp.bottom).offset(10)
         }
+        
         tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.allowsMultipleSelection = true
+        
         return tableView
+    }
+    
+    func setTableViewGrayOverlay () -> UIView {
+        let view = UIView()
+        view.backgroundColor = .black
+        view.alpha = 0.15
+        self.addSubview(view)
+        view.snp.makeConstraints { (make) in
+            make.edges.equalTo(self.invitedTableView)
+        }
+        view.isHidden = true
+        return view
     }
 }
 
@@ -439,29 +436,31 @@ extension QuickInviteView {
         let parseQueue = DispatchQueue(label: "com.hijinnks.parse")
         parseQueue.async {
             let friends = DEUserManager.sharedManager.friends
-            // Create CNContact objects for every friend
-            for friend in friends! {
-                let contact = CNMutableContact()
-                contact.givenName = friend.username!
-                contact.familyName = self.HIJINNKS_USER
-                // If this user has a profile image
-                if friend.object(forKey: ParseObjectColumns.Profile_Picture.rawValue) != nil {
-                    let imageFile = (friend.object(forKey: ParseObjectColumns.Profile_Picture.rawValue)) as! PFFile
-                    do {
-                        contact.imageData = try imageFile.getData()
+            if friends != nil {
+                // Create CNContact objects for every friend
+                for friend in friends! {
+                    let contact = CNMutableContact()
+                    contact.givenName = friend.username!
+                    contact.familyName = self.HIJINNKS_USER
+                    // If this user has a profile image
+                    if friend.object(forKey: ParseObjectColumns.Profile_Picture.rawValue) != nil {
+                        let imageFile = (friend.object(forKey: ParseObjectColumns.Profile_Picture.rawValue)) as! PFFile
+                        do {
+                            contact.imageData = try imageFile.getData()
+                            self.contacts.append(contact)
+                        }
+                        catch {
+                            print(error.localizedDescription)
+                        }
+                    }
+                    else { // User does not have a profile image
                         self.contacts.append(contact)
                     }
-                    catch {
-                        print(error.localizedDescription)
-                    }
                 }
-                else { // User does not have a profile image
-                    self.contacts.append(contact)
+                
+                DispatchQueue.main.async {
+                    self.invitedTableView.reloadData()  // Reload the table data with the user's friends added
                 }
-            }
-            
-            DispatchQueue.main.async {
-                self.invitedTableView.reloadData()  // Reload the table data with the user's friends added
             }
         }
         
@@ -475,6 +474,11 @@ extension QuickInviteView {
         let contactTableViewCell = ContactTableViewCell(contact: contacts[indexPath.row])
         
         return contactTableViewCell
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.timeTextField.resignFirstResponder()
+        self.locationTextField.resignFirstResponder()
     }
 }
 
@@ -515,7 +519,8 @@ class ContactTableViewCell : UITableViewCell {
         profileImageView.clipsToBounds = true
         // Check to see if this contact has a profile image
         if self.contact.imageDataAvailable {
-            profileImageView.image = UIImage(data: self.contact.imageData!)
+//            profileImageView.image = UIImage(data: self.contact.thumbnailImageData!)
+            
         }
         return profileImageView
     }
@@ -559,5 +564,4 @@ class ContactTableViewCell : UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }

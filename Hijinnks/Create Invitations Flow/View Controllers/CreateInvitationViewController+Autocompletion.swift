@@ -13,7 +13,14 @@ import Parse
 extension CreateInvitationViewController : GMSAutocompleteViewControllerDelegate {
     // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        locationTextField.text = place.formattedAddress
+        if self.quickMode == false {
+            locationTextField.text = place.formattedAddress
+        }
+        else {
+            self.quickInviteView.locationTextField.text = place.formattedAddress
+            self.quickInviteView.superview?.isHidden = false
+        }
+        
         self.place = place
         self.location = PFGeoPoint(latitude: place.coordinate.latitude , longitude: place.coordinate.longitude)
         UINavigationBar.appearance().setBackgroundImage(UIImage(named: "header.png")!.resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
@@ -29,6 +36,10 @@ extension CreateInvitationViewController : GMSAutocompleteViewControllerDelegate
     func wasCancelled(_ viewController: GMSAutocompleteViewController) {
         UINavigationBar.appearance().setBackgroundImage(UIImage(named: "header.png")!.resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
         dismiss(animated: true, completion: nil)
+        
+        if self.quickMode == true {
+            self.quickInviteView.superview?.isHidden = false
+        }
     }
     
     // Turn the network activity indicator on and off again.

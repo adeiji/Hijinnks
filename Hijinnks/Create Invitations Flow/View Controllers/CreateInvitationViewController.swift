@@ -44,7 +44,13 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     var durations:Array<String>!
     var delegateViewInvitationsViewController:PassDataBetweenViewControllersProtocol!
     var isPublic:Bool = false
+    var isAllFriends:Bool = false
     var invitationSendScope:InvitationSendScope!
+    var quickMode:Bool = true
+    
+    // Quick Invite
+    let invitation:InvitationParseObject = InvitationParseObject()
+    var quickInviteView:QuickInviteView!
     
     // These should be set to false by default.  User should have to set either of these values to true
     var isWeekly:Bool = false
@@ -57,6 +63,8 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     }
     
     weak var selectedTextField:UITextField!
+    let PUBLIC_STRING = "Public to Anyone"
+    let ALL_FRIENDS_STRING = "All Your Friends"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,6 +75,17 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification: )), name: NSNotification.Name.UIKeyboardWillHide , object: nil)
         let tap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         self.view.addGestureRecognizer(tap)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if self.quickInviteView == nil {
+            self.showQuickInviteView()
+            self.quickMode = true
+        }
+        if self.quickMode == true {
+            self.quickInviteView.isHidden = false
+        }
     }
     
     // Dismiss the keyboard
@@ -236,7 +255,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     func setSelectedFriendsToEveryone() {
         if PFUser.current()?.object(forKey: ParseObjectColumns.Friends.rawValue) != nil {
             self.selectedFriends = PFUser.current()?.object(forKey: ParseObjectColumns.Friends.rawValue) as! NSArray
-            self.inviteesTextField.text = "All Your Friends"
+            self.inviteesTextField.text = ALL_FRIENDS_STRING
             self.invitationSendScope = InvitationSendScope.AllFriends
         } else {
             // Inform the user that he is a loser and has no friends
@@ -249,7 +268,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     
     func setSelectedFriendsToAnyone() {
         self.selectedFriends = [PFUser]() as NSArray!
-        self.inviteesTextField.text = "Public to Anyone"
+        self.inviteesTextField.text = PUBLIC_STRING
         self.invitationSendScope = InvitationSendScope.Everyone
         self.isPublic = true
     }
@@ -283,7 +302,13 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             
             let fullAddress = String("\(addressNumber!) \(address!), \(city!), \(state!) \(zipCode!)")
             self.address = fullAddress
-            self.locationTextField.text = self.address
+            // Check to see if the user is on the quick invite screen or not and update the corresponding textField
+            if self.quickMode == false {
+                self.locationTextField.text = self.address
+            }
+            else {
+                self.quickInviteView.locationTextField.text = self.address
+            }
             self.location = PFGeoPoint(location: placemark?.location)
             return
         })
@@ -300,14 +325,8 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
                 createInvitationAndSend(location: currentLocation, invitees: invitees as! Array<PFUser>)
             }
             else if invitationSendScope == InvitationSendScope.AllFriends { // If the user has selected all friends
-                let parseQueue = DispatchQueue(label: "com.parse.handler")
-                parseQueue.async {
-                    let friends = UtilityFunctions.getParseUserObjectsFromObjectIds(user: PFUser.current()!, objectIds: DEUserManager.sharedManager.getFriends(user: PFUser.current()!))
-                    DispatchQueue.main.async(execute: { 
-                        self.createInvitationAndSend(location: currentLocation, invitees: friends!)
-                    })
-                }
-                
+                let friends = DEUserManager.sharedManager.friends
+                self.createInvitationAndSend(location: currentLocation, invitees: friends!)
             }
             else {  // If the user has made the invitation public
                 createInvitationAndSend(location: currentLocation, invitees: Array<PFUser>())
@@ -341,9 +360,11 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
      */
     func createInvitationAndSend (location: PFGeoPoint, invitees: Array<PFUser>) {
         // Create an invitation object with all the specified data entered by the user
+        var newInvitation:InvitationParseObject!
     
         
-        let newInvitation = InvitationParseObject( eventName: self.nameTextField.text!,
+        if self.quickMode == false {
+            newInvitation = InvitationParseObject( eventName: self.nameTextField.text!,
                                                    location:  location,
                                                    address: self.address,
                                                    message: self.inviteMessageTextField.text!,
@@ -360,6 +381,28 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
                                                    isMonthly: self.isMonthly,
                                                    maxAttendees: Int(self.maxNumberOfAttendeesTextField.text!)!,
                                                    isPublic: self.isPublic)
+        }
+        else {
+            newInvitation = InvitationParseObject( eventName: "",
+                                                   location: location,
+                                                   address: self.address,
+                                                   message: "",
+                                                   startingTime: self.startingTime!,
+                                                   duration: "",
+                                                   invitees: invitees,
+                                                   interests: Array<String>(),
+                                                   fromUser: PFUser.current()!,
+                                                   dateInvited: Date(),
+                                                   rsvpCount: 0,
+                                                   rsvpUsers: Array<String>(),
+                                                   comments: Array<CommentParseObject>(),
+                                                   isWeekly: false,
+                                                   isMonthly: false,
+                                                   maxAttendees: 0,
+                                                   isPublic: self.isPublic)
+            
+            
+        }
         
         newInvitation.setValue(UUID().uuidString , forKey: ParseObjectColumns.TempId.rawValue)
         newInvitation.saveInBackground { (success, error) in
@@ -508,7 +551,13 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         dateFormatter.timeStyle = .short
         let startDateAndTime = dateFormatter.string(from: sender.date)
         self.startingTime = sender.date
-        startingTimeTextField.text = startDateAndTime
+        
+        if sender == self.quickInviteView.timeTextField.inputView {
+            self.quickInviteView.timeTextField.text = startDateAndTime
+        }
+        else {
+            startingTimeTextField.text = startDateAndTime
+        }
     }
     
     // This is the view that contains all the other subviews.  It acts as a wrapper so that the scroll view works correctly
@@ -629,6 +678,12 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             viewUsersViewController.delegate = self
             let navController = UINavigationController(rootViewController: viewUsersViewController)
             self.navigationController?.present(navController, animated: true, completion: nil)
+        }
+        else if textField == self.quickInviteView.locationTextField {
+            let autocompleteViewController = GMSAutocompleteViewController()
+            autocompleteViewController.delegate = self
+            UINavigationBar.appearance().setBackgroundImage(nil, for: .default)
+            self.navigationController?.present(autocompleteViewController, animated: true, completion: nil)
         }
     }
     

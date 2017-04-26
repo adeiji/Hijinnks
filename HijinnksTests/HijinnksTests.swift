@@ -16,7 +16,6 @@ class HijinnksTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
     override func tearDown() {
@@ -25,19 +24,30 @@ class HijinnksTests: XCTestCase {
     }
     
     // When the user presses public on the Quick Invite screen than isPublic must be true
-    func quickInvitePublicButtonPressed () {
-        let quickInviteController = QuickInviteController()
-        quickInviteController.invitation.isPublic = false
-        quickInviteController.publicButtonPressed()
-        XCTAssertTrue()
+    func testQuickInvitePublicButtonPressed () {
+        let createInvitationViewController = CreateInvitationViewController()
+        createInvitationViewController.invitation.isPublic = false
+        createInvitationViewController.publicButtonPressed()
+        XCTAssertTrue(createInvitationViewController.invitation.isPublic)
+        XCTAssertFalse(createInvitationViewController.isAllFriends)
+        
+        createInvitationViewController.invitation.isPublic = true
+        createInvitationViewController.publicButtonPressed()
+        XCTAssertFalse(createInvitationViewController.invitation.isPublic)
     }
     
     // When the user presses All Friends on the Quick Invite page than isPublic must be false
-    func quickInviteAllFriendsButtonPressed () {
-        let quickInviteController = QuickInviteController()
-        quickInviteController.invitation.isPublic = true
-        quickInviteController.allFriendsButtonPressed()
-        XCTAssertFalse()
+    func testQuickInviteAllFriendsButtonPressed () {
+        let createInvitationViewController = CreateInvitationViewController()
+        createInvitationViewController.invitation.isPublic = false
+        createInvitationViewController.isAllFriends = false
+        createInvitationViewController.allFriendsButtonPressed()
+        XCTAssertFalse(createInvitationViewController.invitation.isPublic)
+        XCTAssertTrue(createInvitationViewController.isAllFriends)
+        
+        createInvitationViewController.isAllFriends = true
+        createInvitationViewController.allFriendsButtonPressed()
+        XCTAssertFalse(createInvitationViewController.isAllFriends)
     }
     
 }

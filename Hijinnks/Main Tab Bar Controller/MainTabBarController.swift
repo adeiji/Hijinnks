@@ -76,13 +76,5 @@ class MainTabBarController : UITabBarController {
         let createInvitationNavigationController = UINavigationController(rootViewController: createInvitationViewController)
         
         return createInvitationNavigationController
-    }
-    
-    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        // If the user selects the Create Invitation View Controller
-        if item == self.tabBar.items?.last {
-            let quickInviteController = QuickInviteController()            
-        }
-    }
-    
+    }    
 }
