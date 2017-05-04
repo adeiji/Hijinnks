@@ -76,5 +76,6 @@ class MainTabBarController : UITabBarController {
         let createInvitationNavigationController = UINavigationController(rootViewController: createInvitationViewController)
         
         return createInvitationNavigationController
-    }    
+    }
+    
 }

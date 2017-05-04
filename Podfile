@@ -15,6 +15,7 @@ target 'Hijinnks' do
   pod 'FBSDKLoginKit'
   pod 'FBSDKShareKit'
   pod 'SendBirdSDK'
+  pod 'Instabug'
 
   target 'HijinnksTests' do
     inherit! :search_paths

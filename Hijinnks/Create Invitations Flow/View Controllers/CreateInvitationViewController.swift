@@ -88,6 +88,10 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        
+    }
+    
     // Dismiss the keyboard
     func dismissKeyboard () {
         self.view.endEditing(true)

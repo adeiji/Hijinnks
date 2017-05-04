@@ -14,6 +14,7 @@ import Parse
 import FBSDKCoreKit
 import ParseFacebookUtilsV4
 import SendBirdSDK
+import Instabug
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        Instabug.start(withToken: "6960d4b086e23f5fca315ee4aa5cb3e7", invocationEvent: .shake)
         initializeParse(launchOptions: launchOptions)
         initializeGoogleMaps()
         configureGlobalAppearances()
