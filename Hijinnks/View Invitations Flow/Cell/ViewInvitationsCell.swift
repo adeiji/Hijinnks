@@ -13,31 +13,52 @@ import Parse
 
 class ViewInvitationsCell : UITableViewCell {
     
-    weak var headerView:UIView!
+    
+    // Profile Image and Event Name Section
+    weak var profileImageAndEventNameView:UIView!
     weak var profileImageView:UIImageView!
     weak var eventNameLabel:UILabel!
-    weak var fromLabel:UILabel!
-    weak var fromUserLabel:UILabel!
-    weak var toLabel:UILabel!
-    weak var toUserLabel:UILabel!
-    weak var messageLabel:UILabel!
-    weak var messageDataLabel:UILabel!
-    weak var timeLabel:UILabel!
-    weak var startTimeLabel:UILabel!
-    weak var footerView:UIView!
     
+    
+    // Time Section
+    weak var timeView:UIView!
+    weak var timeIcon:CustomHijinnksView!
+    weak var startTimeLabel:UILabel!
+    
+    
+    // Location Section
+    weak var locationView:UIView!
+    weak var locationIcon:CustomHijinnksView!
+    weak var locationLabel:UILabel!
+    
+    
+    // Message Section
+    weak var messageView:UIView!
+    weak var messageIcon:CustomHijinnksView!
+    weak var messageLabel:UILabel!
+    
+    
+    // Footer Section
+    weak var footerView:UIView!
     weak var mapButton:HijinnksButton!
     weak var likeButton:HijinnksButton!
     weak var rsvpButton:UIButton!
     weak var commentButton:UIButton!
     
-    weak var addressDataLabel:UILabel!
-    weak var addressLabel:UILabel!
-    weak var interestsLabel:UILabel!
-    weak var interestsDataLabel:UILabel!
+    // Interests Section
+    weak var interestView:UIView!
+    weak var interestScrollView:UIView!
+    
+    // RSVP Section
+    weak var rsvpView:UIView!
+    weak var viewRsvpdButton:UIButton!
+    
     weak var mapView:UIView!
     var invitation:InvitationParseObject
     var isMapShown:Bool = false
+    
+    // Constants
+    let VIEW_BORDER_WIDTH = 1.0
     
     let delegate:PassDataBetweenViewControllersProtocol // View Controller Handling the View
     var imageTapGestureRecognizer:UITapGestureRecognizer! // Must keep a reference to this object otherwise the tap gesture recognizer will not work
@@ -49,18 +70,27 @@ class ViewInvitationsCell : UITableViewCell {
         setupUI()
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     func setupUI () {
         self.contentView.autoresizingMask = .flexibleHeight
         self.autoresizingMask = .flexibleHeight
         // Set the very large sized content view so that the contentView will shrink.  There seems to be an iOS bug with it growing in size
         self.contentView.bounds = CGRect(x: 0, y: 0, width: 9999, height: 9999)
         self.selectionStyle = .none
-        let font = UIFont.systemFont(ofSize: 14)
-        self.headerView = setHeaderView()
-        self.profileImageView = setProfileImageView()
+        self.backgroundColor = .white
+        _ = UIFont.systemFont(ofSize: 14)
+        self.profileImageAndEventNameView = self.setProfileImageAndEventNameView()
+        self.timeView = self.setTimeView()
+        self.locationView = self.setLocationView()
+        self.messageView = self.addSection(sectionAbove: self.locationView, iconType: .Comment)
+        self.interestView = self.setInterestsView()
+        self.rsvpView = self.setRsvpView()
         self.addGestureTapToProfileImageView(imageView: self.profileImageView)
-        self.eventNameLabel = setEventNameLabel(font: font)
-        
+        self.footerView = setFooterView()
         var toUserText:String!
         let invitees:Array<PFUser>! = self.invitation.invitees
         
@@ -73,32 +103,6 @@ class ViewInvitationsCell : UITableViewCell {
             }
             toUserText = "You and \(inviteesCount - 1) others"
         }
-        
-        // To: Adebayo Ijidakinro
-        self.toLabel = setDescriptionLabel(descriptionViewAbove: nil, invitationDetailViewAbove: nil, text: "To:")
-        self.toUserLabel = setInvitationDetailLabel(viewToLeft: self.toLabel, text: toUserText)
-        // From: Yo' Mamma
-        self.fromLabel = setDescriptionLabel(descriptionViewAbove: self.toLabel, invitationDetailViewAbove: self.toUserLabel,  text: "From:")
-        self.fromUserLabel = setInvitationDetailLabel(viewToLeft: self.fromLabel, text: invitation.fromUser.username!)
-        // Location: 3423 Yo Mamma Drive
-        self.addressLabel = setDescriptionLabel(descriptionViewAbove: self.fromLabel, invitationDetailViewAbove: self.fromUserLabel, text: "Location:")
-        self.addressDataLabel = setInvitationDetailLabel(viewToLeft: self.addressLabel, text: invitation.address)
-        // Time: Mar 28, 2017, 7:45 PM
-        self.timeLabel = setDescriptionLabel(descriptionViewAbove: self.addressLabel, invitationDetailViewAbove: self.addressDataLabel, text: "Time:")
-        let startingTime = StyledDate.getDateAsString(date: self.invitation.startingTime)
-        self.startTimeLabel = setInvitationDetailLabel(viewToLeft: self.timeLabel, text: startingTime)
-        // Message: We all gonna have a great time!
-        self.messageLabel = setDescriptionLabel(descriptionViewAbove: self.timeLabel, invitationDetailViewAbove: self.startTimeLabel, text: "Message:")
-        self.messageDataLabel = setInvitationDetailLabel(viewToLeft: self.messageLabel, text: invitation.message)
-        // Interests: Sports/Exercising, Dancing, Eating Out
-        self.interestsLabel = setDescriptionLabel(descriptionViewAbove: self.messageLabel, invitationDetailViewAbove: self.messageDataLabel, text: "Interests:")
-        self.interestsDataLabel = setInvitationDetailLabel(viewToLeft: self.interestsLabel, text: getInterestsAsString())
-        
-        self.footerView = setFooterView()
-        self.mapButton = setMapButton()
-        self.likeButton = setLikeButton()
-        self.rsvpButton = setRSVPButton(font: font)
-        self.commentButton = setCommentButton()
         
     }
     
@@ -116,30 +120,6 @@ class ViewInvitationsCell : UITableViewCell {
         return interestString
     }
     
-    func setDescriptionLabel (descriptionViewAbove: UIView!, invitationDetailViewAbove: UIView!, text: String) -> UILabel {
-        let myDescriptionLabel = UILabel()
-        myDescriptionLabel.text = text
-        myDescriptionLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightBold)
-        myDescriptionLabel.textAlignment = .right        
-        self.contentView.addSubview(myDescriptionLabel)
-        myDescriptionLabel.snp.makeConstraints { (make) in
-            if descriptionViewAbove == nil {
-                make.right.equalTo(self.contentView.snp.left).offset(90)
-            }
-            else {
-                make.right.equalTo(self.contentView.snp.left).offset(90)
-            }
-            if invitationDetailViewAbove == nil {
-                make.top.equalTo(self.headerView.snp.bottom).offset(25)
-            }
-            else {
-                make.top.equalTo(invitationDetailViewAbove.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
-            }
-        }
-        
-        return myDescriptionLabel
-    }
-    
     func setInvitationDetailLabel (viewToLeft: UIView, text: String) -> UILabel {
         let myInvitationDetailLabel = UILabel()
         myInvitationDetailLabel.text = text
@@ -155,53 +135,166 @@ class ViewInvitationsCell : UITableViewCell {
         
         return myInvitationDetailLabel
     }
+}
+
+// Extension handling displaying the message for the invitation
+extension ViewInvitationsCell {
     
-    // View at the top of the cell which contains the data invited and the profile picture
-    func setHeaderView () -> UIView {
+    func addSection (sectionAbove: UIView!, iconType: HijinnksViewTypes) -> UIView {
         let view = UIView()
-        view.backgroundColor = .white
         self.contentView.addSubview(view)
-        view.layer.borderWidth = 1
-        view.layer.borderColor = Colors.invitationTextGrayColor.value.cgColor
         view.snp.makeConstraints { (make) in
-            make.left.equalTo(self.contentView).offset(-1)
-            make.top.equalTo(self.contentView)
-            make.right.equalTo(self.contentView).offset(1)
-            make.height.equalTo(50)
+            make.left.equalTo(self.profileImageAndEventNameView)
+            make.right.equalTo(self.profileImageAndEventNameView)
+            
+            if sectionAbove != nil
+            {
+                make.top.equalTo(sectionAbove.snp.bottom)
+            }
+            else {
+                make.top.equalTo(self.contentView)
+            }
         }
-        
+        view.layer.borderColor = Colors.VeryLightGray.value.cgColor
+        view.layer.borderWidth = CGFloat(VIEW_BORDER_WIDTH)
+        self.messageIcon = self.setIcon(superview: view, hijinnksViewType: iconType)
+        self.messageLabel = self.setLabel(superview: view, message: self.invitation.message)
         return view
     }
- 
-    // Profile view which will display the profile image of the person who invited you on the top left of the table view cell
-    func setProfileImageView () -> UIImageView {
-        let imageView = UIImageView()
-        headerView.addSubview(imageView)
-        imageView.snp.makeConstraints { (make) in
-            make.left.equalTo(self.headerView).offset(3)
-            make.top.equalTo(self.headerView).offset(5)
-            make.bottom.equalTo(self.headerView).offset(-5)
-            make.height.equalTo(imageView.snp.width)
+    
+    func setIcon (superview: UIView, hijinnksViewType: HijinnksViewTypes) -> CustomHijinnksView {
+        let icon = CustomHijinnksView(customViewType: hijinnksViewType)
+        superview.addSubview(icon)
+        icon.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self.profileImageView)
+            make.centerY.equalTo(superview)
+            make.width.equalTo(20)
+            make.height.equalTo(20)
         }
+        
+        return icon
+    }
+    
+    func setLabel (superview: UIView, message: String) -> UILabel {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14.0)
+        label.numberOfLines = 0
+        label.text = message
+        superview.addSubview(label)
+        label.snp.makeConstraints { (make) in
+            make.left.equalTo(superview).offset(50)
+            make.right.equalTo(superview).offset(-5)
+            make.top.equalTo(superview).offset(10)
+            make.bottom.equalTo(superview).offset(-10)
+        }
+        
+        return label
+    }
+}
+
+// Extension handling displaying the location
+extension ViewInvitationsCell {
+    func setLocationView () -> UIView {
+        
+        let view = UIView()
+        self.contentView.addSubview(view)
+        view.snp.makeConstraints { (make) in
+            make.left.equalTo(self.profileImageAndEventNameView)
+            make.right.equalTo(self.profileImageAndEventNameView)
+            make.top.equalTo(self.timeView.snp.bottom)
+        }
+        
+        self.locationIcon = self.setLocationIcon(superview: view)
+        self.locationLabel = self.setLocationLabel(superview: view)
+        return view
+    }
+    
+    func setLocationIcon (superview: UIView) -> CustomHijinnksView {
+        let mapIcon = CustomHijinnksView(customViewType: .Map)
+        superview.addSubview(mapIcon)
+        mapIcon.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self.profileImageView)
+            make.centerY.equalTo(superview)
+            make.width.equalTo(15)
+            make.height.equalTo(20)
+        }
+        
+        return mapIcon
+    }
+    
+    func setLocationLabel (superview: UIView) -> UILabel {
+        let locationLabel = UILabel()
+        locationLabel.font = UIFont.systemFont(ofSize: 14.0)
+        locationLabel.numberOfLines = 0
+        superview.addSubview(locationLabel)
+        locationLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(self.eventNameLabel)
+            make.centerY.equalTo(superview)
+            make.top.equalTo(superview).offset(20)
+            make.bottom.equalTo(superview).offset(-20)
+            make.right.equalTo(superview).offset(-10)
+        }
+        
+        locationLabel.text = self.invitation.address
+        return locationLabel
+    }
+}
+// Extension which handles displaying and handling of the profile image and event name
+extension ViewInvitationsCell {
+    
+    // Methods for Displaying Profile Image and Event Name Label
+    
+    func setProfileImageAndEventNameView () -> UIView {
+        let view = UIView()
+        self.contentView.addSubview(view)
+        view.snp.makeConstraints { (make) in
+            make.left.equalTo(self.contentView).offset(10)
+            make.right.equalTo(self.contentView).offset(-10)
+            make.height.equalTo(53)
+            make.top.equalTo(self.contentView).offset(10)
+        }
+        view.layer.borderWidth = CGFloat(VIEW_BORDER_WIDTH)
+        view.layer.borderColor = Colors.VeryLightGray.value.cgColor
+        self.profileImageView = self.setProfileImageView(superview: view)
+        self.eventNameLabel = self.setEventNameLabel(font: UIFont.systemFont(ofSize: 14.0), superview: view)
+        return view
+    }
+    // Display the data the user was invited
+    func setEventNameLabel (font: UIFont, superview: UIView) -> UILabel {
+        let label = UILabel()
+        label.font = font
+        label.text =  self.invitation.eventName
+        label.textAlignment = .left
+        superview.addSubview(label)
+        label.snp.makeConstraints { (make) in
+            make.left.equalTo(self.profileImageView.snp.right).offset(5)
+            make.right.equalTo(superview).offset(-5)
+            make.centerY.equalTo(superview)
+        }
+        
+        return label
+    }
+    // Profile view which will display the profile image of the person who invited you on the top left of the table view cell
+    func setProfileImageView (superview: UIView) -> UIImageView {
+        let imageView = UIImageView()
+        superview.addSubview(imageView)
+        imageView.snp.makeConstraints { (make) in
+            make.left.equalTo(superview).offset(5)
+            make.centerY.equalTo(superview)
+            make.width.equalTo(40)
+            make.height.equalTo(40)
+        }
+        
         // make sure that we display the image in a circle
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 40 / 2
         self.loadProfileImage(imageView: imageView)
         return imageView
     }
-    
-    func addGestureTapToProfileImageView (imageView: UIImageView) {
-        self.imageTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileImagePressed))
-        self.imageTapGestureRecognizer.numberOfTapsRequired = 1
-        self.imageTapGestureRecognizer.delegate = self
-        self.profileImageView.isUserInteractionEnabled = true
-        self.profileImageView.addGestureRecognizer(self.imageTapGestureRecognizer)
-    }
-    
+    // When the profile image is pressed
     func profileImagePressed () {
         delegate.profileImagePressed!(user: self.invitation.fromUser)
     }
-    
     // Get the image from the server and display it
     func loadProfileImage (imageView: UIImageView) {
         if invitation.fromUser.value(forKey: ParseObjectColumns.Profile_Picture.rawValue) != nil {
@@ -214,49 +307,96 @@ class ViewInvitationsCell : UITableViewCell {
             }
         }
     }
+    func addGestureTapToProfileImageView (imageView: UIImageView) {
+        self.imageTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileImagePressed))
+        self.imageTapGestureRecognizer.numberOfTapsRequired = 1
+        self.imageTapGestureRecognizer.delegate = self
+        self.profileImageView.isUserInteractionEnabled = true
+        self.profileImageView.addGestureRecognizer(self.imageTapGestureRecognizer)
+    }
     
-    // Display the data the user was invited
-    func setEventNameLabel (font: UIFont) -> UILabel {
-        let label = UILabel()
-        let boldFont = UIFont.boldSystemFont(ofSize: font.pointSize)
-        label.font = boldFont
+}
+//  Extension Which Handles Displaying the Starting Time
+extension ViewInvitationsCell {
+    
+    func setTimeView () -> UIView {
+        let view = UIView()
+        self.contentView.addSubview(view)
+        view.snp.makeConstraints { (make) in
+            make.left.equalTo(self.profileImageAndEventNameView)
+            make.top.equalTo(self.profileImageAndEventNameView.snp.bottom)
+            make.right.equalTo(self.profileImageAndEventNameView)
+            make.height.equalTo(53)
+        }
+        view.layer.borderWidth = 1.0
+        view.layer.borderColor = Colors.VeryLightGray.value.cgColor
+        self.timeIcon = self.setTimeIcon(superview: view)
+        self.startTimeLabel = self.setTimeLabel(superview: view)
         
-        label.text =  self.invitation.eventName
-        headerView.addSubview(label)
-        label.snp.makeConstraints { (make) in
-            make.center.equalTo(self.headerView)
+        return view
+    }
+    
+    func setTimeIcon (superview: UIView) -> CustomHijinnksView {
+        let timeIconView = CustomHijinnksView(customViewType: .Clock)
+        superview.addSubview(timeIconView)
+        timeIconView.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self.profileImageView)
+            make.centerY.equalTo(superview)
+            make.width.equalTo(20)
+            make.height.equalTo(20)
         }
         
-        return label
+        return timeIconView
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    func setTimeLabel (superview: UIView) -> UILabel {
+        let timeLabel = UILabel()
+        timeLabel.font = UIFont.systemFont(ofSize: 14.0)
+        superview.addSubview(timeLabel)
+        timeLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(self.eventNameLabel)
+            make.centerY.equalTo(superview)
+        }
+        
+        timeLabel.text = StyledDate.getDateAsString(date: self.invitation.startingTime)
+        return timeLabel
     }
-    
+}
+// Extension which handles everything within the footer view.  Commenting, Liking, and Viewing the Map
+extension ViewInvitationsCell {
     // View at the bottom that contains the map, like and rsvp buttons
     func setFooterView () -> UIView {
         let view = UIView()
         self.contentView.addSubview(view)
         view.snp.makeConstraints { (make) in
-            make.left.equalTo(self.contentView).offset(-1)
+            make.left.equalTo(self.profileImageAndEventNameView)
             make.bottom.equalTo(self.contentView)
-            make.right.equalTo(self.contentView).offset(1)
-            make.top.equalTo(self.interestsDataLabel.snp.bottom).offset(35)
-            make.height.equalTo(self.headerView)
+            make.right.equalTo(self.profileImageAndEventNameView)
+            make.top.equalTo(self.rsvpView.snp.bottom)
+            make.height.equalTo(53)
         }
+        
+        view.layer.borderWidth = CGFloat(VIEW_BORDER_WIDTH)
+        view.layer.borderColor = Colors.VeryLightGray.value.cgColor
+        
+        self.mapButton = setMapButton(superview: view)
+        self.likeButton = setLikeButton(superview: view)
+        let font = UIFont.systemFont(ofSize: 14.0)
+        self.rsvpButton = setRSVPButton(font: font, superview: view)
+        self.commentButton = setCommentButton(superview: view)
+        
         return view
     }
     
     // Button that will display the map to the user when pressed
-    func setMapButton () -> HijinnksButton {
-        let button = HijinnksButton(customButtonType: .MapButton)
-        self.footerView.addSubview(button)
+    func setMapButton (superview: UIView) -> HijinnksButton {
+        let button = HijinnksButton(customButtonType: .Map)
+        superview.addSubview(button)
         button.addTarget(self, action: #selector(displayMap), for: .touchUpInside)
         button.snp.makeConstraints { (make) in
             make.left.equalTo(20)
-            make.top.equalTo(self.footerView).offset(15)
-            make.bottom.equalTo(self.footerView).offset(-11)
+            make.top.equalTo(superview).offset(15)
+            make.bottom.equalTo(superview).offset(-11)
             make.width.equalTo(button.snp.height).offset(-5)
         }
         return button
@@ -276,7 +416,7 @@ class ViewInvitationsCell : UITableViewCell {
             self.addSubview(self.mapView)
             self.mapView.snp.makeConstraints { (make) in
                 make.left.equalTo(self)
-                make.top.equalTo(self.headerView.snp.bottom)
+                make.top.equalTo(self.contentView)
                 make.bottom.equalTo(self.footerView.snp.top)
                 make.right.equalTo(self)
             }
@@ -285,16 +425,16 @@ class ViewInvitationsCell : UITableViewCell {
     }
     
     // This is the like button which is shaped as a heart that they can click on to like the invitation
-    func setLikeButton () -> HijinnksButton {
-        let button = HijinnksButton(customButtonType: .LikeEmptyButton)
+    func setLikeButton (superview: UIView) -> HijinnksButton {
+        let button = HijinnksButton(customButtonType: .LikeEmpty)
         button.addTarget(self, action: #selector(likeButtonPressed(likeButton:)), for: .touchUpInside)
-        self.footerView.addSubview(button)
+        superview.addSubview(button)
         
         // If the user has already liked this invitation than displaly that
         let likedInvitations = PFUser.current()?.value(forKey: ParseObjectColumns.LikedInvitations.rawValue) as? [String]
         if likedInvitations != nil {
             if likedInvitations?.contains(self.invitation.objectId!) == true {
-                button.customButtonType = .LikeFilledButton
+                button.customButtonType = .LikeFilled
                 button.setNeedsDisplay()
                 
             }
@@ -308,7 +448,7 @@ class ViewInvitationsCell : UITableViewCell {
         
         return button
     }
-    func setRSVPButton (font: UIFont) -> UIButton {
+    func setRSVPButton (font: UIFont, superview: UIView) -> UIButton {
         let button = UIButton()
         button.titleLabel?.font = UIFont.systemFont(ofSize: font.pointSize, weight: UIFontWeightBold)
         
@@ -320,25 +460,25 @@ class ViewInvitationsCell : UITableViewCell {
         else
         {
             button.setTitleColor(Colors.CommentButtonBlue.value, for: .normal)
-            button.setTitle("\(invitation.rsvpCount!)\nRSVP'd", for: .normal) // Display the number of people who have RSVP'd
+            button.setTitle("RSVP", for: .normal) // Display the number of people who have RSVP'd
         }
         
         button.titleLabel?.lineBreakMode = .byWordWrapping
         button.titleLabel?.textAlignment = .center
         button.addTarget(self, action: #selector(updateRSVPCount), for: .touchUpInside)
-        self.footerView.addSubview(button)
+        superview.addSubview(button)
         button.snp.makeConstraints { (make) in
-            make.right.equalTo(self.footerView).offset(-35)
+            make.right.equalTo(superview).offset(-35)
             make.centerY.equalTo(self.mapButton)
         }
         
         return button
     }
     
-    func setCommentButton () -> UIButton {
-        let button = HijinnksButton(customButtonType: .CommentButton)
+    func setCommentButton (superview: UIView) -> UIButton {
+        let button = HijinnksButton(customButtonType: .Comment)
         button.addTarget(self, action: #selector(commentButtonPressed), for: .touchUpInside)
-        self.footerView.addSubview(button)
+        superview.addSubview(button)
         button.snp.makeConstraints { (make) in
             make.left.equalTo(self.likeButton.snp.right).offset(20)
             make.top.equalTo(self.mapButton)
@@ -376,14 +516,14 @@ class ViewInvitationsCell : UITableViewCell {
         }
         
         if likedInvitations?.contains(self.invitation.objectId!) == false {
-            likeButton.customButtonType = .LikeFilledButton
+            likeButton.customButtonType = .LikeFilled
             likeButton.setNeedsDisplay()
             likedInvitations?.append(self.invitation.objectId!)
             PFUser.current()?.setValue(likedInvitations, forKey: ParseObjectColumns.LikedInvitations.rawValue)
             self.updateLikeCount(likedInvitations: likedInvitations!, increment: 1)
         }
         else {
-            likeButton.customButtonType = .LikeEmptyButton
+            likeButton.customButtonType = .LikeEmpty
             likeButton.setNeedsDisplay()
             likedInvitations = likedInvitations?.filter {
                 $0 != self.invitation.objectId
@@ -423,6 +563,143 @@ class ViewInvitationsCell : UITableViewCell {
         })
     }
 }
+// Show the interests
+extension ViewInvitationsCell {
+    func setInterestsView () -> UIView {
+        let interestView = UIView()
+        self.contentView.addSubview(interestView)
+        interestView.snp.makeConstraints { (make) in
+            make.left.equalTo(self.profileImageAndEventNameView)
+            make.right.equalTo(self.profileImageAndEventNameView)
+            make.top.equalTo(self.messageView.snp.bottom)
+            make.height.equalTo(75)
+        }
+        interestView.layer.borderColor = Colors.VeryLightGray.value.cgColor
+        interestView.layer.borderWidth = CGFloat(VIEW_BORDER_WIDTH)
+        _ = self.setInterestsScrollView(superview: interestView)
+        return interestView
+    }
+    
+    func setInterestsScrollView (superview: UIView) -> UIScrollView {
+        let scrollView = UIScrollView()
+        superview.addSubview(scrollView)
+        scrollView.snp.makeConstraints { (make) in
+            make.edges.equalTo(superview)
+        }
+        
+        let view = UIView()
+        scrollView.addSubview(view)
+        
+        var xPos = 0
+        for interest in self.invitation.interests {
+            let interestView = UtilityFunctions.getInterestIcon(interest: interest)
+            view.addSubview(interestView!)
+            interestView?.frame = CGRect(x: xPos, y: 0, width: 75, height: 75)
+            xPos += 75
+        }
+        
+        view.snp.makeConstraints { (make) in
+            make.edges.equalTo(scrollView)
+            make.width.equalTo(scrollView.snp.width)
+            make.height.equalTo(scrollView.snp.height)
+        }
+        
+        scrollView.contentSize = CGSize(width: xPos, height: 75)
+        return scrollView
+    }
+    
+    
+    func getInterestView (icon: InterestIcons) {
+        
+    }
+}
+
+// Show who has RSVP'd
+extension ViewInvitationsCell {
+    
+    func setRsvpView () -> UIView {
+        let view = UIView()
+        self.contentView.addSubview(view)
+        view.snp.makeConstraints { (make) in
+            make.left.equalTo(self.profileImageAndEventNameView)
+            make.right.equalTo(self.profileImageAndEventNameView)
+            make.height.equalTo(120)
+            make.top.equalTo(self.interestView.snp.bottom)
+        }
+        
+        view.layer.borderWidth = CGFloat(VIEW_BORDER_WIDTH)
+        view.layer.borderColor = Colors.VeryLightGray.value.cgColor
+        
+        self.viewRsvpdButton = self.setRsvpdButton(superview: view)
+        self.displayInvitedPeople(superview: view)
+        
+        return view
+    }
+    
+    func setRsvpdButton (superview: UIView) -> UIButton {
+        let button = UIButton()
+        button.backgroundColor = Colors.blue.value
+        button.layer.cornerRadius = 5
+        button.setTitle("\(self.invitation.rsvpCount!) Rsvp'd", for: .normal)
+        superview.addSubview(button )
+        button.snp.makeConstraints { (make) in
+            make.centerX.equalTo(superview)
+            make.top.equalTo(superview).offset(5)
+            make.width.equalTo(110)
+            make.height.equalTo(25)
+        }
+        
+        return button
+    }
+    
+    func displayInvitedPeople (superview: UIView) {
+        let margin:CGFloat = 10.0
+        var xPos:CGFloat = margin
+        let profileImageDimensions = (UIScreen.main.bounds.width - (5 * 7)) / 6.0
+        // If there are specific users of the application that have been invited to this event
+        if self.invitation.rsvpUsers.count != 0 {
+            let parseQueue = DispatchQueue(label: "com.parse.hijinnks")
+            parseQueue.async {
+                // Display each user's profile image
+                for userId in self.invitation.rsvpUsers {
+                    do
+                    {
+                        let query = PFUser.query()
+                        query?.whereKey(ParseObjectColumns.ObjectId.rawValue, equalTo: userId)
+                        let user = try query?.getFirstObject() as! PFUser
+                        try user.fetchIfNeeded()
+                        if user.object(forKey: ParseObjectColumns.Profile_Picture.rawValue) != nil
+                        {
+                            let profileImageFile = user.object(forKey: ParseObjectColumns.Profile_Picture.rawValue) as! PFFile
+                            do {
+                                let imageData = try profileImageFile.getData()
+                                DispatchQueue.main.async(execute: {
+                                    let profileImage = ProfileImage(image: UIImage(data: imageData))
+                                    superview.addSubview(profileImage)
+                                    profileImage.snp.makeConstraints({ (make) in
+                                        make.left.equalTo(xPos)
+                                        make.height.equalTo(profileImageDimensions)
+                                        make.width.equalTo(profileImageDimensions)
+                                        make.top.equalTo(superview).offset(45)
+                                    })
+                                    profileImage.layer.cornerRadius = profileImageDimensions / 2.0
+                                    profileImage.clipsToBounds = true
+                                    xPos += margin + profileImageDimensions
+                                })
+                            }
+                            catch {
+                                print(error.localizedDescription)
+                            }
+                        }
+                    }
+                    catch {
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+        }
+    }
+}
 
 class StyledDate {
     class func getDateAsString (date: Date) -> String {
@@ -433,4 +710,10 @@ class StyledDate {
         
         return formattedDateString
     }
+}
+
+class ProfileImage : UIImageView {
+    
+    var user:PFUser!
+    
 }

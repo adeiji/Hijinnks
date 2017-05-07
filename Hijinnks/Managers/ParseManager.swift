@@ -36,7 +36,7 @@ class ParseManager {
         }
 // |
 //  - -> ... and it's a public invitation
-        interestsQuery?.whereKey(ParseObjectColumns.IsPublic.rawValue, equalTo: true)
+//        interestsQuery?.whereKey(ParseObjectColumns.IsPublic.rawValue, equalTo: true)
         
         // If you were invited personally
         // If you share the same interests and the invite is public

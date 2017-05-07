@@ -158,18 +158,18 @@ extension Colors {
 }
 
 enum HijinnksViewTypes {
-    case MapButton
-    case LikeEmptyButton
-    case LikeFilledButton
-    case CommentButton
-    case MessageButton
-    case HomeButton
-    case ProfileButton
-    case SearchButton
+    case Map
+    case LikeEmpty
+    case LikeFilled
+    case Comment
+    case Message
+    case Home
+    case Profile
+    case Search
     case LogoView
-    case ConversationButton
-    case SettingsButton
-    case SendButton
+    case Conversation
+    case Settings
+    case Send
     case Clock
     case Cancel
 }
@@ -203,4 +203,39 @@ enum AnimationConfirmation {
 
 enum InvitationConstants : Int {
     case NoMaxAttendeesNumber = 0
+}
+
+enum InterestIcons : String {
+    case BarsAndLounges = "🍺"
+    case BarsAndLoungesText = "Bars"
+    case Exercise = "🏃"
+    case ExerciseText = "Exercising"
+    case Cafe = "🍵"
+    case CafeText = "Cafes"
+    case Travel = "✈️"
+    case TraveText = "Travel"
+    case Arts = "🎨"
+    case ArtsText = "Arts"
+    case Comedy = "🎤"
+    case ComedyText = "Comedy"
+    case CulturePeopleWatching = "👓"
+    case CultureText = "Culture"
+    case Dancing = "💃"
+    case DancingText = "Dancing"
+    case Movies = "🎥"
+    case MoviesText = "Movies"
+    case Music = "🎶"
+    case MusicText = "Music"
+    case Outdoors = "🏔"
+    case OutdoorsText = "Outdoors"
+    case Pools = "🏊"
+    case PoolsText = "Pools"
+    case Restaurants = "🍲"
+    case RestaurantsText = "Restaurants"
+    case Reading = "📚"
+    case ReadingText = "Reading"
+    case Shows = "🎭"
+    case ShowsText = "Shows"
+    case Shooting = "🏹"
+    case ShootingText = "Shooting"
 }

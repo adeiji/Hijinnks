@@ -64,7 +64,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         if UtilityFunctions.isCurrent(user: self.user) == true {
             self.profileView.imageViewTapRecognizer.addTarget(self, action: #selector(profileImageTapped))
             self.profileView.imageViewTapRecognizer.delegate = self
-            let optionsButton = HijinnksButton(customButtonType: .SettingsButton)
+            let optionsButton = HijinnksButton(customButtonType: .Settings)
             optionsButton.layoutIfNeeded()
             optionsButton.addTarget(self, action: #selector(displayProfileOptions), for: .touchUpInside)
             optionsButton.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
@@ -72,7 +72,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
             self.navigationItem.setRightBarButton(optionsBarItem, animated: true)
         }
         else {
-            let messageButton = HijinnksButton(customButtonType: .CommentButton)
+            let messageButton = HijinnksButton(customButtonType: .Comment)
             messageButton.addTarget(self, action: #selector(messageButtonPressed), for: .touchUpInside)
             messageButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
             let messageBarItem = UIBarButtonItem(customView: messageButton)

@@ -24,31 +24,31 @@ class HijinnksButton : UIButton {
     }
     
     override func draw(_ rect: CGRect) {        
-        if customButtonType == .MapButton {
-            HijinnksStyleKit.drawMapButton(frame: rect)
+        if customButtonType == .Map {
+            HijinnksStyleKit.drawLocationButton(frame: rect)
         }
-        else if customButtonType == .LikeEmptyButton {
+        else if customButtonType == .LikeEmpty {
             HijinnksStyleKit.drawLikeButton(frame: rect)
         }
-        else if customButtonType == .LikeFilledButton {
+        else if customButtonType == .LikeFilled {
             HijinnksStyleKit.drawLikeButtonFilled(frame: rect)            
         }
-        else if customButtonType == .HomeButton {
+        else if customButtonType == .Home {
             HijinnksStyleKit.drawHomeButton(frame: rect, resizing: .stretch)
         }
-        else if customButtonType == .CommentButton {
+        else if customButtonType == .Comment {
             HijinnksStyleKit.drawCommentButton(frame: rect)
         }
-        else if customButtonType == .MessageButton {
+        else if customButtonType == .Message {
             HijinnksStyleKit.drawMessageButton(frame: rect)
         }
-        else if customButtonType == .SettingsButton {
+        else if customButtonType == .Settings {
             HijinnksStyleKit.drawSettings(frame: rect)
         }
-        else if customButtonType == .SendButton {
+        else if customButtonType == .Send {
             HijinnksStyleKit.drawSendButton(frame: rect)
         }
-        else if customButtonType == .ConversationButton {
+        else if customButtonType == .Conversation {
             HijinnksStyleKit.drawChatButton(frame: rect)
         }
         else if customButtonType == .Cancel {

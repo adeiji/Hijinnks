@@ -305,7 +305,7 @@ extension QuickInviteView {
     }
     // Icon to the far left of the location view which is simply a map pin
     func setLocationIcon () -> CustomHijinnksView {
-        let locationIcon = CustomHijinnksView(customViewType: .MapButton)
+        let locationIcon = CustomHijinnksView(customViewType: .Map)
         locationIcon.backgroundColor = .white
         self.locationView.addSubview(locationIcon)
         locationIcon.snp.makeConstraints { (make) in

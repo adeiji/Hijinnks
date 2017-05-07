@@ -201,7 +201,7 @@ class ProfileView : UIScrollView {
     }
     
     func setLikeView (myUsernameLabel: UILabel) {
-        let likeButton = HijinnksButton(customButtonType: .LikeFilledButton)
+        let likeButton = HijinnksButton(customButtonType: .LikeFilled)
         self.addSubview(likeButton)
         likeButton.snp.makeConstraints { (make) in
             make.centerX.equalTo(self).offset(-10)

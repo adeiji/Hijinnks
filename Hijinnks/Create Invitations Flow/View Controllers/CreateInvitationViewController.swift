@@ -468,7 +468,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     
     // Place all of the UI elements on screen
     func setupUI() {
-        let sendButton = HijinnksButton(customButtonType: HijinnksViewTypes.SendButton)
+        let sendButton = HijinnksButton(customButtonType: HijinnksViewTypes.Send)
         sendButton.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
         sendButton.addTarget(self, action: #selector(sendInvite), for: .touchUpInside)
         let donebutton = UIBarButtonItem(customView: sendButton)

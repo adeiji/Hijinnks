@@ -16,6 +16,7 @@ class CustomHijinnksView : UIView {
     init(customViewType: HijinnksViewTypes) {
         self.customViewType = customViewType
         super.init(frame: .zero)
+        self.backgroundColor = .clear
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -26,11 +27,14 @@ class CustomHijinnksView : UIView {
         if customViewType == .LogoView {
             HijinnksStyleKit.drawLogoWithText(frame: rect)
         }
-        else if customViewType == .MapButton {
+        else if customViewType == .Map {
             HijinnksStyleKit.drawMapButton(frame: rect)
         }
         else if customViewType == .Clock {
             HijinnksStyleKit.drawClock(frame: rect)
+        }
+        else if customViewType == .Comment {
+            HijinnksStyleKit.drawCommentButton(frame: rect, fillColor19: .black)
         }
         
     }

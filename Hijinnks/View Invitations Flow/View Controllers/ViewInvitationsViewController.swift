@@ -30,6 +30,10 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
     }
     
     override func viewDidLoad() {
+        
+        self.view.backgroundColor = UIColor(hexString: "#ebebeb")
+        self.tableView.backgroundColor = .white
+        
         startActivitySpinner()
         self.tableView.separatorStyle = .none
         
