@@ -41,6 +41,7 @@
 		F44CAD831E6015C900C91A1F /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44CAD821E6015C900C91A1F /* LocationManager.swift */; };
 		F452F5141E6A3C5900616BB3 /* ViewInvitationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452F5131E6A3C5900616BB3 /* ViewInvitationsCell.swift */; };
 		F452F5171E6A43AA00616BB3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452F5161E6A43AA00616BB3 /* MainTabBarController.swift */; };
+		F48609981EBF95D40047F569 /* ProfileViewSubviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48609971EBF95D40047F569 /* ProfileViewSubviews.swift */; };
 		F492FF601E60937900A5154C /* CreateInvitationViewController+Autocompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492FF5F1E60937900A5154C /* CreateInvitationViewController+Autocompletion.swift */; };
 		F4A0D1B51E5A427800C6CDFE /* HijinnksStyleKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A0D1B41E5A427800C6CDFE /* HijinnksStyleKit.swift */; };
 		F4A0D1B71E5A447E00C6CDFE /* CustomHijinnksImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A0D1B61E5A447E00C6CDFE /* CustomHijinnksImageView.swift */; };
@@ -58,6 +59,7 @@
 		F4B7F9441E81D281001AF380 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B7F93B1E81D281001AF380 /* plus.png */; };
 		F4B7F9451E81D281001AF380 /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B7F93C1E81D281001AF380 /* plus@2x.png */; };
 		F4B7F9461E81D281001AF380 /* plus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B7F93D1E81D281001AF380 /* plus@3x.png */; };
+		F4B8F05E1EC22EE8001AEDFC /* ProfileViewController+ProfileExtraDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8F05D1EC22EE8001AEDFC /* ProfileViewController+ProfileExtraDetails.swift */; };
 		F4BA9E1F1E7701F300590B32 /* ViewUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BA9E1E1E7701F300590B32 /* ViewUsersViewController.swift */; };
 		F4C362331EA47162001832C4 /* QuickInviteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C362321EA47162001832C4 /* QuickInviteView.swift */; };
 		F4CCABD41E9154230049B8D9 /* DEUserManager+PFUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CCABD31E9154230049B8D9 /* DEUserManager+PFUser.swift */; };
@@ -152,6 +154,7 @@
 		F44CAD821E6015C900C91A1F /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationManager.swift; path = Managers/LocationManager.swift; sourceTree = "<group>"; };
 		F452F5131E6A3C5900616BB3 /* ViewInvitationsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewInvitationsCell.swift; path = "View Invitations Flow/Cell/ViewInvitationsCell.swift"; sourceTree = "<group>"; };
 		F452F5161E6A43AA00616BB3 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainTabBarController.swift; path = "Main Tab Bar Controller/MainTabBarController.swift"; sourceTree = "<group>"; };
+		F48609971EBF95D40047F569 /* ProfileViewSubviews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewSubviews.swift; path = "Settings and Profile/ProfileViewSubviews.swift"; sourceTree = "<group>"; };
 		F492FF5F1E60937900A5154C /* CreateInvitationViewController+Autocompletion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CreateInvitationViewController+Autocompletion.swift"; path = "Create Invitations Flow/View Controllers/CreateInvitationViewController+Autocompletion.swift"; sourceTree = "<group>"; };
 		F4A0D1B41E5A427800C6CDFE /* HijinnksStyleKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HijinnksStyleKit.swift; path = stylekit/HijinnksStyleKit.swift; sourceTree = "<group>"; };
 		F4A0D1B61E5A447E00C6CDFE /* CustomHijinnksImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomHijinnksImageView.swift; path = UI/CustomHijinnksImageView.swift; sourceTree = "<group>"; };
@@ -169,6 +172,7 @@
 		F4B7F93B1E81D281001AF380 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = plus.png; path = Buttons/plus.png; sourceTree = "<group>"; };
 		F4B7F93C1E81D281001AF380 /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus@2x.png"; path = "Buttons/plus@2x.png"; sourceTree = "<group>"; };
 		F4B7F93D1E81D281001AF380 /* plus@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus@3x.png"; path = "Buttons/plus@3x.png"; sourceTree = "<group>"; };
+		F4B8F05D1EC22EE8001AEDFC /* ProfileViewController+ProfileExtraDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProfileViewController+ProfileExtraDetails.swift"; sourceTree = "<group>"; };
 		F4BA9E1E1E7701F300590B32 /* ViewUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewUsersViewController.swift; path = "User and Login/ViewUsersViewController.swift"; sourceTree = "<group>"; };
 		F4C362321EA47162001832C4 /* QuickInviteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuickInviteView.swift; path = "Create Invitations Flow/QuickInviteView.swift"; sourceTree = "<group>"; };
 		F4CCABD31E9154230049B8D9 /* DEUserManager+PFUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DEUserManager+PFUser.swift"; path = "User and Login/DEUserManager+PFUser.swift"; sourceTree = "<group>"; };
@@ -274,6 +278,8 @@
 		F40110BF1E6B4400004124DA /* Settings and Profile */ = {
 			isa = PBXGroup;
 			children = (
+				F48609971EBF95D40047F569 /* ProfileViewSubviews.swift */,
+				F4B8F05D1EC22EE8001AEDFC /* ProfileViewController+ProfileExtraDetails.swift */,
 				F40110C21E6B4460004124DA /* DescriptionAndCreditsViewController.swift */,
 				F4CCE4901E737C350090BCD3 /* ProfileViewController.swift */,
 				F4CCE4921E737F7A0090BCD3 /* ProfileViewController+UI.swift */,
@@ -862,10 +868,12 @@
 				F44CAD7E1E5F974800C91A1F /* Constants.swift in Sources */,
 				F44CAD771E5F928000C91A1F /* Colors.swift in Sources */,
 				F44CAD6F1E5F690700C91A1F /* ViewInvitationsViewController.swift in Sources */,
+				F4B8F05E1EC22EE8001AEDFC /* ProfileViewController+ProfileExtraDetails.swift in Sources */,
 				F492FF601E60937900A5154C /* CreateInvitationViewController+Autocompletion.swift in Sources */,
 				F4CCABD41E9154230049B8D9 /* DEUserManager+PFUser.swift in Sources */,
 				F4CCE49F1E749B990090BCD3 /* ChangePasswordViewController.swift in Sources */,
 				F4CCE4951E7381390090BCD3 /* ProfileView.swift in Sources */,
+				F48609981EBF95D40047F569 /* ProfileViewSubviews.swift in Sources */,
 				F4F054191E84291800486B7D /* ConversationViewController.swift in Sources */,
 				F4CCE4A51E74AB5F0090BCD3 /* ExplanationView.swift in Sources */,
 				F42ECC901E60DA62007B5B55 /* ParseManager.swift in Sources */,

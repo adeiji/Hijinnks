@@ -54,6 +54,15 @@ class HijinnksButton : UIButton {
         else if customButtonType == .Cancel {
             HijinnksStyleKit.drawCancel(frame: rect)
         }
+        else if customButtonType == .Invitations {
+            HijinnksStyleKit.drawInvitationsButton(frame: rect)
+        }
+        else if customButtonType == .More {
+            HijinnksStyleKit.drawMoreButton(frame: rect)
+        }
+        else if customButtonType == .Interests {
+            HijinnksStyleKit.drawInterestsButton(frame: rect)
+        }
     }
 }
 

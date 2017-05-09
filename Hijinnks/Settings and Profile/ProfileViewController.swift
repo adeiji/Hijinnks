@@ -78,6 +78,48 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
             let messageBarItem = UIBarButtonItem(customView: messageButton)
             self.navigationItem.setRightBarButton(messageBarItem, animated: true)
         }
+        
+        self.profileView.invitationsButton.addTarget(self, action: #selector(menuButtonPressed(sender:)), for: .touchUpInside)
+        self.profileView.interestsButton.addTarget(self, action: #selector(menuButtonPressed(sender:)), for: .touchUpInside)
+        self.profileView.profileDetailsButton.addTarget(self, action: #selector(menuButtonPressed(sender:)), for: .touchUpInside)
+    }
+    
+    func menuButtonPressed (sender: UIButton) {
+        sender.backgroundColor = Colors.grey.value
+        if self.profileView.invitationsButton != sender {
+            self.profileView.invitationsButton.backgroundColor = .white
+            self.profileView.viewInvitationsTableView.isHidden = true
+        } else {
+            self.profileView.viewInvitationsTableView.isHidden = false
+            
+        }
+        
+        if self.profileView.interestsButton != sender {
+            self.profileView.interestsButton.backgroundColor = .white
+            self.profileView.interestsListView.isHidden = true
+        } else {
+            self.profileView.interestsListView.isHidden = false
+        }
+        
+        if self.profileView.profileDetailsButton != sender {
+            self.profileView.profileDetailsButton.backgroundColor = .white
+            self.profileView.profileDetailsView.isHidden = true
+        } else {
+            self.profileView.profileDetailsView.isHidden = false
+            
+        }
+    }
+    
+    func invitationsButtonPressed () {
+        // Display the invitations table view
+    }
+    
+    func interestsButtonPressed () {
+        // Display the interests view
+    }
+    
+    func moreButtonPressed () {
+        
     }
     
     func messageButtonPressed () {
@@ -166,9 +208,10 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         self.profileView.viewInvitationsTableView.reloadData()
         self.profileView.viewInvitationsTableView.snp.remakeConstraints { (make) in
             make.left.equalTo(self.profileView)
-            make.right.equalTo(self.profileView)            
-            make.top.equalTo(self.profileView.interestsView.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
-            make.height.equalTo(self.profileView.viewInvitationsTableView.contentSize.height + 150)
+            make.right.equalTo(self.profileView)
+            // We reset the constraints here so that we can make sure that we are compensating for the tableView size after the invitations have been added
+            make.top.equalTo(self.profileView.menuView.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
+            make.height.equalTo(self.profileView.viewInvitationsTableView.contentSize.height + 150).constraint
             make.bottom.equalTo(self.profileView.wrapperView)
         }
     }

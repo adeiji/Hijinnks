@@ -43,7 +43,9 @@ enum ProfileOptions : String {
     case Logout = "Log Out"
 }
 
-enum ParseObjectColumns : String {    
+enum ParseObjectColumns : String {
+    case FirstName = "first_name"
+    case LastName = "last_name"
     case InviteCount = "inviteCount"
     case Followers = "followers"
     case EventName = "eventName"
@@ -79,6 +81,9 @@ enum ParseObjectColumns : String {
     case LikeCount = "likeCount"
     case LikedInvitations = "likedInvitations"
     case TempId = "temp_id"
+    case DateOfBirth = "date_of_birth"
+    case CollegeAttended = "college_attended"
+    case CityYouLiveIn = "current_city"
 }
 
 enum UIConstants : Int {
@@ -172,6 +177,9 @@ enum HijinnksViewTypes {
     case Send
     case Clock
     case Cancel
+    case Invitations
+    case Interests
+    case More
 }
 
 enum Images : String {

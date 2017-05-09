@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Parse
+import SnapKit
 
 // FIXME: Need to comment this code
 class ProfileView : UIScrollView {
@@ -33,6 +34,16 @@ class ProfileView : UIScrollView {
     var likeButton:HijinnksButton!
     var isFriend:Bool
     
+    weak var menuView:UIView!
+    weak var invitationsButton:HijinnksButton!
+    weak var interestsButton:HijinnksButton!
+    weak var profileDetailsButton:HijinnksButton!
+    
+    weak var interestsListView:InterestsListView!
+    weak var profileDetailsView:ProfileDetailsView!
+    
+    var heightConstraint:Constraint!
+    
     init(myUser: PFUser, myTableViewDataSourceAndDelegate: UIViewController) {
         self.user = myUser
         self.tableViewDataSourceAndDelegate = myTableViewDataSourceAndDelegate
@@ -43,6 +54,7 @@ class ProfileView : UIScrollView {
                 self.isFriend = true
             }
         }
+        
         super.init(frame: .zero)
     }
     
@@ -57,6 +69,13 @@ class ProfileView : UIScrollView {
         }
         self.wrapperView = self.setWrapperView()
         setProfileImageView()
+        let tap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        self.addGestureRecognizer(tap)
+    }
+    
+    // Dismiss the keyboard
+    func dismissKeyboard () {
+        self.endEditing(true)
     }
     
     func setWrapperView () -> UIView {
@@ -68,78 +87,71 @@ class ProfileView : UIScrollView {
         return view
     }
     
-    func showInterests () {
-        if self.user.value(forKey: ParseObjectColumns.Interests.rawValue) != nil {
-            let interests = self.user.value(forKey: ParseObjectColumns.Interests.rawValue) as! [String]
-            let label = UILabel(text: interests[0])
-            label.textAlignment = .center
-            label.textColor = .white
-            self.interestsContainerView = UIView()
-            self.wrapperView.addSubview(self.interestsContainerView)
-            _ = label.withPadding(padding: UIEdgeInsetsMake(5, 5, 5, 5))
-            
-            self.interestsContainerView.snp.makeConstraints({ (make) in
-                make.left.equalTo(self.wrapperView).offset(10)
-                make.right.equalTo(self.wrapperView).offset(-10)
-                make.top.equalTo(self.bioTextView.snp.bottom).offset(5)
-            })
-            
-            let windowWidth = (UIApplication.shared.delegate as! AppDelegate).window?.frame.size.width
-            
-            if self.user.value(forKey: ParseObjectColumns.Interests.rawValue) != nil {
-                var xPos:CGFloat = 0
-                var yPos:CGFloat = 0
-                
-                for interest in self.user.value(forKey: ParseObjectColumns.Interests.rawValue) as! [String] {
-                    
-                    let label = UILabel(text: interest)
-                    label.sizeToFit()
-                    
-                    let interestView = UIView()
-                    interestView.translatesAutoresizingMaskIntoConstraints = true
-                    interestView.frame = label.frame
-                    interestView.addSubview(label)
-                    interestView.frame.size.width = interestView.frame.width + 10
-                    interestView.frame.size.height = interestView.frame.height + 10
-                    
-                    label.center.x = interestView.center.x
-                    label.center.y = interestView.center.y
-                    
-                    interestView.frame.origin.x = xPos
-                    interestView.frame.origin.y = yPos
-                    interestView.backgroundColor = Colors.grey.value
-                    interestView.layer.cornerRadius = 3
-                    
-                    xPos = interestView.frame.origin.x + interestView.frame.width + 5
-                    
-                    // If this label is going to go past the length of the window than add this to the next line
-                    if xPos + 5 >= windowWidth! {
-                        yPos = interestView.frame.origin.y + interestView.frame.height + 5
-                        interestView.frame.origin.y = yPos
-                        interestView.frame.origin.x = 0
-                        xPos = interestView.frame.width + 5
-                        
-                    }
-                    
-                    self.interestsContainerView.addSubview(interestView)
-                }
-                
-                self.interestsContainerView.snp.makeConstraints({ (make) in
-                    make.height.equalTo(yPos + 45)
-                })
-            }
-            
-        } else {
-            self.interestsContainerView = UIView()
-            self.wrapperView.addSubview(self.interestsContainerView)
-            self.interestsContainerView.snp.makeConstraints({ (make) in
-                make.left.equalTo(self.wrapperView).offset(10)
-                make.right.equalTo(self.wrapperView).offset(-10)
-                make.top.equalTo(self.bioTextView.snp.bottom).offset(5)
-                make.height.equalTo(0)
-            })
+    func setMenuView () -> UIView {
+        
+        let menuView = UIView()
+        
+        self.addSubview(menuView)
+        menuView.snp.makeConstraints { (make) in
+            make.top.equalTo(self.followersLabel.snp.bottom)
+            make.left.equalTo(self)
+            make.right.equalTo(self)
+            make.height.equalTo(34)
         }
+        
+        return menuView
     }
+    
+    func setInvitationsButton () -> HijinnksButton {
+        let screenWidth = UIScreen.main.bounds.width / 3.0
+        let invitationsButton = HijinnksButton(customButtonType: .Invitations)
+        self.menuView.addSubview(invitationsButton)
+        
+        invitationsButton.backgroundColor = Colors.grey.value
+        invitationsButton.setTitleColor(.white, for: .normal)
+        
+        invitationsButton.snp.makeConstraints { (make) in
+            make.left.equalTo(menuView)
+            make.top.equalTo(menuView)
+            make.bottom.equalTo(menuView)
+            make.width.equalTo(screenWidth)
+        }
+        
+        return invitationsButton
+    }
+    
+    func setInterestsButton () -> HijinnksButton {
+        let screenWidth = UIScreen.main.bounds.width / 3.0
+        let interestsButton = HijinnksButton(customButtonType: .Interests)
+        interestsButton.layer.borderColor = Colors.VeryLightGray.value.cgColor
+        interestsButton.layer.borderWidth = 1.0
+        
+        menuView.addSubview(interestsButton)
+        interestsButton.snp.makeConstraints { (make) in
+            make.left.equalTo(invitationsButton.snp.right)
+            make.top.equalTo(menuView)
+            make.bottom.equalTo(menuView)
+            make.width.equalTo(screenWidth)
+        }
+        
+        return interestsButton
+    }
+    
+    func setProfileDetailsButton () -> HijinnksButton {
+        let profileDetailsButton = HijinnksButton(customButtonType: .More)
+        profileDetailsButton.layer.borderColor = Colors.VeryLightGray.value.cgColor
+        profileDetailsButton.layer.borderWidth = 1.0
+        menuView.addSubview(profileDetailsButton)
+        profileDetailsButton.snp.makeConstraints { (make) in
+            make.left.equalTo(interestsButton.snp.right)
+            make.top.equalTo(menuView)
+            make.bottom.equalTo(menuView)
+            make.right.equalTo(menuView)
+        }
+        
+        return profileDetailsButton
+    }
+    
     
     func setProfileImageView () {
         let profileImageView = UIImageView()
@@ -267,6 +279,7 @@ class ProfileView : UIScrollView {
         bioTextView.isUserInteractionEnabled = false
         bioTextView.returnKeyType = .done
         bioTextView.font = UIFont.systemFont(ofSize: 16)
+        bioTextView.textAlignment = .center
         
         if UtilityFunctions.isCurrent(user: self.user) == true {
             if bioTextView.text.isEmpty {
@@ -302,10 +315,11 @@ class ProfileView : UIScrollView {
     func setInterestsView (myBioTextView: UITextView) {
         let interestsView = InterestsView()
         self.wrapperView.addSubview(interestsView)
-        self.showInterests()
+//        self.showInterests()
+        
         interestsView.snp.makeConstraints { (make) in
             make.left.equalTo(myBioTextView)            
-            make.top.equalTo(self.interestsContainerView.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
+            make.top.equalTo(self.bioTextView.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
             make.right.equalTo(myBioTextView).offset(UIConstants.ProfileViewHorizontalSpacing.rawValue)
             make.height.equalTo(60)
         }
@@ -346,7 +360,12 @@ class ProfileView : UIScrollView {
         let rsvpsString = NSMutableAttributedString()
         _ = rsvpsString.bold("\(rsvpCount!)").normal("\nRSVPs")
         self.rsvpLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: rsvpsString, labelOnLeft: self.inviteesLabel, isLastLabelOnRight: true)
-        self.setViewInvitationsTableView(viewAbove: self.rsvpLabel)
+        
+        self.menuView = self.setMenuView()
+        self.invitationsButton = self.setInvitationsButton()
+        self.interestsButton = self.setInterestsButton()
+        self.profileDetailsButton = self.setProfileDetailsButton()
+        self.setViewInvitationsTableView(viewAbove: self.menuView)
     }
     
     func setUserDetailCountLabels (myInterestsView: InterestsView, text: NSMutableAttributedString, labelOnLeft: UILabel!, isLastLabelOnRight: Bool) -> UILabel {
@@ -382,14 +401,38 @@ class ProfileView : UIScrollView {
         self.wrapperView.addSubview(viewInvitationsTableView)
         viewInvitationsTableView.snp.makeConstraints { (make) in
             make.left.equalTo(self.wrapperView)
-            make.top.equalTo(viewAbove.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
+            make.top.equalTo(self.menuView.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue) // This is also needed to be set in the ProfileViewController
             make.right.equalTo(self.wrapperView)
             make.bottom.equalTo(self.wrapperView).offset(-50)
         }
         self.viewInvitationsTableView = viewInvitationsTableView
         self.viewInvitationsTableView.isUserInteractionEnabled = false
+        
+        let interestsListView = InterestsListView()
+        interestsListView.isHidden = true
+        self.wrapperView.addSubview(interestsListView)
+        interestsListView.snp.makeConstraints { (make) in
+            make.left.equalTo(self.wrapperView)
+            make.right.equalTo(self.wrapperView)
+            make.top.equalTo(self.viewInvitationsTableView)
+            make.bottom.equalTo(self.wrapperView).offset(-50)
+        }
+        interestsListView.setupUI(user: self.user)
+        self.interestsListView = interestsListView
+        
+        let profileDetailsView = ProfileDetailsView(user: self.user)
+        profileDetailsView.setupUI(user: self.user)
+        profileDetailsView.isHidden = true
+        self.wrapperView.addSubview(profileDetailsView)
+        profileDetailsView.snp.makeConstraints { (make) in
+            make.left.equalTo(self.wrapperView)
+            make.right.equalTo(self.wrapperView)
+            make.top.equalTo(self.viewInvitationsTableView)
+            make.bottom.equalTo(self.wrapperView).offset(-50)
+        }
+        
+        self.profileDetailsView = profileDetailsView
     }
-    
 }
 
 // Text View Delegate Methods for BioTextView

@@ -29,7 +29,7 @@ extension CreateInvitationViewController : MFMessageComposeViewControllerDelegat
         self.quickInviteView.snp.makeConstraints { (make) in
             make.left.equalTo(outerView).offset(25)
             make.right.equalTo(outerView).offset(-25)
-            make.centerY.equalTo(outerView)
+            make.centerY.equalTo(outerView).offset(-50)
             make.height.equalTo(480)
         }
         

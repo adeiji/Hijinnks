@@ -644,7 +644,7 @@ extension ViewInvitationsCell {
         superview.addSubview(button )
         button.snp.makeConstraints { (make) in
             make.centerX.equalTo(superview)
-            make.top.equalTo(superview).offset(5)
+            make.top.equalTo(superview).offset(10)
             make.width.equalTo(110)
             make.height.equalTo(25)
         }
