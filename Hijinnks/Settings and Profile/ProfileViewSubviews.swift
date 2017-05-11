@@ -14,28 +14,35 @@ class InterestsListView : UIView {
     
     func setupUI (user: PFUser) {
         var yPos = 5
-        for interest in DEUserManager.sharedManager.getInterests(user: user) {
-            let interestView = UtilityFunctions.getInterestIcon(interest: interest)
-            let interestIconLabel = interestView?.subviews.first
-            let interestTextLabel = interestView?.subviews.last
-            
-            interestTextLabel?.snp.remakeConstraints({ (remake) in
-                remake.left.equalTo((interestIconLabel?.snp.right)!).offset(5)
-                remake.centerY.equalTo(interestView!)
-            })
-            
-            interestIconLabel?.snp.makeConstraints({ (remake) in
-                remake.centerY.equalTo(interestView!)
-            })
-            
-            // Add the interest view to the interest list view
-            self.addSubview(interestView!)
-            interestView?.snp.makeConstraints({ (make) in
-                make.left.equalTo(self).offset(25)
-                make.top.equalTo(self).offset(yPos)
-            })
-            
-            yPos += 40
+        let interests = DEUserManager.sharedManager.getInterests(user: user)
+        if interests != nil {
+            for interest in interests!	 {
+                let interestView = UtilityFunctions.getInterestIcon(interest: interest)
+                let interestIconLabel = interestView?.subviews.first
+                let interestTextLabel = interestView?.subviews.last
+                
+                interestTextLabel?.snp.remakeConstraints({ (remake) in
+                    remake.left.equalTo((interestIconLabel?.snp.right)!).offset(5)
+                    remake.centerY.equalTo(interestView!)
+                })
+                
+                interestIconLabel?.snp.makeConstraints({ (remake) in
+                    remake.centerY.equalTo(interestView!)
+                })
+                
+                // Add the interest view to the interest list view
+                self.addSubview(interestView!)
+                interestView?.snp.makeConstraints({ (make) in
+                    make.left.equalTo(self).offset(25)
+                    make.top.equalTo(self).offset(yPos)
+                    // If we're at the last view make sure that we set the constraint to the bottom of the profile view in order for the profile view to properly expand
+                    if interest == interests?.last {
+                        make.bottom.equalTo(self).offset(-25)
+                    }
+                })
+
+                yPos += 40
+            }
         }
     }
 }
@@ -156,6 +163,7 @@ class ProfileDetailsView : UIView {
             make.right.equalTo(self).offset(SIDE_MARGINS)
             make.top.equalTo(self.collegeAttendedTextField.snp.bottom).offset(5)
             make.height.equalTo(40)
+            make.bottom.equalTo(self).offset(-25)
         }
         
         return textField

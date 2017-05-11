@@ -415,7 +415,6 @@ class ProfileView : UIScrollView {
             make.left.equalTo(self.wrapperView)
             make.right.equalTo(self.wrapperView)
             make.top.equalTo(self.viewInvitationsTableView)
-            make.bottom.equalTo(self.wrapperView).offset(-50)
         }
         interestsListView.setupUI(user: self.user)
         self.interestsListView = interestsListView
@@ -428,7 +427,7 @@ class ProfileView : UIScrollView {
             make.left.equalTo(self.wrapperView)
             make.right.equalTo(self.wrapperView)
             make.top.equalTo(self.viewInvitationsTableView)
-            make.bottom.equalTo(self.wrapperView).offset(-50)
+            
         }
         
         self.profileDetailsView = profileDetailsView

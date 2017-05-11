@@ -203,6 +203,8 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
         textField.layer.borderColor = Colors.DarkGray.value.cgColor
         textField.layer.cornerRadius = 5
         textField.textColor = Colors.DarkGray.value
+        textField.autocapitalizationType = .none
+        textField.autocorrectionType = .no
         self.addSubview(textField)
         
         textField.snp.makeConstraints { (make) in

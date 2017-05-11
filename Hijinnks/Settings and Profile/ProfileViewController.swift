@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Parse
 import SendBirdSDK
+import SnapKit
 
 class ProfileViewController : UIViewController, UITableViewDelegate, UITableViewDataSource, PassDataBetweenViewControllersProtocol, UIGestureRecognizerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
  
@@ -17,6 +18,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
     var user:PFUser!
     var invitations:[InvitationParseObject]! = [InvitationParseObject]()
     var activitySpinner:UIActivityIndicatorView!
+    var bottomConstraint:Constraint!
     
     func startActivitySpinner () {
         // Add the activity spinner
@@ -84,6 +86,28 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         self.profileView.profileDetailsButton.addTarget(self, action: #selector(menuButtonPressed(sender:)), for: .touchUpInside)
     }
     
+    func updateViewForViewInterests () {
+        self.bottomConstraint.deactivate()
+        self.profileView.interestsListView.snp.remakeConstraints { (make) in
+            make.left.equalTo(self.profileView)
+            make.right.equalTo(self.profileView)
+            // We reset the constraints here so that we can make sure that we are compensating for the tableView size after the invitations have been added
+            make.top.equalTo(self.profileView.menuView.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
+            self.bottomConstraint = make.bottom.equalTo(self.profileView.wrapperView).offset(-50).constraint
+        }
+    }
+    
+    func updateViewForViewProfileDetails () {
+        self.bottomConstraint.deactivate()
+        self.profileView.profileDetailsView.snp.remakeConstraints { (make) in
+            make.left.equalTo(self.profileView)
+            make.right.equalTo(self.profileView)
+            // We reset the constraints here so that we can make sure that we are compensating for the tableView size after the invitations have been added
+            make.top.equalTo(self.profileView.menuView.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
+            self.bottomConstraint = make.bottom.equalTo(self.profileView.wrapperView).offset(-50).constraint
+        }
+    }
+    
     func menuButtonPressed (sender: UIButton) {
         sender.backgroundColor = Colors.grey.value
         if self.profileView.invitationsButton != sender {
@@ -99,6 +123,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
             self.profileView.interestsListView.isHidden = true
         } else {
             self.profileView.interestsListView.isHidden = false
+            self.updateViewForViewInterests()
         }
         
         if self.profileView.profileDetailsButton != sender {
@@ -106,7 +131,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
             self.profileView.profileDetailsView.isHidden = true
         } else {
             self.profileView.profileDetailsView.isHidden = false
-            
+            self.updateViewForViewProfileDetails()
         }
     }
     
@@ -211,8 +236,8 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
             make.right.equalTo(self.profileView)
             // We reset the constraints here so that we can make sure that we are compensating for the tableView size after the invitations have been added
             make.top.equalTo(self.profileView.menuView.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
-            make.height.equalTo(self.profileView.viewInvitationsTableView.contentSize.height + 150).constraint
-            make.bottom.equalTo(self.profileView.wrapperView)
+            make.height.equalTo(self.profileView.viewInvitationsTableView.contentSize.height + 150)
+            self.bottomConstraint = make.bottom.equalTo(self.profileView.wrapperView).constraint
         }
     }
 

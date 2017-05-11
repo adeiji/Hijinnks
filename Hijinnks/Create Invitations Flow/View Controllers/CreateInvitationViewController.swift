@@ -90,6 +90,10 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         }
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        self.quickMode = true
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         
     }
@@ -479,7 +483,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         
         wrapperView = createWrapperView(myScrollView: scrollView)
         nameTextField = createTextField(superview: wrapperView, relativeViewAbove: nil, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Event Name", showViewController: nil, colorViewColor: Colors.green.value)
-        
+        self.nameTextField.autocapitalizationType = .words
         inviteMessageTextField = createTextField(superview: wrapperView, relativeViewAbove: self.nameTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Message", showViewController: nil, colorViewColor: Colors.green.value)
         
         startingTimeTextField = createTextField(superview: wrapperView, relativeViewAbove: inviteMessageTextField, leftConstraintOffset: 0, rightConstraintOffset: 0, verticalSpacingToRelativeViewAbove: UIConstants.CreateInvitationVerticalSpacing .rawValue, placeholderText: "Time", showViewController: nil, colorViewColor: Colors.blue.value)
