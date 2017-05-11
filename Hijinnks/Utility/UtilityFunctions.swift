@@ -64,7 +64,7 @@ class UtilityFunctions {
             case (interestArray?[ARTS])!:
                 return getInterestView(interestIcon: InterestIcons.Arts.rawValue, interestString: InterestIcons.ArtsText.rawValue)
             case (interestArray?[BARS])!:
-                return getInterestView(interestIcon: InterestIcons.BarsAndLoungesText.rawValue, interestString: InterestIcons.BarsAndLoungesText.rawValue)
+                return getInterestView(interestIcon: InterestIcons.BarsAndLounges.rawValue, interestString: InterestIcons.BarsAndLoungesText.rawValue)
             case (interestArray?[CAFES])!:
                 return getInterestView(interestIcon: InterestIcons.Cafe.rawValue, interestString: InterestIcons.CafeText.rawValue)
             case (interestArray?[COMEDY])!:

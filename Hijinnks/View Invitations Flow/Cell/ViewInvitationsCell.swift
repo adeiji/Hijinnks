@@ -496,7 +496,7 @@ extension ViewInvitationsCell {
      * - Description Increase or decrease the count of those who have RSVP'd and update the users who have RSVP'd
      */
     func updateRSVPCount () {
-        delegate.rsvpButtonPressed!(invitation: self.invitation) // Delegate is ViewInvitationsViewController
+        delegate.rsvpButtonPressed!(invitation: self.invitation, invitationCell: self) // Delegate is ViewInvitationsViewController
         self.invitation.saveInBackground()
         if invitation.rsvpCount == invitation.maxAttendees && invitation.maxAttendees != 0 {
             self.rsvpButton.setTitleColor(.red, for: .normal)
@@ -617,6 +617,12 @@ extension ViewInvitationsCell {
 // Show who has RSVP'd
 extension ViewInvitationsCell {
     
+    func resetRsvpView () {
+        self.rsvpView.removeFromSuperview()
+        self.rsvpView = nil
+        self.rsvpView = self.setRsvpView()
+    }
+    
     func setRsvpView () -> UIView {
         let view = UIView()
         self.contentView.addSubview(view)
@@ -656,6 +662,13 @@ extension ViewInvitationsCell {
         let margin:CGFloat = 10.0
         var xPos:CGFloat = margin
         let profileImageDimensions = (UIScreen.main.bounds.width - (5 * 7)) / 6.0
+        
+        for subview in superview.subviews {
+            if (subview is UIButton) == false {
+                subview.removeFromSuperview()
+            }
+        }
+        
         // If there are specific users of the application that have been invited to this event
         if self.invitation.rsvpUsers.count != 0 {
             let parseQueue = DispatchQueue(label: "com.parse.hijinnks")
@@ -690,6 +703,20 @@ extension ViewInvitationsCell {
                             catch {
                                 print(error.localizedDescription)
                             }
+                        } else {
+                            DispatchQueue.main.async(execute: {
+                                let tempProfileImageLabel = DEUserManager.sharedManager.getTempProfileImageLabel(user: user)
+                                superview.addSubview(tempProfileImageLabel)
+                                tempProfileImageLabel.snp.makeConstraints({ (make) in
+                                    make.left.equalTo(xPos)
+                                    make.height.equalTo(profileImageDimensions)
+                                    make.width.equalTo(profileImageDimensions)
+                                    make.top.equalTo(superview).offset(45)
+                                })
+                                
+                                tempProfileImageLabel.layer.cornerRadius = profileImageDimensions / 2.0
+                                self.rsvpView = superview
+                            })
                         }
                     }
                     catch {

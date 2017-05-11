@@ -20,7 +20,9 @@ class InterestsListView : UIView {
                 let interestView = UtilityFunctions.getInterestIcon(interest: interest)
                 let interestIconLabel = interestView?.subviews.first
                 let interestTextLabel = interestView?.subviews.last
-                
+                let font = UIFont.systemFont(ofSize: 18.0)
+                (interestIconLabel as! UILabel).font = font
+                (interestTextLabel as! UILabel).font = font
                 interestTextLabel?.snp.remakeConstraints({ (remake) in
                     remake.left.equalTo((interestIconLabel?.snp.right)!).offset(5)
                     remake.centerY.equalTo(interestView!)
@@ -33,7 +35,7 @@ class InterestsListView : UIView {
                 // Add the interest view to the interest list view
                 self.addSubview(interestView!)
                 interestView?.snp.makeConstraints({ (make) in
-                    make.left.equalTo(self).offset(25)
+                    make.left.equalTo(self).offset(50)
                     make.top.equalTo(self).offset(yPos)
                     // If we're at the last view make sure that we set the constraint to the bottom of the profile view in order for the profile view to properly expand
                     if interest == interests?.last {
@@ -68,7 +70,6 @@ class ProfileDetailsView : UIView {
     
     func setupUI (user: PFUser) {
         let font = UIFont.systemFont(ofSize: 12)
-        self.backgroundColor = Colors.VeryLightGray.value
         self.firstNameTextField = self.setFirstNameTextField(font: font)
         self.lastNameTextField = self.setLastNameTextField(font: font)
         self.dateOfBirthTextField = self.setDateOfBirthTextField(font: font)
@@ -92,7 +93,7 @@ class ProfileDetailsView : UIView {
         textField.attributedPlaceholder = NSAttributedString(string: "First Name", attributes: [ NSForegroundColorAttributeName : Colors.DarkGray.value ])
         textField.snp.makeConstraints { (make) in
             make.left.equalTo(self).offset(SIDE_MARGINS)
-            make.right.equalTo(self).offset(SIDE_MARGINS)
+            make.right.equalTo(self.snp.centerX).offset(-SIDE_MARGINS)
             make.top.equalTo(self).offset(5)
             make.height.equalTo(40)
         }
@@ -108,9 +109,9 @@ class ProfileDetailsView : UIView {
         self.addBottomBorder(textField: textField)
         textField.attributedPlaceholder = NSAttributedString(string: "Last Name", attributes: [ NSForegroundColorAttributeName : Colors.DarkGray.value ])
         textField.snp.makeConstraints { (make) in
-            make.left.equalTo(self).offset(SIDE_MARGINS)
+            make.left.equalTo(self.snp.centerX).offset(SIDE_MARGINS)
             make.right.equalTo(self).offset(SIDE_MARGINS)
-            make.top.equalTo(self.firstNameTextField).offset(5)
+            make.top.equalTo(self.firstNameTextField)
             make.height.equalTo(40)
         }
         

@@ -20,7 +20,7 @@ import SnapKit
     @objc optional func showInvitationCommentScreen (invitation: InvitationParseObject)
     @objc optional func loggedIn ()
     @objc optional func loadInvitations (invitations: [InvitationParseObject])
-    @objc optional func rsvpButtonPressed (invitation: InvitationParseObject)
+    @objc optional func rsvpButtonPressed (invitation: InvitationParseObject, invitationCell: ViewInvitationsCell)
     @objc optional func profileImagePressed (user: PFUser)
 }
 

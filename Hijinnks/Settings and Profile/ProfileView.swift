@@ -183,9 +183,11 @@ class ProfileView : UIScrollView {
         if (user.value(forKey: ParseObjectColumns.Profile_Picture.rawValue) != nil) {
             let imageData = user.value(forKey: ParseObjectColumns.Profile_Picture.rawValue) as! PFFile
             imageData.getDataInBackground { (data: Data?, error: Error?) in
-                let image = UIImage(data: data!)
-                if image != nil {
-                    self.profileImageView.image = image
+                if data != nil {
+                    let image = UIImage(data: data!)
+                    if image != nil {
+                        self.profileImageView.image = image
+                    }
                 }
             }
         }

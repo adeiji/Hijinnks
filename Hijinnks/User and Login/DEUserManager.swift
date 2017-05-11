@@ -35,7 +35,7 @@ class DEUserManager: NSObject {
                 self.userObject[self.PARSE_CLASS_USER_CANONICAL_USERNAME] = userName
                 self.userObject[ParseObjectColumns.PhoneNumber.rawValue] = phoneNumber
                 self.userObject.saveEventually()
-                
+            
                 let appDelegate = UIApplication.shared.delegate
                 let navigationController = appDelegate?.window!?.rootViewController as! UINavigationController
                 navigationController.pushViewController(showViewControllerOnComplete, animated: true)
@@ -46,6 +46,19 @@ class DEUserManager: NSObject {
                 label.text = error?.localizedDescription
             }
         })        
+    }
+    
+    func getTempProfileImageLabel (user: PFUser) -> UILabel {
+        let label = UILabel()
+        label.backgroundColor = Colors.blue.value
+        label.font = UIFont.systemFont(ofSize: 25.0)
+        label.textColor = .white
+        let index = user.username?.index((user.username?.startIndex)!, offsetBy: 2)
+        let beginningOfUsername = user.username?.substring(to: index!).uppercased()
+        label.text = beginningOfUsername
+        label.textAlignment = .center
+        label.clipsToBounds = true
+        return label
     }
     
     /**

@@ -38,16 +38,24 @@ class CreateAccountViewController : UIViewController, PassDataBetweenViewControl
      * - Description When the user presses the Sign Up button we sign him in and prompt for a picture
      */
     func signupButtonPressed () {
-        let username = createAccountView.txtUsername.text
-        let password = createAccountView.txtPassword.text
-        let email = createAccountView.txtEmail.text
-        let phoneNumber = createAccountView.txtPhoneNumber.text
         
-        let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsCreateAccount, willPresentViewController: false)
-        viewInterestsViewController.delegate = self
-        viewInterestsViewController.showExplanationView()
-        // Create user and then display the view interests view controller upon success
-        DEUserManager.sharedManager.createUser(withUserName: username!, password: password!, email: email!, phoneNumber: phoneNumber!, errorLabel: createAccountView.lblUsernameError, showViewControllerOnComplete: viewInterestsViewController)
+        if self.createAccountView.checkbox.isSelected == true {
+            let username = createAccountView.txtUsername.text
+            let password = createAccountView.txtPassword.text
+            let email = createAccountView.txtEmail.text
+            let phoneNumber = createAccountView.txtPhoneNumber.text
+            
+            let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsCreateAccount, willPresentViewController: false)
+            viewInterestsViewController.delegate = self
+            viewInterestsViewController.showExplanationView()
+            // Create user and then display the view interests view controller upon success
+            DEUserManager.sharedManager.createUser(withUserName: username!, password: password!, email: email!, phoneNumber: phoneNumber!, errorLabel: createAccountView.lblUsernameError, showViewControllerOnComplete: viewInterestsViewController)
+        } else {
+            let alertController = UIAlertController(title: "Terms and Conditions", message: "Please accept the terms and conditions for the application", preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+            alertController.addAction(alertAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
     
     func setSelectedInterests(mySelectedInterest: Array<String>) {

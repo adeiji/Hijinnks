@@ -80,13 +80,18 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if self.quickInviteView == nil {
-            self.showQuickInviteView()
-            self.quickInviteView.cancelButton.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
-            self.quickMode = true
-        }
-        if self.quickMode == true {
-            self.quickInviteView.superview?.isHidden = false
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if !(self.navigationController?.viewControllers.contains(self))! {
+            if self.quickInviteView == nil {
+                self.showQuickInviteView()
+                self.quickInviteView.cancelButton.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
+                self.quickMode = true
+            }
+            if self.quickMode == true {
+                self.quickInviteView.superview?.isHidden = false
+            }
         }
     }
     

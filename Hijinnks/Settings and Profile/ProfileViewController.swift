@@ -47,8 +47,8 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.profileView = ProfileView(myUser: self.user, myTableViewDataSourceAndDelegate: self)
         self.view.addSubview(self.profileView)
         self.profileView.setupUI()  // Setup the UI after we've added to the subview to make sure that the profile view can be set up with autolayout to it's superview
@@ -84,6 +84,23 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         self.profileView.invitationsButton.addTarget(self, action: #selector(menuButtonPressed(sender:)), for: .touchUpInside)
         self.profileView.interestsButton.addTarget(self, action: #selector(menuButtonPressed(sender:)), for: .touchUpInside)
         self.profileView.profileDetailsButton.addTarget(self, action: #selector(menuButtonPressed(sender:)), for: .touchUpInside)
+        self.profileView.profileDetailsView.cityYouLiveInTextField.delegate = self
+        self.profileView.profileDetailsView.dateOfBirthTextField.delegate = self
+        self.profileView.profileDetailsView.collegeAttendedTextField.delegate = self
+        self.profileView.profileDetailsView.lastNameTextField.delegate = self
+        self.profileView.profileDetailsView.firstNameTextField.delegate = self
+    }
+    
+    func updateViewForViewInvitations () {
+        self.bottomConstraint.deactivate()
+        self.profileView.viewInvitationsTableView.snp.remakeConstraints { (make) in
+            make.left.equalTo(self.profileView)
+            make.right.equalTo(self.profileView)
+            // We reset the constraints here so that we can make sure that we are compensating for the tableView size after the invitations have been added
+            make.top.equalTo(self.profileView.menuView.snp.bottom).offset(UIConstants.ProfileViewVerticalSpacing.rawValue)
+            make.height.equalTo(self.profileView.viewInvitationsTableView.contentSize.height + 150)
+            self.bottomConstraint = make.bottom.equalTo(self.profileView.wrapperView).constraint
+        }
     }
     
     func updateViewForViewInterests () {
@@ -115,7 +132,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
             self.profileView.viewInvitationsTableView.isHidden = true
         } else {
             self.profileView.viewInvitationsTableView.isHidden = false
-            
+            self.updateViewForViewInvitations()
         }
         
         if self.profileView.interestsButton != sender {

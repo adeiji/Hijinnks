@@ -136,7 +136,7 @@ extension ViewInvitationsViewController {
         self.navigationController?.pushViewController(commentViewController, animated: true)
     }
     
-    func rsvpButtonPressed(invitation: InvitationParseObject) {
+    func rsvpButtonPressed(invitation: InvitationParseObject, invitationCell: ViewInvitationsCell) {
         let rsvpCount = invitation.fromUser.value(forKey: ParseObjectColumns.RSVPCount.rawValue) as? Int
         if rsvpCount == nil {
             invitation.fromUser.setValue(0, forKey: ParseObjectColumns.RSVPCount.rawValue)
@@ -164,6 +164,9 @@ extension ViewInvitationsViewController {
             if PFUser.current() == invitation.fromUser {
                 PFUser.current()?.setValue(invitation.fromUser.value(forKey: ParseObjectColumns.RSVPCount.rawValue), forKey: ParseObjectColumns.RSVPCount.rawValue)
             }
+            
+            // Update the view of the invitation cell
+            invitationCell.resetRsvpView()
         }
         else {  // I the user who pressed the RSVP button is the owner of this invitation
             let viewUsersViewController = ViewUsersViewController(setting: .ViewUsersAll, willPresentViewController: false)
