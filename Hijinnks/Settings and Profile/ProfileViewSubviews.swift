@@ -63,6 +63,7 @@ class ProfileDetailsView : UIView {
         let font = UIFont.systemFont(ofSize: 12)
         self.backgroundColor = Colors.VeryLightGray.value
         self.firstNameTextField = self.setFirstNameTextField(font: font)
+        self.lastNameTextField = self.setLastNameTextField(font: font)
         self.dateOfBirthTextField = self.setDateOfBirthTextField(font: font)
         self.collegeAttendedTextField = self.setCollegeAttendedTextField(font: font)
         self.cityYouLiveInTextField = self.setCityYouLiveInTextField(font: font)

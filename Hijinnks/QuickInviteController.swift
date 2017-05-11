@@ -56,8 +56,8 @@ extension CreateInvitationViewController : MFMessageComposeViewControllerDelegat
     /**
      * - Description When the Add Details button is pressed then this view will be removed from the screen and the Create Invitation Screen will then be seen
      */
-    func addDetailsButtonPressed () {
-        self.quickInviteView.superview?.removeFromSuperview()
+    func addDetailsButtonPressed () {        
+        self.quickInviteView.superview?.isHidden = true
         self.quickMode = false
         self.locationTextField.text = self.quickInviteView.locationTextField.text
         self.startingTimeTextField.text = self.quickInviteView.timeTextField.text

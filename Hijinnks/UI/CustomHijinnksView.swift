@@ -35,8 +35,7 @@ class CustomHijinnksView : UIView {
         }
         else if customViewType == .Comment {
             HijinnksStyleKit.drawCommentButton(frame: rect, fillColor19: .black)
-        }
-        
+        }        
     }
 }
 

@@ -44,6 +44,7 @@ enum ProfileOptions : String {
 }
 
 enum ParseObjectColumns : String {
+    case PhoneNumber = "phone_number"
     case FirstName = "first_name"
     case LastName = "last_name"
     case InviteCount = "inviteCount"
@@ -180,6 +181,8 @@ enum HijinnksViewTypes {
     case Invitations
     case Interests
     case More
+    case CheckedBox
+    case UncheckedBox
 }
 
 enum Images : String {

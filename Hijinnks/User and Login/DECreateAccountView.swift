@@ -13,9 +13,14 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
     weak var txtEmail: UITextField!
     weak var txtPassword: UITextField!
     weak var txtConfirmPassword: UITextField!
+    weak var txtPhoneNumber: UITextField!
     weak var lblUsernameError: UILabel!
     weak var headerLabel:UILabel!
     weak var signupButton:UIButton!
+    weak var checkbox:HijinnksButton!
+    weak var termsAndConditionsTextView:UITextView!
+    weak var termsAndConditionsButton:UIButton!
+    weak var licenseAgreementButton:UIButton!
 
     func setUp() {
         for view: UIView in self.subviews {
@@ -42,12 +47,101 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
             make.edges.equalTo(self.superview!)
         }
 //        addImageToBackground()
-        lblUsernameError = setUsernameErrorLabel()
-        txtUsername = setTextField(viewAbove: lblUsernameError, placeholderText: "Enter username", isSecureTextEntry: false)
-        txtEmail = setTextField(viewAbove: txtUsername, placeholderText: "Enter your email", isSecureTextEntry: false)
-        txtPassword = setTextField(viewAbove: txtEmail, placeholderText: "Enter your password", isSecureTextEntry: true)
-        txtConfirmPassword = setTextField(viewAbove: txtPassword, placeholderText: "Confirm your password", isSecureTextEntry: true)
+        self.lblUsernameError = setUsernameErrorLabel()
+        self.txtUsername = setTextField(viewAbove: lblUsernameError, placeholderText: "Enter username", isSecureTextEntry: false)
+        self.txtEmail = setTextField(viewAbove: txtUsername, placeholderText: "Enter your email", isSecureTextEntry: false)
+        self.txtPassword = setTextField(viewAbove: txtEmail, placeholderText: "Enter your password", isSecureTextEntry: true)
+        self.txtConfirmPassword = setTextField(viewAbove: txtPassword, placeholderText: "Confirm your password", isSecureTextEntry: true)
+        self.txtPhoneNumber = setTextField(viewAbove: self.txtConfirmPassword, placeholderText: "Enter Your Phone Number", isSecureTextEntry: false)
         signupButton = setSignupButton()
+        self.checkbox = setCheckbox()
+        self.termsAndConditionsTextView = self.setAcceptTermsAndConditionsTextView()
+        
+        let font = UIFont.systemFont(ofSize: 12.0)
+        
+        self.licenseAgreementButton = self.setLicenseAgreementButton(font: font)
+        self.termsAndConditionsButton = self.setTermsAndConditionsButton(font: font)
+    }
+    
+    func setTermsAndConditionsButton (font: UIFont) -> UIButton {
+        let button = UIButton()
+        button.setTitle("Terms and Conditions", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 1.0
+        button.titleLabel?.font = font
+        self.addSubview(button)
+        button.snp.makeConstraints { (make) in
+            make.left.equalTo(self.txtUsername)
+            make.right.equalTo(self.snp.centerX).offset(-5)
+            make.height.equalTo(self.signupButton)
+            make.top.equalTo(self.termsAndConditionsTextView.snp.bottom).offset(10)
+        }
+        
+        return button
+    }
+    
+    func setLicenseAgreementButton (font: UIFont) -> UIButton {
+        let button = UIButton()
+        button.setTitle("License Agreement", for: .normal)
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 1.0
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = font
+        self.addSubview(button)
+        button.snp.makeConstraints { (make) in
+            make.left.equalTo(self.snp.centerX).offset(5)
+            make.right.equalTo(self.txtUsername)
+            make.height.equalTo(self.signupButton)
+            make.top.equalTo(self.termsAndConditionsTextView.snp.bottom).offset(10)
+        }
+        return button
+    }
+    
+    func checkboxPressed () {
+        if checkbox.isSelected == false {
+            checkbox.isSelected = true
+            checkbox.customButtonType = .CheckedBox
+            checkbox.setNeedsDisplay()
+        }
+        else {
+            checkbox.isSelected = false
+            checkbox.customButtonType = .UncheckedBox
+            checkbox.setNeedsDisplay()
+        }
+    }
+    
+    func setCheckbox () -> HijinnksButton {
+        let checkbox = HijinnksButton(customButtonType: .UncheckedBox)
+        checkbox.isSelected = false
+        checkbox.addTarget(self, action: #selector(checkboxPressed), for: .touchUpInside)
+        self.addSubview(checkbox)
+        checkbox.snp.makeConstraints { (make) in
+            make.left.equalTo(self.txtUsername)
+            make.width.equalTo(20)
+            make.height.equalTo(20)
+            make.top.equalTo(self.signupButton.snp.bottom).offset(20)
+        }
+        
+        return checkbox
+    }
+    
+    func setAcceptTermsAndConditionsTextView () -> UITextView {
+        let textView = UITextView()
+        self.addSubview(textView)
+        textView.text = "In order to create an acount, please accept our Terms and Conditions and License Agreement"
+        textView.isUserInteractionEnabled = false
+        textView.snp.makeConstraints { (make) in
+            make.left.equalTo(self.checkbox.snp.right).offset(15)
+            make.top.equalTo(self.checkbox)
+            make.right.equalTo(self.txtUsername)
+            make.height.equalTo(25)
+        }
+        
+        textView.layoutIfNeeded()
+        textView.sizeToFit()
+        
+        return textView
     }
     
     func addImageToBackground () {
@@ -120,7 +214,7 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
                 make.top.equalTo(logoView.snp.bottom).offset(UIConstants.VerticalDistanceToLogo.rawValue)
             }
             
-            make.height.equalTo(50)
+            make.height.equalTo(40)
             make.left.equalTo(self).offset(UIConstants.HorizontalSpacingToSuperview.rawValue)
             make.right.equalTo(self).offset(-UIConstants.HorizontalSpacingToSuperview.rawValue)
         }
@@ -139,7 +233,7 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
         self.addSubview(button)
         button.snp.makeConstraints { (make) in
             make.centerX.equalTo(self)
-            make.top.equalTo(txtConfirmPassword.snp.bottom).offset(10)
+            make.top.equalTo(self.txtPhoneNumber.snp.bottom).offset(10)
             make.width.equalTo(UIConstants.SignUpAndSignInButtonWidth.rawValue)
             make.height.equalTo(self.txtUsername)
         }

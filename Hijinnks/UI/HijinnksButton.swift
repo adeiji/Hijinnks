@@ -63,6 +63,12 @@ class HijinnksButton : UIButton {
         else if customButtonType == .Interests {
             HijinnksStyleKit.drawInterestsButton(frame: rect)
         }
+        else if customButtonType == .CheckedBox {
+            HijinnksStyleKit.drawCheckedBox(frame: rect)
+        }
+        else if customButtonType == .UncheckedBox {
+            HijinnksStyleKit.drawUncheckedBox(frame: rect)
+        }
     }
 }
 

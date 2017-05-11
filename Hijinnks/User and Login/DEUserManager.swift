@@ -22,7 +22,7 @@ class DEUserManager: NSObject {
     var friends:[PFUser]!
     var profileImage:UIImage!
     
-    func createUser(withUserName userName: String, password: String, email: String, errorLabel label: UILabel, showViewControllerOnComplete: UIViewController) {
+    func createUser(withUserName userName: String, password: String, email: String, phoneNumber: String, errorLabel label: UILabel, showViewControllerOnComplete: UIViewController) {
         self.user = PFUser()
         self.user.username = userName.lowercased()
         self.user.password = password
@@ -33,6 +33,7 @@ class DEUserManager: NSObject {
                 self.userObject = self.user
                 self.userObject[self.PARSE_CLASS_USER_RANK] = self.USER_RANK_STANDARD
                 self.userObject[self.PARSE_CLASS_USER_CANONICAL_USERNAME] = userName
+                self.userObject[ParseObjectColumns.PhoneNumber.rawValue] = phoneNumber
                 self.userObject.saveEventually()
                 
                 let appDelegate = UIApplication.shared.delegate

@@ -18,10 +18,22 @@ class CreateAccountViewController : UIViewController, PassDataBetweenViewControl
         super.viewDidLoad()
         self.createAccountView = DECreateAccountView()
         self.view.addSubview(createAccountView)
-        createAccountView.setupUI()
-        createAccountView.signupButton.addTarget(self, action: #selector(signupButtonPressed), for: .touchUpInside)
+        self.createAccountView.setupUI()
+        self.createAccountView.signupButton.addTarget(self, action: #selector(signupButtonPressed), for: .touchUpInside)
+        self.createAccountView.termsAndConditionsButton.addTarget(self, action: #selector(termsAndConditionsButtonPressed), for: .touchUpInside)
+        self.createAccountView.licenseAgreementButton.addTarget(self, action: #selector(licenseAgreementButtonPressed), for: .touchUpInside)
     }
 
+    func termsAndConditionsButtonPressed () {
+        let termsAndConditionsURL = NSURL(string: "https://hijinnksdocs.wordpress.com/2017/05/09/terms-and-conditions/")
+        UIApplication.shared.open(termsAndConditionsURL as! URL, options: [:], completionHandler: nil)
+    }
+    
+    func licenseAgreementButtonPressed () {
+        let licenseAgreementURL = NSURL(string: "https://hijinnksdocs.wordpress.com/2017/05/09/license-agreement/")
+        UIApplication.shared.open(licenseAgreementURL as! URL, options: [:], completionHandler: nil)
+    }
+    
     /*!
      * - Description When the user presses the Sign Up button we sign him in and prompt for a picture
      */
@@ -29,12 +41,13 @@ class CreateAccountViewController : UIViewController, PassDataBetweenViewControl
         let username = createAccountView.txtUsername.text
         let password = createAccountView.txtPassword.text
         let email = createAccountView.txtEmail.text
+        let phoneNumber = createAccountView.txtPhoneNumber.text
         
         let viewInterestsViewController = ViewInterestsViewController(setting: Settings.ViewInterestsCreateAccount, willPresentViewController: false)
         viewInterestsViewController.delegate = self
         viewInterestsViewController.showExplanationView()
         // Create user and then display the view interests view controller upon success
-        DEUserManager.sharedManager.createUser(withUserName: username!, password: password!, email: email!, errorLabel: createAccountView.lblUsernameError, showViewControllerOnComplete: viewInterestsViewController)
+        DEUserManager.sharedManager.createUser(withUserName: username!, password: password!, email: email!, phoneNumber: phoneNumber!, errorLabel: createAccountView.lblUsernameError, showViewControllerOnComplete: viewInterestsViewController)
     }
     
     func setSelectedInterests(mySelectedInterest: Array<String>) {

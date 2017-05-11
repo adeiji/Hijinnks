@@ -74,6 +74,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification: )), name: NSNotification.Name.UIKeyboardWillShow , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification: )), name: NSNotification.Name.UIKeyboardWillHide , object: nil)
         let tap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tap)
     }
     
@@ -81,10 +82,11 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         super.viewDidAppear(animated)
         if self.quickInviteView == nil {
             self.showQuickInviteView()
+            self.quickInviteView.cancelButton.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
             self.quickMode = true
         }
         if self.quickMode == true {
-            self.quickInviteView.isHidden = false
+            self.quickInviteView.superview?.isHidden = false
         }
     }
     
@@ -726,6 +728,21 @@ extension CreateInvitationViewController : UIPickerViewDataSource, UIPickerViewD
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         durationTextField.text = self.durations[row]
+    }
+}
+
+
+// Quick Invite
+extension CreateInvitationViewController {
+    
+    func cancelButtonPressed () {
+        self.hideQuickView()
+    }
+    
+    func hideQuickView () {
+        // TODO: Move over to the QuickInviteController
+        self.quickInviteView.superview?.isHidden = true
+        self.quickMode = false
     }
     
 }

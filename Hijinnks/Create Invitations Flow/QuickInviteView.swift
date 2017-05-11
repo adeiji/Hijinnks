@@ -11,7 +11,7 @@ import UIKit
 import Contacts
 import Parse
 
-class QuickInviteView : UIView, UITableViewDataSource {
+class QuickInviteView : UIView, UITableViewDataSource, UITableViewDelegate {
     
     weak var cancelButton:HijinnksButton!
     weak var headerLabel:UILabel!
@@ -80,7 +80,7 @@ class QuickInviteView : UIView, UITableViewDataSource {
                 
                 // Remove all contacts that do not have a name or that do not have a phone number
                 results = results.filter({ (contact) -> Bool in
-                    return contact.phoneNumbers.count != 0 || contact.givenName != ""
+                    return contact.phoneNumbers.count != 0 && contact.givenName != ""
                 })
                 // Put all the contacts in alphabetical order
                 results.sort(by: { (firstContact, secondContact) -> Bool in
@@ -409,8 +409,10 @@ extension QuickInviteView {
             make.top.equalTo(self.publicButton.snp.bottom).offset(10)
         }
         
+        tableView.allowsSelectionDuringEditing = true
         tableView.separatorStyle = .none
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.allowsMultipleSelection = true
         
         return tableView
@@ -420,6 +422,7 @@ extension QuickInviteView {
         let view = UIView()
         view.backgroundColor = .black
         view.alpha = 0.15
+        view.isUserInteractionEnabled = false
         self.addSubview(view)
         view.snp.makeConstraints { (make) in
             make.edges.equalTo(self.invitedTableView)
@@ -480,6 +483,10 @@ extension QuickInviteView {
         self.timeTextField.resignFirstResponder()
         self.locationTextField.resignFirstResponder()
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
 }
 
 class ContactTableViewCell : UITableViewCell {
@@ -491,7 +498,7 @@ class ContactTableViewCell : UITableViewCell {
     
     init(contact: CNContact) {
         self.contact = contact
-        super.init(style: .default, reuseIdentifier: "contactCell")
+        super.init(style: .default, reuseIdentifier: nil)
         self.setupUI()
     }
     
@@ -515,7 +522,6 @@ class ContactTableViewCell : UITableViewCell {
             make.centerY.equalTo(self.contentView)
         }
         profileImageView.layer.cornerRadius = 12.5
-        profileImageView.backgroundColor = Colors.green.value
         profileImageView.clipsToBounds = true
         // Check to see if this contact has a profile image
         if self.contact.imageDataAvailable {
