@@ -166,6 +166,7 @@ class ViewUsersViewController : UITableViewController {
                             alert.addAction(okayAction)
                             self.present(alert, animated: true, completion: nil)
                             shouldDismiss = false
+                            tableView.deselectRow(at: indexPath, animated: false)
                         }
                     }
                 }

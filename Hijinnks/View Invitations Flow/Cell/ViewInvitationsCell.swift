@@ -655,7 +655,16 @@ extension ViewInvitationsCell {
             make.height.equalTo(25)
         }
         
+        button.addTarget(self, action: #selector(rsvpdButtonPressed), for: .touchUpInside)
+        
         return button
+    }
+    
+    /**
+     * - Description When the user presses the Rsvp'd button then the ViewInvitationsViewController delegate method viewRsvpListButtonPressed is called
+     */
+    func rsvpdButtonPressed () {
+        delegate.viewRsvpListButtonPressed!(invitation: self.invitation)
     }
     
     func displayInvitedPeople (superview: UIView) {
@@ -705,7 +714,7 @@ extension ViewInvitationsCell {
                             }
                         } else {
                             DispatchQueue.main.async(execute: {
-                                let tempProfileImageLabel = DEUserManager.sharedManager.getTempProfileImageLabel(user: user)
+                                let tempProfileImageLabel = DEUserManager.sharedManager.getTempProfileImageLabel(name: user.username!, fontSize: 20.0)
                                 superview.addSubview(tempProfileImageLabel)
                                 tempProfileImageLabel.snp.makeConstraints({ (make) in
                                     make.left.equalTo(xPos)

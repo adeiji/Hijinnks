@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        Instabug.start(withToken: "6960d4b086e23f5fca315ee4aa5cb3e7", invocationEvent: .shake)
+        Instabug.start(withToken: "de5b541611200a4338f5396f7a39150d", invocationEvent: .shake)
         initializeParse(launchOptions: launchOptions)
         initializeGoogleMaps()
         configureGlobalAppearances()

@@ -83,24 +83,14 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if !(self.navigationController?.viewControllers.contains(self))! {
-            if self.quickInviteView == nil {
-                self.showQuickInviteView()
-                self.quickInviteView.cancelButton.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
-                self.quickMode = true
-            }
-            if self.quickMode == true {
-                self.quickInviteView.superview?.isHidden = false
-            }
+        if self.quickInviteView == nil {
+            self.showQuickInviteView()
+            self.quickInviteView.cancelButton.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
+            self.quickMode = true
         }
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        self.quickMode = true
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        
+        if self.quickMode == true {
+            self.quickInviteView.superview?.isHidden = false
+        }
     }
     
     // Dismiss the keyboard
@@ -346,7 +336,8 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             else {  // If the user has made the invitation public
                 createInvitationAndSend(location: currentLocation, invitees: Array<PFUser>())
             }
-
+            
+            self.quickMode = true
             self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?.last
             self.promptPostToFacebook()
         }
@@ -701,6 +692,8 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             self.navigationController?.present(autocompleteViewController, animated: true, completion: nil)
         }
     }
+    
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let backItem = UIBarButtonItem()

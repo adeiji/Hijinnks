@@ -48,13 +48,14 @@ class DEUserManager: NSObject {
         })        
     }
     
-    func getTempProfileImageLabel (user: PFUser) -> UILabel {
+    func getTempProfileImageLabel (name: String, fontSize: CGFloat) -> UILabel {
         let label = UILabel()
         label.backgroundColor = Colors.blue.value
         label.font = UIFont.systemFont(ofSize: 25.0)
         label.textColor = .white
-        let index = user.username?.index((user.username?.startIndex)!, offsetBy: 2)
-        let beginningOfUsername = user.username?.substring(to: index!).uppercased()
+        label.font = UIFont.systemFont(ofSize: fontSize)
+        let index = name.index((name.startIndex), offsetBy: 2)
+        let beginningOfUsername = name.substring(to: index).uppercased()
         label.text = beginningOfUsername
         label.textAlignment = .center
         label.clipsToBounds = true

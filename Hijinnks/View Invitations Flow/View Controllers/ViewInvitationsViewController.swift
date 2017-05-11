@@ -159,8 +159,9 @@ extension ViewInvitationsViewController {
                 let confirmationViewColor = UIColor(red: 36/255, green: 66/255, blue: 156/255, alpha: 1.0)
                 Animations.showConfirmationView(type: AnimationConfirmation.Circle, message: "You RSVP'd", backgroundColor: confirmationViewColor, superView: self.view.superview!, textColor: .white)
             }
-            // Apparently I can't save a user who has not been logged in.  Which I guess makes sense, but we need to possibly figure a way aroun d this            
+            // Apparently I can't save a user who has not been logged in.  Which I guess makes sense, but we need to possibly figure a way around this
             invitation.saveInBackground()
+            
             if PFUser.current() == invitation.fromUser {
                 PFUser.current()?.setValue(invitation.fromUser.value(forKey: ParseObjectColumns.RSVPCount.rawValue), forKey: ParseObjectColumns.RSVPCount.rawValue)
             }
@@ -169,10 +170,18 @@ extension ViewInvitationsViewController {
             invitationCell.resetRsvpView()
         }
         else {  // I the user who pressed the RSVP button is the owner of this invitation
-            let viewUsersViewController = ViewUsersViewController(setting: .ViewUsersAll, willPresentViewController: false)
-            viewUsersViewController.showSpecificUsers(userObjectIds: invitation.rsvpUsers)
-            self.navigationController?.pushViewController(viewUsersViewController, animated: true)
+            self.seeRsvpdList(invitation: invitation)
         }
+    }
+    
+    func viewRsvpListButtonPressed(invitation: InvitationParseObject) {
+        self.seeRsvpdList(invitation: invitation)
+    }
+    
+    func seeRsvpdList (invitation: InvitationParseObject) {
+        let viewUsersViewController = ViewUsersViewController(setting: .ViewUsersAll, willPresentViewController: false)
+        viewUsersViewController.showSpecificUsers(userObjectIds: invitation.rsvpUsers)
+        self.navigationController?.pushViewController(viewUsersViewController, animated: true)
     }
     
     func profileImagePressed(user: PFUser) {

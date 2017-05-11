@@ -44,7 +44,8 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
         self.view.backgroundColor = .white
         
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification: )), name: NSNotification.Name.UIKeyboardWillShow , object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification: )), name: NSNotification.Name.UIKeyboardWillHide , object: nil)        
     }
     
     override func viewWillAppear(_ animated: Bool) {

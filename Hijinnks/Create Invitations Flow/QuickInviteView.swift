@@ -525,8 +525,19 @@ class ContactTableViewCell : UITableViewCell {
         profileImageView.clipsToBounds = true
         // Check to see if this contact has a profile image
         if self.contact.imageDataAvailable {
-//            profileImageView.image = UIImage(data: self.contact.thumbnailImageData!)
-            
+            profileImageView.image = UIImage(data: self.contact.thumbnailImageData!)
+        }
+        else {
+            let tempProfileImageLabel = DEUserManager.sharedManager.getTempProfileImageLabel(name: self.contact.givenName, fontSize: 12)
+            self.contentView.addSubview(tempProfileImageLabel)
+            tempProfileImageLabel.snp.makeConstraints { (make) in
+                make.left.equalTo(self.contentView).offset(10)
+                make.width.equalTo(25)
+                make.height.equalTo(tempProfileImageLabel.snp.width)
+                make.centerY.equalTo(self.contentView)
+            }
+            tempProfileImageLabel.layer.cornerRadius = 12.5
+            tempProfileImageLabel.clipsToBounds = true
         }
         return profileImageView
     }
