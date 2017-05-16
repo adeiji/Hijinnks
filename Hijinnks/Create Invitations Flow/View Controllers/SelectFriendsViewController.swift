@@ -15,6 +15,7 @@ class SelectFriendsViewController : UITableViewController {
     var presetOptions:Array<String> = [InviteesPresets.Anyone.rawValue, InviteesPresets.Everyone.rawValue]
     var kSectionPresets = 0
     var kSectionFriends = 1
+    var kSectionPhoneContacts = 2
     var delegate:PassDataBetweenViewControllersProtocol!
     
     override func viewDidLoad () {
@@ -38,6 +39,7 @@ extension SelectFriendsViewController {
         if section == kSectionPresets {
             return presetOptions.count
         }
+        
         else {
             return friends.count
         }

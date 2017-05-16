@@ -60,6 +60,7 @@
 		F4B7F9451E81D281001AF380 /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B7F93C1E81D281001AF380 /* plus@2x.png */; };
 		F4B7F9461E81D281001AF380 /* plus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B7F93D1E81D281001AF380 /* plus@3x.png */; };
 		F4B8F05E1EC22EE8001AEDFC /* ProfileViewController+ProfileExtraDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8F05D1EC22EE8001AEDFC /* ProfileViewController+ProfileExtraDetails.swift */; };
+		F4B9CAB01EC521B5002D8E47 /* ContactsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B9CAAF1EC521B5002D8E47 /* ContactsController.swift */; };
 		F4BA9E1F1E7701F300590B32 /* ViewUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BA9E1E1E7701F300590B32 /* ViewUsersViewController.swift */; };
 		F4C362331EA47162001832C4 /* QuickInviteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C362321EA47162001832C4 /* QuickInviteView.swift */; };
 		F4CCABD41E9154230049B8D9 /* DEUserManager+PFUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CCABD31E9154230049B8D9 /* DEUserManager+PFUser.swift */; };
@@ -173,6 +174,7 @@
 		F4B7F93C1E81D281001AF380 /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus@2x.png"; path = "Buttons/plus@2x.png"; sourceTree = "<group>"; };
 		F4B7F93D1E81D281001AF380 /* plus@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus@3x.png"; path = "Buttons/plus@3x.png"; sourceTree = "<group>"; };
 		F4B8F05D1EC22EE8001AEDFC /* ProfileViewController+ProfileExtraDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProfileViewController+ProfileExtraDetails.swift"; sourceTree = "<group>"; };
+		F4B9CAAF1EC521B5002D8E47 /* ContactsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsController.swift; path = "Create Invitations Flow/ContactsController.swift"; sourceTree = "<group>"; };
 		F4BA9E1E1E7701F300590B32 /* ViewUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewUsersViewController.swift; path = "User and Login/ViewUsersViewController.swift"; sourceTree = "<group>"; };
 		F4C362321EA47162001832C4 /* QuickInviteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuickInviteView.swift; path = "Create Invitations Flow/QuickInviteView.swift"; sourceTree = "<group>"; };
 		F4CCABD31E9154230049B8D9 /* DEUserManager+PFUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DEUserManager+PFUser.swift"; path = "User and Login/DEUserManager+PFUser.swift"; sourceTree = "<group>"; };
@@ -348,6 +350,7 @@
 				F44CAD711E5F693A00C91A1F /* View Controllers */,
 				F4C362321EA47162001832C4 /* QuickInviteView.swift */,
 				F410EA311EAD3AA200B228D7 /* QuickInviteController.swift */,
+				F4B9CAAF1EC521B5002D8E47 /* ContactsController.swift */,
 			);
 			name = "Create Invitations";
 			sourceTree = "<group>";
@@ -868,6 +871,7 @@
 				F44CAD7E1E5F974800C91A1F /* Constants.swift in Sources */,
 				F44CAD771E5F928000C91A1F /* Colors.swift in Sources */,
 				F44CAD6F1E5F690700C91A1F /* ViewInvitationsViewController.swift in Sources */,
+				F4B9CAB01EC521B5002D8E47 /* ContactsController.swift in Sources */,
 				F4B8F05E1EC22EE8001AEDFC /* ProfileViewController+ProfileExtraDetails.swift in Sources */,
 				F492FF601E60937900A5154C /* CreateInvitationViewController+Autocompletion.swift in Sources */,
 				F4CCABD41E9154230049B8D9 /* DEUserManager+PFUser.swift in Sources */,

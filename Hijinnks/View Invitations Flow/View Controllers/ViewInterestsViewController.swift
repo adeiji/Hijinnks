@@ -14,6 +14,7 @@ import SnapKit
 @objc protocol PassDataBetweenViewControllersProtocol {
     @objc optional func setSelectedInterests(mySelectedInterest: Array<String>)
     @objc optional func setSelectedFriends(mySelectedFriends: NSArray)
+    @objc optional func setSelectedContacts(mySelectedContacts: NSArray)
     @objc optional func setSelectedFriendsToEveryone ()
     @objc optional func setSelectedFriendsToAnyone ()
     @objc optional func addInvitation (invitation: InvitationParseObject)
@@ -23,6 +24,7 @@ import SnapKit
     @objc optional func rsvpButtonPressed (invitation: InvitationParseObject, invitationCell: ViewInvitationsCell)
     @objc optional func profileImagePressed (user: PFUser)
     @objc optional func viewRsvpListButtonPressed (invitation: InvitationParseObject)
+    
 }
 
 class ViewInterestsViewController : UIViewController, UITableViewDelegate, UITableViewDataSource   {

@@ -29,8 +29,8 @@ extension CreateInvitationViewController : MFMessageComposeViewControllerDelegat
         self.quickInviteView.snp.makeConstraints { (make) in
             make.left.equalTo(outerView).offset(25)
             make.right.equalTo(outerView).offset(-25)
-            make.centerY.equalTo(outerView).offset(-50)
-            make.height.equalTo(480)
+            make.centerY.equalTo(outerView).offset(-20)
+            make.height.equalTo(450)
         }
         
         self.quickInviteView.setupUI()
@@ -213,9 +213,24 @@ extension CreateInvitationViewController : MFMessageComposeViewControllerDelegat
         else
         {
             self.quickInviteView.superview?.isHidden = true
-            self.sendInviteToContacts()
+            self.sendInviteToContacts(contacts: self.getInvitedContacts(), time: self.quickInviteView.timeTextField.text!)
         }
     }
+    
+    func getInvitedContacts () -> [CNContact] {
+        var contacts = [CNContact]()
+        let indexPaths = self.quickInviteView.invitedTableView.indexPathsForSelectedRows
+        if indexPaths != nil {
+            for indexPath in indexPaths! {
+                let contact = self.quickInviteView.contacts[indexPath.row]
+                contacts.append(contact)
+            }
+        }
+        
+        return contacts
+    }
+    
+    
     /**
      * - Description Send an invitation in the form of a text message to all the contacts you invited that are not users of the app
      * - Code
@@ -223,28 +238,27 @@ extension CreateInvitationViewController : MFMessageComposeViewControllerDelegat
         self.sendInviteToContacts()
      ````
      */
-    func sendInviteToContacts () {
-        var phoneNumbers:[String] = [String]()
-        let indexPaths = self.quickInviteView.invitedTableView.indexPathsForSelectedRows
-        if indexPaths != nil {
-            for indexPath in indexPaths! {
-                let contact = self.quickInviteView.contacts[indexPath.row]
+    func sendInviteToContacts (contacts: [CNContact]!, time: String) {
+        if contacts != nil {
+            var phoneNumbers:[String] = [String]()
+            
+            for contact in contacts {
                 if contact.phoneNumbers.count != 0 {
                     phoneNumbers.append(contact.phoneNumbers[0].value.stringValue)
                 }
             }
-        }
-        
-        // Check to make sure this device can send text messages
-        if !MFMessageComposeViewController.canSendText() {
-            print("SMS services are not available")
-        }
-        else {
-            let composeMessageViewController = MFMessageComposeViewController()
-            composeMessageViewController.messageComposeDelegate = self
-            composeMessageViewController.recipients = phoneNumbers
-            composeMessageViewController.body = "You are invited to \(self.address!) @ \(self.quickInviteView.timeTextField.text!)\n\nRespond 1 to reply YES\nRespond 0 to reply NO\nSent from Hijinnks App"
-            self.navigationController?.present(composeMessageViewController, animated: true, completion: nil)
+            
+            // Check to make sure this device can send text messages
+            if !MFMessageComposeViewController.canSendText() {
+                print("SMS services are not available")
+            }
+            else {
+                let composeMessageViewController = MFMessageComposeViewController()
+                composeMessageViewController.messageComposeDelegate = self
+                composeMessageViewController.recipients = phoneNumbers
+                composeMessageViewController.body = "You are invited to \(self.address!) @ \(time)\n\nRespond 1 to reply YES\nRespond 0 to reply NO\nSent from Hijinnks App"
+                self.navigationController?.present(composeMessageViewController, animated: true, completion: nil)
+            }
         }
     }
     
@@ -257,5 +271,6 @@ extension CreateInvitationViewController : MFMessageComposeViewControllerDelegat
         }
         
         self.dismiss(animated: true, completion: nil)
+        self.promptPostToFacebook()
     }
 }

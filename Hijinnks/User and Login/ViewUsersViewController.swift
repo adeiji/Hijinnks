@@ -17,7 +17,9 @@ class ViewUsersViewController : UITableViewController {
     var groupOptions:[String] = ["All Your Friends", "Make Public to Anyone"]
     var kFriendIndexPath = 1
     var kGroupIndexPath = 0
-    var delegate:PassDataBetweenViewControllersProtocol!
+    var kContactsIndexPath = 2
+    var phoneContacts = ContactsController.getContacts()
+    var delegate:PassDataBetweenViewControllersProtocol! // CreateInvitationViewController
     /// If this value is set to true than that means that this view controller was presented not pushed onto the view controller stack.
     var wasPresented:Bool = false
     
@@ -77,15 +79,22 @@ class ViewUsersViewController : UITableViewController {
     // Inform the delegate that the users have been selected
     func doneButtonPressed () {
         let selectedFriends = NSMutableArray()
+        let selectedContacts = NSMutableArray()
         let indexPaths = self.tableView.indexPathsForSelectedRows
         if indexPaths != nil {  // If the user has actually selectred a person
             for indexPath in indexPaths! {
-                // Get each indexPath
-                let user = self.friends[indexPath.row]
-                selectedFriends.add(user)
+                if indexPath.section == kFriendIndexPath {
+                    // Get each indexPath
+                    let user = self.friends[indexPath.row]
+                    selectedFriends.add(user)
+                }
+                else if indexPath.section == kContactsIndexPath {
+                    let contact = self.phoneContacts[indexPath.row]
+                    selectedContacts.add(contact)
+                }
             }
-            
             delegate.setSelectedFriends!(mySelectedFriends: selectedFriends)
+            delegate.setSelectedContacts!(mySelectedContacts: selectedContacts)
         }
         if self.wasPresented
         {
@@ -95,26 +104,39 @@ class ViewUsersViewController : UITableViewController {
         {
             _ = self.navigationController?.popViewController(animated: true)
         }
-        
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         if setting == Settings.ViewUsersInvite {
-            return 2
+            return 3
         }
         
         return 1
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if setting != Settings.ViewUsersAll && section == kGroupIndexPath {
-            return "Select Groups"
+        if section == kContactsIndexPath {
+            return "Phone Contacts"
         }
         
-        return nil
+        if setting != Settings.ViewUsersAll && section == kGroupIndexPath {
+            return "Preset"
+        }
+        
+        if setting == Settings.ViewUsersInvite {
+            return "Select From Friends"
+        }
+        else {
+            return "Select A User"
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == kContactsIndexPath {
+            return phoneContacts.count
+        }
+        
         if setting == Settings.ViewUsersInvite {
             if section == kFriendIndexPath {
                 return self.friends.count
@@ -138,7 +160,13 @@ class ViewUsersViewController : UITableViewController {
                 let userCell = UserCell(user: self.friends[indexPath.row])
                 userCell.setupUI()
                 return userCell
-            } else {
+            }
+            else if indexPath.section == kContactsIndexPath {
+                let contactCell = ContactTableViewCell(contact: phoneContacts[indexPath.row])
+                contactCell.setupUI()
+                return contactCell
+            }
+            else {
                 let cell = UITableViewCell(style: .default, reuseIdentifier: "groupOptionCell")
                 cell.textLabel?.text = groupOptions[indexPath.row]
                 return cell

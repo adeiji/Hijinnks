@@ -12,8 +12,11 @@ import SnapKit
 import GooglePlaces
 import Parse
 import FBSDKShareKit
+import Contacts
 
 class CreateInvitationViewController : UIViewController, PassDataBetweenViewControllersProtocol {
+    
+    // UI Elements
     weak var wrapperView:UIView! // This is so that we can have one view in which the Scroll View will have as it's indicator for scrolling
     weak var headerLabel:UILabel! // This label displays the short description for this page -- Create Invitation
     weak var nameTextField:UITextField!
@@ -25,14 +28,16 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     weak var inviteInterestsTextField:UITextField! // Change this in production
     weak var maxNumberOfAttendeesTextField:UITextField!
     weak var locationSwitch:UISwitch!
-    
     weak var scrollView:UIScrollView!
-    
     weak var weeklyButton:UIButton!
     weak var monthlyButton:UIButton!
     
+    // Arrays that store interests, friends, and contacts
     var selectedInterests:Array<String>!
     var selectedFriends:NSArray!
+    var selectedContacts:[CNContact]!
+    
+    // Invitation Details
     var name:String!
     var address:String!
     var locationCoordinates:CLLocation!
@@ -42,15 +47,16 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     var place:GMSPlace!
     var location:PFGeoPoint!
     var durations:Array<String>!
-    var delegateViewInvitationsViewController:PassDataBetweenViewControllersProtocol!
     var isPublic:Bool = false
     var isAllFriends:Bool = false
     var invitationSendScope:InvitationSendScope!
-    var quickMode:Bool = true
+    
+    var delegateViewInvitationsViewController:PassDataBetweenViewControllersProtocol!
     
     // Quick Invite
     let invitation:InvitationParseObject = InvitationParseObject()
     var quickInviteView:QuickInviteView!
+    var quickMode:Bool = true
     
     // These should be set to false by default.  User should have to set either of these values to true
     var isWeekly:Bool = false
@@ -244,6 +250,20 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         inviteInterestsTextField.text = interestsString
     }
     
+    func setSelectedContacts(mySelectedContacts: NSArray) {
+        self.selectedContacts = mySelectedContacts as! [CNContact]
+        for contact in selectedContacts {
+            if (contact == selectedContacts.first && self.inviteesTextField.text != "") {
+                self.inviteesTextField.text = ", " + self.inviteesTextField.text! + "\((contact).givenName), "
+            }
+            else if (contact != selectedContacts.last) {
+                self.inviteesTextField.text = self.inviteesTextField.text! + "\((contact).givenName), "
+            } else {
+                self.inviteesTextField.text = self.inviteesTextField.text! + "\((contact).givenName)"
+            }
+        }
+    }
+    
     func setSelectedFriends(mySelectedFriends: NSArray) {
         self.selectedFriends = mySelectedFriends
         let selectedFriendsUserObjects = mySelectedFriends as! [PFUser]
@@ -338,8 +358,9 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             }
             
             self.quickMode = true
-            self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?.last
-            self.promptPostToFacebook()
+            self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?.last            
+            self.sendInviteToContacts(contacts: self.selectedContacts, time: self.startingTimeTextField.text!)
+            self.reset()
         }
     }
     
@@ -367,7 +388,10 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     func createInvitationAndSend (location: PFGeoPoint, invitees: Array<PFUser>) {
         // Create an invitation object with all the specified data entered by the user
         var newInvitation:InvitationParseObject!
-    
+        // Set the default maximum number of attendees
+        if self.maxNumberOfAttendeesTextField.text == "" {
+            self.maxNumberOfAttendeesTextField.text = "0"
+        }
         
         if self.quickMode == false {
             newInvitation = InvitationParseObject( eventName: self.nameTextField.text!,
@@ -423,7 +447,6 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         Animations.showConfirmationView(type: .Circle, message: "You sent an invitation!", backgroundColor: Colors.blue.value, superView: appDelegate.window!, textColor: .white)
         self.tabBarController?.selectedIndex = 0
-        self.reset()
     }
     
     // Ask the user if they would like to post the invitation to Facebook for others to see

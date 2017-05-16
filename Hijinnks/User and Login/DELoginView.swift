@@ -121,9 +121,9 @@ class DELoginView: UIView {
         self.addSubview(imageView)
         
         imageView.snp.makeConstraints { (make) in
-            make.top.equalTo(self).offset(100)
-            make.height.equalTo(150)
-            make.width.equalTo(150)
+            make.top.equalTo(self).offset(75)
+            make.height.equalTo(125)
+            make.width.equalTo(125)
             make.centerX.equalTo(self)
         }
         

@@ -46,53 +46,12 @@ class QuickInviteView : UIView, UITableViewDataSource, UITableViewDelegate {
     let BUTTON_WIDTH = 110
     let BUTTON_HEIGHT = 30
     let BUTTON_CORNER_RADIUS = 4
-    let BUTTON_OFFSET_TO_CENTER = 80
+    let BUTTON_OFFSET_TO_CENTER = 65
     let HIJINNKS_USER = "- Hijinnks User"
     
     let buttonFont = UIFont.systemFont(ofSize: 14)
     
-    lazy var contacts: [CNContact] = {
-        let contactStore = CNContactStore()
-        let keysToFetch = [
-            CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
-            CNContactEmailAddressesKey,
-            CNContactPhoneNumbersKey,
-            CNContactImageDataAvailableKey,
-            CNContactThumbnailImageDataKey] as [Any]
-        
-        // Get all the containers
-        var allContainers: [CNContainer] = []
-        do {
-            allContainers = try contactStore.containers(matching: nil)
-        } catch {
-            print("Error fetching containers")
-        }
-        
-        var results: [CNContact] = []
-        
-        // Iterate all containers and append their contacts to our results array
-        for container in allContainers {
-            let fetchPredicate = CNContact.predicateForContactsInContainer(withIdentifier: container.identifier)
-            
-            do {
-                let containerResults = try contactStore.unifiedContacts(matching: fetchPredicate, keysToFetch: keysToFetch as! [CNKeyDescriptor])
-                results.append(contentsOf: containerResults)
-                
-                // Remove all contacts that do not have a name or that do not have a phone number
-                results = results.filter({ (contact) -> Bool in
-                    return contact.phoneNumbers.count != 0 && contact.givenName != ""
-                })
-                // Put all the contacts in alphabetical order
-                results.sort(by: { (firstContact, secondContact) -> Bool in
-                    return firstContact.givenName < secondContact.givenName
-                })
-            } catch {
-                print("Error fetching results for container")
-            }
-        }
-        
-        return results
-    }()
+    var contacts = ContactsController.getContacts()
     
     
     func setupUI () {        
@@ -131,6 +90,7 @@ class QuickInviteView : UIView, UITableViewDataSource, UITableViewDelegate {
     
     func setOrLabel () -> UILabel {
         let orLabel = UILabel()
+        orLabel.font = UIFont.systemFont(ofSize: 12.0)
         self.addSubview(orLabel)
         orLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(self)
@@ -177,7 +137,7 @@ class QuickInviteView : UIView, UITableViewDataSource, UITableViewDelegate {
         self.addSubview(cancelButton)
         cancelButton.snp.makeConstraints { (make) in
             make.left.equalTo(self).offset(25)
-            make.top.equalTo(self).offset(25)
+            make.top.equalTo(self).offset(10)
             make.width.equalTo(15)
             make.height.equalTo(15)
         }
@@ -205,7 +165,7 @@ class QuickInviteView : UIView, UITableViewDataSource, UITableViewDelegate {
         let timeView = UIView()
         self.addSubview(timeView)
         timeView.snp.makeConstraints { (make) in
-            make.top.equalTo(self).offset(75)
+            make.top.equalTo(self).offset(50)
             make.left.equalTo(self).offset(OUTERVIEWS_HORIZONTAL_SPACING_TO_SUPERVIEW)
             make.right.equalTo(self).offset(-OUTERVIEWS_HORIZONTAL_SPACING_TO_SUPERVIEW)
             make.height.equalTo(OUTERVIEWS_HEIGHT)
@@ -372,7 +332,7 @@ extension QuickInviteView {
         allFriendsButton.backgroundColor = Colors.blue.value
         allFriendsButton.snp.makeConstraints { (make) in
             make.top.equalTo(self.locationView.snp.bottom).offset(20)
-            make.centerX.equalTo(self).offset(80)
+            make.centerX.equalTo(self).offset(BUTTON_OFFSET_TO_CENTER)
             make.width.equalTo(BUTTON_WIDTH)
             make.height.equalTo(BUTTON_HEIGHT)
         }
@@ -387,7 +347,7 @@ extension QuickInviteView {
         publicButton.backgroundColor = Colors.blue.value
         self.addSubview(publicButton)
         publicButton.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self).offset(-80)
+            make.centerX.equalTo(self).offset(-BUTTON_OFFSET_TO_CENTER)
             make.width.equalTo(BUTTON_WIDTH)
             make.height.equalTo(BUTTON_HEIGHT)
             make.centerY.equalTo(self.allFriendsButton)
@@ -525,7 +485,7 @@ class ContactTableViewCell : UITableViewCell {
         profileImageView.clipsToBounds = true
         // Check to see if this contact has a profile image
         if self.contact.imageDataAvailable {
-            profileImageView.image = UIImage(data: self.contact.thumbnailImageData!)
+//            profileImageView.image = UIImage(data: self.contact.thumbnailImageData!)
         }
         else {
             let tempProfileImageLabel = DEUserManager.sharedManager.getTempProfileImageLabel(name: self.contact.givenName, fontSize: 12)

@@ -184,8 +184,8 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
         label.textAlignment = .center
         self.addSubview(label)
         label.snp.makeConstraints { (make) in
-            make.left.equalTo(self).offset(UIConstants.HorizontalSpacingToSuperview.rawValue)
-            make.right.equalTo(self).offset(-UIConstants.HorizontalSpacingToSuperview.rawValue)
+            make.left.equalTo(self).offset(20)
+            make.right.equalTo(self).offset(-20)
             make.top.equalTo(self).offset(30)
         }
         
@@ -217,8 +217,8 @@ class DECreateAccountView: UIView, UITextFieldDelegate {
             }
             
             make.height.equalTo(40)
-            make.left.equalTo(self).offset(UIConstants.HorizontalSpacingToSuperview.rawValue)
-            make.right.equalTo(self).offset(-UIConstants.HorizontalSpacingToSuperview.rawValue)
+            make.left.equalTo(self).offset(20)
+            make.right.equalTo(self).offset(-20)
         }
         
         return textField
