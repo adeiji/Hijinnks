@@ -363,11 +363,31 @@ class ProfileView : UIScrollView {
         _ = rsvpsString.bold("\(rsvpCount!)").normal("\nRSVPs")
         self.rsvpLabel = setUserDetailCountLabels(myInterestsView: self.interestsView, text: rsvpsString, labelOnLeft: self.inviteesLabel, isLastLabelOnRight: true)
         
+        self.getUserDetails()
         self.menuView = self.setMenuView()
         self.invitationsButton = self.setInvitationsButton()
         self.interestsButton = self.setInterestsButton()
         self.profileDetailsButton = self.setProfileDetailsButton()
         self.setViewInvitationsTableView(viewAbove: self.menuView)
+    }
+    
+    func displayUserDetails (userDetails: UserDetailsParseObject) {
+        let rsvpsString = NSMutableAttributedString()
+        if userDetails.rsvpCount != nil {
+            _ = rsvpsString.bold("\(userDetails.rsvpCount!)").normal("\nRSVPs")
+        }
+        else {
+            _ = rsvpsString.bold("0").normal("\nRSVPs")
+        }
+        self.rsvpLabel.attributedText = rsvpsString
+    }
+    
+    func getUserDetails () {
+        DEUserManager.sharedManager.getUserDetails(user: self.user) { (userDetails) in
+            if userDetails != nil {
+                self.displayUserDetails(userDetails: userDetails as! UserDetailsParseObject)
+            }
+        }
     }
     
     func setUserDetailCountLabels (myInterestsView: InterestsView, text: NSMutableAttributedString, labelOnLeft: UILabel!, isLastLabelOnRight: Bool) -> UILabel {

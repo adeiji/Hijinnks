@@ -19,6 +19,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
     var invitations:[InvitationParseObject]! = [InvitationParseObject]()
     var activitySpinner:UIActivityIndicatorView!
     var bottomConstraint:Constraint!
+    var userDetails:UserDetailsParseObject!
     
     func startActivitySpinner () {
         // Add the activity spinner
@@ -45,7 +46,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         self.view.backgroundColor = .white
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification: )), name: NSNotification.Name.UIKeyboardWillShow , object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification: )), name: NSNotification.Name.UIKeyboardWillHide , object: nil)        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification: )), name: NSNotification.Name.UIKeyboardWillHide , object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
