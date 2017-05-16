@@ -9,6 +9,8 @@
 import Foundation
 import Parse
 
+typealias parseDataReceieved = (PFObject!) -> ()
+
 extension DEUserManager {
     
     /**
@@ -63,5 +65,27 @@ extension DEUserManager {
                 }
             }
         }
+    }
+    
+    /**
+     * - Description Get a UserDetails object from the server for the user
+     * - Parameter user: PFUser - The user in which to get the details for from the server
+     * - Parameter success: @esscaping parseDataReceieved - The callback if the retrieval was successful
+     ```
+        getUserDetails (user: self.user, success {
+            // Do stuff
+        }
+     ```
+     */
+    func getUserDetails (user: PFUser, success: @escaping parseDataReceieved) {
+        
+        // Get the user details from the server using the user's object id as a reference
+        let query = UserDetailsParseObject.query()
+        query?.whereKey(ParseObjectColumns.UserId.rawValue, equalTo: user.objectId!)
+        query?.getFirstObjectInBackground(block: { (userDetailsObject, error) in
+            if error == nil {
+                success(userDetailsObject)
+            }
+        })
     }
 }

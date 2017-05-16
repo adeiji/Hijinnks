@@ -33,6 +33,7 @@ enum ParseCustomObjectsClassNames : String {
     case Invitation = "Invitation"
     case InterestsGroup = "Interests_Group"
     case Comment = "Comment"
+    case UserDetails = "User_Details"
 }
 
 enum ProfileOptions : String {
@@ -85,6 +86,7 @@ enum ParseObjectColumns : String {
     case DateOfBirth = "date_of_birth"
     case CollegeAttended = "college_attended"
     case CityYouLiveIn = "current_city"
+    case UserId = "user_id"
 }
 
 enum UIConstants : Int {

@@ -250,21 +250,26 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         inviteInterestsTextField.text = interestsString
     }
     
+    func removePublicStringFromTextField () {
+        if self.inviteesTextField.text == PUBLIC_STRING {
+            self.inviteesTextField.text = ""
+        }
+    }
+    
     func setSelectedContacts(mySelectedContacts: NSArray) {
+        self.removePublicStringFromTextField()
         self.selectedContacts = mySelectedContacts as! [CNContact]
         for contact in selectedContacts {
-            if (contact == selectedContacts.first && self.inviteesTextField.text != "") {
-                self.inviteesTextField.text = ", " + self.inviteesTextField.text! + "\((contact).givenName), "
-            }
-            else if (contact != selectedContacts.last) {
-                self.inviteesTextField.text = self.inviteesTextField.text! + "\((contact).givenName), "
+            if self.inviteesTextField.text == "" {
+                self.inviteesTextField.text = self.inviteesTextField.text! + ", \((contact).givenName)"
             } else {
-                self.inviteesTextField.text = self.inviteesTextField.text! + "\((contact).givenName)"
+                self.inviteesTextField.text = "\((contact).givenName)"
             }
         }
     }
     
     func setSelectedFriends(mySelectedFriends: NSArray) {
+        self.removePublicStringFromTextField()
         self.selectedFriends = mySelectedFriends
         let selectedFriendsUserObjects = mySelectedFriends as! [PFUser]
         for user in selectedFriendsUserObjects {
@@ -356,7 +361,6 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             else {  // If the user has made the invitation public
                 createInvitationAndSend(location: currentLocation, invitees: Array<PFUser>())
             }
-            
             self.quickMode = true
             self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?.last            
             self.sendInviteToContacts(contacts: self.selectedContacts, time: self.startingTimeTextField.text!)

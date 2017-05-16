@@ -136,7 +136,7 @@ extension ViewInvitationsViewController {
         self.navigationController?.pushViewController(commentViewController, animated: true)
     }
     
-    func rsvpButtonPressed(invitation: InvitationParseObject, invitationCell: ViewInvitationsCell) {
+    func rsvpButtonPressed(invitation: InvitationParseObject, invitationCell: ViewInvitationsCell, userDetails: UserDetailsParseObject) {
         let rsvpCount = invitation.fromUser.value(forKey: ParseObjectColumns.RSVPCount.rawValue) as? Int
         if rsvpCount == nil {
             invitation.fromUser.setValue(0, forKey: ParseObjectColumns.RSVPCount.rawValue)
@@ -150,10 +150,10 @@ extension ViewInvitationsViewController {
                     $0 != PFUser.current()?.objectId
                 }
                 invitation.rsvpCount = invitation.rsvpCount - 1
-                invitation.fromUser.incrementKey(ParseObjectColumns.RSVPCount.rawValue, byAmount: -1)
+                userDetails.incrementKey(ParseObjectColumns.RSVPCount.rawValue, byAmount: -1)
             }
             else {
-                invitation.fromUser.incrementKey(ParseObjectColumns.RSVPCount.rawValue)
+                userDetails.incrementKey(ParseObjectColumns.RSVPCount.rawValue)
                 invitation.incrementKey(ParseObjectColumns.RSVPCount.rawValue, byAmount: 1)
                 invitation.rsvpUsers.append((PFUser.current()?.objectId)!)
                 let confirmationViewColor = UIColor(red: 36/255, green: 66/255, blue: 156/255, alpha: 1.0)
@@ -161,13 +161,9 @@ extension ViewInvitationsViewController {
             }
             // Apparently I can't save a user who has not been logged in.  Which I guess makes sense, but we need to possibly figure a way around this
             invitation.saveInBackground()
-            
-            if PFUser.current() == invitation.fromUser {
-                PFUser.current()?.setValue(invitation.fromUser.value(forKey: ParseObjectColumns.RSVPCount.rawValue), forKey: ParseObjectColumns.RSVPCount.rawValue)
-            }
-            
             // Update the view of the invitation cell
             invitationCell.resetRsvpView()
+            userDetails.saveInBackground()
         }
         else {  // I the user who pressed the RSVP button is the owner of this invitation
             self.seeRsvpdList(invitation: invitation)

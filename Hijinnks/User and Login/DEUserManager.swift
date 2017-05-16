@@ -34,8 +34,15 @@ class DEUserManager: NSObject {
                 self.userObject[self.PARSE_CLASS_USER_RANK] = self.USER_RANK_STANDARD
                 self.userObject[self.PARSE_CLASS_USER_CANONICAL_USERNAME] = userName
                 self.userObject[ParseObjectColumns.PhoneNumber.rawValue] = phoneNumber
-                self.userObject.saveEventually()
-            
+                self.userObject.saveInBackground(block: { (success, error) in
+                    if success == true {
+                        // User details object will handle the like count, and the rsvp count of the user
+                        let userDetails = UserDetailsParseObject()
+                        userDetails.userId = self.userObject.objectId!
+                        userDetails.saveInBackground()
+                    }
+                })
+                // Display the next screen
                 let appDelegate = UIApplication.shared.delegate
                 let navigationController = appDelegate?.window!?.rootViewController as! UINavigationController
                 navigationController.pushViewController(showViewControllerOnComplete, animated: true)

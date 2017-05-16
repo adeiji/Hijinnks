@@ -63,10 +63,15 @@ class ViewInvitationsCell : UITableViewCell {
     let delegate:PassDataBetweenViewControllersProtocol // View Controller Handling the View
     var imageTapGestureRecognizer:UITapGestureRecognizer! // Must keep a reference to this object otherwise the tap gesture recognizer will not work
     
+    // User
+    var userDetails:UserDetailsParseObject!
+    
+    
+    // Methods
     required init(invitation: InvitationParseObject, delegate: PassDataBetweenViewControllersProtocol) {
         self.invitation = invitation
         self.delegate = delegate
-        super.init(style: .default, reuseIdentifier: nil)        
+        super.init(style: .default, reuseIdentifier: nil)
         setupUI()
     }
     
@@ -465,7 +470,7 @@ extension ViewInvitationsCell {
         
         button.titleLabel?.lineBreakMode = .byWordWrapping
         button.titleLabel?.textAlignment = .center
-        button.addTarget(self, action: #selector(updateRSVPCount), for: .touchUpInside)
+        button.addTarget(self, action: #selector(updateRSVPCountButtonPressed), for: .touchUpInside)
         superview.addSubview(button)
         button.snp.makeConstraints { (make) in
             make.right.equalTo(superview).offset(-35)
@@ -492,19 +497,43 @@ extension ViewInvitationsCell {
         delegate.showInvitationCommentScreen!(invitation: self.invitation)
     }
     
+    // TODO: Figure out a way to make sure that this method must be called, if it's not called then the app will crash on click of the RSVP button
+    func getUserDetails () {
+        DEUserManager.sharedManager.getUserDetails(user: invitation.fromUser, success: { (userDetails) in
+            if userDetails != nil {
+                self.userDetails = userDetails as? UserDetailsParseObject
+            }
+        })
+    }
+    
+    func updateRSVPCountButtonPressed () {
+        if self.userDetails != nil {
+            self.updateRSVPCount()
+        } else {
+            DEUserManager.sharedManager.getUserDetails(user: invitation.fromUser, success: { (userDetails) in
+                if userDetails != nil {
+                    self.userDetails = userDetails as? UserDetailsParseObject
+                    self.updateRSVPCount()
+                }
+            })
+        }
+    }
+    
     /**
      * - Description Increase or decrease the count of those who have RSVP'd and update the users who have RSVP'd
      */
     func updateRSVPCount () {
-        delegate.rsvpButtonPressed!(invitation: self.invitation, invitationCell: self) // Delegate is ViewInvitationsViewController
-        self.invitation.saveInBackground()
-        if invitation.rsvpCount == invitation.maxAttendees && invitation.maxAttendees != 0 {
-            self.rsvpButton.setTitleColor(.red, for: .normal)
-            self.rsvpButton.setTitle("MAXED\nOUT", for: .normal) // Display the number of people who have RSVP'd
-        }
-        else {
-            self.rsvpButton.setTitleColor(Colors.CommentButtonBlue.value, for: .normal)
-            self.rsvpButton.setTitle("\(invitation.rsvpCount!)\nRSVP'd", for: .normal) // Display the number of people who have RSVP'd
+        if self.userDetails != nil {
+            delegate.rsvpButtonPressed!(invitation: self.invitation, invitationCell: self, userDetails: self.userDetails) // Delegate is ViewInvitationsViewController
+            self.invitation.saveInBackground()
+            if invitation.rsvpCount == invitation.maxAttendees && invitation.maxAttendees != 0 {
+                self.rsvpButton.setTitleColor(.red, for: .normal)
+                self.rsvpButton.setTitle("MAXED\nOUT", for: .normal) // Display the number of people who have RSVP'd
+            }
+            else {
+                self.rsvpButton.setTitleColor(Colors.CommentButtonBlue.value, for: .normal)
+                self.rsvpButton.setTitle("\(invitation.rsvpCount!)\nRSVP'd", for: .normal) // Display the number of people who have RSVP'd
+            }
         }
     }
     
