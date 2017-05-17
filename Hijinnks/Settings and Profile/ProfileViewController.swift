@@ -44,9 +44,6 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification: )), name: NSNotification.Name.UIKeyboardWillShow , object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification: )), name: NSNotification.Name.UIKeyboardWillHide , object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,7 +88,13 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         self.profileView.profileDetailsView.collegeAttendedTextField.delegate = self
         self.profileView.profileDetailsView.lastNameTextField.delegate = self
         self.profileView.profileDetailsView.firstNameTextField.delegate = self
+        
+        if UtilityFunctions.isCurrent(user: self.user) {
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification: )), name: NSNotification.Name.UIKeyboardWillShow , object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification: )), name: NSNotification.Name.UIKeyboardWillHide , object: nil)
+        }
     }
+    
     
     func updateViewForViewInvitations () {
         self.bottomConstraint.deactivate()
@@ -332,6 +335,7 @@ extension ProfileViewController {
                 let conversationViewController = ConversationViewController(toUser: self.user)
                 conversationViewController.channel = channel                
                 self.navigationController?.pushViewController(conversationViewController, animated: true)
+                
             }            
         }
     }

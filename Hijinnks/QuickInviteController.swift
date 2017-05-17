@@ -229,6 +229,7 @@ extension CreateInvitationViewController : MFMessageComposeViewControllerDelegat
             self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?.first
             self.sendInviteToContacts(contacts: self.selectedContacts, time: self.startingTimeTextField.text!)
             self.reset()
+            
         }
     }
     

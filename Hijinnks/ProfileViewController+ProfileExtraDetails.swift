@@ -44,7 +44,7 @@ extension ProfileViewController : UITextFieldDelegate {
         return true
     }
     
-    func keyboardWillShow(notification:NSNotification){
+    func keyboardWillShow(notification:NSNotification) {
         var userInfo = notification.userInfo!
         var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue  // Get the rectangle for the keyboard
         keyboardFrame = self.view.convert(keyboardFrame, from: nil)                                     // the from view is nil therefore the keyboardFrame is converted to the coordinates of the window

@@ -160,7 +160,8 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         self.invitationSendScope = nil
         self.isWeekly = false
         self.isMonthly = false
-        
+        self.selectedContacts = [CNContact]()           
+        self.quickInviteView = nil
     }
     
     func setRecurringView () {
