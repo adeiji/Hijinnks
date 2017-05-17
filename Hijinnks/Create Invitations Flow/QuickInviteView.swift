@@ -49,6 +49,9 @@ class QuickInviteView : UIView, UITableViewDataSource, UITableViewDelegate {
     let BUTTON_OFFSET_TO_CENTER = 65
     let HIJINNKS_USER = "- Hijinnks User"
     
+    let kPhoneContactSection = 1
+    let kUsersSection = 0
+    
     let buttonFont = UIFont.systemFont(ofSize: 14)
     
     var contacts = ContactsController.getContacts()
@@ -58,7 +61,6 @@ class QuickInviteView : UIView, UITableViewDataSource, UITableViewDelegate {
         self.backgroundColor = .white
         self.layer.borderColor = Colors.blue.value.cgColor
         self.layer.borderWidth = 2.0
-        self.addFriends()
         self.setHeaderElements()
         self.setTimeViewElements()
         self.setLocationElements()
@@ -77,7 +79,7 @@ class QuickInviteView : UIView, UITableViewDataSource, UITableViewDelegate {
         self.addSubview(sendButton)
         sendButton.snp.makeConstraints { (make) in
             make.centerX.equalTo(self).offset(-BUTTON_OFFSET_TO_CENTER)
-            make.bottom.equalTo(self).offset(-25)
+            make.bottom.equalTo(self).offset(-15)
             make.width.equalTo(BUTTON_WIDTH)
             make.height.equalTo(BUTTON_HEIGHT)
         }
@@ -137,7 +139,7 @@ class QuickInviteView : UIView, UITableViewDataSource, UITableViewDelegate {
         self.addSubview(cancelButton)
         cancelButton.snp.makeConstraints { (make) in
             make.left.equalTo(self).offset(25)
-            make.top.equalTo(self).offset(10)
+            make.top.equalTo(self).offset(20)
             make.width.equalTo(15)
             make.height.equalTo(15)
         }
@@ -395,48 +397,38 @@ extension QuickInviteView {
 // Table View Data Source
 extension QuickInviteView {
     
-    func addFriends () {
-        let parseQueue = DispatchQueue(label: "com.hijinnks.parse")
-        parseQueue.async {
-            let friends = DEUserManager.sharedManager.friends
-            if friends != nil {
-                // Create CNContact objects for every friend
-                for friend in friends! {
-                    let contact = CNMutableContact()
-                    contact.givenName = friend.username!
-                    contact.familyName = self.HIJINNKS_USER
-                    // If this user has a profile image
-                    if friend.object(forKey: ParseObjectColumns.Profile_Picture.rawValue) != nil {
-                        let imageFile = (friend.object(forKey: ParseObjectColumns.Profile_Picture.rawValue)) as! PFFile
-                        do {
-                            contact.imageData = try imageFile.getData()
-                            self.contacts.append(contact)
-                        }
-                        catch {
-                            print(error.localizedDescription)
-                        }
-                    }
-                    else { // User does not have a profile image
-                        self.contacts.append(contact)
-                    }
-                }
-                
-                DispatchQueue.main.async {
-                    self.invitedTableView.reloadData()  // Reload the table data with the user's friends added
-                }
-            }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == kPhoneContactSection {
+            return self.contacts.count
         }
-        
+        else {
+            return self.friends!.count
+        }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contacts.count
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == kPhoneContactSection {
+            return "Phone Contacts"
+        } else {
+            return "Friends"
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let contactTableViewCell = ContactTableViewCell(contact: contacts[indexPath.row])
         
-        return contactTableViewCell
+        if indexPath.section == kPhoneContactSection {
+            let contactTableViewCell = ContactTableViewCell(contact: contacts[indexPath.row])
+            return contactTableViewCell
+        }
+        else {
+            let userTableViewCell = UserCell(user: self.friends![indexPath.row])
+            userTableViewCell.setupUI()
+            return userTableViewCell
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

@@ -211,6 +211,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         self.user.add(PFUser.current()!.objectId!, forKey: ParseObjectColumns.Followers.rawValue)
         PFUser.current()?.saveInBackground()
         self.user.saveInBackground()
+        DEUserManager.sharedManager.setFriends(user: self.user)
     }
     
     func displayProfileOptions () {

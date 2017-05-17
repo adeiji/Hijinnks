@@ -25,6 +25,14 @@ class ParseManager {
     class func getAllInvitationsNearLocation () -> [InvitationParseObject]! {
         let interestsQuery = InvitationParseObject.query()
         let invitedQuery = InvitationParseObject.query()
+        let fromSelfQuery = InvitationParseObject.query()
+        
+        let today = Date()
+        let tomorrow = Calendar.current.date(byAdding: .day, value: -1, to: today)
+        
+        if PFUser.current() != nil {
+            fromSelfQuery?.whereKey(ParseObjectColumns.FromUser.rawValue, equalTo: PFUser.current()!)
+        }
         
         if PFUser.current() != nil && PFUser.current()?.object(forKey: ParseObjectColumns.Interests.rawValue) != nil {
 //  - - - - if you share the same interests...
@@ -40,9 +48,9 @@ class ParseManager {
         
         // If you were invited personally
         // If you share the same interests and the invite is public
-        let query = PFQuery.orQuery(withSubqueries: [interestsQuery!, invitedQuery!])
+        let query = PFQuery.orQuery(withSubqueries: [interestsQuery!, invitedQuery!, fromSelfQuery!])
         query.addDescendingOrder(ParseObjectColumns.StartingTime.rawValue)  // Display the invitations by most recent
-        query.whereKey(ParseObjectColumns.StartingTime.rawValue, greaterThan: Date())
+        query.whereKey(ParseObjectColumns.StartingTime.rawValue, greaterThan: tomorrow!)
         
         do {
             let invitations = try query.findObjects()

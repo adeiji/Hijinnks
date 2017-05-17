@@ -93,8 +93,7 @@ class DEUserManager: NSObject {
             // Get the user corresponding to an email and then use that username to login
         let query: PFQuery? = PFUser.query()
         query?.whereKey(self.PARSE_CLASS_USERNAME, equalTo: lowercaseUsername)
-        query?.getFirstObjectInBackground(block: { (obj, error) in
-            
+        query?.getFirstObjectInBackground(block: { (obj, error) in            
             if obj != nil {
                 // If there's no returned objects we know then that this email does not exist, if we get a returned object though, we want to get that username and login now
                 blockUsername = obj?.object(forKey: self.PARSE_CLASS_USERNAME) as! String
@@ -171,6 +170,9 @@ class DEUserManager: NSObject {
                         }
                         
                         self.friends = friendObjects
+                    }
+                    else {
+                        self.friends = [PFUser]()
                     }
                 })
             }

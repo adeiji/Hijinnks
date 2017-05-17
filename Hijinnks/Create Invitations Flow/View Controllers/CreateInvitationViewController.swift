@@ -94,8 +94,10 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
             self.quickInviteView.cancelButton.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
             self.quickMode = true
         }
+        
         if self.quickMode == true {
             self.quickInviteView.superview?.isHidden = false
+            self.quickInviteView.invitedTableView.reloadData()
         }
     }
     
@@ -261,15 +263,16 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         self.selectedContacts = mySelectedContacts as! [CNContact]
         for contact in selectedContacts {
             if self.inviteesTextField.text == "" {
-                self.inviteesTextField.text = self.inviteesTextField.text! + ", \((contact).givenName)"
-            } else {
                 self.inviteesTextField.text = "\((contact).givenName)"
+            } else {
+                self.inviteesTextField.text = self.inviteesTextField.text! + ", \((contact).givenName)"
             }
         }
     }
     
     func setSelectedFriends(mySelectedFriends: NSArray) {
-        self.removePublicStringFromTextField()
+        self.inviteesTextField.text = ""
+        self.selectedContacts = nil
         self.selectedFriends = mySelectedFriends
         let selectedFriendsUserObjects = mySelectedFriends as! [PFUser]
         for user in selectedFriendsUserObjects {
@@ -362,7 +365,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
                 createInvitationAndSend(location: currentLocation, invitees: Array<PFUser>())
             }
             self.quickMode = true
-            self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?.last            
+            self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?.first
             self.sendInviteToContacts(contacts: self.selectedContacts, time: self.startingTimeTextField.text!)
             self.reset()
         }
@@ -450,7 +453,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         Animations.showConfirmationView(type: .Circle, message: "You sent an invitation!", backgroundColor: Colors.blue.value, superView: appDelegate.window!, textColor: .white)
-        self.tabBarController?.selectedIndex = 0
+        self.tabBarController?.selectedIndex = 3
     }
     
     // Ask the user if they would like to post the invitation to Facebook for others to see

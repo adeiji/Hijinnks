@@ -32,6 +32,7 @@ class ProfileView : UIScrollView {
     weak var user:PFUser!
     weak var wrapperView:UIView!
     var likeButton:HijinnksButton!
+    weak var likeLabel:UILabel!
     var isFriend:Bool
     
     weak var menuView:UIView!
@@ -237,7 +238,10 @@ class ProfileView : UIScrollView {
         } else {
             likeCounterLabel.text = "0"
         }
+        
         self.likeButton = likeButton
+        self.likeLabel = likeCounterLabel
+        
         if UtilityFunctions.isCurrent(user: self.user) == false {
             setAddFriendButton()
         } else {
@@ -371,7 +375,11 @@ class ProfileView : UIScrollView {
         self.setViewInvitationsTableView(viewAbove: self.menuView)
     }
     
-    func displayUserDetails (userDetails: UserDetailsParseObject) {
+    /**
+     * - Description Display the amount of RSVPs this user has currently
+     * - Parameter userDetails: UserDetailsParseObject - The object which contains the details for the user, ex. rsvpCount, likeCount etc
+     */
+    func displayRSVPCount (userDetails: UserDetailsParseObject) {
         let rsvpsString = NSMutableAttributedString()
         if userDetails.rsvpCount != nil {
             _ = rsvpsString.bold("\(userDetails.rsvpCount!)").normal("\nRSVPs")
@@ -380,6 +388,23 @@ class ProfileView : UIScrollView {
             _ = rsvpsString.bold("0").normal("\nRSVPs")
         }
         self.rsvpLabel.attributedText = rsvpsString
+    }
+    
+    /**
+     * - Description Display the amount of likes this user has currently
+     * - Parameter userDetails: UserDetailsParseObject - The object which contains the details for the user, ex. rsvpCount, likeCount etc
+     */
+    func displayLikeCount (userDetails: UserDetailsParseObject) {
+        if userDetails.likeCount != nil {
+            self.likeLabel.text = "0"
+        }
+        else {
+            self.likeLabel.text = "\(userDetails.likeCount!)"
+        }
+    }
+    
+    func displayUserDetails (userDetails: UserDetailsParseObject) {
+        self.displayRSVPCount(userDetails: userDetails)
     }
     
     func getUserDetails () {

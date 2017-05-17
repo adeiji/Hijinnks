@@ -185,6 +185,9 @@ extension ViewInvitationsCell {
         label.font = UIFont.systemFont(ofSize: 14.0)
         label.numberOfLines = 0
         label.text = message
+        if message == "" {
+            label.text = "No message for invitation"
+        }
         superview.addSubview(label)
         label.snp.makeConstraints { (make) in
             make.left.equalTo(superview).offset(50)
@@ -269,6 +272,11 @@ extension ViewInvitationsCell {
         let label = UILabel()
         label.font = font
         label.text =  self.invitation.eventName
+        
+        if self.invitation.eventName == "" {
+            label.text = "No Event Name"
+        }
+        
         label.textAlignment = .left
         superview.addSubview(label)
         label.snp.makeConstraints { (make) in
@@ -563,33 +571,29 @@ extension ViewInvitationsCell {
         
     }
     
-    func updateLikeCount (likedInvitations: [String], increment: Int) {
-        // Increase the count of likes by 1 for the user
-        var likes = self.invitation.fromUser.value(forKey: ParseObjectColumns.NumberOfLikes.rawValue) as? Int
-        if likes == nil {
-            likes = 0
-        }
-        
+    func updateUserDetailsLikeCount (userDetails: UserDetailsParseObject, increment: Int) {
+        var likes = self.userDetails.likeCount
         likes = likes! + increment
-        self.invitation.fromUser.setValue(likes, forKey: ParseObjectColumns.NumberOfLikes.rawValue)
-        self.invitation.fromUser.saveInBackground(block: { (success, error) in
+        self.userDetails.likeCount = likes
+        self.userDetails.saveInBackground { (success, error) in
             if error != nil {
                 print("Error updating user like count on the server - \(error?.localizedDescription)")
+            } else {
+                print(userDetails)
             }
-        })
-        
-        // If the owner of this invitation is the current user than we update the number of likes locally as well
-        if self.invitation.fromUser.objectId == PFUser.current()?.objectId
-        {
-            PFUser.current()?.setValue(likes, forKey: ParseObjectColumns.NumberOfLikes.rawValue)
         }
-        
-        
-        PFUser.current()?.saveInBackground(block: { (sucess, error) in
-            if error != nil {
-                print("Error saving likedInvitations and likeCount for current user - \(error?.localizedDescription)")
-            }
-        })
+    }
+    
+    func updateLikeCount (likedInvitations: [String], increment: Int) {
+        if self.userDetails != nil {
+            self.updateUserDetailsLikeCount(userDetails: self.userDetails, increment: increment)
+        } else {
+            DEUserManager.sharedManager.getUserDetails(user: self.invitation.fromUser , success: { (userDetails) in
+                if self.userDetails != nil {
+                    self.updateUserDetailsLikeCount(userDetails: self.userDetails, increment: increment)
+                }
+            })
+        }
     }
 }
 // Show the interests
@@ -601,11 +605,18 @@ extension ViewInvitationsCell {
             make.left.equalTo(self.profileImageAndEventNameView)
             make.right.equalTo(self.profileImageAndEventNameView)
             make.top.equalTo(self.messageView.snp.bottom)
-            make.height.equalTo(75)
+            if self.invitation.interests.count != 0 {
+                make.height.equalTo(75)
+            } else {
+                make.height.equalTo(0)
+            }
         }
         interestView.layer.borderColor = Colors.VeryLightGray.value.cgColor
         interestView.layer.borderWidth = CGFloat(VIEW_BORDER_WIDTH)
-        _ = self.setInterestsScrollView(superview: interestView)
+        
+        if self.invitation.interests.count != 0 {
+            _ = self.setInterestsScrollView(superview: interestView)
+        }
         return interestView
     }
     
@@ -629,7 +640,7 @@ extension ViewInvitationsCell {
         
         view.snp.makeConstraints { (make) in
             make.edges.equalTo(scrollView)
-            make.width.equalTo(scrollView.snp.width)
+            make.width.equalTo(xPos)
             make.height.equalTo(scrollView.snp.height)
         }
         

@@ -137,11 +137,6 @@ extension ViewInvitationsViewController {
     }
     
     func rsvpButtonPressed(invitation: InvitationParseObject, invitationCell: ViewInvitationsCell, userDetails: UserDetailsParseObject) {
-        let rsvpCount = invitation.fromUser.value(forKey: ParseObjectColumns.RSVPCount.rawValue) as? Int
-        if rsvpCount == nil {
-            invitation.fromUser.setValue(0, forKey: ParseObjectColumns.RSVPCount.rawValue)
-        }
-        
         // If the user who pressed the rsvp button is not the owner of this invitation
         if UtilityFunctions.isCurrent(user: invitation.fromUser) == false {
             // If the user has already rsvp'd to this shindig

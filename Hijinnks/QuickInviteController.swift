@@ -50,7 +50,7 @@ extension CreateInvitationViewController : MFMessageComposeViewControllerDelegat
         datePicker.minimumDate = date as Date // make sure the minimum time they can choose is the current time
         datePicker.minuteInterval = 10
         self.quickInviteView.timeTextField.inputView = datePicker
-        datePicker.addTarget(self, action: #selector(startTimePickerDateChanged(sender:)), for: .valueChanged)
+        datePicker.addTarget(self, action: #selector(startTimePickerDateChanged(sender:)), for: .valueChanged)        
     }
     
     /**
@@ -213,23 +213,43 @@ extension CreateInvitationViewController : MFMessageComposeViewControllerDelegat
         else
         {
             self.quickInviteView.superview?.isHidden = true
-            self.sendInviteToContacts(contacts: self.getInvitedContacts(), time: self.quickInviteView.timeTextField.text!)
+            let contacts = self.getInvitedContacts()
+            
+            if contacts.count != 0 {
+                self.sendInviteToContacts(contacts: contacts, time: self.quickInviteView.timeTextField.text!)
+            }
+            if self.selectedFriends.count != 0 {
+                self.createInvitationAndSend(location: self.location, invitees: self.selectedFriends as! Array<PFUser>)
+                if contacts.count == 0 {
+                    self.promptPostToFacebook()
+                }
+            }
+            // TODO: Put this into a method of its own
+            self.quickMode = true
+            self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?.first
+            self.sendInviteToContacts(contacts: self.selectedContacts, time: self.startingTimeTextField.text!)
+            self.reset()
         }
     }
     
     func getInvitedContacts () -> [CNContact] {
         var contacts = [CNContact]()
         let indexPaths = self.quickInviteView.invitedTableView.indexPathsForSelectedRows
+        var selectedFriends = [PFUser]()
         if indexPaths != nil {
             for indexPath in indexPaths! {
-                let contact = self.quickInviteView.contacts[indexPath.row]
-                contacts.append(contact)
+                if indexPath.section == self.quickInviteView.kPhoneContactSection {
+                    let contact = self.quickInviteView.contacts[indexPath.row]
+                    contacts.append(contact)
+                } else {
+                    selectedFriends.append((self.quickInviteView.friends?[indexPath.row])! )
+                }
             }
         }
         
+        self.selectedFriends = selectedFriends as NSArray!
         return contacts
     }
-    
     
     /**
      * - Description Send an invitation in the form of a text message to all the contacts you invited that are not users of the app
@@ -256,7 +276,7 @@ extension CreateInvitationViewController : MFMessageComposeViewControllerDelegat
                 let composeMessageViewController = MFMessageComposeViewController()
                 composeMessageViewController.messageComposeDelegate = self
                 composeMessageViewController.recipients = phoneNumbers
-                composeMessageViewController.body = "You are invited to \(self.address!) @ \(time)\n\nRespond 1 to reply YES\nRespond 0 to reply NO\nSent from Hijinnks App"
+                composeMessageViewController.body = "You are invited to \(self.quickInviteView.locationTextField.text!) @ \(time)\n\nRespond 1 to reply YES\nRespond 0 to reply NO\nSent from Hijinnks App"
                 self.navigationController?.present(composeMessageViewController, animated: true, completion: nil)
             }
         }
