@@ -566,6 +566,7 @@
 				F4E0D8521E5A09E400FFEEB8 /* Resources */,
 				E0457E3CF48B3C4A607242B6 /* [CP] Embed Pods Frameworks */,
 				6FD50B5CFF44951AEF9332AE /* [CP] Copy Pods Resources */,
+				F4476A291ECCA801007C0318 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -839,6 +840,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HijinnksTests/Pods-HijinnksTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		F4476A291ECCA801007C0318 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "";
 		};
 		F9534653851894921274FC89 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1161,6 +1176,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = HJPTQ3N75W;
 				INFOPLIST_FILE = Hijinnks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;

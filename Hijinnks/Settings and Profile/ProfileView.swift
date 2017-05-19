@@ -284,7 +284,7 @@ class ProfileView : UIScrollView {
         bioTextView.textColor = .black
         bioTextView.isUserInteractionEnabled = false
         bioTextView.returnKeyType = .done
-        bioTextView.font = UIFont.systemFont(ofSize: 16)
+        bioTextView.font = UIFont.systemFont(ofSize: 15)
         bioTextView.textAlignment = .center
         
         if UtilityFunctions.isCurrent(user: self.user) == true {
@@ -307,7 +307,7 @@ class ProfileView : UIScrollView {
             }
             make.right.equalTo(self.wrapperView).offset(-UIConstants.ProfileViewHorizontalSpacing.rawValue)
             if DEUserManager.sharedManager.getBio(user: self.user) != nil || UtilityFunctions.isCurrent(user: self.user) == true {
-                make.height.equalTo(50)
+                make.height.equalTo(65)
             }
             else {
                 make.height.equalTo(0)

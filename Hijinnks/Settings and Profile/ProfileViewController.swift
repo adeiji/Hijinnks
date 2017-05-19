@@ -20,6 +20,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
     var activitySpinner:UIActivityIndicatorView!
     var bottomConstraint:Constraint!
     var userDetails:UserDetailsParseObject!
+    weak var messageButton:HijinnksButton!
     
     func startActivitySpinner () {
         // Add the activity spinner
@@ -78,6 +79,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
             messageButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
             let messageBarItem = UIBarButtonItem(customView: messageButton)
             self.navigationItem.setRightBarButton(messageBarItem, animated: true)
+            self.messageButton = messageButton
         }
         
         self.profileView.invitationsButton.addTarget(self, action: #selector(menuButtonPressed(sender:)), for: .touchUpInside)
@@ -92,6 +94,12 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
         if UtilityFunctions.isCurrent(user: self.user) {
             NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification: )), name: NSNotification.Name.UIKeyboardWillShow , object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification: )), name: NSNotification.Name.UIKeyboardWillHide , object: nil)
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if UtilityFunctions.isCurrent(user: self.user) {
+            NotificationCenter.default.removeObserver(self)            
         }
     }
     
@@ -171,6 +179,8 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
     
     func messageButtonPressed () {
         let userIds:[String] = [self.user.objectId!, (PFUser.current()?.objectId)!]
+        self.startActivitySpinner()
+        self.messageButton.isUserInteractionEnabled = false
         self.createConversationChannel(userIds: userIds)
     }
     
@@ -308,12 +318,15 @@ extension ProfileViewController {
         }
         let imageData = UIImageJPEGRepresentation(image, 0.2)
         self.profileView.profileImageView.image = image
+        UserDefaults.standard.set(image, forKey: UserDefaultConstants.ProfileImage.rawValue)
+        UserDefaults.standard.synchronize()
         DEUserManager.sharedManager.addProfileImage(imageData!)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         // Show the Navigation Bar
         UtilityFunctions.showNavBar()
+        picker.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -328,10 +341,16 @@ extension ProfileViewController {
     func createConversationChannel (userIds : [String]) {
         SBDGroupChannel.createChannel(withUserIds: userIds, isDistinct: true) { (channel, error) in
             if error != nil {
+                let alert = UIAlertController(title: "Error", message: "Sorry, there was an error trying to create a conversation.  Please try again.", preferredStyle: .alert)
+                let alertAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+                alert.addAction(alertAction)
+                self.present(alert, animated: true, completion: nil)
                 print("Error creating channel for users with ids \(userIds) - \(error)")
                 return
             }
             DispatchQueue.main.sync {
+                self.activitySpinner.stopAnimating()
+                self.messageButton.isUserInteractionEnabled = true
                 let conversationViewController = ConversationViewController(toUser: self.user)
                 conversationViewController.channel = channel                
                 self.navigationController?.pushViewController(conversationViewController, animated: true)

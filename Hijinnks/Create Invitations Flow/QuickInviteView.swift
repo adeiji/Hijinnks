@@ -87,6 +87,7 @@ class QuickInviteView : UIView, UITableViewDataSource, UITableViewDelegate {
         sendButton.setTitle("Send", for: .normal)
         sendButton.backgroundColor = Colors.blue.value
         sendButton.titleLabel?.font = buttonFont
+        
         return sendButton
     }
     
@@ -402,7 +403,11 @@ extension QuickInviteView {
             return self.contacts.count
         }
         else {
-            return self.friends!.count
+            if self.friends != nil {
+                return self.friends!.count
+            }
+            
+            return 0
         }
     }
     

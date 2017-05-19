@@ -19,8 +19,7 @@ class DEUserManager: NSObject {
     let PARSE_CLASS_USER_CANONICAL_USERNAME = "canonical_username"
     let USER_RANK_STANDARD = "standard"
     var delegate:PassDataBetweenViewControllersProtocol!
-    var friends:[PFUser]!
-    var profileImage:UIImage!
+    var friends:[PFUser]!    
     
     func createUser(withUserName userName: String, password: String, email: String, phoneNumber: String, errorLabel label: UILabel, showViewControllerOnComplete: UIViewController) {
         self.user = PFUser()
@@ -132,7 +131,8 @@ class DEUserManager: NSObject {
             profileImageData.getDataInBackground(block: { (data, error) in
                 if error == nil {
                     let image = UIImage(data: data!)
-                    self.profileImage = image
+                    UserDefaults.standard.set(image, forKey: UserDefaultConstants.ProfileImage.rawValue)
+                    UserDefaults.standard.synchronize()
                 }
             })
         }
@@ -156,7 +156,7 @@ class DEUserManager: NSObject {
                 // Get the users from the server with the list of object ids
                 query?.whereKey(ParseObjectColumns.ObjectId.rawValue, containedIn: friends)
                 query?.findObjectsInBackground(block: { (friends, error) in
-                    if friends?.count != 0 {
+                    if friends?.count != 0 && friends != nil {
                         for friend in friends!
                         {
                             do
@@ -242,7 +242,6 @@ class DEUserManager: NSObject {
         let myUser: PFObject? = PFUser.current()
         let imageFile = PFFile(data: profileImageData)
         myUser?.setObject(imageFile as Any, forKey: ParseObjectColumns.Profile_Picture.rawValue)
-        
         myUser?.saveInBackground(block: {(_ succeeded: Bool, _ error: Error?) -> Void in
             if error == nil {
                 print("Sweet! The profile picture saved")

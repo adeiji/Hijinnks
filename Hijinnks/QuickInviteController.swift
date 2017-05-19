@@ -113,6 +113,7 @@ extension CreateInvitationViewController : MFMessageComposeViewControllerDelegat
             self.invitation.isPublic = true
             self.isPublic = true
             self.isAllFriends = false
+            self.selectedFriends = NSArray()
         }
         else {
             self.invitation.isPublic = false
@@ -128,6 +129,7 @@ extension CreateInvitationViewController : MFMessageComposeViewControllerDelegat
         let friends = DEUserManager.sharedManager.friends
         if friends != nil {
             self.invitation.invitees = friends!
+            self.selectedFriends = friends as NSArray!
             if self.isAllFriends == false {
                 self.invitation.isPublic = false
                 self.isPublic = false
@@ -223,6 +225,8 @@ extension CreateInvitationViewController : MFMessageComposeViewControllerDelegat
                 if contacts.count == 0 {
                     self.promptPostToFacebook()
                 }
+            } else if self.isPublic {
+                self.createInvitationAndSend(location: self.location, invitees: self.selectedFriends as! Array<PFUser>)
             }
             // TODO: Put this into a method of its own
             self.quickMode = true
@@ -288,7 +292,9 @@ extension CreateInvitationViewController : MFMessageComposeViewControllerDelegat
             self.saveAndSendInvitation(currentLocation: self.location)
             self.quickInviteView.superview?.removeFromSuperview()
         } else {
-            self.quickInviteView.superview?.isHidden = false
+            if self.quickInviteView != nil {
+                self.quickInviteView.superview?.isHidden = false
+            }
         }
         
         self.dismiss(animated: true, completion: nil)

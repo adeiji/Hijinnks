@@ -53,7 +53,7 @@ extension DEUserManager {
      * - Description Set the bio for the current user
      * - Parameter bio String - The bio that will be set
      ```
-        DEUserManager.sharedManager.setBio("The bio for the user")
+      q  DEUserManager.sharedManager.setBio("The bio for the user")
      ```
      */
     func setBio (bio: String) {

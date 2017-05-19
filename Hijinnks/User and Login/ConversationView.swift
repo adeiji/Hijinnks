@@ -92,7 +92,7 @@ class ConversationView : UIView {
     func setListOfUsersView () {
         self.listOfUsersView = UIView()
         self.listOfUsersView.backgroundColor = .white
-        self.listOfUsersView.layer.borderColor = UIColor.black.cgColor
+        self.listOfUsersView.layer.borderColor = UIColor.gray.cgColor
         self.listOfUsersView.layer.borderWidth = 0.5
         self.addSubview(self.listOfUsersView)
         self.showUsers()
@@ -117,10 +117,10 @@ class ConversationView : UIView {
         profileImageView.snp.makeConstraints { (make) in
             make.left.equalTo(self.listOfUsersView).offset(10)
             make.centerY.equalTo(self.listOfUsersView)
-            make.height.equalTo(50)
-            make.width.equalTo(50)
+            make.height.equalTo(45)
+            make.width.equalTo(45)
         }
-        profileImageView.layer.cornerRadius = 25
+        profileImageView.layer.cornerRadius = 45/2.0
         profileImageView.clipsToBounds = true
         
         profileNameLabel.snp.makeConstraints { (make) in

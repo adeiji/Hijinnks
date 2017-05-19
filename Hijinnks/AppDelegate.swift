@@ -36,6 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Check if the user is logged in.  If he isn't than show the LoginViewController, otherwise show the ViewInvitationsViewController
         if isLoggedIn() {
             DEUserManager.sharedManager.setFriends(user: PFUser.current()!)
+            
             setupNavigationController()
         } else {
             showLoginView()

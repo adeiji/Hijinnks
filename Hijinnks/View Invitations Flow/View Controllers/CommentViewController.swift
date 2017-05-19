@@ -17,18 +17,31 @@ class CommentViewController : UIViewController, UITableViewDataSource, UITableVi
     var comments:Array<CommentObject>! = Array<CommentObject>()
     var commentParseObjects:Array<CommentParseObject>
     
+    var activitySpinner:UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    
+    
     struct CommentObject {
         var comment:String
         var profileImage:UIImage!
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.backgroundColor = .white
+    func startActivitySpinner () {
+        // Add the activity spinner
+        self.activitySpinner.startAnimating()
+        self.activitySpinner.hidesWhenStopped = true
+        self.view.addSubview(self.activitySpinner)
+        self.activitySpinner.snp.makeConstraints { (make) in
+            make.center.equalTo(self.view)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         let commentsQueue = DispatchQueue(label: "com.parse.comments")
+        
+        self.startActivitySpinner()
         commentsQueue.async {
             self.getComments()
-            DispatchQueue.main.async(execute: { 
+            DispatchQueue.main.async(execute: {
                 self.commentView = CommentView()
                 self.commentView.setupUI()
                 self.commentView.commentsTableView.dataSource = self
@@ -38,8 +51,22 @@ class CommentViewController : UIViewController, UITableViewDataSource, UITableVi
                 self.commentView.snp.makeConstraints { (make) in
                     make.edges.equalTo(self.view)
                 }
+                self.activitySpinner.stopAnimating()
             })
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = .white
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        if self.commentView != nil {
+            self.commentView.removeFromSuperview()
+        }
+        
+
     }
     
     func getComments () {
@@ -114,11 +141,15 @@ class CommentViewController : UIViewController, UITableViewDataSource, UITableVi
             let commentParseObject = CommentParseObject()
             commentParseObject.comment = self.commentView.commentTextField.text!
             commentParseObject.user = PFUser.current()
-            
+            var commentObject = CommentObject(comment: commentParseObject.comment, profileImage: nil)
+            commentObject.profileImage = UserDefaults.standard.object(forKey: UserDefaultConstants.ProfileImage.rawValue) as? UIImage
+            self.comments.append(commentObject)
             self.commentParseObjects.append(commentParseObject)
+            self.commentView.commentsTableView.reloadData()
+            self.commentView.commentTextField.text = ""
         }
         self.invitation.comments = self.commentParseObjects
         self.invitation.saveInBackground()
-        _ = self.navigationController?.popViewController(animated: true)
+        
     }
 }

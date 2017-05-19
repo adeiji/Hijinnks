@@ -10,13 +10,16 @@ import Foundation
 import UIKit
 import Parse
 
+// FIXME: When the view appears it stutters and there's an autolayout constraint -
+
 class CommentView : UIView {
     
-    var commentsTableView:UITableView!
-    var commentTextField:UITextField!
+    weak var commentsTableView:UITableView!
+    weak var commentTextField:UITextField!
+    weak var sendButton:UIButton!
+    
     var user:PFUser!
     var keyboardHeight:CGFloat!
-    var sendButton:UIButton!
     
     init() {
         super.init(frame: .zero)
@@ -28,9 +31,9 @@ class CommentView : UIView {
     
     func setupUI () {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
-        setcommentTextField()
-        setcommentsTableView()
-        setSendButton()
+        self.commentTextField = self.setCommentTextField()
+        self.commentsTableView = self.setCommentTableView()
+        self.sendButton = self.setSendButton()
         self.backgroundColor = .white
     }
     
@@ -46,45 +49,51 @@ class CommentView : UIView {
         }
     }
     
-    func setSendButton () {
-        self.sendButton = UIButton()
-        self.sendButton.setTitle("Send", for: .normal)
-        self.sendButton.setTitleColor(.white, for: .normal)
-        self.sendButton.backgroundColor = Colors.blue.value
-        self.addSubview(self.sendButton)
-        self.sendButton.snp.makeConstraints { (make) in
+    func setSendButton () -> UIButton {
+        let sendButton = UIButton()
+        sendButton.setTitle("Send", for: .normal)
+        sendButton.setTitleColor(.white, for: .normal)
+        sendButton.backgroundColor = Colors.blue.value
+        self.addSubview(sendButton)
+        sendButton.snp.makeConstraints { (make) in
             make.right.equalTo(self)
             make.width.equalTo(75)
             make.height.equalTo(50)
             make.centerY.equalTo(self.commentTextField)
         }
+        
+        return sendButton
     }
     
-    func setcommentTextField () {
-        self.commentTextField = UITextField()
-        self.commentTextField.becomeFirstResponder()
-        self.commentTextField.backgroundColor = .white
-        self.addSubview(self.commentTextField)
-        self.commentTextField.snp.makeConstraints { (make) in
+    func setCommentTextField () -> UITextField {
+        let commentTextField = UITextField()
+        commentTextField.becomeFirstResponder()
+        commentTextField.backgroundColor = .white
+        self.addSubview(commentTextField)
+        commentTextField.snp.makeConstraints { (make) in
             make.left.equalTo(self).offset(5)
             make.right.equalTo(self).offset(-75)
             make.bottom.equalTo(self).offset(-75)
             make.height.equalTo(50)
         }
+        
+        return commentTextField
     }
     
-    func setcommentsTableView () {
-        self.commentsTableView = UITableView()
-        self.commentsTableView.separatorStyle = .none
-        self.commentsTableView.layer.borderWidth = 0.5
-        self.commentsTableView.layer.borderColor = UIColor.gray.cgColor
-        self.addSubview(self.commentsTableView)
-        self.commentsTableView.snp.makeConstraints { (make) in
+    func setCommentTableView () -> UITableView {
+        let commentsTableView = UITableView()
+        commentsTableView.separatorStyle = .none
+        commentsTableView.layer.borderWidth = 0.5
+        commentsTableView.layer.borderColor = UIColor.gray.cgColor
+        self.addSubview(commentsTableView)
+        commentsTableView.snp.makeConstraints { (make) in
             make.left.equalTo(self).offset(-1)
             make.right.equalTo(self).offset(1)
             make.top.equalTo(self)
             make.bottom.equalTo(self.commentTextField.snp.top)
         }
+        
+        return commentsTableView
     }
     
 }

@@ -15,11 +15,10 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
     
     let parseQueue = DispatchQueue(label: "com.parse.handler")
     var invitations:[InvitationParseObject] = [InvitationParseObject]()
-    var activitySpinner:UIActivityIndicatorView!
+    var activitySpinner:UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     
     func startActivitySpinner () {
         // Add the activity spinner
-        self.activitySpinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         self.activitySpinner.startAnimating()
         self.activitySpinner.hidesWhenStopped = true
         
@@ -39,25 +38,24 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
         
         parseQueue.async {
             let invitationParseObjects = ParseManager.getAllInvitationsNearLocation()
-            for invitationParseObject in invitationParseObjects! {
-                do {
-                    try invitationParseObject.fromUser.fetchIfNeeded()
+            if invitationParseObjects != nil {
+                for invitationParseObject in invitationParseObjects! {
+                    do {
+                        try invitationParseObject.fromUser.fetchIfNeeded()
+                    }
+                    catch {
+                        print(error.localizedDescription)
+                        // Display to user that there was an error getting the data
+                    }
+                    self.invitations.append(invitationParseObject)
                 }
-                catch {
-                    print(error.localizedDescription)
-                    // Display to user that there was an error getting the data
-                }
-                
-                self.invitations.append(invitationParseObject)
             }
-            DispatchQueue.main.async(execute: { 
+            DispatchQueue.main.async(execute: {
                 self.tableView.reloadData()
                 self.tabBarController?.tabBar.isUserInteractionEnabled = true
-                self.activitySpinner.removeFromSuperview()
+                self.activitySpinner.stopAnimating()
             });
         }
-        
-        // Remove the activity spinner
     }
     
     
@@ -126,7 +124,7 @@ extension ViewInvitationsViewController {
      * - Parameter invitation <Invitation> The invitation which the comment button was pressed for
      * - Code delegate.showInvitationCommentScreen(invitation: invitation)
      */
-    func showInvitationCommentScreen(invitation: InvitationParseObject) {
+    func showInvitationCommentScreen(invitation: InvitationParseObject) {        
         let commentViewController = CommentViewController(invitation: invitation)
         self.navigationController?.pushViewController(commentViewController, animated: true)
     }
@@ -158,11 +156,15 @@ extension ViewInvitationsViewController {
             invitation.saveInBackground()
             // Update the view of the invitation cell
             invitationCell.resetRsvpView()
+            self.tableView.reloadData()
+            invitationCell.layoutIfNeeded()
             userDetails.saveInBackground()
         }
         else {  // I the user who pressed the RSVP button is the owner of this invitation
             self.seeRsvpdList(invitation: invitation)
         }
+        
+        invitationCell.rsvpButton.isUserInteractionEnabled = true
     }
     
     func viewRsvpListButtonPressed(invitation: InvitationParseObject) {

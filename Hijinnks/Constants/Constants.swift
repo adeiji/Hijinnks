@@ -117,6 +117,11 @@ enum Colors {
     case FacebookButton
     case DarkGray
     case VeryLightGray
+    
+}
+
+enum UserDefaultConstants : String {
+    case ProfileImage = "user.defaults.profile.image"
 }
 
 enum Settings {

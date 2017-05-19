@@ -59,8 +59,9 @@ class ViewInvitationsCell : UITableViewCell {
     
     // Constants
     let VIEW_BORDER_WIDTH = 1.0
+    let VIEW_BORDER_COLOR = Colors.grey.value.cgColor
     
-    let delegate:PassDataBetweenViewControllersProtocol // View Controller Handling the View
+    let delegate:PassDataBetweenViewControllersProtocol // View Controller Handling the View - View Invitations View Controller
     var imageTapGestureRecognizer:UITapGestureRecognizer! // Must keep a reference to this object otherwise the tap gesture recognizer will not work
     
     // User
@@ -154,13 +155,13 @@ extension ViewInvitationsCell {
             
             if sectionAbove != nil
             {
-                make.top.equalTo(sectionAbove.snp.bottom)
+                make.top.equalTo(sectionAbove.snp.bottom).offset(-1)
             }
             else {
                 make.top.equalTo(self.contentView)
             }
         }
-        view.layer.borderColor = Colors.VeryLightGray.value.cgColor
+        view.layer.borderColor = VIEW_BORDER_COLOR
         view.layer.borderWidth = CGFloat(VIEW_BORDER_WIDTH)
         self.messageIcon = self.setIcon(superview: view, hijinnksViewType: iconType)
         self.messageLabel = self.setLabel(superview: view, message: self.invitation.message)
@@ -192,8 +193,8 @@ extension ViewInvitationsCell {
         label.snp.makeConstraints { (make) in
             make.left.equalTo(superview).offset(50)
             make.right.equalTo(superview).offset(-5)
-            make.top.equalTo(superview).offset(10)
-            make.bottom.equalTo(superview).offset(-10)
+            make.top.equalTo(superview).offset(20)
+            make.bottom.equalTo(superview).offset(-20)
         }
         
         return label
@@ -209,9 +210,11 @@ extension ViewInvitationsCell {
         view.snp.makeConstraints { (make) in
             make.left.equalTo(self.profileImageAndEventNameView)
             make.right.equalTo(self.profileImageAndEventNameView)
-            make.top.equalTo(self.timeView.snp.bottom)
+            make.top.equalTo(self.timeView.snp.bottom).offset(-1)
         }
         
+        view.layer.borderWidth = CGFloat(VIEW_BORDER_WIDTH)
+        view.layer.borderColor = VIEW_BORDER_COLOR
         self.locationIcon = self.setLocationIcon(superview: view)
         self.locationLabel = self.setLocationLabel(superview: view)
         return view
@@ -262,7 +265,7 @@ extension ViewInvitationsCell {
             make.top.equalTo(self.contentView).offset(10)
         }
         view.layer.borderWidth = CGFloat(VIEW_BORDER_WIDTH)
-        view.layer.borderColor = Colors.VeryLightGray.value.cgColor
+        view.layer.borderColor = VIEW_BORDER_COLOR
         self.profileImageView = self.setProfileImageView(superview: view)
         self.eventNameLabel = self.setEventNameLabel(font: UIFont.systemFont(ofSize: 14.0), superview: view)
         return view
@@ -337,12 +340,12 @@ extension ViewInvitationsCell {
         self.contentView.addSubview(view)
         view.snp.makeConstraints { (make) in
             make.left.equalTo(self.profileImageAndEventNameView)
-            make.top.equalTo(self.profileImageAndEventNameView.snp.bottom)
+            make.top.equalTo(self.profileImageAndEventNameView.snp.bottom).offset(-1)
             make.right.equalTo(self.profileImageAndEventNameView)
             make.height.equalTo(53)
         }
         view.layer.borderWidth = 1.0
-        view.layer.borderColor = Colors.VeryLightGray.value.cgColor
+        view.layer.borderColor = VIEW_BORDER_COLOR
         self.timeIcon = self.setTimeIcon(superview: view)
         self.startTimeLabel = self.setTimeLabel(superview: view)
         
@@ -385,12 +388,12 @@ extension ViewInvitationsCell {
             make.left.equalTo(self.profileImageAndEventNameView)
             make.bottom.equalTo(self.contentView)
             make.right.equalTo(self.profileImageAndEventNameView)
-            make.top.equalTo(self.rsvpView.snp.bottom)
+            make.top.equalTo(self.rsvpView.snp.bottom).offset(-1)
             make.height.equalTo(53)
         }
         
         view.layer.borderWidth = CGFloat(VIEW_BORDER_WIDTH)
-        view.layer.borderColor = Colors.VeryLightGray.value.cgColor
+        view.layer.borderColor = VIEW_BORDER_COLOR
         
         self.mapButton = setMapButton(superview: view)
         self.likeButton = setLikeButton(superview: view)
@@ -502,7 +505,7 @@ extension ViewInvitationsCell {
     }
     
     func commentButtonPressed () {
-        delegate.showInvitationCommentScreen!(invitation: self.invitation)
+        delegate.showInvitationCommentScreen!(invitation: self.invitation) // View Invitations View Controller        
     }
     
     // TODO: Figure out a way to make sure that this method must be called, if it's not called then the app will crash on click of the RSVP button
@@ -515,6 +518,8 @@ extension ViewInvitationsCell {
     }
     
     func updateRSVPCountButtonPressed () {
+        // Make sure the user can not press the RSVP button again until the process is completed
+        self.rsvpButton.isUserInteractionEnabled = false
         if self.userDetails != nil {
             self.updateRSVPCount()
         } else {
@@ -522,6 +527,9 @@ extension ViewInvitationsCell {
                 if userDetails != nil {
                     self.userDetails = userDetails as? UserDetailsParseObject
                     self.updateRSVPCount()
+                } else {
+                    // Allow the user to press the RSVP button again
+                    self.rsvpButton.isUserInteractionEnabled = true
                 }
             })
         }
@@ -604,14 +612,14 @@ extension ViewInvitationsCell {
         interestView.snp.makeConstraints { (make) in
             make.left.equalTo(self.profileImageAndEventNameView)
             make.right.equalTo(self.profileImageAndEventNameView)
-            make.top.equalTo(self.messageView.snp.bottom)
+            make.top.equalTo(self.messageView.snp.bottom).offset(-1)
             if self.invitation.interests.count != 0 {
                 make.height.equalTo(75)
             } else {
                 make.height.equalTo(0)
             }
         }
-        interestView.layer.borderColor = Colors.VeryLightGray.value.cgColor
+        interestView.layer.borderColor = VIEW_BORDER_COLOR
         interestView.layer.borderWidth = CGFloat(VIEW_BORDER_WIDTH)
         
         if self.invitation.interests.count != 0 {
@@ -657,10 +665,24 @@ extension ViewInvitationsCell {
 // Show who has RSVP'd
 extension ViewInvitationsCell {
     
+    // FIXME: There's autolayout constraints when this method is called
     func resetRsvpView () {
-        self.rsvpView.removeFromSuperview()
-        self.rsvpView = nil
-        self.rsvpView = self.setRsvpView()
+        self.rsvpView.snp.remakeConstraints { (make) in
+            make.left.equalTo(self.profileImageAndEventNameView)
+            make.right.equalTo(self.profileImageAndEventNameView)
+            
+            // If no users have rsvp'd than we need to make sure that the view displays that properly
+            if self.invitation.rsvpUsers.count != 0 {
+                make.height.equalTo(120)
+            }
+            else {
+                make.height.equalTo(50)
+            }
+            make.top.equalTo(self.interestView.snp.bottom).offset(-1)
+        }
+        
+        self.viewRsvpdButton = self.setRsvpdButton(superview: self.rsvpView)
+        self.displayInvitedPeople(superview: self.rsvpView)
     }
     
     func setRsvpView () -> UIView {
@@ -669,12 +691,19 @@ extension ViewInvitationsCell {
         view.snp.makeConstraints { (make) in
             make.left.equalTo(self.profileImageAndEventNameView)
             make.right.equalTo(self.profileImageAndEventNameView)
-            make.height.equalTo(120)
-            make.top.equalTo(self.interestView.snp.bottom)
+            
+            // If no users have rsvp'd than we need to make sure that the view displays that properly
+            if self.invitation.rsvpUsers.count != 0 {
+                make.height.equalTo(120)
+            }
+            else {
+                make.height.equalTo(50)
+            }
+            make.top.equalTo(self.interestView.snp.bottom).offset(-1)
         }
         
         view.layer.borderWidth = CGFloat(VIEW_BORDER_WIDTH)
-        view.layer.borderColor = Colors.VeryLightGray.value.cgColor
+        view.layer.borderColor = VIEW_BORDER_COLOR
         
         self.viewRsvpdButton = self.setRsvpdButton(superview: view)
         self.displayInvitedPeople(superview: view)

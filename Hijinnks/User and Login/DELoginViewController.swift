@@ -138,27 +138,26 @@ class DELoginViewController: UIViewController, PassDataBetweenViewControllersPro
                 let userLastName:String? = myResult["last_name"] as? String
                 let userEmail:String? = myResult["email"] as? String
                 print("\(userEmail)")
-                let myUser:PFUser = PFUser.current()!
                 
                 // Save first name
                 if(userFirstName != nil)
                 {
-                    myUser.setObject(userFirstName!, forKey: "first_name")
+                    PFUser.current()!.setObject(userFirstName!, forKey: ParseObjectColumns.FirstName.rawValue)
                 }
                 
                 //Save last name
                 if(userLastName != nil)
                 {
-                    myUser.setObject(userLastName!, forKey: "last_name")
+                    PFUser.current()!.setObject(userLastName!, forKey: ParseObjectColumns.LastName.rawValue)
                 }
                 
                 // Save email address
-                if(userEmail != nil)
-                {
-                    myUser.setObject(userEmail!, forKey: "email")
-                }
+//                if(userEmail != nil)
+//                {
+//                    PFUser.current()!.email = userEmail
+//                }
                 
-                myUser.username = name
+                PFUser.current()!.username = name
                 
                 DispatchQueue.global().async {
                     // Get Facebook profile picture
@@ -167,10 +166,10 @@ class DELoginViewController: UIViewController, PassDataBetweenViewControllersPro
                     let profilePictureData = NSData(contentsOf: profilePictureUrl! as URL)
                     if(profilePictureData != nil) {
                         let profileFileObject = PFFile(data:profilePictureData! as Data)
-                        myUser.setObject(profileFileObject!, forKey: "profile_picture")
+                        PFUser.current()!.setObject(profileFileObject!, forKey: "profile_picture")
                     }
                     
-                    myUser.saveInBackground(block: { (success, error) -> Void in
+                    PFUser.current()!.saveInBackground(block: { (success, error) -> Void in
                         if(success) {
                             print("User details are now updated")
                         }
