@@ -615,12 +615,14 @@ extension ViewInvitationsCell {
             make.top.equalTo(self.messageView.snp.bottom).offset(-1)
             if self.invitation.interests.count != 0 {
                 make.height.equalTo(75)
+                interestView.layer.borderWidth = CGFloat(VIEW_BORDER_WIDTH)
             } else {
                 make.height.equalTo(0)
+                interestView.layer.borderWidth = 0
             }
         }
         interestView.layer.borderColor = VIEW_BORDER_COLOR
-        interestView.layer.borderWidth = CGFloat(VIEW_BORDER_WIDTH)
+        
         
         if self.invitation.interests.count != 0 {
             _ = self.setInterestsScrollView(superview: interestView)
@@ -697,7 +699,7 @@ extension ViewInvitationsCell {
                 make.height.equalTo(120)
             }
             else {
-                make.height.equalTo(50)
+                make.height.equalTo(55)
             }
             make.top.equalTo(self.interestView.snp.bottom).offset(-1)
         }
@@ -719,7 +721,7 @@ extension ViewInvitationsCell {
         superview.addSubview(button )
         button.snp.makeConstraints { (make) in
             make.centerX.equalTo(superview)
-            make.top.equalTo(superview).offset(10)
+            make.top.equalTo(superview).offset(15)
             make.width.equalTo(110)
             make.height.equalTo(25)
         }
