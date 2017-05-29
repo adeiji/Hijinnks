@@ -579,10 +579,9 @@ extension ViewInvitationsCell {
         
     }
     
-    func updateUserDetailsLikeCount (userDetails: UserDetailsParseObject, increment: Int) {
-        var likes = self.userDetails.likeCount
-        likes = likes! + increment
-        self.userDetails.likeCount = likes
+    func updateUserDetailsLikeCount (userDetails: UserDetailsParseObject, increment: NSNumber) {
+        
+        self.userDetails.incrementKey(ParseObjectColumns.LikeCount.rawValue, byAmount: increment)
         self.userDetails.saveInBackground { (success, error) in
             if error != nil {
                 print("Error updating user like count on the server - \(error?.localizedDescription)")
@@ -592,12 +591,14 @@ extension ViewInvitationsCell {
         }
     }
     
-    func updateLikeCount (likedInvitations: [String], increment: Int) {
+    func updateLikeCount (likedInvitations: [String], increment: NSNumber) {
+        // If the userDetails object has already been loaded then update ethe like count, otherwise get the userDetails object for the user from the server
         if self.userDetails != nil {
             self.updateUserDetailsLikeCount(userDetails: self.userDetails, increment: increment)
         } else {
             DEUserManager.sharedManager.getUserDetails(user: self.invitation.fromUser , success: { (userDetails) in
-                if self.userDetails != nil {
+                if userDetails != nil {
+                    self.userDetails = userDetails as! UserDetailsParseObject!
                     self.updateUserDetailsLikeCount(userDetails: self.userDetails, increment: increment)
                 }
             })

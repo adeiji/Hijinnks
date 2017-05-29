@@ -69,7 +69,7 @@ class ProfileView : UIScrollView {
             make.edges.equalTo(self.superview!)
         }
         self.wrapperView = self.setWrapperView()
-        setProfileImageView()
+        self.setProfileImageView()
         let tap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         self.addGestureRecognizer(tap)
     }
@@ -396,15 +396,16 @@ class ProfileView : UIScrollView {
      */
     func displayLikeCount (userDetails: UserDetailsParseObject) {
         if userDetails.likeCount != nil {
-            self.likeLabel.text = "0"
+            self.likeLabel.text = "\(userDetails.likeCount!)"
         }
         else {
-            self.likeLabel.text = "\(userDetails.likeCount!)"
+            self.likeLabel.text = "0"
         }
     }
     
     func displayUserDetails (userDetails: UserDetailsParseObject) {
         self.displayRSVPCount(userDetails: userDetails)
+        self.displayLikeCount(userDetails: userDetails)
     }
     
     func getUserDetails () {

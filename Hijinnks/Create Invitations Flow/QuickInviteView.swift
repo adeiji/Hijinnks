@@ -485,16 +485,32 @@ class ContactTableViewCell : UITableViewCell {
 //            profileImageView.image = UIImage(data: self.contact.thumbnailImageData!)
         }
         else {
-            let tempProfileImageLabel = DEUserManager.sharedManager.getTempProfileImageLabel(name: self.contact.givenName, fontSize: 12)
-            self.contentView.addSubview(tempProfileImageLabel)
-            tempProfileImageLabel.snp.makeConstraints { (make) in
-                make.left.equalTo(self.contentView).offset(10)
-                make.width.equalTo(25)
-                make.height.equalTo(tempProfileImageLabel.snp.width)
-                make.centerY.equalTo(self.contentView)
+            
+            var tempProfileImageLabel:UILabel!
+                        
+            if self.contact.givenName != "" {
+                tempProfileImageLabel = DEUserManager.sharedManager.getTempProfileImageLabel(name: self.contact.givenName, fontSize: 12)
+            } else if self.contact.familyName != "" {
+                tempProfileImageLabel = DEUserManager.sharedManager.getTempProfileImageLabel(name: self.contact.familyName, fontSize: 12)
+            } else if self.contact.middleName != "" {
+                tempProfileImageLabel = DEUserManager.sharedManager.getTempProfileImageLabel(name: self.contact.middleName, fontSize: 12)
+            } else if self.contact.organizationName != "" {
+                tempProfileImageLabel = DEUserManager.sharedManager.getTempProfileImageLabel(name: self.contact.organizationName, fontSize: 12)
+            } else if self.contact.departmentName != "" {
+                tempProfileImageLabel = DEUserManager.sharedManager.getTempProfileImageLabel(name: self.contact.departmentName, fontSize: 12)
             }
-            tempProfileImageLabel.layer.cornerRadius = 12.5
-            tempProfileImageLabel.clipsToBounds = true
+            
+            if tempProfileImageLabel != nil {
+                self.contentView.addSubview(tempProfileImageLabel)
+                tempProfileImageLabel.snp.makeConstraints { (make) in
+                    make.left.equalTo(self.contentView).offset(10)
+                    make.width.equalTo(25)
+                    make.height.equalTo(tempProfileImageLabel.snp.width)
+                    make.centerY.equalTo(self.contentView)
+                }
+                tempProfileImageLabel.layer.cornerRadius = 12.5
+                tempProfileImageLabel.clipsToBounds = true
+            }
         }
         return profileImageView
     }

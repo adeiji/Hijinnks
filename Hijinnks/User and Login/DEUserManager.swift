@@ -60,11 +60,19 @@ class DEUserManager: NSObject {
         label.font = UIFont.systemFont(ofSize: 25.0)
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: fontSize)
-        let index = name.index((name.startIndex), offsetBy: 2)
+        var index:String.CharacterView.Index!
+        if name.characters.count >= 2 {
+            index = name.index((name.startIndex), offsetBy: 2)
+        }
+        else {
+            index = name.index((name.startIndex), offsetBy: 1)
+        }
+        
         let beginningOfUsername = name.substring(to: index).uppercased()
         label.text = beginningOfUsername
         label.textAlignment = .center
         label.clipsToBounds = true
+        
         return label
     }
     
