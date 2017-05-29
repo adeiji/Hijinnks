@@ -282,6 +282,8 @@ extension CreateInvitationViewController : MFMessageComposeViewControllerDelegat
                 composeMessageViewController.messageComposeDelegate = self
                 composeMessageViewController.recipients = phoneNumbers
                 composeMessageViewController.body = "You are invited to \(self.quickInviteView.locationTextField.text!) @ \(time)\n\nRespond 1 to reply YES\nRespond 0 to reply NO\nSent from Hijinnks App"
+                composeMessageViewController.navigationBar.isHidden = true
+                
                 self.navigationController?.present(composeMessageViewController, animated: true, completion: nil)
             }
         }
@@ -296,7 +298,7 @@ extension CreateInvitationViewController : MFMessageComposeViewControllerDelegat
                 self.quickInviteView.superview?.isHidden = false
             }
         }
-        
+                
         self.dismiss(animated: true, completion: nil)
         self.promptPostToFacebook()
     }

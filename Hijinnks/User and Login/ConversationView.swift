@@ -70,7 +70,6 @@ class ConversationView : UIView {
         self.messageTextField.snp.makeConstraints { (make) in
             make.left.equalTo(self).offset(5)
             make.right.equalTo(self).offset(-75)
-            make.bottom.equalTo(self).offset(-75)
             make.height.equalTo(50)
         }
     }

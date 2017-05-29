@@ -20,7 +20,7 @@ class ConversationViewController : UIViewController, UITableViewDataSource, UITa
     var messages:[SBDUserMessage] = [SBDUserMessage]()
     var channel:SBDBaseChannel!
     var conversationView:ConversationView!
-    
+    var activitySpinner:UIActivityIndicatorView!
     
     init(toUser: PFUser) {
         self.toUser = toUser
@@ -45,13 +45,25 @@ class ConversationViewController : UIViewController, UITableViewDataSource, UITa
         
     }
     
-    override func viewDidLoad() {
+    func startActivitySpinner () {
+        // Add the activity spinner
+        self.activitySpinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        self.activitySpinner.startAnimating()
+        self.activitySpinner.hidesWhenStopped = true
+        self.view.addSubview(self.activitySpinner)
+        self.activitySpinner.snp.makeConstraints { (make) in
+            make.center.equalTo(self.view)
+        }
+    }
+    
+    func load () {
         // Make self the delegate for the SBDChannel with the specified identifier
         SBDMain.add(self as SBDChannelDelegate, identifier: ConversationChannelKeys.One_To_One.rawValue)
         self.setupConversationView()
         
         // Get all the previous messages that have been sent in this channel
         (self.channel as SBDBaseChannel).getPreviousMessages(byTimestamp: Int64(Date().timeIntervalSince1970 * 1000), limit: 100, reverse: false, messageType: SBDMessageTypeFilter.all, customType: nil) { (messages: [SBDBaseMessage]?, error: SBDError?) in
+            self.activitySpinner.stopAnimating()
             if (error != nil) {
                 print(error!)
             }
@@ -60,6 +72,12 @@ class ConversationViewController : UIViewController, UITableViewDataSource, UITa
                 self.reloadTableView()
             }
         }
+
+    }
+    
+    override func viewDidLoad() {
+        self.view.backgroundColor = .white
+        self.startActivitySpinner()
     }
     
     /**

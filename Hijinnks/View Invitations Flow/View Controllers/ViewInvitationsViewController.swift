@@ -32,7 +32,7 @@ class ViewInvitationsViewController : UITableViewController, PassDataBetweenView
         
         self.view.backgroundColor = UIColor(hexString: "#ebebeb")
         self.tableView.backgroundColor = .white
-        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "header.png")!.resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
         startActivitySpinner()
         self.tableView.separatorStyle = .none
         
@@ -148,9 +148,7 @@ extension ViewInvitationsViewController {
             else {
                 userDetails.incrementKey(ParseObjectColumns.RSVPCount.rawValue)
                 invitation.incrementKey(ParseObjectColumns.RSVPCount.rawValue, byAmount: 1)
-                invitation.rsvpUsers.append((PFUser.current()?.objectId)!)
-                let confirmationViewColor = UIColor(red: 36/255, green: 66/255, blue: 156/255, alpha: 1.0)
-                Animations.showConfirmationView(type: AnimationConfirmation.Circle, message: "You RSVP'd", backgroundColor: confirmationViewColor, superView: self.view.superview!, textColor: .white)
+                invitation.rsvpUsers.append((PFUser.current()?.objectId)!)                
             }
             // Apparently I can't save a user who has not been logged in.  Which I guess makes sense, but we need to possibly figure a way around this
             invitation.saveInBackground()

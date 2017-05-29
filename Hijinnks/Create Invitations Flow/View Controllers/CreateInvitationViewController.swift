@@ -74,6 +74,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "header.png")!.resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
         self.scrollView = createScrollView()
         self.scrollView.contentSize = scrollView.frame.size
         setupUI()
@@ -698,8 +699,7 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         self.selectedTextField = textField
         if textField == locationTextField {
             let autocompleteViewController = GMSAutocompleteViewController()
-            autocompleteViewController.delegate = self
-            UINavigationBar.appearance().setBackgroundImage(nil, for: .default)
+            autocompleteViewController.delegate = self            
             self.navigationController?.present(autocompleteViewController, animated: true, completion: nil)
         }
         else if textField == inviteInterestsTextField {
@@ -719,7 +719,6 @@ class CreateInvitationViewController : UIViewController, PassDataBetweenViewCont
         else if textField == self.quickInviteView.locationTextField {
             let autocompleteViewController = GMSAutocompleteViewController()
             autocompleteViewController.delegate = self
-            UINavigationBar.appearance().setBackgroundImage(nil, for: .default)
             self.navigationController?.present(autocompleteViewController, animated: true, completion: nil)
         }
     }

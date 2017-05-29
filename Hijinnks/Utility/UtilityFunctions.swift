@@ -42,10 +42,6 @@ class UtilityFunctions {
         return nil
     }
     
-    class func showNavBar () {
-        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "header.png")!.resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
-    }
-    
     class func hideNavBar () {
         UINavigationBar.appearance().setBackgroundImage(nil, for: .default)
     }
@@ -115,7 +111,7 @@ class UtilityFunctions {
         interestLabel.font = UIFont.systemFont(ofSize: 14.0)
         view.addSubview(interestLabel)
         interestLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(iconLabel.snp.bottom).offset(10)
+            make.top.equalTo(iconLabel.snp.bottom).offset(5)
             make.centerX.equalTo(view)
         }
         

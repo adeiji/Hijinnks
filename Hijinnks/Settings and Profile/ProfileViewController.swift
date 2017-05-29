@@ -45,6 +45,7 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "header.png")!.resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -179,7 +180,6 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
     
     func messageButtonPressed () {
         let userIds:[String] = [self.user.objectId!, (PFUser.current()?.objectId)!]
-        self.startActivitySpinner()
         self.messageButton.isUserInteractionEnabled = false
         self.createConversationChannel(userIds: userIds)
     }
@@ -305,8 +305,6 @@ class ProfileViewController : UIViewController, UITableViewDelegate, UITableView
 extension ProfileViewController {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        // Show the Navigation Bar
-        UtilityFunctions.showNavBar()
         picker.dismiss(animated: true, completion: nil)
         var image:UIImage!
         
@@ -323,9 +321,7 @@ extension ProfileViewController {
         DEUserManager.sharedManager.addProfileImage(imageData!)
     }
     
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        // Show the Navigation Bar
-        UtilityFunctions.showNavBar()
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {                
         picker.dismiss(animated: true, completion: nil)
     }
 }
@@ -339,6 +335,9 @@ extension ProfileViewController {
      * - Code createConversationChannel([Ids of two users who are in this channel])
      */
     func createConversationChannel (userIds : [String]) {
+        let conversationViewController = ConversationViewController(toUser: self.user)
+        self.navigationController?.pushViewController(conversationViewController, animated: true)
+        
         SBDGroupChannel.createChannel(withUserIds: userIds, isDistinct: true) { (channel, error) in
             if error != nil {
                 let alert = UIAlertController(title: "Error", message: "Sorry, there was an error trying to create a conversation.  Please try again.", preferredStyle: .alert)
@@ -349,12 +348,9 @@ extension ProfileViewController {
                 return
             }
             DispatchQueue.main.sync {
-                self.activitySpinner.stopAnimating()
                 self.messageButton.isUserInteractionEnabled = true
-                let conversationViewController = ConversationViewController(toUser: self.user)
-                conversationViewController.channel = channel                
-                self.navigationController?.pushViewController(conversationViewController, animated: true)
-                
+                conversationViewController.channel = channel
+                conversationViewController.load()
             }            
         }
     }

@@ -67,6 +67,7 @@ class ViewUsersViewController : UITableViewController {
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         if setting == Settings.ViewUsersInvite {
             let doneButton = UIBarButtonItem()
             doneButton.title = "Done"
@@ -74,6 +75,11 @@ class ViewUsersViewController : UITableViewController {
             doneButton.action = #selector(doneButtonPressed)
             self.navigationItem.rightBarButtonItem = doneButton
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "header.png")!.resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
     }
     
     // Inform the delegate that the users have been selected

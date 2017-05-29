@@ -60,7 +60,6 @@ class PhotoHandler : NSObject {
         self.imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
         self.imagePicker.allowsEditing = true
         // Hide the Navigation Bar
-        UtilityFunctions.hideNavBar()
         self.viewController.present(self.imagePicker, animated: true, completion: nil)
     }
 }

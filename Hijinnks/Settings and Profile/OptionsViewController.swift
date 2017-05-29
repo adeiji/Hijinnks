@@ -66,8 +66,7 @@ class OptionsViewController : UITableViewController, UINavigationControllerDeleg
     }
     
     func showEmailScreen () {
-        if MFMailComposeViewController.canSendMail() {
-            UINavigationBar.appearance().setBackgroundImage(nil, for: .default)
+        if MFMailComposeViewController.canSendMail() {            
             let mailViewController = MFMailComposeViewController()
             mailViewController.setSubject("Report")
             mailViewController.setToRecipients(["adebayoiji@gmail.com", "info@hijinnks.com"])
@@ -80,8 +79,7 @@ class OptionsViewController : UITableViewController, UINavigationControllerDeleg
         }
     }
     
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "header.png")!.resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {        
         controller.dismiss(animated: true, completion: nil)
     }
     

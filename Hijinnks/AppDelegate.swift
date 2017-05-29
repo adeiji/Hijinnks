@@ -66,7 +66,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Setup the views for the entire application.  For ex: UINavigationBar color, UITextField text
     func configureGlobalAppearances () {
         // Set the appearance of the UINavigationBar
-        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "header.png")!.resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
+        
+        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "header.png")!.resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: UIBarMetrics.defaultPrompt)
         UINavigationBar.appearance().tintColor = Colors.DarkGray.value
 //        let searchBarTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: UIFont.systemFontSize)]
 //        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = searchBarTextAttributes

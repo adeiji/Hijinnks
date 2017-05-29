@@ -23,7 +23,6 @@ extension CreateInvitationViewController : GMSAutocompleteViewControllerDelegate
         
         self.place = place
         self.location = PFGeoPoint(latitude: place.coordinate.latitude , longitude: place.coordinate.longitude)
-        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "header.png")!.resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
         dismiss(animated: true, completion: nil)
     }
     
@@ -33,8 +32,7 @@ extension CreateInvitationViewController : GMSAutocompleteViewControllerDelegate
     }
     
     // User canceled the operation.
-    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
-        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "header.png")!.resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {        
         dismiss(animated: true, completion: nil)
         
         if self.quickMode == true {
