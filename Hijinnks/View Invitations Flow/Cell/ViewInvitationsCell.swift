@@ -58,8 +58,8 @@ class ViewInvitationsCell : UITableViewCell {
     var isMapShown:Bool = false
     
     // Constants
-    let VIEW_BORDER_WIDTH = 1.0
-    let VIEW_BORDER_COLOR = Colors.grey.value.cgColor
+    let VIEW_BORDER_WIDTH = 0.50
+    let VIEW_BORDER_COLOR = Colors.TextGrayColor.value.cgColor
     
     let delegate:PassDataBetweenViewControllersProtocol // View Controller Handling the View - View Invitations View Controller
     var imageTapGestureRecognizer:UITapGestureRecognizer! // Must keep a reference to this object otherwise the tap gesture recognizer will not work
@@ -89,6 +89,7 @@ class ViewInvitationsCell : UITableViewCell {
         self.selectionStyle = .none
         self.backgroundColor = .white
         _ = UIFont.systemFont(ofSize: 14)
+        
         self.profileImageAndEventNameView = self.setProfileImageAndEventNameView()
         self.timeView = self.setTimeView()
         self.locationView = self.setLocationView()
@@ -613,11 +614,12 @@ extension ViewInvitationsCell {
         interestView.snp.makeConstraints { (make) in
             make.left.equalTo(self.profileImageAndEventNameView)
             make.right.equalTo(self.profileImageAndEventNameView)
-            make.top.equalTo(self.messageView.snp.bottom).offset(-1)
             if self.invitation.interests.count != 0 {
+                make.top.equalTo(self.messageView.snp.bottom).offset(-1)
                 make.height.equalTo(75)
                 interestView.layer.borderWidth = CGFloat(VIEW_BORDER_WIDTH)
             } else {
+                make.top.equalTo(self.messageView.snp.bottom).offset(1)
                 make.height.equalTo(0)
                 interestView.layer.borderWidth = 0
             }

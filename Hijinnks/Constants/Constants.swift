@@ -126,6 +126,7 @@ enum UserDefaultConstants : String {
 
 enum Settings {
     case ViewUsersAll
+    case ViewPeopleComing
     case ViewUsersInvite
     case ViewInterestsCreateAccount
     case ViewInterestsChangeInterests

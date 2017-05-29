@@ -172,7 +172,7 @@ extension ViewInvitationsViewController {
     }
     
     func seeRsvpdList (invitation: InvitationParseObject) {
-        let viewUsersViewController = ViewUsersViewController(setting: .ViewUsersAll, willPresentViewController: false)
+        let viewUsersViewController = ViewUsersViewController(setting: .ViewPeopleComing, willPresentViewController: false)
         viewUsersViewController.showSpecificUsers(userObjectIds: invitation.rsvpUsers)
         self.navigationController?.pushViewController(viewUsersViewController, animated: true)
     }

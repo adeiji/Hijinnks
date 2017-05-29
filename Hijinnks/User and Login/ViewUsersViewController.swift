@@ -30,7 +30,7 @@ class ViewUsersViewController : UITableViewController {
         if setting == Settings.ViewUsersInvite {
             self.tableView.allowsMultipleSelection = true
         }
-        else if setting == Settings.ViewUsersAll {
+        else if setting == Settings.ViewUsersAll || setting == Settings.ViewPeopleComing {
             self.tableView.allowsMultipleSelection = false
         }
         
@@ -115,21 +115,23 @@ class ViewUsersViewController : UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == kContactsIndexPath {
-            return "Phone Contacts"
+        if setting == Settings.ViewPeopleComing {
+            return "People Coming"
         }
-        
-        if setting != Settings.ViewUsersAll && section == kGroupIndexPath {
-            return "Preset"
-        }
-        
-        if setting == Settings.ViewUsersInvite {
-            return "Select From Friends"
+        else if setting == Settings.ViewUsersInvite {
+            if section == kContactsIndexPath {
+                return "Phone Contacts"
+            }
+            else if section == kFriendIndexPath {
+                return "Select From Friends"
+            }
+            else {
+                return "Preset"
+            }
         }
         else {
             return "Select A User"
         }
-        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -151,7 +153,7 @@ class ViewUsersViewController : UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if setting == Settings.ViewUsersAll {   // If we need to view all the users
+        if setting == Settings.ViewUsersAll || setting == Settings.ViewPeopleComing {   // If we need to view all the users
             let userCell = UserCell(user: self.friends[indexPath.row])
             userCell.setupUI()
             return userCell
@@ -178,7 +180,7 @@ class ViewUsersViewController : UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var shouldDismiss = true
-        if setting == Settings.ViewUsersAll {
+        if setting == Settings.ViewUsersAll || setting == Settings.ViewPeopleComing {
             let profileViewController = ProfileViewController(user: self.friends[indexPath.row])
             self.navigationController?.pushViewController(profileViewController, animated: true)
         } else if setting == Settings.ViewUsersInvite {
