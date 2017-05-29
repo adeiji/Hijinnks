@@ -22,6 +22,18 @@ class ViewUsersViewController : UITableViewController {
     var delegate:PassDataBetweenViewControllersProtocol! // CreateInvitationViewController
     /// If this value is set to true than that means that this view controller was presented not pushed onto the view controller stack.
     var wasPresented:Bool = false
+    var activitySpinner:UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    
+    func startActivitySpinner () {
+        // Add the activity spinner
+        self.activitySpinner.startAnimating()
+        self.activitySpinner.hidesWhenStopped = true
+        
+        self.view.addSubview(self.activitySpinner)
+        self.activitySpinner.snp.makeConstraints { (make) in
+            make.center.equalTo(self.view)
+        }
+    }
     
     init(setting: Settings, willPresentViewController: Bool) {
         self.setting = setting
@@ -52,12 +64,14 @@ class ViewUsersViewController : UITableViewController {
     }
     
     func showSpecificUsers (userObjectIds : [String]!) {
+        self.startActivitySpinner()
         if userObjectIds != nil {
             let query = PFUser.query()
             query?.whereKey(ParseObjectColumns.ObjectId.rawValue, containedIn: userObjectIds)
             query?.findObjectsInBackground(block: { (friends, error) in
                 self.friends = friends as! [PFUser]
                 self.tableView.reloadData()
+                self.activitySpinner.stopAnimating()
             })
         }
     }

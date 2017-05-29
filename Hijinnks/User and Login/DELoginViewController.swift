@@ -29,6 +29,7 @@ class DELoginViewController: UIViewController, PassDataBetweenViewControllersPro
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "header.png")!.resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
         // Check to see why this page is being displayed.
         if self.isAccount { // User is trying to access the settings and account page
             self.btnSkip.isHidden = true

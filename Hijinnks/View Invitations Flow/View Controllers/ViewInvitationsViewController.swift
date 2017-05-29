@@ -171,8 +171,8 @@ extension ViewInvitationsViewController {
     
     func seeRsvpdList (invitation: InvitationParseObject) {
         let viewUsersViewController = ViewUsersViewController(setting: .ViewPeopleComing, willPresentViewController: false)
-        viewUsersViewController.showSpecificUsers(userObjectIds: invitation.rsvpUsers)
         self.navigationController?.pushViewController(viewUsersViewController, animated: true)
+        viewUsersViewController.showSpecificUsers(userObjectIds: invitation.rsvpUsers)
     }
     
     func profileImagePressed(user: PFUser) {

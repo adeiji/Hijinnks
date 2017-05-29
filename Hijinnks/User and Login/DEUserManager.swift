@@ -138,9 +138,7 @@ class DEUserManager: NSObject {
             let profileImageData = user.value(forKey: ParseObjectColumns.Profile_Picture.rawValue) as! PFFile
             profileImageData.getDataInBackground(block: { (data, error) in
                 if error == nil {
-                    let image = UIImage(data: data!)
-                    UserDefaults.standard.set(image, forKey: UserDefaultConstants.ProfileImage.rawValue)
-                    UserDefaults.standard.synchronize()
+                                        
                 }
             })
         }

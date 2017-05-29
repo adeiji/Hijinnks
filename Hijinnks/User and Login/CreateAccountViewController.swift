@@ -16,6 +16,7 @@ class CreateAccountViewController : UIViewController, PassDataBetweenViewControl
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "header.png")!.resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
         self.createAccountView = DECreateAccountView()
         self.view.addSubview(createAccountView)
         self.createAccountView.setupUI()

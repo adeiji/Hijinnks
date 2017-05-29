@@ -314,10 +314,9 @@ extension ProfileViewController {
         else {
             image = info[UIImagePickerControllerOriginalImage] as! UIImage
         }
-        let imageData = UIImageJPEGRepresentation(image, 0.2)
+        
         self.profileView.profileImageView.image = image
-        UserDefaults.standard.set(image, forKey: UserDefaultConstants.ProfileImage.rawValue)
-        UserDefaults.standard.synchronize()
+        let imageData = UIImageJPEGRepresentation(image, 0.2)
         DEUserManager.sharedManager.addProfileImage(imageData!)
     }
     
