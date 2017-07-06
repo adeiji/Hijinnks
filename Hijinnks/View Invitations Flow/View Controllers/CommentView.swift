@@ -53,7 +53,7 @@ class CommentView : UIView {
         let sendButton = UIButton()
         sendButton.setTitle("Send", for: .normal)
         sendButton.setTitleColor(.white, for: .normal)
-        sendButton.backgroundColor = Colors.blue.value
+        sendButton.backgroundColor = Colors.CommentButtonBlue.value
         self.addSubview(sendButton)
         sendButton.snp.makeConstraints { (make) in
             make.right.equalTo(self)

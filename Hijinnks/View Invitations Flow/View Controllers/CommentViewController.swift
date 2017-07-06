@@ -142,7 +142,10 @@ class CommentViewController : UIViewController, UITableViewDataSource, UITableVi
             commentParseObject.comment = self.commentView.commentTextField.text!
             commentParseObject.user = PFUser.current()
             var commentObject = CommentObject(comment: commentParseObject.comment, profileImage: nil)
-            commentObject.profileImage = UserDefaults.standard.object(forKey: UserDefaultConstants.ProfileImage.rawValue) as? UIImage
+            if DEUserManager.sharedManager.profileImage != nil {
+                commentObject.profileImage = DEUserManager.sharedManager.profileImage
+            }
+            
             self.comments.append(commentObject)
             self.commentParseObjects.append(commentParseObject)
             self.commentView.commentsTableView.reloadData()

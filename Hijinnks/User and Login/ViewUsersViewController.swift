@@ -73,6 +73,8 @@ class ViewUsersViewController : UITableViewController {
                 self.tableView.reloadData()
                 self.activitySpinner.stopAnimating()
             })
+        } else {
+            self.activitySpinner.stopAnimating()
         }
     }
     
@@ -94,6 +96,10 @@ class ViewUsersViewController : UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "header.png")!.resizableImage(withCapInsets: UIEdgeInsetsMake(0, 0, 0, 0), resizingMode: .stretch), for: .default)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
     }
     
     // Inform the delegate that the users have been selected
@@ -176,21 +182,24 @@ class ViewUsersViewController : UITableViewController {
         if setting == Settings.ViewUsersAll || setting == Settings.ViewPeopleComing {   // If we need to view all the users
             let userCell = UserCell(user: self.friends[indexPath.row])
             userCell.setupUI()
+            userCell.separatorInset = UIEdgeInsetsMake(0, 60, 0, 0)
             return userCell
         } else if setting == Settings.ViewUsersInvite {   // If the user is currently creating an invitation
             if indexPath.section == kFriendIndexPath {
                 let userCell = UserCell(user: self.friends[indexPath.row])
+                userCell.separatorInset = UIEdgeInsetsMake(0, 60, 0, 0)
                 userCell.setupUI()
                 return userCell
             }
             else if indexPath.section == kContactsIndexPath {
                 let contactCell = ContactTableViewCell(contact: phoneContacts[indexPath.row])
+                contactCell.separatorInset = UIEdgeInsetsMake(0, 60, 0, 0)
                 contactCell.setupUI()
                 return contactCell
             }
             else {
-                let cell = UITableViewCell(style: .default, reuseIdentifier: "groupOptionCell")
-                cell.textLabel?.text = groupOptions[indexPath.row]
+                let cell = UITableViewCell()
+                cell.textLabel?.text = groupOptions[indexPath.row]                
                 return cell
             }
         }

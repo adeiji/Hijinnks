@@ -68,6 +68,7 @@ class ViewInvitationsCell : UITableViewCell {
     // User
     var userDetails:UserDetailsParseObject!
     
+    let profileImageDimensions = CGFloat(40.0)
     
     // Methods
     required init(invitation: InvitationParseObject, delegate: PassDataBetweenViewControllersProtocol) {
@@ -82,7 +83,7 @@ class ViewInvitationsCell : UITableViewCell {
     }
     
     
-    func setupUI () {
+    func setupUI () {        
         self.contentView.autoresizingMask = .flexibleHeight
         self.autoresizingMask = .flexibleHeight
         // Set the very large sized content view so that the contentView will shrink.  There seems to be an iOS bug with it growing in size
@@ -299,13 +300,13 @@ extension ViewInvitationsCell {
         imageView.snp.makeConstraints { (make) in
             make.left.equalTo(superview).offset(5)
             make.centerY.equalTo(superview)
-            make.width.equalTo(40)
-            make.height.equalTo(40)
+            make.width.equalTo(profileImageDimensions)
+            make.height.equalTo(profileImageDimensions)
         }
         
         // make sure that we display the image in a circle
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 40 / 2
+        imageView.layer.cornerRadius = profileImageDimensions / 2
         self.loadProfileImage(imageView: imageView)
         return imageView
     }
@@ -523,8 +524,6 @@ extension ViewInvitationsCell {
         
         // If the invitation is from the current user than don't show the confirmation view, otherwise show it.
         if !UtilityFunctions.isCurrent(user: self.invitation.fromUser) && self.invitation.rsvpUsers.contains((PFUser.current()?.objectId!)!) == false {
-            let confirmationViewColor = UIColor(red: 36/255, green: 66/255, blue: 156/255, alpha: 1.0)
-            Animations.showConfirmationView(type: AnimationConfirmation.Circle, message: "You RSVP'd", backgroundColor: confirmationViewColor, superView: self.superview!, textColor: .white)
         }
         
         // Make sure the user can not press the RSVP button again until the process is completed
@@ -557,7 +556,7 @@ extension ViewInvitationsCell {
             }
             else {
                 self.rsvpButton.setTitleColor(Colors.CommentButtonBlue.value, for: .normal)
-                self.rsvpButton.setTitle("\(invitation.rsvpCount!)\nRSVP'd", for: .normal) // Display the number of people who have RSVP'd
+//                self.rsvpButton.setTitle("\(invitation.rsvpCount!)\nRSVP'd", for: .normal) // Display the number of people who have RSVP'd
             }
         }
     }
@@ -686,7 +685,7 @@ extension ViewInvitationsCell {
             
             // If no users have rsvp'd than we need to make sure that the view displays that properly
             if self.invitation.rsvpUsers.count != 0 {
-                make.height.equalTo(120)
+                make.height.equalTo(95)
             }
             else {
                 make.height.equalTo(50)
@@ -694,8 +693,10 @@ extension ViewInvitationsCell {
             make.top.equalTo(self.interestView.snp.bottom).offset(VIEW_TOP_OFFSET)
         }
         
+        self.viewRsvpdButton.removeFromSuperview()
         self.viewRsvpdButton = self.setRsvpdButton(superview: self.rsvpView)
         self.displayInvitedPeople(superview: self.rsvpView)
+        self.rsvpView.layoutIfNeeded()
     }
     
     func setRsvpView () -> UIView {
@@ -707,7 +708,7 @@ extension ViewInvitationsCell {
             
             // If no users have rsvp'd than we need to make sure that the view displays that properly
             if self.invitation.rsvpUsers.count != 0 {
-                make.height.equalTo(120)
+                make.height.equalTo(95)
             }
             else {
                 make.height.equalTo(55)
@@ -726,9 +727,9 @@ extension ViewInvitationsCell {
     
     func setRsvpdButton (superview: UIView) -> UIButton {
         let button = UIButton()
-        button.backgroundColor = Colors.blue.value
+        button.backgroundColor = Colors.CommentButtonBlue.value
         button.layer.cornerRadius = 5
-        button.setTitle("\(self.invitation.rsvpCount!) Rsvp'd", for: .normal)
+        button.setTitle("\(self.invitation.rsvpCount!) RSVP'd", for: .normal)
         superview.addSubview(button )
         button.snp.makeConstraints { (make) in
             make.centerX.equalTo(superview)
@@ -749,15 +750,23 @@ extension ViewInvitationsCell {
         delegate.viewRsvpListButtonPressed!(invitation: self.invitation)
     }
     
+    func startActivitySpinnerInRSVPView (activitySpinner: UIActivityIndicatorView) {
+        activitySpinner.hidesWhenStopped = true
+        activitySpinner.color = Colors.DarkGray.value
+        self.contentView.addSubview(activitySpinner)
+        activitySpinner.snp.makeConstraints { (make) in
+            make.center.equalTo(self.rsvpButton)
+        }
+        activitySpinner.startAnimating()
+    }
+    
     func displayInvitedPeople (superview: UIView) {
-        let margin:CGFloat = 10.0
-        var xPos:CGFloat = margin
-        let profileImageDimensions = (UIScreen.main.bounds.width - (5 * 7)) / 6.0
-        
-        for subview in superview.subviews {
-            if (subview is UIButton) == false {
-                subview.removeFromSuperview()
-            }
+        var profileImages = [UIView]()
+        let activitySpinner = UIActivityIndicatorView()
+        if self.rsvpButton != nil {
+            self.startActivitySpinnerInRSVPView(activitySpinner: activitySpinner)
+            self.rsvpButton.isEnabled = false
+            self.rsvpButton.alpha = 0
         }
         
         // If there are specific users of the application that have been invited to this event
@@ -777,53 +786,75 @@ extension ViewInvitationsCell {
                             let profileImageFile = user.object(forKey: ParseObjectColumns.Profile_Picture.rawValue) as! PFFile
                             do {
                                 let imageData = try profileImageFile.getData()
-                                DispatchQueue.main.async(execute: {
-                                    let profileImage = ProfileImage(image: UIImage(data: imageData))
-                                    superview.addSubview(profileImage)
-                                    profileImage.snp.makeConstraints({ (make) in
-                                        make.left.equalTo(xPos)
-                                        make.height.equalTo(profileImageDimensions)
-                                        make.width.equalTo(profileImageDimensions)
-                                        make.top.equalTo(superview).offset(45)
-                                    })
-                                    profileImage.layer.cornerRadius = profileImageDimensions / 2.0
-                                    profileImage.clipsToBounds = true
-                                    xPos += margin + profileImageDimensions
-                                })
+                                let profileImage = ProfileImage(image: UIImage(data: imageData))
+                                profileImages.append(profileImage)
                             }
                             catch {
                                 print(error.localizedDescription)
                             }
                         } else {
-                            DispatchQueue.main.async(execute: {
-                                let tempProfileImageLabel = DEUserManager.sharedManager.getTempProfileImageLabel(name: user.username!, fontSize: 20.0)
-                                superview.addSubview(tempProfileImageLabel)
-                                tempProfileImageLabel.snp.makeConstraints({ (make) in
-                                    make.left.equalTo(xPos)
-                                    make.height.equalTo(profileImageDimensions)
-                                    make.width.equalTo(profileImageDimensions)
-                                    make.top.equalTo(superview).offset(45)
-                                })
-                                
-                                tempProfileImageLabel.layer.cornerRadius = profileImageDimensions / 2.0
-                                self.rsvpView = superview
-                            })
+                            let tempProfileImageLabel = DEUserManager.sharedManager.getTempProfileImageLabel(name: user.username!, fontSize: 20.0)
+                            profileImages.append(tempProfileImageLabel)
                         }
                     }
                     catch {
                         print(error.localizedDescription)
                     }
                 }
+                DispatchQueue.main.async(execute: {
+                    self.displayProfileImages(profileImages: profileImages, superview: superview)
+                    if self.rsvpButton != nil {
+                        self.rsvpButton.isEnabled = true
+                        self.rsvpButton.alpha = 1
+                        activitySpinner.stopAnimating()
+                    }
+                })
             }
         }
+    }
+    
+    func displayProfileImages (profileImages: [UIView], superview: UIView) {
+        
+        for subview in superview.subviews {
+            if (subview is UIButton) == false {
+                subview.removeFromSuperview()
+            }
+        }
+        
+        var margin:CGFloat!
+        
+        if UIScreen.main.bounds.width > 400 {
+            margin = (UIScreen.main.bounds.width - (6 * 40)) / 8
+        }
+        else {
+            margin = (UIScreen.main.bounds.width - (5 * 40)) / 7
+        }
+        
+        var xPos:CGFloat = margin
+        for profileImage in profileImages {
+            superview.addSubview(profileImage)
+            profileImage.snp.makeConstraints({ (make) in
+                make.left.equalTo(xPos)
+                make.height.equalTo(profileImageDimensions)
+                make.width.equalTo(profileImageDimensions)
+                make.top.equalTo(superview).offset(45)
+            })
+            profileImage.layer.cornerRadius = profileImageDimensions / 2.0
+            profileImage.clipsToBounds = true
+            xPos += margin + profileImageDimensions
+            
+            if xPos + profileImageDimensions > self.frame.width {
+                break
+            }
+        }
+//        self.rsvpView = superview
     }
 }
 
 class StyledDate {
     class func getDateAsString (date: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .short
+        dateFormatter.dateFormat = "h:mm a EEEE, MMM d, yyyy"
         let formattedDateString = dateFormatter.string(from: date)
         
         return formattedDateString
